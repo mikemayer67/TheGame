@@ -7,23 +7,37 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		2727416A23E5EB4D00B2100B /* dice_1024.png in Resources */ = {isa = PBXBuildFile; fileRef = 2727416923E5EB4D00B2100B /* dice_1024.png */; };
+		2727416F23E6144A00B2100B /* SplashViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2727416E23E6144A00B2100B /* SplashViewController.swift */; };
+		2727419323E62CB900B2100B /* Game.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2727419223E62CB900B2100B /* Game.storyboard */; };
 		27D5413123E5E46800CB5065 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27D5413023E5E46800CB5065 /* AppDelegate.swift */; };
-		27D5413323E5E46800CB5065 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27D5413223E5E46800CB5065 /* SceneDelegate.swift */; };
 		27D5413523E5E46800CB5065 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27D5413423E5E46800CB5065 /* ViewController.swift */; };
 		27D5413823E5E46800CB5065 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 27D5413623E5E46800CB5065 /* Main.storyboard */; };
 		27D5413A23E5E46B00CB5065 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 27D5413923E5E46B00CB5065 /* Assets.xcassets */; };
 		27D5413D23E5E46B00CB5065 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 27D5413B23E5E46B00CB5065 /* LaunchScreen.storyboard */; };
+		27D5414723E5E81D00CB5065 /* dice_180.png in Resources */ = {isa = PBXBuildFile; fileRef = 27D5414623E5E81C00CB5065 /* dice_180.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		2727416923E5EB4D00B2100B /* dice_1024.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = dice_1024.png; sourceTree = "<group>"; };
+		2727416E23E6144A00B2100B /* SplashViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplashViewController.swift; sourceTree = "<group>"; };
+		2727419223E62CB900B2100B /* Game.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Game.storyboard; sourceTree = "<group>"; };
 		27D5412D23E5E46800CB5065 /* TheGame.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TheGame.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		27D5413023E5E46800CB5065 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		27D5413223E5E46800CB5065 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		27D5413423E5E46800CB5065 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		27D5413723E5E46800CB5065 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		27D5413923E5E46B00CB5065 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		27D5413C23E5E46B00CB5065 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		27D5413E23E5E46B00CB5065 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		27D5414623E5E81C00CB5065 /* dice_180.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = dice_180.png; sourceTree = "<group>"; };
+		27D5414823E5E8AD00CB5065 /* dice_120.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = dice_120.png; path = /Users/mike/workbench/GameDevelopment/TheGame/TheGame/dice_120.png; sourceTree = "<absolute>"; };
+		27D5414923E5E99800CB5065 /* dice_58.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = dice_58.png; path = /Users/mike/workbench/GameDevelopment/TheGame/TheGame/dice_58.png; sourceTree = "<absolute>"; };
+		27D5414A23E5E99800CB5065 /* dice_120.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = dice_120.png; path = /Users/mike/workbench/GameDevelopment/TheGame/TheGame/dice_120.png; sourceTree = "<absolute>"; };
+		27D5414B23E5E99800CB5065 /* dice_180.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = dice_180.png; path = /Users/mike/workbench/GameDevelopment/TheGame/TheGame/dice_180.png; sourceTree = "<absolute>"; };
+		27D5414C23E5E99800CB5065 /* dice_60.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = dice_60.png; path = /Users/mike/workbench/GameDevelopment/TheGame/TheGame/dice_60.png; sourceTree = "<absolute>"; };
+		27D5414D23E5E99800CB5065 /* dice_87.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = dice_87.png; path = /Users/mike/workbench/GameDevelopment/TheGame/TheGame/dice_87.png; sourceTree = "<absolute>"; };
+		27D5414E23E5E99800CB5065 /* dice_80.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = dice_80.png; path = /Users/mike/workbench/GameDevelopment/TheGame/TheGame/dice_80.png; sourceTree = "<absolute>"; };
+		27D5414F23E5E99800CB5065 /* dice_40.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = dice_40.png; path = /Users/mike/workbench/GameDevelopment/TheGame/TheGame/dice_40.png; sourceTree = "<absolute>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -37,6 +51,23 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		2727416B23E5EBA800B2100B /* Icons */ = {
+			isa = PBXGroup;
+			children = (
+				27D5414623E5E81C00CB5065 /* dice_180.png */,
+				27D5414823E5E8AD00CB5065 /* dice_120.png */,
+				27D5414F23E5E99800CB5065 /* dice_40.png */,
+				27D5414923E5E99800CB5065 /* dice_58.png */,
+				27D5414C23E5E99800CB5065 /* dice_60.png */,
+				27D5414E23E5E99800CB5065 /* dice_80.png */,
+				27D5414D23E5E99800CB5065 /* dice_87.png */,
+				27D5414B23E5E99800CB5065 /* dice_180.png */,
+				27D5414A23E5E99800CB5065 /* dice_120.png */,
+				2727416923E5EB4D00B2100B /* dice_1024.png */,
+			);
+			path = Icons;
+			sourceTree = "<group>";
+		};
 		27D5412423E5E46800CB5065 = {
 			isa = PBXGroup;
 			children = (
@@ -57,12 +88,14 @@
 			isa = PBXGroup;
 			children = (
 				27D5413023E5E46800CB5065 /* AppDelegate.swift */,
-				27D5413223E5E46800CB5065 /* SceneDelegate.swift */,
 				27D5413423E5E46800CB5065 /* ViewController.swift */,
+				2727416E23E6144A00B2100B /* SplashViewController.swift */,
 				27D5413623E5E46800CB5065 /* Main.storyboard */,
-				27D5413923E5E46B00CB5065 /* Assets.xcassets */,
+				2727419223E62CB900B2100B /* Game.storyboard */,
 				27D5413B23E5E46B00CB5065 /* LaunchScreen.storyboard */,
+				27D5413923E5E46B00CB5065 /* Assets.xcassets */,
 				27D5413E23E5E46B00CB5065 /* Info.plist */,
+				2727416B23E5EBA800B2100B /* Icons */,
 			);
 			path = TheGame;
 			sourceTree = "<group>";
@@ -125,9 +158,12 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2727419323E62CB900B2100B /* Game.storyboard in Resources */,
 				27D5413D23E5E46B00CB5065 /* LaunchScreen.storyboard in Resources */,
+				27D5414723E5E81D00CB5065 /* dice_180.png in Resources */,
 				27D5413A23E5E46B00CB5065 /* Assets.xcassets in Resources */,
 				27D5413823E5E46800CB5065 /* Main.storyboard in Resources */,
+				2727416A23E5EB4D00B2100B /* dice_1024.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -138,9 +174,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2727416F23E6144A00B2100B /* SplashViewController.swift in Sources */,
 				27D5413523E5E46800CB5065 /* ViewController.swift in Sources */,
 				27D5413123E5E46800CB5065 /* AppDelegate.swift in Sources */,
-				27D5413323E5E46800CB5065 /* SceneDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -287,6 +323,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 642SNV9NK2;
 				INFOPLIST_FILE = TheGame/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -294,7 +331,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.vmwishes.TheGame;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
@@ -305,6 +342,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 642SNV9NK2;
 				INFOPLIST_FILE = TheGame/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -312,7 +350,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.vmwishes.TheGame;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};
