@@ -21,7 +21,7 @@
 /* Begin PBXFileReference section */
 		2727416923E5EB4D00B2100B /* dice_1024.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = dice_1024.png; sourceTree = "<group>"; };
 		2727416E23E6144A00B2100B /* SplashViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplashViewController.swift; sourceTree = "<group>"; };
-		2727419223E62CB900B2100B /* Game.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Game.storyboard; sourceTree = "<group>"; };
+		2727419223E62CB900B2100B /* Game.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Game.storyboard; path = TheGame/Base.lproj/Game.storyboard; sourceTree = SOURCE_ROOT; };
 		27D5412D23E5E46800CB5065 /* TheGame.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TheGame.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		27D5413023E5E46800CB5065 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		27D5413423E5E46800CB5065 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -30,14 +30,14 @@
 		27D5413C23E5E46B00CB5065 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		27D5413E23E5E46B00CB5065 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		27D5414623E5E81C00CB5065 /* dice_180.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = dice_180.png; sourceTree = "<group>"; };
-		27D5414823E5E8AD00CB5065 /* dice_120.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = dice_120.png; path = /Users/mike/workbench/GameDevelopment/TheGame/TheGame/dice_120.png; sourceTree = "<absolute>"; };
-		27D5414923E5E99800CB5065 /* dice_58.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = dice_58.png; path = /Users/mike/workbench/GameDevelopment/TheGame/TheGame/dice_58.png; sourceTree = "<absolute>"; };
-		27D5414A23E5E99800CB5065 /* dice_120.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = dice_120.png; path = /Users/mike/workbench/GameDevelopment/TheGame/TheGame/dice_120.png; sourceTree = "<absolute>"; };
-		27D5414B23E5E99800CB5065 /* dice_180.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = dice_180.png; path = /Users/mike/workbench/GameDevelopment/TheGame/TheGame/dice_180.png; sourceTree = "<absolute>"; };
-		27D5414C23E5E99800CB5065 /* dice_60.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = dice_60.png; path = /Users/mike/workbench/GameDevelopment/TheGame/TheGame/dice_60.png; sourceTree = "<absolute>"; };
-		27D5414D23E5E99800CB5065 /* dice_87.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = dice_87.png; path = /Users/mike/workbench/GameDevelopment/TheGame/TheGame/dice_87.png; sourceTree = "<absolute>"; };
-		27D5414E23E5E99800CB5065 /* dice_80.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = dice_80.png; path = /Users/mike/workbench/GameDevelopment/TheGame/TheGame/dice_80.png; sourceTree = "<absolute>"; };
-		27D5414F23E5E99800CB5065 /* dice_40.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = dice_40.png; path = /Users/mike/workbench/GameDevelopment/TheGame/TheGame/dice_40.png; sourceTree = "<absolute>"; };
+		27D5414823E5E8AD00CB5065 /* dice_120.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = dice_120.png; path = TheGame/Icons/dice_120.png; sourceTree = SOURCE_ROOT; };
+		27D5414923E5E99800CB5065 /* dice_58.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = dice_58.png; path = TheGame/Icons/dice_58.png; sourceTree = SOURCE_ROOT; };
+		27D5414A23E5E99800CB5065 /* dice_120.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = dice_120.png; path = TheGame/Icons/dice_120.png; sourceTree = SOURCE_ROOT; };
+		27D5414B23E5E99800CB5065 /* dice_180.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = dice_180.png; path = /Users/mike/workbench/GameDevelopment/TheGame/TheGame/Icons/dice_180.png; sourceTree = "<absolute>"; };
+		27D5414C23E5E99800CB5065 /* dice_60.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = dice_60.png; path = TheGame/Icons/dice_60.png; sourceTree = SOURCE_ROOT; };
+		27D5414D23E5E99800CB5065 /* dice_87.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = dice_87.png; path = TheGame/Icons/dice_87.png; sourceTree = SOURCE_ROOT; };
+		27D5414E23E5E99800CB5065 /* dice_80.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = dice_80.png; path = TheGame/Icons/dice_80.png; sourceTree = SOURCE_ROOT; };
+		27D5414F23E5E99800CB5065 /* dice_40.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = dice_40.png; path = TheGame/Icons/dice_40.png; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -51,23 +51,6 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		2727416B23E5EBA800B2100B /* Icons */ = {
-			isa = PBXGroup;
-			children = (
-				27D5414623E5E81C00CB5065 /* dice_180.png */,
-				27D5414823E5E8AD00CB5065 /* dice_120.png */,
-				27D5414F23E5E99800CB5065 /* dice_40.png */,
-				27D5414923E5E99800CB5065 /* dice_58.png */,
-				27D5414C23E5E99800CB5065 /* dice_60.png */,
-				27D5414E23E5E99800CB5065 /* dice_80.png */,
-				27D5414D23E5E99800CB5065 /* dice_87.png */,
-				27D5414B23E5E99800CB5065 /* dice_180.png */,
-				27D5414A23E5E99800CB5065 /* dice_120.png */,
-				2727416923E5EB4D00B2100B /* dice_1024.png */,
-			);
-			path = Icons;
-			sourceTree = "<group>";
-		};
 		27D5412423E5E46800CB5065 = {
 			isa = PBXGroup;
 			children = (
@@ -87,17 +70,34 @@
 		27D5412F23E5E46800CB5065 /* TheGame */ = {
 			isa = PBXGroup;
 			children = (
+				27E877E323E6458A007986C3 /* Icons */,
 				27D5413023E5E46800CB5065 /* AppDelegate.swift */,
 				27D5413423E5E46800CB5065 /* ViewController.swift */,
 				2727416E23E6144A00B2100B /* SplashViewController.swift */,
-				27D5413623E5E46800CB5065 /* Main.storyboard */,
 				2727419223E62CB900B2100B /* Game.storyboard */,
+				27D5413623E5E46800CB5065 /* Main.storyboard */,
 				27D5413B23E5E46B00CB5065 /* LaunchScreen.storyboard */,
 				27D5413923E5E46B00CB5065 /* Assets.xcassets */,
 				27D5413E23E5E46B00CB5065 /* Info.plist */,
-				2727416B23E5EBA800B2100B /* Icons */,
 			);
 			path = TheGame;
+			sourceTree = "<group>";
+		};
+		27E877E323E6458A007986C3 /* Icons */ = {
+			isa = PBXGroup;
+			children = (
+				27D5414923E5E99800CB5065 /* dice_58.png */,
+				27D5414C23E5E99800CB5065 /* dice_60.png */,
+				27D5414E23E5E99800CB5065 /* dice_80.png */,
+				27D5414D23E5E99800CB5065 /* dice_87.png */,
+				27D5414623E5E81C00CB5065 /* dice_180.png */,
+				27D5414B23E5E99800CB5065 /* dice_180.png */,
+				27D5414823E5E8AD00CB5065 /* dice_120.png */,
+				27D5414A23E5E99800CB5065 /* dice_120.png */,
+				27D5414F23E5E99800CB5065 /* dice_40.png */,
+				2727416923E5EB4D00B2100B /* dice_1024.png */,
+			);
+			path = Icons;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
