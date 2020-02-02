@@ -3,11 +3,10 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 51;
 	objects = {
 
 /* Begin PBXBuildFile section */
-		2727416A23E5EB4D00B2100B /* dice_1024.png in Resources */ = {isa = PBXBuildFile; fileRef = 2727416923E5EB4D00B2100B /* dice_1024.png */; };
 		2727416F23E6144A00B2100B /* SplashViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2727416E23E6144A00B2100B /* SplashViewController.swift */; };
 		2727419323E62CB900B2100B /* Game.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2727419223E62CB900B2100B /* Game.storyboard */; };
 		27D5413123E5E46800CB5065 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27D5413023E5E46800CB5065 /* AppDelegate.swift */; };
@@ -15,11 +14,11 @@
 		27D5413823E5E46800CB5065 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 27D5413623E5E46800CB5065 /* Main.storyboard */; };
 		27D5413A23E5E46B00CB5065 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 27D5413923E5E46B00CB5065 /* Assets.xcassets */; };
 		27D5413D23E5E46B00CB5065 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 27D5413B23E5E46B00CB5065 /* LaunchScreen.storyboard */; };
-		27D5414723E5E81D00CB5065 /* dice_180.png in Resources */ = {isa = PBXBuildFile; fileRef = 27D5414623E5E81C00CB5065 /* dice_180.png */; };
+		95FB8F89E41826C67D4E881B /* Pods_TheGame.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5000D4E827B48E53E9DB3B0D /* Pods_TheGame.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		2727416923E5EB4D00B2100B /* dice_1024.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = dice_1024.png; sourceTree = "<group>"; };
+		175FA88876A0311A3569B334 /* Pods-TheGame.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TheGame.release.xcconfig"; path = "Target Support Files/Pods-TheGame/Pods-TheGame.release.xcconfig"; sourceTree = "<group>"; };
 		2727416E23E6144A00B2100B /* SplashViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplashViewController.swift; sourceTree = "<group>"; };
 		2727419223E62CB900B2100B /* Game.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Game.storyboard; path = TheGame/Base.lproj/Game.storyboard; sourceTree = SOURCE_ROOT; };
 		27D5412D23E5E46800CB5065 /* TheGame.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TheGame.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -29,15 +28,8 @@
 		27D5413923E5E46B00CB5065 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		27D5413C23E5E46B00CB5065 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		27D5413E23E5E46B00CB5065 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		27D5414623E5E81C00CB5065 /* dice_180.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = dice_180.png; sourceTree = "<group>"; };
-		27D5414823E5E8AD00CB5065 /* dice_120.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = dice_120.png; path = TheGame/Icons/dice_120.png; sourceTree = SOURCE_ROOT; };
-		27D5414923E5E99800CB5065 /* dice_58.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = dice_58.png; path = TheGame/Icons/dice_58.png; sourceTree = SOURCE_ROOT; };
-		27D5414A23E5E99800CB5065 /* dice_120.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = dice_120.png; path = TheGame/Icons/dice_120.png; sourceTree = SOURCE_ROOT; };
-		27D5414B23E5E99800CB5065 /* dice_180.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = dice_180.png; path = /Users/mike/workbench/GameDevelopment/TheGame/TheGame/Icons/dice_180.png; sourceTree = "<absolute>"; };
-		27D5414C23E5E99800CB5065 /* dice_60.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = dice_60.png; path = TheGame/Icons/dice_60.png; sourceTree = SOURCE_ROOT; };
-		27D5414D23E5E99800CB5065 /* dice_87.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = dice_87.png; path = TheGame/Icons/dice_87.png; sourceTree = SOURCE_ROOT; };
-		27D5414E23E5E99800CB5065 /* dice_80.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = dice_80.png; path = TheGame/Icons/dice_80.png; sourceTree = SOURCE_ROOT; };
-		27D5414F23E5E99800CB5065 /* dice_40.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = dice_40.png; path = TheGame/Icons/dice_40.png; sourceTree = SOURCE_ROOT; };
+		5000D4E827B48E53E9DB3B0D /* Pods_TheGame.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_TheGame.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		B89E85AF6C5A2673EC2F7855 /* Pods-TheGame.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TheGame.debug.xcconfig"; path = "Target Support Files/Pods-TheGame/Pods-TheGame.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -45,6 +37,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				95FB8F89E41826C67D4E881B /* Pods_TheGame.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -56,6 +49,8 @@
 			children = (
 				27D5412F23E5E46800CB5065 /* TheGame */,
 				27D5412E23E5E46800CB5065 /* Products */,
+				502EA7C1A30E981C45183748 /* Pods */,
+				8647C989555159F5F681787B /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -70,7 +65,6 @@
 		27D5412F23E5E46800CB5065 /* TheGame */ = {
 			isa = PBXGroup;
 			children = (
-				27E877E323E6458A007986C3 /* Icons */,
 				27D5413023E5E46800CB5065 /* AppDelegate.swift */,
 				27D5413423E5E46800CB5065 /* ViewController.swift */,
 				2727416E23E6144A00B2100B /* SplashViewController.swift */,
@@ -83,21 +77,21 @@
 			path = TheGame;
 			sourceTree = "<group>";
 		};
-		27E877E323E6458A007986C3 /* Icons */ = {
+		502EA7C1A30E981C45183748 /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				27D5414923E5E99800CB5065 /* dice_58.png */,
-				27D5414C23E5E99800CB5065 /* dice_60.png */,
-				27D5414E23E5E99800CB5065 /* dice_80.png */,
-				27D5414D23E5E99800CB5065 /* dice_87.png */,
-				27D5414623E5E81C00CB5065 /* dice_180.png */,
-				27D5414B23E5E99800CB5065 /* dice_180.png */,
-				27D5414823E5E8AD00CB5065 /* dice_120.png */,
-				27D5414A23E5E99800CB5065 /* dice_120.png */,
-				27D5414F23E5E99800CB5065 /* dice_40.png */,
-				2727416923E5EB4D00B2100B /* dice_1024.png */,
+				B89E85AF6C5A2673EC2F7855 /* Pods-TheGame.debug.xcconfig */,
+				175FA88876A0311A3569B334 /* Pods-TheGame.release.xcconfig */,
 			);
-			path = Icons;
+			path = Pods;
+			sourceTree = "<group>";
+		};
+		8647C989555159F5F681787B /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				5000D4E827B48E53E9DB3B0D /* Pods_TheGame.framework */,
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -107,9 +101,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 27D5414123E5E46B00CB5065 /* Build configuration list for PBXNativeTarget "TheGame" */;
 			buildPhases = (
+				899FE3868B0913C12BB5F223 /* [CP] Check Pods Manifest.lock */,
 				27D5412923E5E46800CB5065 /* Sources */,
 				27D5412A23E5E46800CB5065 /* Frameworks */,
 				27D5412B23E5E46800CB5065 /* Resources */,
+				F14334859263E766A56B8FF8 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -160,14 +156,54 @@
 			files = (
 				2727419323E62CB900B2100B /* Game.storyboard in Resources */,
 				27D5413D23E5E46B00CB5065 /* LaunchScreen.storyboard in Resources */,
-				27D5414723E5E81D00CB5065 /* dice_180.png in Resources */,
 				27D5413A23E5E46B00CB5065 /* Assets.xcassets in Resources */,
 				27D5413823E5E46800CB5065 /* Main.storyboard in Resources */,
-				2727416A23E5EB4D00B2100B /* dice_1024.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		899FE3868B0913C12BB5F223 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-TheGame-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		F14334859263E766A56B8FF8 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-TheGame/Pods-TheGame-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-TheGame/Pods-TheGame-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-TheGame/Pods-TheGame-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		27D5412923E5E46800CB5065 /* Sources */ = {
@@ -318,6 +354,7 @@
 		};
 		27D5414223E5E46B00CB5065 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = B89E85AF6C5A2673EC2F7855 /* Pods-TheGame.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
@@ -337,6 +374,7 @@
 		};
 		27D5414323E5E46B00CB5065 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 175FA88876A0311A3569B334 /* Pods-TheGame.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;

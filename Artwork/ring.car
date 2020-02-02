@@ -1,0 +1,4162 @@
+3DC {
+asci 0
+vs "1.0"
+sf "Hexagon "
+prvw 0
+}
+sc {
+ob {
+vmda {
+nm "Form2_0"
+fidl 0
+prim {
+vmda {
+xdat {
+PmSt {
+Pmsh {
+subt 1667331181
+subl 2
+subm 2
+Vrts {
+VerD {
+Posn 0.60666,5.96475,1.7004
+Flag 0
+}
+VerD {
+Posn 0.60666,5.64553,1.63595
+Flag 0
+}
+VerD {
+Posn 0.60666,5.38486,1.4602
+Flag 0
+}
+VerD {
+Posn 0.60666,5.2091,1.19952
+Flag 0
+}
+VerD {
+Posn 0.60666,5.14465,0.880301
+Flag 0
+}
+VerD {
+Posn -1.29013,4.79008,0.880301
+Flag 0
+}
+VerD {
+Posn -1.31341,4.85018,1.19952
+Flag 0
+}
+VerD {
+Posn -1.3769,5.01406,1.4602
+Flag 0
+}
+VerD {
+Posn -1.47107,5.25714,1.63595
+Flag 0
+}
+VerD {
+Posn -1.58638,5.5548,1.7004
+Flag 0
+}
+VerD {
+Posn -2.93075,3.77426,0.880301
+Flag 0
+}
+VerD {
+Posn -2.97416,3.82188,1.19952
+Flag 0
+}
+VerD {
+Posn -3.09257,3.95177,1.4602
+Flag 0
+}
+VerD {
+Posn -3.26819,4.14441,1.63595
+Flag 0
+}
+VerD {
+Posn -3.48324,4.38032,1.7004
+Flag 0
+}
+VerD {
+Posn -4.09362,2.23437,0.880301
+Flag 0
+}
+VerD {
+Posn -4.15131,2.26309,1.19952
+Flag 0
+}
+VerD {
+Posn -4.30864,2.34143,1.4602
+Flag 0
+}
+VerD {
+Posn -4.54199,2.45763,1.63595
+Flag 0
+}
+VerD {
+Posn -4.82774,2.59991,1.7004
+Flag 0
+}
+VerD {
+Posn -4.62169,0.378383,0.880301
+Flag 0
+}
+VerD {
+Posn -4.68586,0.384329,1.19952
+Flag 0
+}
+VerD {
+Posn -4.86087,0.400546,1.4602
+Flag 0
+}
+VerD {
+Posn -5.12043,0.424598,1.63595
+Flag 0
+}
+VerD {
+Posn -5.43829,0.454052,1.7004
+Flag 0
+}
+VerD {
+Posn -4.44365,-1.54303,0.880301
+Flag 0
+}
+VerD {
+Posn -4.50563,-1.56067,1.19952
+Flag 0
+}
+VerD {
+Posn -4.67468,-1.60876,1.4602
+Flag 0
+}
+VerD {
+Posn -4.9254,-1.6801,1.63595
+Flag 0
+}
+VerD {
+Posn -5.23244,-1.76746,1.7004
+Flag 0
+}
+VerD {
+Posn -3.58353,-3.27038,0.880301
+Flag 0
+}
+VerD {
+Posn -3.63496,-3.30922,1.19952
+Flag 0
+}
+VerD {
+Posn -3.77521,-3.41513,1.4602
+Flag 0
+}
+VerD {
+Posn -3.98324,-3.57223,1.63595
+Flag 0
+}
+VerD {
+Posn -4.23798,-3.7646,1.7004
+Flag 0
+}
+VerD {
+Posn -2.1575,-4.57037,0.880301
+Flag 0
+}
+VerD {
+Posn -2.19143,-4.62517,1.19952
+Flag 0
+}
+VerD {
+Posn -2.28395,-4.7746,1.4602
+Flag 0
+}
+VerD {
+Posn -2.42118,-4.99623,1.63595
+Flag 0
+}
+VerD {
+Posn -2.58923,-5.26763,1.7004
+Flag 0
+}
+VerD {
+Posn -0.358162,-5.26744,0.880301
+Flag 0
+}
+VerD {
+Posn -0.370005,-5.33079,1.19952
+Flag 0
+}
+VerD {
+Posn -0.402299,-5.50355,1.4602
+Flag 0
+}
+VerD {
+Posn -0.450199,-5.75979,1.63595
+Flag 0
+}
+VerD {
+Posn -0.508855,-6.07358,1.7004
+Flag 0
+}
+VerD {
+Posn 1.57148,-5.26744,0.880301
+Flag 0
+}
+VerD {
+Posn 1.58333,-5.33079,1.19952
+Flag 0
+}
+VerD {
+Posn 1.61562,-5.50355,1.4602
+Flag 0
+}
+VerD {
+Posn 1.66352,-5.75979,1.63595
+Flag 0
+}
+VerD {
+Posn 1.72218,-6.07358,1.7004
+Flag 0
+}
+VerD {
+Posn 3.37082,-4.57037,0.880301
+Flag 0
+}
+VerD {
+Posn 3.40475,-4.62517,1.19952
+Flag 0
+}
+VerD {
+Posn 3.49727,-4.7746,1.4602
+Flag 0
+}
+VerD {
+Posn 3.6345,-4.99623,1.63595
+Flag 0
+}
+VerD {
+Posn 3.80255,-5.26763,1.7004
+Flag 0
+}
+VerD {
+Posn 4.79685,-3.27038,0.880301
+Flag 0
+}
+VerD {
+Posn 4.84828,-3.30922,1.19952
+Flag 0
+}
+VerD {
+Posn 4.98853,-3.41513,1.4602
+Flag 0
+}
+VerD {
+Posn 5.19656,-3.57223,1.63595
+Flag 0
+}
+VerD {
+Posn 5.4513,-3.7646,1.7004
+Flag 0
+}
+VerD {
+Posn 5.65697,-1.54303,0.8803
+Flag 0
+}
+VerD {
+Posn 5.71895,-1.56067,1.19952
+Flag 0
+}
+VerD {
+Posn 5.888,-1.60876,1.4602
+Flag 0
+}
+VerD {
+Posn 6.13872,-1.6801,1.63595
+Flag 0
+}
+VerD {
+Posn 6.44576,-1.76746,1.7004
+Flag 0
+}
+VerD {
+Posn 5.83501,0.378382,0.8803
+Flag 0
+}
+VerD {
+Posn 5.89918,0.384329,1.19952
+Flag 0
+}
+VerD {
+Posn 6.07419,0.400545,1.4602
+Flag 0
+}
+VerD {
+Posn 6.33375,0.424597,1.63595
+Flag 0
+}
+VerD {
+Posn 6.65161,0.454051,1.7004
+Flag 0
+}
+VerD {
+Posn 5.30694,2.23437,0.880301
+Flag 0
+}
+VerD {
+Posn 5.36463,2.26309,1.19952
+Flag 0
+}
+VerD {
+Posn 5.52196,2.34143,1.4602
+Flag 0
+}
+VerD {
+Posn 5.75531,2.45763,1.63595
+Flag 0
+}
+VerD {
+Posn 6.04106,2.59991,1.7004
+Flag 0
+}
+VerD {
+Posn 4.14407,3.77426,0.880301
+Flag 0
+}
+VerD {
+Posn 4.18749,3.82188,1.19952
+Flag 0
+}
+VerD {
+Posn 4.30589,3.95177,1.4602
+Flag 0
+}
+VerD {
+Posn 4.48151,4.14441,1.63595
+Flag 0
+}
+VerD {
+Posn 4.69657,4.38032,1.7004
+Flag 0
+}
+VerD {
+Posn 2.7997,5.5548,1.7004
+Flag 0
+}
+VerD {
+Posn 2.68439,5.25714,1.63595
+Flag 0
+}
+VerD {
+Posn 2.59022,5.01406,1.4602
+Flag 0
+}
+VerD {
+Posn 2.52673,4.85018,1.19952
+Flag 0
+}
+VerD {
+Posn 2.50345,4.79008,0.880301
+Flag 0
+}
+VerD {
+Posn 0.60666,5.14465,1.41835
+Flag 0
+}
+VerD {
+Posn -1.29013,4.79008,1.41835
+Flag 0
+}
+VerD {
+Posn -2.93075,3.77426,1.41835
+Flag 0
+}
+VerD {
+Posn -4.09362,2.23437,1.41835
+Flag 0
+}
+VerD {
+Posn -4.62169,0.378383,1.41835
+Flag 0
+}
+VerD {
+Posn -4.44365,-1.54303,1.41835
+Flag 0
+}
+VerD {
+Posn -3.58353,-3.27038,1.41835
+Flag 0
+}
+VerD {
+Posn -2.1575,-4.57037,1.41835
+Flag 0
+}
+VerD {
+Posn -0.358162,-5.26744,1.41835
+Flag 0
+}
+VerD {
+Posn 1.57148,-5.26744,1.41835
+Flag 0
+}
+VerD {
+Posn 3.37082,-4.57037,1.41835
+Flag 0
+}
+VerD {
+Posn 4.79685,-3.27038,1.41835
+Flag 0
+}
+VerD {
+Posn 5.65697,-1.54303,1.41835
+Flag 0
+}
+VerD {
+Posn 5.83501,0.378382,1.41835
+Flag 0
+}
+VerD {
+Posn 5.30694,2.23437,1.41835
+Flag 0
+}
+VerD {
+Posn 4.14407,3.77426,1.41835
+Flag 0
+}
+VerD {
+Posn 2.50345,4.79008,1.41835
+Flag 0
+}
+VerD {
+Posn 0.60666,5.14465,1.1363
+Flag 0
+}
+VerD {
+Posn -1.29013,4.79008,1.1363
+Flag 0
+}
+VerD {
+Posn -2.93075,3.77426,1.1363
+Flag 0
+}
+VerD {
+Posn -4.09362,2.23437,1.1363
+Flag 0
+}
+VerD {
+Posn -4.62169,0.378383,1.1363
+Flag 0
+}
+VerD {
+Posn -4.44365,-1.54303,1.1363
+Flag 0
+}
+VerD {
+Posn -3.58353,-3.27038,1.1363
+Flag 0
+}
+VerD {
+Posn -2.1575,-4.57037,1.1363
+Flag 0
+}
+VerD {
+Posn -0.358162,-5.26744,1.1363
+Flag 0
+}
+VerD {
+Posn 1.57148,-5.26744,1.1363
+Flag 0
+}
+VerD {
+Posn 3.37082,-4.57037,1.1363
+Flag 0
+}
+VerD {
+Posn 4.79685,-3.27038,1.1363
+Flag 0
+}
+VerD {
+Posn 5.65697,-1.54303,1.1363
+Flag 0
+}
+VerD {
+Posn 5.83501,0.378382,1.1363
+Flag 0
+}
+VerD {
+Posn 5.30694,2.23437,1.1363
+Flag 0
+}
+VerD {
+Posn 4.14407,3.77426,1.1363
+Flag 0
+}
+VerD {
+Posn 2.50345,4.79008,1.1363
+Flag 0
+}
+VerD {
+Posn 0.60666,5.14465,0.854253
+Flag 0
+}
+VerD {
+Posn -1.29013,4.79008,0.854253
+Flag 0
+}
+VerD {
+Posn -2.93075,3.77426,0.854253
+Flag 0
+}
+VerD {
+Posn -4.09362,2.23437,0.854253
+Flag 0
+}
+VerD {
+Posn -4.62169,0.378383,0.854253
+Flag 0
+}
+VerD {
+Posn -4.44365,-1.54303,0.854253
+Flag 0
+}
+VerD {
+Posn -3.58353,-3.27038,0.854253
+Flag 0
+}
+VerD {
+Posn -2.1575,-4.57037,0.854253
+Flag 0
+}
+VerD {
+Posn -0.358162,-5.26744,0.854253
+Flag 0
+}
+VerD {
+Posn 1.57148,-5.26744,0.854253
+Flag 0
+}
+VerD {
+Posn 3.37082,-4.57037,0.854253
+Flag 0
+}
+VerD {
+Posn 4.79685,-3.27038,0.854252
+Flag 0
+}
+VerD {
+Posn 5.65697,-1.54303,0.854252
+Flag 0
+}
+VerD {
+Posn 5.83501,0.378382,0.854252
+Flag 0
+}
+VerD {
+Posn 5.30694,2.23437,0.854252
+Flag 0
+}
+VerD {
+Posn 4.14407,3.77426,0.854253
+Flag 0
+}
+VerD {
+Posn 2.50345,4.79008,0.854253
+Flag 0
+}
+VerD {
+Posn 0.60666,5.14465,0.572204
+Flag 0
+}
+VerD {
+Posn -1.29013,4.79008,0.572204
+Flag 0
+}
+VerD {
+Posn -2.93075,3.77426,0.572204
+Flag 0
+}
+VerD {
+Posn -4.09362,2.23437,0.572204
+Flag 0
+}
+VerD {
+Posn -4.62169,0.378383,0.572204
+Flag 0
+}
+VerD {
+Posn -4.44365,-1.54303,0.572204
+Flag 0
+}
+VerD {
+Posn -3.58353,-3.27038,0.572204
+Flag 0
+}
+VerD {
+Posn -2.1575,-4.57037,0.572204
+Flag 0
+}
+VerD {
+Posn -0.358162,-5.26744,0.572204
+Flag 0
+}
+VerD {
+Posn 1.57148,-5.26744,0.572204
+Flag 0
+}
+VerD {
+Posn 3.37082,-4.57037,0.572204
+Flag 0
+}
+VerD {
+Posn 4.79685,-3.27038,0.572204
+Flag 0
+}
+VerD {
+Posn 5.65697,-1.54303,0.572204
+Flag 0
+}
+VerD {
+Posn 5.83501,0.378382,0.572204
+Flag 0
+}
+VerD {
+Posn 5.30694,2.23437,0.572204
+Flag 0
+}
+VerD {
+Posn 4.14407,3.77426,0.572204
+Flag 0
+}
+VerD {
+Posn 2.50345,4.79008,0.572204
+Flag 0
+}
+VerD {
+Posn 0.60666,5.14465,0.290155
+Flag 0
+}
+VerD {
+Posn -1.29013,4.79008,0.290155
+Flag 0
+}
+VerD {
+Posn -2.93075,3.77426,0.290155
+Flag 0
+}
+VerD {
+Posn -4.09362,2.23437,0.290155
+Flag 0
+}
+VerD {
+Posn -4.62169,0.378383,0.290155
+Flag 0
+}
+VerD {
+Posn -4.44365,-1.54303,0.290155
+Flag 0
+}
+VerD {
+Posn -3.58353,-3.27038,0.290155
+Flag 0
+}
+VerD {
+Posn -2.1575,-4.57037,0.290155
+Flag 0
+}
+VerD {
+Posn -0.358162,-5.26744,0.290155
+Flag 0
+}
+VerD {
+Posn 1.57148,-5.26744,0.290155
+Flag 0
+}
+VerD {
+Posn 3.37082,-4.57037,0.290155
+Flag 0
+}
+VerD {
+Posn 4.79685,-3.27038,0.290155
+Flag 0
+}
+VerD {
+Posn 5.65697,-1.54303,0.290155
+Flag 0
+}
+VerD {
+Posn 5.83501,0.378382,0.290155
+Flag 0
+}
+VerD {
+Posn 5.30694,2.23437,0.290155
+Flag 0
+}
+VerD {
+Posn 4.14407,3.77426,0.290155
+Flag 0
+}
+VerD {
+Posn 2.50345,4.79008,0.290155
+Flag 0
+}
+VerD {
+Posn 0.60666,5.14465,0.00810594
+Flag 0
+}
+VerD {
+Posn -1.29013,4.79008,0.00810602
+Flag 0
+}
+VerD {
+Posn -2.93075,3.77426,0.00810609
+Flag 0
+}
+VerD {
+Posn -4.09362,2.23437,0.00810614
+Flag 0
+}
+VerD {
+Posn -4.62169,0.378383,0.00810617
+Flag 0
+}
+VerD {
+Posn -4.44365,-1.54303,0.00810616
+Flag 0
+}
+VerD {
+Posn -3.58353,-3.27038,0.00810612
+Flag 0
+}
+VerD {
+Posn -2.1575,-4.57037,0.00810606
+Flag 0
+}
+VerD {
+Posn -0.358162,-5.26744,0.00810598
+Flag 0
+}
+VerD {
+Posn 1.57148,-5.26744,0.00810589
+Flag 0
+}
+VerD {
+Posn 3.37082,-4.57037,0.00810582
+Flag 0
+}
+VerD {
+Posn 4.79685,-3.27038,0.00810575
+Flag 0
+}
+VerD {
+Posn 5.65697,-1.54303,0.00810572
+Flag 0
+}
+VerD {
+Posn 5.83501,0.378382,0.00810571
+Flag 0
+}
+VerD {
+Posn 5.30694,2.23437,0.00810573
+Flag 0
+}
+VerD {
+Posn 4.14407,3.77426,0.00810578
+Flag 0
+}
+VerD {
+Posn 2.50345,4.79008,0.00810585
+Flag 0
+}
+VerD {
+Posn 0.60666,5.14465,-0.273943
+Flag 0
+}
+VerD {
+Posn -1.29013,4.79008,-0.273943
+Flag 0
+}
+VerD {
+Posn -2.93075,3.77426,-0.273943
+Flag 0
+}
+VerD {
+Posn -4.09362,2.23437,-0.273943
+Flag 0
+}
+VerD {
+Posn -4.62169,0.378383,-0.273943
+Flag 0
+}
+VerD {
+Posn -4.44365,-1.54303,-0.273943
+Flag 0
+}
+VerD {
+Posn -3.58353,-3.27038,-0.273943
+Flag 0
+}
+VerD {
+Posn -2.1575,-4.57037,-0.273943
+Flag 0
+}
+VerD {
+Posn -0.358162,-5.26744,-0.273943
+Flag 0
+}
+VerD {
+Posn 1.57148,-5.26744,-0.273943
+Flag 0
+}
+VerD {
+Posn 3.37082,-4.57037,-0.273943
+Flag 0
+}
+VerD {
+Posn 4.79685,-3.27038,-0.273943
+Flag 0
+}
+VerD {
+Posn 5.65697,-1.54303,-0.273943
+Flag 0
+}
+VerD {
+Posn 5.83501,0.378382,-0.273943
+Flag 0
+}
+VerD {
+Posn 5.30694,2.23437,-0.273943
+Flag 0
+}
+VerD {
+Posn 4.14407,3.77426,-0.273943
+Flag 0
+}
+VerD {
+Posn 2.50345,4.79008,-0.273943
+Flag 0
+}
+VerD {
+Posn 0.60666,5.58546,1.7004
+Flag 0
+}
+VerD {
+Posn 0.60666,5.96724,1.62332
+Flag 0
+}
+VerD {
+Posn 0.60666,6.27901,1.41312
+Flag 0
+}
+VerD {
+Posn 0.60666,6.48922,1.10135
+Flag 0
+}
+VerD {
+Posn 0.60666,6.56629,0.719561
+Flag 0
+}
+VerD {
+Posn -1.44937,5.20112,1.7004
+Flag 0
+}
+VerD {
+Posn -1.58728,5.55712,1.62332
+Flag 0
+}
+VerD {
+Posn -1.69991,5.84784,1.41312
+Flag 0
+}
+VerD {
+Posn -1.77584,6.04385,1.10135
+Flag 0
+}
+VerD {
+Posn -1.80368,6.11572,0.719562
+Flag 0
+}
+VerD {
+Posn -3.22771,4.10001,1.7004
+Flag 0
+}
+VerD {
+Posn -3.48492,4.38216,1.62332
+Flag 0
+}
+VerD {
+Posn -3.69496,4.61256,1.41312
+Flag 0
+}
+VerD {
+Posn -3.83657,4.7679,1.10135
+Flag 0
+}
+VerD {
+Posn -3.8885,4.82486,0.719562
+Flag 0
+}
+VerD {
+Posn -4.48821,2.43085,1.7004
+Flag 0
+}
+VerD {
+Posn -4.82997,2.60103,1.62332
+Flag 0
+}
+VerD {
+Posn -5.10906,2.73999,1.41312
+Flag 0
+}
+VerD {
+Posn -5.29722,2.83369,1.10135
+Flag 0
+}
+VerD {
+Posn -5.36622,2.86805,0.719562
+Flag 0
+}
+VerD {
+Posn -5.06061,0.419055,1.7004
+Flag 0
+}
+VerD {
+Posn -5.44077,0.454282,1.62332
+Flag 0
+}
+VerD {
+Posn -5.75121,0.483049,1.41312
+Flag 0
+}
+VerD {
+Posn -5.96052,0.502444,1.10135
+Flag 0
+}
+VerD {
+Posn -6.03727,0.509556,0.719562
+Flag 0
+}
+VerD {
+Posn -4.86762,-1.66366,1.7004
+Flag 0
+}
+VerD {
+Posn -5.23483,-1.76814,1.62332
+Flag 0
+}
+VerD {
+Posn -5.5347,-1.85346,1.41312
+Flag 0
+}
+VerD {
+Posn -5.73688,-1.91099,1.10135
+Flag 0
+}
+VerD {
+Posn -5.81102,-1.93208,0.719562
+Flag 0
+}
+VerD {
+Posn -3.9353,-3.53602,1.7004
+Flag 0
+}
+VerD {
+Posn -4.23997,-3.7661,1.62332
+Flag 0
+}
+VerD {
+Posn -4.48877,-3.95398,1.41312
+Flag 0
+}
+VerD {
+Posn -4.65651,-4.08066,1.10135
+Flag 0
+}
+VerD {
+Posn -4.71802,-4.12711,0.719562
+Flag 0
+}
+VerD {
+Posn -2.38956,-4.94515,1.7004
+Flag 0
+}
+VerD {
+Posn -2.59054,-5.26975,1.62332
+Flag 0
+}
+VerD {
+Posn -2.75467,-5.53482,1.41312
+Flag 0
+}
+VerD {
+Posn -2.86532,-5.71354,1.10135
+Flag 0
+}
+VerD {
+Posn -2.9059,-5.77908,0.719562
+Flag 0
+}
+VerD {
+Posn -0.439159,-5.70074,1.7004
+Flag 0
+}
+VerD {
+Posn -0.509313,-6.07602,1.62332
+Flag 0
+}
+VerD {
+Posn -0.5666,-6.38249,1.41312
+Flag 0
+}
+VerD {
+Posn -0.605225,-6.58911,1.10135
+Flag 0
+}
+VerD {
+Posn -0.619388,-6.66488,0.719561
+Flag 0
+}
+VerD {
+Posn 1.65248,-5.70074,1.7004
+Flag 0
+}
+VerD {
+Posn 1.72263,-6.07602,1.62332
+Flag 0
+}
+VerD {
+Posn 1.77992,-6.38249,1.41312
+Flag 0
+}
+VerD {
+Posn 1.81855,-6.58911,1.10135
+Flag 0
+}
+VerD {
+Posn 1.83271,-6.66488,0.719561
+Flag 0
+}
+VerD {
+Posn 3.60288,-4.94515,1.7004
+Flag 0
+}
+VerD {
+Posn 3.80386,-5.26975,1.62332
+Flag 0
+}
+VerD {
+Posn 3.96799,-5.53482,1.41312
+Flag 0
+}
+VerD {
+Posn 4.07864,-5.71354,1.10135
+Flag 0
+}
+VerD {
+Posn 4.11922,-5.77908,0.719561
+Flag 0
+}
+VerD {
+Posn 5.14862,-3.53602,1.7004
+Flag 0
+}
+VerD {
+Posn 5.45329,-3.7661,1.62332
+Flag 0
+}
+VerD {
+Posn 5.70209,-3.95398,1.41312
+Flag 0
+}
+VerD {
+Posn 5.86983,-4.08066,1.10135
+Flag 0
+}
+VerD {
+Posn 5.93134,-4.12711,0.719561
+Flag 0
+}
+VerD {
+Posn 6.08094,-1.66366,1.7004
+Flag 0
+}
+VerD {
+Posn 6.44815,-1.76814,1.62332
+Flag 0
+}
+VerD {
+Posn 6.74802,-1.85346,1.41312
+Flag 0
+}
+VerD {
+Posn 6.9502,-1.91099,1.10135
+Flag 0
+}
+VerD {
+Posn 7.02434,-1.93208,0.719561
+Flag 0
+}
+VerD {
+Posn 6.27393,0.419054,1.7004
+Flag 0
+}
+VerD {
+Posn 6.65409,0.454281,1.62332
+Flag 0
+}
+VerD {
+Posn 6.96453,0.483048,1.41312
+Flag 0
+}
+VerD {
+Posn 7.17384,0.502442,1.10135
+Flag 0
+}
+VerD {
+Posn 7.25059,0.509554,0.719561
+Flag 0
+}
+VerD {
+Posn 5.70153,2.43085,1.7004
+Flag 0
+}
+VerD {
+Posn 6.04329,2.60102,1.62332
+Flag 0
+}
+VerD {
+Posn 6.32237,2.73999,1.41312
+Flag 0
+}
+VerD {
+Posn 6.51054,2.83369,1.10135
+Flag 0
+}
+VerD {
+Posn 6.57954,2.86804,0.719561
+Flag 0
+}
+VerD {
+Posn 4.44103,4.10001,1.7004
+Flag 0
+}
+VerD {
+Posn 4.69824,4.38216,1.62332
+Flag 0
+}
+VerD {
+Posn 4.90828,4.61256,1.41312
+Flag 0
+}
+VerD {
+Posn 5.04989,4.7679,1.10135
+Flag 0
+}
+VerD {
+Posn 5.10182,4.82486,0.719561
+Flag 0
+}
+VerD {
+Posn 2.66269,5.20112,1.7004
+Flag 0
+}
+VerD {
+Posn 2.8006,5.55712,1.62332
+Flag 0
+}
+VerD {
+Posn 2.91323,5.84784,1.41312
+Flag 0
+}
+VerD {
+Posn 2.98916,6.04385,1.10135
+Flag 0
+}
+VerD {
+Posn 3.01701,6.11572,0.719561
+Flag 0
+}
+VerD {
+Posn 0.60666,6.56629,1.41835
+Flag 0
+}
+VerD {
+Posn -1.80368,6.11572,1.41835
+Flag 0
+}
+VerD {
+Posn -3.8885,4.82486,1.41835
+Flag 0
+}
+VerD {
+Posn -5.36622,2.86805,1.41835
+Flag 0
+}
+VerD {
+Posn -6.03727,0.509556,1.41835
+Flag 0
+}
+VerD {
+Posn -5.81102,-1.93208,1.41835
+Flag 0
+}
+VerD {
+Posn -4.71802,-4.12711,1.41835
+Flag 0
+}
+VerD {
+Posn -2.9059,-5.77908,1.41835
+Flag 0
+}
+VerD {
+Posn -0.619388,-6.66488,1.41835
+Flag 0
+}
+VerD {
+Posn 1.83271,-6.66488,1.41835
+Flag 0
+}
+VerD {
+Posn 4.11922,-5.77908,1.41835
+Flag 0
+}
+VerD {
+Posn 5.93134,-4.12711,1.41835
+Flag 0
+}
+VerD {
+Posn 7.02434,-1.93208,1.41835
+Flag 0
+}
+VerD {
+Posn 7.25059,0.509554,1.41835
+Flag 0
+}
+VerD {
+Posn 6.57954,2.86804,1.41835
+Flag 0
+}
+VerD {
+Posn 5.10182,4.82486,1.41835
+Flag 0
+}
+VerD {
+Posn 3.01701,6.11572,1.41835
+Flag 0
+}
+VerD {
+Posn 0.60666,6.56629,1.1363
+Flag 0
+}
+VerD {
+Posn -1.80369,6.11572,1.1363
+Flag 0
+}
+VerD {
+Posn -3.8885,4.82486,1.1363
+Flag 0
+}
+VerD {
+Posn -5.36622,2.86805,1.1363
+Flag 0
+}
+VerD {
+Posn -6.03727,0.509556,1.1363
+Flag 0
+}
+VerD {
+Posn -5.81102,-1.93208,1.1363
+Flag 0
+}
+VerD {
+Posn -4.71802,-4.12711,1.1363
+Flag 0
+}
+VerD {
+Posn -2.9059,-5.77908,1.1363
+Flag 0
+}
+VerD {
+Posn -0.619388,-6.66488,1.1363
+Flag 0
+}
+VerD {
+Posn 1.83271,-6.66488,1.1363
+Flag 0
+}
+VerD {
+Posn 4.11922,-5.77908,1.1363
+Flag 0
+}
+VerD {
+Posn 5.93134,-4.12711,1.1363
+Flag 0
+}
+VerD {
+Posn 7.02434,-1.93208,1.1363
+Flag 0
+}
+VerD {
+Posn 7.25059,0.509554,1.1363
+Flag 0
+}
+VerD {
+Posn 6.57954,2.86804,1.1363
+Flag 0
+}
+VerD {
+Posn 5.10182,4.82486,1.1363
+Flag 0
+}
+VerD {
+Posn 3.01701,6.11572,1.1363
+Flag 0
+}
+VerD {
+Posn 0.60666,6.5663,0.854253
+Flag 0
+}
+VerD {
+Posn -1.80369,6.11572,0.854253
+Flag 0
+}
+VerD {
+Posn -3.8885,4.82486,0.854253
+Flag 0
+}
+VerD {
+Posn -5.36622,2.86805,0.854253
+Flag 0
+}
+VerD {
+Posn -6.03727,0.509556,0.854253
+Flag 0
+}
+VerD {
+Posn -5.81102,-1.93208,0.854253
+Flag 0
+}
+VerD {
+Posn -4.71802,-4.12711,0.854253
+Flag 0
+}
+VerD {
+Posn -2.9059,-5.77908,0.854253
+Flag 0
+}
+VerD {
+Posn -0.619388,-6.66488,0.854253
+Flag 0
+}
+VerD {
+Posn 1.83271,-6.66488,0.854253
+Flag 0
+}
+VerD {
+Posn 4.11922,-5.77908,0.854253
+Flag 0
+}
+VerD {
+Posn 5.93134,-4.12711,0.854252
+Flag 0
+}
+VerD {
+Posn 7.02434,-1.93208,0.854252
+Flag 0
+}
+VerD {
+Posn 7.25059,0.509554,0.854252
+Flag 0
+}
+VerD {
+Posn 6.57954,2.86804,0.854252
+Flag 0
+}
+VerD {
+Posn 5.10182,4.82486,0.854252
+Flag 0
+}
+VerD {
+Posn 3.01701,6.11572,0.854253
+Flag 0
+}
+VerD {
+Posn 0.60666,6.56629,0.572204
+Flag 0
+}
+VerD {
+Posn -1.80368,6.11572,0.572204
+Flag 0
+}
+VerD {
+Posn -3.8885,4.82486,0.572204
+Flag 0
+}
+VerD {
+Posn -5.36622,2.86805,0.572204
+Flag 0
+}
+VerD {
+Posn -6.03727,0.509556,0.572204
+Flag 0
+}
+VerD {
+Posn -5.81102,-1.93208,0.572204
+Flag 0
+}
+VerD {
+Posn -4.71802,-4.12711,0.572204
+Flag 0
+}
+VerD {
+Posn -2.9059,-5.77908,0.572204
+Flag 0
+}
+VerD {
+Posn -0.619388,-6.66488,0.572204
+Flag 0
+}
+VerD {
+Posn 1.83271,-6.66488,0.572204
+Flag 0
+}
+VerD {
+Posn 4.11922,-5.77908,0.572204
+Flag 0
+}
+VerD {
+Posn 5.93134,-4.12711,0.572204
+Flag 0
+}
+VerD {
+Posn 7.02434,-1.93208,0.572203
+Flag 0
+}
+VerD {
+Posn 7.25059,0.509554,0.572203
+Flag 0
+}
+VerD {
+Posn 6.57954,2.86804,0.572203
+Flag 0
+}
+VerD {
+Posn 5.10182,4.82486,0.572204
+Flag 0
+}
+VerD {
+Posn 3.01701,6.11572,0.572204
+Flag 0
+}
+VerD {
+Posn 0.60666,6.56629,0.290155
+Flag 0
+}
+VerD {
+Posn -1.80368,6.11572,0.290155
+Flag 0
+}
+VerD {
+Posn -3.8885,4.82486,0.290155
+Flag 0
+}
+VerD {
+Posn -5.36622,2.86805,0.290155
+Flag 0
+}
+VerD {
+Posn -6.03727,0.509556,0.290155
+Flag 0
+}
+VerD {
+Posn -5.81102,-1.93208,0.290155
+Flag 0
+}
+VerD {
+Posn -4.71802,-4.12711,0.290155
+Flag 0
+}
+VerD {
+Posn -2.9059,-5.77908,0.290155
+Flag 0
+}
+VerD {
+Posn -0.619388,-6.66488,0.290155
+Flag 0
+}
+VerD {
+Posn 1.83271,-6.66488,0.290155
+Flag 0
+}
+VerD {
+Posn 4.11922,-5.77908,0.290155
+Flag 0
+}
+VerD {
+Posn 5.93134,-4.12711,0.290155
+Flag 0
+}
+VerD {
+Posn 7.02434,-1.93208,0.290155
+Flag 0
+}
+VerD {
+Posn 7.25059,0.509554,0.290155
+Flag 0
+}
+VerD {
+Posn 6.57954,2.86805,0.290155
+Flag 0
+}
+VerD {
+Posn 5.10182,4.82486,0.290155
+Flag 0
+}
+VerD {
+Posn 3.01701,6.11572,0.290155
+Flag 0
+}
+VerD {
+Posn 0.60666,6.5663,0.00810594
+Flag 0
+}
+VerD {
+Posn -1.80369,6.11572,0.00810604
+Flag 0
+}
+VerD {
+Posn -3.8885,4.82486,0.00810613
+Flag 0
+}
+VerD {
+Posn -5.36622,2.86805,0.0081062
+Flag 0
+}
+VerD {
+Posn -6.03727,0.509556,0.00810623
+Flag 0
+}
+VerD {
+Posn -5.81102,-1.93208,0.00810622
+Flag 0
+}
+VerD {
+Posn -4.71802,-4.12711,0.00810617
+Flag 0
+}
+VerD {
+Posn -2.9059,-5.77908,0.00810609
+Flag 0
+}
+VerD {
+Posn -0.619388,-6.66488,0.00810599
+Flag 0
+}
+VerD {
+Posn 1.83271,-6.66488,0.00810588
+Flag 0
+}
+VerD {
+Posn 4.11922,-5.77908,0.00810578
+Flag 0
+}
+VerD {
+Posn 5.93134,-4.12711,0.0081057
+Flag 0
+}
+VerD {
+Posn 7.02434,-1.93208,0.00810566
+Flag 0
+}
+VerD {
+Posn 7.25059,0.509554,0.00810565
+Flag 0
+}
+VerD {
+Posn 6.57954,2.86805,0.00810568
+Flag 0
+}
+VerD {
+Posn 5.10182,4.82486,0.00810574
+Flag 0
+}
+VerD {
+Posn 3.01701,6.11572,0.00810583
+Flag 0
+}
+VerD {
+Posn 0.60666,6.56629,-0.273943
+Flag 0
+}
+VerD {
+Posn -1.80368,6.11572,-0.273943
+Flag 0
+}
+VerD {
+Posn -3.8885,4.82486,-0.273943
+Flag 0
+}
+VerD {
+Posn -5.36622,2.86805,-0.273943
+Flag 0
+}
+VerD {
+Posn -6.03727,0.509556,-0.273943
+Flag 0
+}
+VerD {
+Posn -5.81102,-1.93208,-0.273943
+Flag 0
+}
+VerD {
+Posn -4.71802,-4.12711,-0.273943
+Flag 0
+}
+VerD {
+Posn -2.9059,-5.77908,-0.273943
+Flag 0
+}
+VerD {
+Posn -0.619388,-6.66488,-0.273943
+Flag 0
+}
+VerD {
+Posn 1.83271,-6.66488,-0.273943
+Flag 0
+}
+VerD {
+Posn 4.11922,-5.77908,-0.273943
+Flag 0
+}
+VerD {
+Posn 5.93134,-4.12711,-0.273943
+Flag 0
+}
+VerD {
+Posn 7.02434,-1.93208,-0.273943
+Flag 0
+}
+VerD {
+Posn 7.25059,0.509554,-0.273943
+Flag 0
+}
+VerD {
+Posn 6.57954,2.86805,-0.273943
+Flag 0
+}
+VerD {
+Posn 5.10182,4.82486,-0.273943
+Flag 0
+}
+VerD {
+Posn 3.01701,6.11572,-0.273943
+Flag 0
+}
+}
+Edgs {
+Edge 0,1
+Flag 0
+Edge 0,9
+Flag 0
+Edge 0,80
+Flag 0
+Edge 0,204
+Flag 0
+Edge 1,2
+Flag 0
+Edge 1,8
+Flag 0
+Edge 1,81
+Flag 0
+Edge 2,3
+Flag 0
+Edge 2,7
+Flag 0
+Edge 2,82
+Flag 0
+Edge 3,4
+Flag 0
+Edge 3,6
+Flag 0
+Edge 3,83
+Flag 0
+Edge 4,5
+Flag 0
+Edge 4,84
+Flag 0
+Edge 4,85
+Flag 0
+Edge 5,6
+Flag 0
+Edge 5,10
+Flag 0
+Edge 5,86
+Flag 0
+Edge 6,7
+Flag 0
+Edge 6,11
+Flag 0
+Edge 7,8
+Flag 0
+Edge 7,12
+Flag 0
+Edge 8,9
+Flag 0
+Edge 8,13
+Flag 0
+Edge 9,14
+Flag 0
+Edge 9,209
+Flag 0
+Edge 10,11
+Flag 0
+Edge 10,15
+Flag 0
+Edge 10,87
+Flag 0
+Edge 11,12
+Flag 0
+Edge 11,16
+Flag 0
+Edge 12,13
+Flag 0
+Edge 12,17
+Flag 0
+Edge 13,14
+Flag 0
+Edge 13,18
+Flag 0
+Edge 14,19
+Flag 0
+Edge 14,214
+Flag 0
+Edge 15,16
+Flag 0
+Edge 15,20
+Flag 0
+Edge 15,88
+Flag 0
+Edge 16,17
+Flag 0
+Edge 16,21
+Flag 0
+Edge 17,18
+Flag 0
+Edge 17,22
+Flag 0
+Edge 18,19
+Flag 0
+Edge 18,23
+Flag 0
+Edge 19,24
+Flag 0
+Edge 19,219
+Flag 0
+Edge 20,21
+Flag 0
+Edge 20,25
+Flag 0
+Edge 20,89
+Flag 0
+Edge 21,22
+Flag 0
+Edge 21,26
+Flag 0
+Edge 22,23
+Flag 0
+Edge 22,27
+Flag 0
+Edge 23,24
+Flag 0
+Edge 23,28
+Flag 0
+Edge 24,29
+Flag 0
+Edge 24,224
+Flag 0
+Edge 25,26
+Flag 0
+Edge 25,30
+Flag 0
+Edge 25,90
+Flag 0
+Edge 26,27
+Flag 0
+Edge 26,31
+Flag 0
+Edge 27,28
+Flag 0
+Edge 27,32
+Flag 0
+Edge 28,29
+Flag 0
+Edge 28,33
+Flag 0
+Edge 29,34
+Flag 0
+Edge 29,229
+Flag 0
+Edge 30,31
+Flag 0
+Edge 30,35
+Flag 0
+Edge 30,91
+Flag 0
+Edge 31,32
+Flag 0
+Edge 31,36
+Flag 0
+Edge 32,33
+Flag 0
+Edge 32,37
+Flag 0
+Edge 33,34
+Flag 0
+Edge 33,38
+Flag 0
+Edge 34,39
+Flag 0
+Edge 34,234
+Flag 0
+Edge 35,36
+Flag 0
+Edge 35,40
+Flag 0
+Edge 35,92
+Flag 0
+Edge 36,37
+Flag 0
+Edge 36,41
+Flag 0
+Edge 37,38
+Flag 0
+Edge 37,42
+Flag 0
+Edge 38,39
+Flag 0
+Edge 38,43
+Flag 0
+Edge 39,44
+Flag 0
+Edge 39,239
+Flag 0
+Edge 40,41
+Flag 0
+Edge 40,45
+Flag 0
+Edge 40,93
+Flag 0
+Edge 41,42
+Flag 0
+Edge 41,46
+Flag 0
+Edge 42,43
+Flag 0
+Edge 42,47
+Flag 0
+Edge 43,44
+Flag 0
+Edge 43,48
+Flag 0
+Edge 44,49
+Flag 0
+Edge 44,244
+Flag 0
+Edge 45,46
+Flag 0
+Edge 45,50
+Flag 0
+Edge 45,94
+Flag 0
+Edge 46,47
+Flag 0
+Edge 46,51
+Flag 0
+Edge 47,48
+Flag 0
+Edge 47,52
+Flag 0
+Edge 48,49
+Flag 0
+Edge 48,53
+Flag 0
+Edge 49,54
+Flag 0
+Edge 49,249
+Flag 0
+Edge 50,51
+Flag 0
+Edge 50,55
+Flag 0
+Edge 50,95
+Flag 0
+Edge 51,52
+Flag 0
+Edge 51,56
+Flag 0
+Edge 52,53
+Flag 0
+Edge 52,57
+Flag 0
+Edge 53,54
+Flag 0
+Edge 53,58
+Flag 0
+Edge 54,59
+Flag 0
+Edge 54,254
+Flag 0
+Edge 55,56
+Flag 0
+Edge 55,60
+Flag 0
+Edge 55,96
+Flag 0
+Edge 56,57
+Flag 0
+Edge 56,61
+Flag 0
+Edge 57,58
+Flag 0
+Edge 57,62
+Flag 0
+Edge 58,59
+Flag 0
+Edge 58,63
+Flag 0
+Edge 59,64
+Flag 0
+Edge 59,259
+Flag 0
+Edge 60,61
+Flag 0
+Edge 60,65
+Flag 0
+Edge 60,97
+Flag 0
+Edge 61,62
+Flag 0
+Edge 61,66
+Flag 0
+Edge 62,63
+Flag 0
+Edge 62,67
+Flag 0
+Edge 63,64
+Flag 0
+Edge 63,68
+Flag 0
+Edge 64,69
+Flag 0
+Edge 64,264
+Flag 0
+Edge 65,66
+Flag 0
+Edge 65,70
+Flag 0
+Edge 65,98
+Flag 0
+Edge 66,67
+Flag 0
+Edge 66,71
+Flag 0
+Edge 67,68
+Flag 0
+Edge 67,72
+Flag 0
+Edge 68,69
+Flag 0
+Edge 68,73
+Flag 0
+Edge 69,74
+Flag 0
+Edge 69,269
+Flag 0
+Edge 70,71
+Flag 0
+Edge 70,75
+Flag 0
+Edge 70,99
+Flag 0
+Edge 71,72
+Flag 0
+Edge 71,76
+Flag 0
+Edge 72,73
+Flag 0
+Edge 72,77
+Flag 0
+Edge 73,74
+Flag 0
+Edge 73,78
+Flag 0
+Edge 74,79
+Flag 0
+Edge 74,274
+Flag 0
+Edge 75,76
+Flag 0
+Edge 75,84
+Flag 0
+Edge 75,100
+Flag 0
+Edge 76,77
+Flag 0
+Edge 76,83
+Flag 0
+Edge 77,78
+Flag 0
+Edge 77,82
+Flag 0
+Edge 78,79
+Flag 0
+Edge 78,81
+Flag 0
+Edge 79,80
+Flag 0
+Edge 79,279
+Flag 0
+Edge 80,81
+Flag 0
+Edge 80,284
+Flag 0
+Edge 81,82
+Flag 0
+Edge 82,83
+Flag 0
+Edge 83,84
+Flag 0
+Edge 84,101
+Flag 0
+Edge 85,86
+Flag 0
+Edge 85,101
+Flag 0
+Edge 85,102
+Flag 0
+Edge 86,87
+Flag 0
+Edge 86,103
+Flag 0
+Edge 87,88
+Flag 0
+Edge 87,104
+Flag 0
+Edge 88,89
+Flag 0
+Edge 88,105
+Flag 0
+Edge 89,90
+Flag 0
+Edge 89,106
+Flag 0
+Edge 90,91
+Flag 0
+Edge 90,107
+Flag 0
+Edge 91,92
+Flag 0
+Edge 91,108
+Flag 0
+Edge 92,93
+Flag 0
+Edge 92,109
+Flag 0
+Edge 93,94
+Flag 0
+Edge 93,110
+Flag 0
+Edge 94,95
+Flag 0
+Edge 94,111
+Flag 0
+Edge 95,96
+Flag 0
+Edge 95,112
+Flag 0
+Edge 96,97
+Flag 0
+Edge 96,113
+Flag 0
+Edge 97,98
+Flag 0
+Edge 97,114
+Flag 0
+Edge 98,99
+Flag 0
+Edge 98,115
+Flag 0
+Edge 99,100
+Flag 0
+Edge 99,116
+Flag 0
+Edge 100,101
+Flag 0
+Edge 100,117
+Flag 0
+Edge 101,118
+Flag 0
+Edge 102,103
+Flag 0
+Edge 102,118
+Flag 0
+Edge 102,119
+Flag 0
+Edge 103,104
+Flag 0
+Edge 103,120
+Flag 0
+Edge 104,105
+Flag 0
+Edge 104,121
+Flag 0
+Edge 105,106
+Flag 0
+Edge 105,122
+Flag 0
+Edge 106,107
+Flag 0
+Edge 106,123
+Flag 0
+Edge 107,108
+Flag 0
+Edge 107,124
+Flag 0
+Edge 108,109
+Flag 0
+Edge 108,125
+Flag 0
+Edge 109,110
+Flag 0
+Edge 109,126
+Flag 0
+Edge 110,111
+Flag 0
+Edge 110,127
+Flag 0
+Edge 111,112
+Flag 0
+Edge 111,128
+Flag 0
+Edge 112,113
+Flag 0
+Edge 112,129
+Flag 0
+Edge 113,114
+Flag 0
+Edge 113,130
+Flag 0
+Edge 114,115
+Flag 0
+Edge 114,131
+Flag 0
+Edge 115,116
+Flag 0
+Edge 115,132
+Flag 0
+Edge 116,117
+Flag 0
+Edge 116,133
+Flag 0
+Edge 117,118
+Flag 0
+Edge 117,134
+Flag 0
+Edge 118,135
+Flag 0
+Edge 119,120
+Flag 0
+Edge 119,135
+Flag 0
+Edge 119,136
+Flag 0
+Edge 120,121
+Flag 0
+Edge 120,137
+Flag 0
+Edge 121,122
+Flag 0
+Edge 121,138
+Flag 0
+Edge 122,123
+Flag 0
+Edge 122,139
+Flag 0
+Edge 123,124
+Flag 0
+Edge 123,140
+Flag 0
+Edge 124,125
+Flag 0
+Edge 124,141
+Flag 0
+Edge 125,126
+Flag 0
+Edge 125,142
+Flag 0
+Edge 126,127
+Flag 0
+Edge 126,143
+Flag 0
+Edge 127,128
+Flag 0
+Edge 127,144
+Flag 0
+Edge 128,129
+Flag 0
+Edge 128,145
+Flag 0
+Edge 129,130
+Flag 0
+Edge 129,146
+Flag 0
+Edge 130,131
+Flag 0
+Edge 130,147
+Flag 0
+Edge 131,132
+Flag 0
+Edge 131,148
+Flag 0
+Edge 132,133
+Flag 0
+Edge 132,149
+Flag 0
+Edge 133,134
+Flag 0
+Edge 133,150
+Flag 0
+Edge 134,135
+Flag 0
+Edge 134,151
+Flag 0
+Edge 135,152
+Flag 0
+Edge 136,137
+Flag 0
+Edge 136,152
+Flag 0
+Edge 136,153
+Flag 0
+Edge 137,138
+Flag 0
+Edge 137,154
+Flag 0
+Edge 138,139
+Flag 0
+Edge 138,155
+Flag 0
+Edge 139,140
+Flag 0
+Edge 139,156
+Flag 0
+Edge 140,141
+Flag 0
+Edge 140,157
+Flag 0
+Edge 141,142
+Flag 0
+Edge 141,158
+Flag 0
+Edge 142,143
+Flag 0
+Edge 142,159
+Flag 0
+Edge 143,144
+Flag 0
+Edge 143,160
+Flag 0
+Edge 144,145
+Flag 0
+Edge 144,161
+Flag 0
+Edge 145,146
+Flag 0
+Edge 145,162
+Flag 0
+Edge 146,147
+Flag 0
+Edge 146,163
+Flag 0
+Edge 147,148
+Flag 0
+Edge 147,164
+Flag 0
+Edge 148,149
+Flag 0
+Edge 148,165
+Flag 0
+Edge 149,150
+Flag 0
+Edge 149,166
+Flag 0
+Edge 150,151
+Flag 0
+Edge 150,167
+Flag 0
+Edge 151,152
+Flag 0
+Edge 151,168
+Flag 0
+Edge 152,169
+Flag 0
+Edge 153,154
+Flag 0
+Edge 153,169
+Flag 0
+Edge 153,170
+Flag 0
+Edge 154,155
+Flag 0
+Edge 154,171
+Flag 0
+Edge 155,156
+Flag 0
+Edge 155,172
+Flag 0
+Edge 156,157
+Flag 0
+Edge 156,173
+Flag 0
+Edge 157,158
+Flag 0
+Edge 157,174
+Flag 0
+Edge 158,159
+Flag 0
+Edge 158,175
+Flag 0
+Edge 159,160
+Flag 0
+Edge 159,176
+Flag 0
+Edge 160,161
+Flag 0
+Edge 160,177
+Flag 0
+Edge 161,162
+Flag 0
+Edge 161,178
+Flag 0
+Edge 162,163
+Flag 0
+Edge 162,179
+Flag 0
+Edge 163,164
+Flag 0
+Edge 163,180
+Flag 0
+Edge 164,165
+Flag 0
+Edge 164,181
+Flag 0
+Edge 165,166
+Flag 0
+Edge 165,182
+Flag 0
+Edge 166,167
+Flag 0
+Edge 166,183
+Flag 0
+Edge 167,168
+Flag 0
+Edge 167,184
+Flag 0
+Edge 168,169
+Flag 0
+Edge 168,185
+Flag 0
+Edge 169,186
+Flag 0
+Edge 170,171
+Flag 0
+Edge 170,186
+Flag 0
+Edge 170,187
+Flag 0
+Edge 171,172
+Flag 0
+Edge 171,188
+Flag 0
+Edge 172,173
+Flag 0
+Edge 172,189
+Flag 0
+Edge 173,174
+Flag 0
+Edge 173,190
+Flag 0
+Edge 174,175
+Flag 0
+Edge 174,191
+Flag 0
+Edge 175,176
+Flag 0
+Edge 175,192
+Flag 0
+Edge 176,177
+Flag 0
+Edge 176,193
+Flag 0
+Edge 177,178
+Flag 0
+Edge 177,194
+Flag 0
+Edge 178,179
+Flag 0
+Edge 178,195
+Flag 0
+Edge 179,180
+Flag 0
+Edge 179,196
+Flag 0
+Edge 180,181
+Flag 0
+Edge 180,197
+Flag 0
+Edge 181,182
+Flag 0
+Edge 181,198
+Flag 0
+Edge 182,183
+Flag 0
+Edge 182,199
+Flag 0
+Edge 183,184
+Flag 0
+Edge 183,200
+Flag 0
+Edge 184,185
+Flag 0
+Edge 184,201
+Flag 0
+Edge 185,186
+Flag 0
+Edge 185,202
+Flag 0
+Edge 186,203
+Flag 0
+Edge 187,188
+Flag 0
+Edge 187,203
+Flag 0
+Edge 187,391
+Flag 0
+Edge 188,189
+Flag 0
+Edge 188,392
+Flag 0
+Edge 189,190
+Flag 0
+Edge 189,393
+Flag 0
+Edge 190,191
+Flag 0
+Edge 190,394
+Flag 0
+Edge 191,192
+Flag 0
+Edge 191,395
+Flag 0
+Edge 192,193
+Flag 0
+Edge 192,396
+Flag 0
+Edge 193,194
+Flag 0
+Edge 193,397
+Flag 0
+Edge 194,195
+Flag 0
+Edge 194,398
+Flag 0
+Edge 195,196
+Flag 0
+Edge 195,399
+Flag 0
+Edge 196,197
+Flag 0
+Edge 196,400
+Flag 0
+Edge 197,198
+Flag 0
+Edge 197,401
+Flag 0
+Edge 198,199
+Flag 0
+Edge 198,402
+Flag 0
+Edge 199,200
+Flag 0
+Edge 199,403
+Flag 0
+Edge 200,201
+Flag 0
+Edge 200,404
+Flag 0
+Edge 201,202
+Flag 0
+Edge 201,405
+Flag 0
+Edge 202,203
+Flag 0
+Edge 202,406
+Flag 0
+Edge 203,407
+Flag 0
+Edge 204,205
+Flag 0
+Edge 204,209
+Flag 0
+Edge 204,284
+Flag 0
+Edge 205,206
+Flag 0
+Edge 205,210
+Flag 0
+Edge 205,285
+Flag 0
+Edge 206,207
+Flag 0
+Edge 206,211
+Flag 0
+Edge 206,286
+Flag 0
+Edge 207,208
+Flag 0
+Edge 207,212
+Flag 0
+Edge 207,287
+Flag 0
+Edge 208,213
+Flag 0
+Edge 208,288
+Flag 0
+Edge 208,289
+Flag 0
+Edge 209,210
+Flag 0
+Edge 209,214
+Flag 0
+Edge 210,211
+Flag 0
+Edge 210,215
+Flag 0
+Edge 211,212
+Flag 0
+Edge 211,216
+Flag 0
+Edge 212,213
+Flag 0
+Edge 212,217
+Flag 0
+Edge 213,218
+Flag 0
+Edge 213,290
+Flag 0
+Edge 214,215
+Flag 0
+Edge 214,219
+Flag 0
+Edge 215,216
+Flag 0
+Edge 215,220
+Flag 0
+Edge 216,217
+Flag 0
+Edge 216,221
+Flag 0
+Edge 217,218
+Flag 0
+Edge 217,222
+Flag 0
+Edge 218,223
+Flag 0
+Edge 218,291
+Flag 0
+Edge 219,220
+Flag 0
+Edge 219,224
+Flag 0
+Edge 220,221
+Flag 0
+Edge 220,225
+Flag 0
+Edge 221,222
+Flag 0
+Edge 221,226
+Flag 0
+Edge 222,223
+Flag 0
+Edge 222,227
+Flag 0
+Edge 223,228
+Flag 0
+Edge 223,292
+Flag 0
+Edge 224,225
+Flag 0
+Edge 224,229
+Flag 0
+Edge 225,226
+Flag 0
+Edge 225,230
+Flag 0
+Edge 226,227
+Flag 0
+Edge 226,231
+Flag 0
+Edge 227,228
+Flag 0
+Edge 227,232
+Flag 0
+Edge 228,233
+Flag 0
+Edge 228,293
+Flag 0
+Edge 229,230
+Flag 0
+Edge 229,234
+Flag 0
+Edge 230,231
+Flag 0
+Edge 230,235
+Flag 0
+Edge 231,232
+Flag 0
+Edge 231,236
+Flag 0
+Edge 232,233
+Flag 0
+Edge 232,237
+Flag 0
+Edge 233,238
+Flag 0
+Edge 233,294
+Flag 0
+Edge 234,235
+Flag 0
+Edge 234,239
+Flag 0
+Edge 235,236
+Flag 0
+Edge 235,240
+Flag 0
+Edge 236,237
+Flag 0
+Edge 236,241
+Flag 0
+Edge 237,238
+Flag 0
+Edge 237,242
+Flag 0
+Edge 238,243
+Flag 0
+Edge 238,295
+Flag 0
+Edge 239,240
+Flag 0
+Edge 239,244
+Flag 0
+Edge 240,241
+Flag 0
+Edge 240,245
+Flag 0
+Edge 241,242
+Flag 0
+Edge 241,246
+Flag 0
+Edge 242,243
+Flag 0
+Edge 242,247
+Flag 0
+Edge 243,248
+Flag 0
+Edge 243,296
+Flag 0
+Edge 244,245
+Flag 0
+Edge 244,249
+Flag 0
+Edge 245,246
+Flag 0
+Edge 245,250
+Flag 0
+Edge 246,247
+Flag 0
+Edge 246,251
+Flag 0
+Edge 247,248
+Flag 0
+Edge 247,252
+Flag 0
+Edge 248,253
+Flag 0
+Edge 248,297
+Flag 0
+Edge 249,250
+Flag 0
+Edge 249,254
+Flag 0
+Edge 250,251
+Flag 0
+Edge 250,255
+Flag 0
+Edge 251,252
+Flag 0
+Edge 251,256
+Flag 0
+Edge 252,253
+Flag 0
+Edge 252,257
+Flag 0
+Edge 253,258
+Flag 0
+Edge 253,298
+Flag 0
+Edge 254,255
+Flag 0
+Edge 254,259
+Flag 0
+Edge 255,256
+Flag 0
+Edge 255,260
+Flag 0
+Edge 256,257
+Flag 0
+Edge 256,261
+Flag 0
+Edge 257,258
+Flag 0
+Edge 257,262
+Flag 0
+Edge 258,263
+Flag 0
+Edge 258,299
+Flag 0
+Edge 259,260
+Flag 0
+Edge 259,264
+Flag 0
+Edge 260,261
+Flag 0
+Edge 260,265
+Flag 0
+Edge 261,262
+Flag 0
+Edge 261,266
+Flag 0
+Edge 262,263
+Flag 0
+Edge 262,267
+Flag 0
+Edge 263,268
+Flag 0
+Edge 263,300
+Flag 0
+Edge 264,265
+Flag 0
+Edge 264,269
+Flag 0
+Edge 265,266
+Flag 0
+Edge 265,270
+Flag 0
+Edge 266,267
+Flag 0
+Edge 266,271
+Flag 0
+Edge 267,268
+Flag 0
+Edge 267,272
+Flag 0
+Edge 268,273
+Flag 0
+Edge 268,301
+Flag 0
+Edge 269,270
+Flag 0
+Edge 269,274
+Flag 0
+Edge 270,271
+Flag 0
+Edge 270,275
+Flag 0
+Edge 271,272
+Flag 0
+Edge 271,276
+Flag 0
+Edge 272,273
+Flag 0
+Edge 272,277
+Flag 0
+Edge 273,278
+Flag 0
+Edge 273,302
+Flag 0
+Edge 274,275
+Flag 0
+Edge 274,279
+Flag 0
+Edge 275,276
+Flag 0
+Edge 275,280
+Flag 0
+Edge 276,277
+Flag 0
+Edge 276,281
+Flag 0
+Edge 277,278
+Flag 0
+Edge 277,282
+Flag 0
+Edge 278,283
+Flag 0
+Edge 278,303
+Flag 0
+Edge 279,280
+Flag 0
+Edge 279,284
+Flag 0
+Edge 280,281
+Flag 0
+Edge 280,285
+Flag 0
+Edge 281,282
+Flag 0
+Edge 281,286
+Flag 0
+Edge 282,283
+Flag 0
+Edge 282,287
+Flag 0
+Edge 283,288
+Flag 0
+Edge 283,304
+Flag 0
+Edge 284,285
+Flag 0
+Edge 285,286
+Flag 0
+Edge 286,287
+Flag 0
+Edge 287,288
+Flag 0
+Edge 288,305
+Flag 0
+Edge 289,290
+Flag 0
+Edge 289,305
+Flag 0
+Edge 289,306
+Flag 0
+Edge 290,291
+Flag 0
+Edge 290,307
+Flag 0
+Edge 291,292
+Flag 0
+Edge 291,308
+Flag 0
+Edge 292,293
+Flag 0
+Edge 292,309
+Flag 0
+Edge 293,294
+Flag 0
+Edge 293,310
+Flag 0
+Edge 294,295
+Flag 0
+Edge 294,311
+Flag 0
+Edge 295,296
+Flag 0
+Edge 295,312
+Flag 0
+Edge 296,297
+Flag 0
+Edge 296,313
+Flag 0
+Edge 297,298
+Flag 0
+Edge 297,314
+Flag 0
+Edge 298,299
+Flag 0
+Edge 298,315
+Flag 0
+Edge 299,300
+Flag 0
+Edge 299,316
+Flag 0
+Edge 300,301
+Flag 0
+Edge 300,317
+Flag 0
+Edge 301,302
+Flag 0
+Edge 301,318
+Flag 0
+Edge 302,303
+Flag 0
+Edge 302,319
+Flag 0
+Edge 303,304
+Flag 0
+Edge 303,320
+Flag 0
+Edge 304,305
+Flag 0
+Edge 304,321
+Flag 0
+Edge 305,322
+Flag 0
+Edge 306,307
+Flag 0
+Edge 306,322
+Flag 0
+Edge 306,323
+Flag 0
+Edge 307,308
+Flag 0
+Edge 307,324
+Flag 0
+Edge 308,309
+Flag 0
+Edge 308,325
+Flag 0
+Edge 309,310
+Flag 0
+Edge 309,326
+Flag 0
+Edge 310,311
+Flag 0
+Edge 310,327
+Flag 0
+Edge 311,312
+Flag 0
+Edge 311,328
+Flag 0
+Edge 312,313
+Flag 0
+Edge 312,329
+Flag 0
+Edge 313,314
+Flag 0
+Edge 313,330
+Flag 0
+Edge 314,315
+Flag 0
+Edge 314,331
+Flag 0
+Edge 315,316
+Flag 0
+Edge 315,332
+Flag 0
+Edge 316,317
+Flag 0
+Edge 316,333
+Flag 0
+Edge 317,318
+Flag 0
+Edge 317,334
+Flag 0
+Edge 318,319
+Flag 0
+Edge 318,335
+Flag 0
+Edge 319,320
+Flag 0
+Edge 319,336
+Flag 0
+Edge 320,321
+Flag 0
+Edge 320,337
+Flag 0
+Edge 321,322
+Flag 0
+Edge 321,338
+Flag 0
+Edge 322,339
+Flag 0
+Edge 323,324
+Flag 0
+Edge 323,339
+Flag 0
+Edge 323,340
+Flag 0
+Edge 324,325
+Flag 0
+Edge 324,341
+Flag 0
+Edge 325,326
+Flag 0
+Edge 325,342
+Flag 0
+Edge 326,327
+Flag 0
+Edge 326,343
+Flag 0
+Edge 327,328
+Flag 0
+Edge 327,344
+Flag 0
+Edge 328,329
+Flag 0
+Edge 328,345
+Flag 0
+Edge 329,330
+Flag 0
+Edge 329,346
+Flag 0
+Edge 330,331
+Flag 0
+Edge 330,347
+Flag 0
+Edge 331,332
+Flag 0
+Edge 331,348
+Flag 0
+Edge 332,333
+Flag 0
+Edge 332,349
+Flag 0
+Edge 333,334
+Flag 0
+Edge 333,350
+Flag 0
+Edge 334,335
+Flag 0
+Edge 334,351
+Flag 0
+Edge 335,336
+Flag 0
+Edge 335,352
+Flag 0
+Edge 336,337
+Flag 0
+Edge 336,353
+Flag 0
+Edge 337,338
+Flag 0
+Edge 337,354
+Flag 0
+Edge 338,339
+Flag 0
+Edge 338,355
+Flag 0
+Edge 339,356
+Flag 0
+Edge 340,341
+Flag 0
+Edge 340,356
+Flag 0
+Edge 340,357
+Flag 0
+Edge 341,342
+Flag 0
+Edge 341,358
+Flag 0
+Edge 342,343
+Flag 0
+Edge 342,359
+Flag 0
+Edge 343,344
+Flag 0
+Edge 343,360
+Flag 0
+Edge 344,345
+Flag 0
+Edge 344,361
+Flag 0
+Edge 345,346
+Flag 0
+Edge 345,362
+Flag 0
+Edge 346,347
+Flag 0
+Edge 346,363
+Flag 0
+Edge 347,348
+Flag 0
+Edge 347,364
+Flag 0
+Edge 348,349
+Flag 0
+Edge 348,365
+Flag 0
+Edge 349,350
+Flag 0
+Edge 349,366
+Flag 0
+Edge 350,351
+Flag 0
+Edge 350,367
+Flag 0
+Edge 351,352
+Flag 0
+Edge 351,368
+Flag 0
+Edge 352,353
+Flag 0
+Edge 352,369
+Flag 0
+Edge 353,354
+Flag 0
+Edge 353,370
+Flag 0
+Edge 354,355
+Flag 0
+Edge 354,371
+Flag 0
+Edge 355,356
+Flag 0
+Edge 355,372
+Flag 0
+Edge 356,373
+Flag 0
+Edge 357,358
+Flag 0
+Edge 357,373
+Flag 0
+Edge 357,374
+Flag 0
+Edge 358,359
+Flag 0
+Edge 358,375
+Flag 0
+Edge 359,360
+Flag 0
+Edge 359,376
+Flag 0
+Edge 360,361
+Flag 0
+Edge 360,377
+Flag 0
+Edge 361,362
+Flag 0
+Edge 361,378
+Flag 0
+Edge 362,363
+Flag 0
+Edge 362,379
+Flag 0
+Edge 363,364
+Flag 0
+Edge 363,380
+Flag 0
+Edge 364,365
+Flag 0
+Edge 364,381
+Flag 0
+Edge 365,366
+Flag 0
+Edge 365,382
+Flag 0
+Edge 366,367
+Flag 0
+Edge 366,383
+Flag 0
+Edge 367,368
+Flag 0
+Edge 367,384
+Flag 0
+Edge 368,369
+Flag 0
+Edge 368,385
+Flag 0
+Edge 369,370
+Flag 0
+Edge 369,386
+Flag 0
+Edge 370,371
+Flag 0
+Edge 370,387
+Flag 0
+Edge 371,372
+Flag 0
+Edge 371,388
+Flag 0
+Edge 372,373
+Flag 0
+Edge 372,389
+Flag 0
+Edge 373,390
+Flag 0
+Edge 374,375
+Flag 0
+Edge 374,390
+Flag 0
+Edge 374,391
+Flag 0
+Edge 375,376
+Flag 0
+Edge 375,392
+Flag 0
+Edge 376,377
+Flag 0
+Edge 376,393
+Flag 0
+Edge 377,378
+Flag 0
+Edge 377,394
+Flag 0
+Edge 378,379
+Flag 0
+Edge 378,395
+Flag 0
+Edge 379,380
+Flag 0
+Edge 379,396
+Flag 0
+Edge 380,381
+Flag 0
+Edge 380,397
+Flag 0
+Edge 381,382
+Flag 0
+Edge 381,398
+Flag 0
+Edge 382,383
+Flag 0
+Edge 382,399
+Flag 0
+Edge 383,384
+Flag 0
+Edge 383,400
+Flag 0
+Edge 384,385
+Flag 0
+Edge 384,401
+Flag 0
+Edge 385,386
+Flag 0
+Edge 385,402
+Flag 0
+Edge 386,387
+Flag 0
+Edge 386,403
+Flag 0
+Edge 387,388
+Flag 0
+Edge 387,404
+Flag 0
+Edge 388,389
+Flag 0
+Edge 388,405
+Flag 0
+Edge 389,390
+Flag 0
+Edge 389,406
+Flag 0
+Edge 390,407
+Flag 0
+Edge 391,392
+Flag 0
+Edge 391,407
+Flag 0
+Edge 392,393
+Flag 0
+Edge 393,394
+Flag 0
+Edge 394,395
+Flag 0
+Edge 395,396
+Flag 0
+Edge 396,397
+Flag 0
+Edge 397,398
+Flag 0
+Edge 398,399
+Flag 0
+Edge 399,400
+Flag 0
+Edge 400,401
+Flag 0
+Edge 401,402
+Flag 0
+Edge 402,403
+Flag 0
+Edge 403,404
+Flag 0
+Edge 404,405
+Flag 0
+Edge 405,406
+Flag 0
+Edge 406,407
+Flag 0
+}
+Pgns {
+PgSz 4
+Pgon 208,213,212,207
+PgSz 4
+Pgon 207,212,211,206
+PgSz 4
+Pgon 206,211,210,205
+PgSz 4
+Pgon 205,210,209,204
+PgSz 4
+Pgon 204,284,285,205
+PgSz 4
+Pgon 205,285,286,206
+PgSz 4
+Pgon 206,286,287,207
+PgSz 4
+Pgon 207,287,288,208
+PgSz 4
+Pgon 213,218,217,212
+PgSz 4
+Pgon 212,217,216,211
+PgSz 4
+Pgon 211,216,215,210
+PgSz 4
+Pgon 210,215,214,209
+PgSz 4
+Pgon 218,223,222,217
+PgSz 4
+Pgon 217,222,221,216
+PgSz 4
+Pgon 216,221,220,215
+PgSz 4
+Pgon 215,220,219,214
+PgSz 4
+Pgon 223,228,227,222
+PgSz 4
+Pgon 222,227,226,221
+PgSz 4
+Pgon 221,226,225,220
+PgSz 4
+Pgon 220,225,224,219
+PgSz 4
+Pgon 228,233,232,227
+PgSz 4
+Pgon 227,232,231,226
+PgSz 4
+Pgon 226,231,230,225
+PgSz 4
+Pgon 225,230,229,224
+PgSz 4
+Pgon 233,238,237,232
+PgSz 4
+Pgon 232,237,236,231
+PgSz 4
+Pgon 231,236,235,230
+PgSz 4
+Pgon 230,235,234,229
+PgSz 4
+Pgon 238,243,242,237
+PgSz 4
+Pgon 237,242,241,236
+PgSz 4
+Pgon 236,241,240,235
+PgSz 4
+Pgon 235,240,239,234
+PgSz 4
+Pgon 243,248,247,242
+PgSz 4
+Pgon 242,247,246,241
+PgSz 4
+Pgon 241,246,245,240
+PgSz 4
+Pgon 240,245,244,239
+PgSz 4
+Pgon 248,253,252,247
+PgSz 4
+Pgon 247,252,251,246
+PgSz 4
+Pgon 246,251,250,245
+PgSz 4
+Pgon 245,250,249,244
+PgSz 4
+Pgon 253,258,257,252
+PgSz 4
+Pgon 252,257,256,251
+PgSz 4
+Pgon 251,256,255,250
+PgSz 4
+Pgon 250,255,254,249
+PgSz 4
+Pgon 258,263,262,257
+PgSz 4
+Pgon 257,262,261,256
+PgSz 4
+Pgon 256,261,260,255
+PgSz 4
+Pgon 255,260,259,254
+PgSz 4
+Pgon 263,268,267,262
+PgSz 4
+Pgon 262,267,266,261
+PgSz 4
+Pgon 261,266,265,260
+PgSz 4
+Pgon 260,265,264,259
+PgSz 4
+Pgon 268,273,272,267
+PgSz 4
+Pgon 267,272,271,266
+PgSz 4
+Pgon 266,271,270,265
+PgSz 4
+Pgon 265,270,269,264
+PgSz 4
+Pgon 273,278,277,272
+PgSz 4
+Pgon 272,277,276,271
+PgSz 4
+Pgon 271,276,275,270
+PgSz 4
+Pgon 270,275,274,269
+PgSz 4
+Pgon 278,283,282,277
+PgSz 4
+Pgon 277,282,281,276
+PgSz 4
+Pgon 276,281,280,275
+PgSz 4
+Pgon 275,280,279,274
+PgSz 4
+Pgon 283,288,287,282
+PgSz 4
+Pgon 282,287,286,281
+PgSz 4
+Pgon 281,286,285,280
+PgSz 4
+Pgon 280,285,284,279
+PgSz 4
+Pgon 0,9,8,1
+PgSz 4
+Pgon 1,8,7,2
+PgSz 4
+Pgon 2,7,6,3
+PgSz 4
+Pgon 3,6,5,4
+PgSz 4
+Pgon 4,84,83,3
+PgSz 4
+Pgon 3,83,82,2
+PgSz 4
+Pgon 2,82,81,1
+PgSz 4
+Pgon 1,81,80,0
+PgSz 4
+Pgon 9,14,13,8
+PgSz 4
+Pgon 8,13,12,7
+PgSz 4
+Pgon 7,12,11,6
+PgSz 4
+Pgon 6,11,10,5
+PgSz 4
+Pgon 14,19,18,13
+PgSz 4
+Pgon 13,18,17,12
+PgSz 4
+Pgon 12,17,16,11
+PgSz 4
+Pgon 11,16,15,10
+PgSz 4
+Pgon 19,24,23,18
+PgSz 4
+Pgon 18,23,22,17
+PgSz 4
+Pgon 17,22,21,16
+PgSz 4
+Pgon 16,21,20,15
+PgSz 4
+Pgon 24,29,28,23
+PgSz 4
+Pgon 23,28,27,22
+PgSz 4
+Pgon 22,27,26,21
+PgSz 4
+Pgon 21,26,25,20
+PgSz 4
+Pgon 29,34,33,28
+PgSz 4
+Pgon 28,33,32,27
+PgSz 4
+Pgon 27,32,31,26
+PgSz 4
+Pgon 26,31,30,25
+PgSz 4
+Pgon 34,39,38,33
+PgSz 4
+Pgon 33,38,37,32
+PgSz 4
+Pgon 32,37,36,31
+PgSz 4
+Pgon 31,36,35,30
+PgSz 4
+Pgon 39,44,43,38
+PgSz 4
+Pgon 38,43,42,37
+PgSz 4
+Pgon 37,42,41,36
+PgSz 4
+Pgon 36,41,40,35
+PgSz 4
+Pgon 44,49,48,43
+PgSz 4
+Pgon 43,48,47,42
+PgSz 4
+Pgon 42,47,46,41
+PgSz 4
+Pgon 41,46,45,40
+PgSz 4
+Pgon 49,54,53,48
+PgSz 4
+Pgon 48,53,52,47
+PgSz 4
+Pgon 47,52,51,46
+PgSz 4
+Pgon 46,51,50,45
+PgSz 4
+Pgon 54,59,58,53
+PgSz 4
+Pgon 53,58,57,52
+PgSz 4
+Pgon 52,57,56,51
+PgSz 4
+Pgon 51,56,55,50
+PgSz 4
+Pgon 59,64,63,58
+PgSz 4
+Pgon 58,63,62,57
+PgSz 4
+Pgon 57,62,61,56
+PgSz 4
+Pgon 56,61,60,55
+PgSz 4
+Pgon 64,69,68,63
+PgSz 4
+Pgon 63,68,67,62
+PgSz 4
+Pgon 62,67,66,61
+PgSz 4
+Pgon 61,66,65,60
+PgSz 4
+Pgon 69,74,73,68
+PgSz 4
+Pgon 68,73,72,67
+PgSz 4
+Pgon 67,72,71,66
+PgSz 4
+Pgon 66,71,70,65
+PgSz 4
+Pgon 74,79,78,73
+PgSz 4
+Pgon 73,78,77,72
+PgSz 4
+Pgon 72,77,76,71
+PgSz 4
+Pgon 71,76,75,70
+PgSz 4
+Pgon 79,80,81,78
+PgSz 4
+Pgon 78,81,82,77
+PgSz 4
+Pgon 77,82,83,76
+PgSz 4
+Pgon 76,83,84,75
+PgSz 4
+Pgon 5,86,85,4
+PgSz 4
+Pgon 10,87,86,5
+PgSz 4
+Pgon 15,88,87,10
+PgSz 4
+Pgon 20,89,88,15
+PgSz 4
+Pgon 25,90,89,20
+PgSz 4
+Pgon 30,91,90,25
+PgSz 4
+Pgon 35,92,91,30
+PgSz 4
+Pgon 40,93,92,35
+PgSz 4
+Pgon 45,94,93,40
+PgSz 4
+Pgon 50,95,94,45
+PgSz 4
+Pgon 55,96,95,50
+PgSz 4
+Pgon 60,97,96,55
+PgSz 4
+Pgon 65,98,97,60
+PgSz 4
+Pgon 70,99,98,65
+PgSz 4
+Pgon 75,100,99,70
+PgSz 4
+Pgon 84,101,100,75
+PgSz 4
+Pgon 4,85,101,84
+PgSz 4
+Pgon 86,103,102,85
+PgSz 4
+Pgon 87,104,103,86
+PgSz 4
+Pgon 88,105,104,87
+PgSz 4
+Pgon 89,106,105,88
+PgSz 4
+Pgon 90,107,106,89
+PgSz 4
+Pgon 91,108,107,90
+PgSz 4
+Pgon 92,109,108,91
+PgSz 4
+Pgon 93,110,109,92
+PgSz 4
+Pgon 94,111,110,93
+PgSz 4
+Pgon 95,112,111,94
+PgSz 4
+Pgon 96,113,112,95
+PgSz 4
+Pgon 97,114,113,96
+PgSz 4
+Pgon 98,115,114,97
+PgSz 4
+Pgon 99,116,115,98
+PgSz 4
+Pgon 100,117,116,99
+PgSz 4
+Pgon 101,118,117,100
+PgSz 4
+Pgon 85,102,118,101
+PgSz 4
+Pgon 103,120,119,102
+PgSz 4
+Pgon 104,121,120,103
+PgSz 4
+Pgon 105,122,121,104
+PgSz 4
+Pgon 106,123,122,105
+PgSz 4
+Pgon 107,124,123,106
+PgSz 4
+Pgon 108,125,124,107
+PgSz 4
+Pgon 109,126,125,108
+PgSz 4
+Pgon 110,127,126,109
+PgSz 4
+Pgon 111,128,127,110
+PgSz 4
+Pgon 112,129,128,111
+PgSz 4
+Pgon 113,130,129,112
+PgSz 4
+Pgon 114,131,130,113
+PgSz 4
+Pgon 115,132,131,114
+PgSz 4
+Pgon 116,133,132,115
+PgSz 4
+Pgon 117,134,133,116
+PgSz 4
+Pgon 118,135,134,117
+PgSz 4
+Pgon 102,119,135,118
+PgSz 4
+Pgon 120,137,136,119
+PgSz 4
+Pgon 121,138,137,120
+PgSz 4
+Pgon 122,139,138,121
+PgSz 4
+Pgon 123,140,139,122
+PgSz 4
+Pgon 124,141,140,123
+PgSz 4
+Pgon 125,142,141,124
+PgSz 4
+Pgon 126,143,142,125
+PgSz 4
+Pgon 127,144,143,126
+PgSz 4
+Pgon 128,145,144,127
+PgSz 4
+Pgon 129,146,145,128
+PgSz 4
+Pgon 130,147,146,129
+PgSz 4
+Pgon 131,148,147,130
+PgSz 4
+Pgon 132,149,148,131
+PgSz 4
+Pgon 133,150,149,132
+PgSz 4
+Pgon 134,151,150,133
+PgSz 4
+Pgon 135,152,151,134
+PgSz 4
+Pgon 119,136,152,135
+PgSz 4
+Pgon 137,154,153,136
+PgSz 4
+Pgon 138,155,154,137
+PgSz 4
+Pgon 139,156,155,138
+PgSz 4
+Pgon 140,157,156,139
+PgSz 4
+Pgon 141,158,157,140
+PgSz 4
+Pgon 142,159,158,141
+PgSz 4
+Pgon 143,160,159,142
+PgSz 4
+Pgon 144,161,160,143
+PgSz 4
+Pgon 145,162,161,144
+PgSz 4
+Pgon 146,163,162,145
+PgSz 4
+Pgon 147,164,163,146
+PgSz 4
+Pgon 148,165,164,147
+PgSz 4
+Pgon 149,166,165,148
+PgSz 4
+Pgon 150,167,166,149
+PgSz 4
+Pgon 151,168,167,150
+PgSz 4
+Pgon 152,169,168,151
+PgSz 4
+Pgon 136,153,169,152
+PgSz 4
+Pgon 154,171,170,153
+PgSz 4
+Pgon 155,172,171,154
+PgSz 4
+Pgon 156,173,172,155
+PgSz 4
+Pgon 157,174,173,156
+PgSz 4
+Pgon 158,175,174,157
+PgSz 4
+Pgon 159,176,175,158
+PgSz 4
+Pgon 160,177,176,159
+PgSz 4
+Pgon 161,178,177,160
+PgSz 4
+Pgon 162,179,178,161
+PgSz 4
+Pgon 163,180,179,162
+PgSz 4
+Pgon 164,181,180,163
+PgSz 4
+Pgon 165,182,181,164
+PgSz 4
+Pgon 166,183,182,165
+PgSz 4
+Pgon 167,184,183,166
+PgSz 4
+Pgon 168,185,184,167
+PgSz 4
+Pgon 169,186,185,168
+PgSz 4
+Pgon 153,170,186,169
+PgSz 4
+Pgon 171,188,187,170
+PgSz 4
+Pgon 172,189,188,171
+PgSz 4
+Pgon 173,190,189,172
+PgSz 4
+Pgon 174,191,190,173
+PgSz 4
+Pgon 175,192,191,174
+PgSz 4
+Pgon 176,193,192,175
+PgSz 4
+Pgon 177,194,193,176
+PgSz 4
+Pgon 178,195,194,177
+PgSz 4
+Pgon 179,196,195,178
+PgSz 4
+Pgon 180,197,196,179
+PgSz 4
+Pgon 181,198,197,180
+PgSz 4
+Pgon 182,199,198,181
+PgSz 4
+Pgon 183,200,199,182
+PgSz 4
+Pgon 184,201,200,183
+PgSz 4
+Pgon 185,202,201,184
+PgSz 4
+Pgon 186,203,202,185
+PgSz 4
+Pgon 170,187,203,186
+PgSz 4
+Pgon 208,289,290,213
+PgSz 4
+Pgon 213,290,291,218
+PgSz 4
+Pgon 218,291,292,223
+PgSz 4
+Pgon 223,292,293,228
+PgSz 4
+Pgon 228,293,294,233
+PgSz 4
+Pgon 233,294,295,238
+PgSz 4
+Pgon 238,295,296,243
+PgSz 4
+Pgon 243,296,297,248
+PgSz 4
+Pgon 248,297,298,253
+PgSz 4
+Pgon 253,298,299,258
+PgSz 4
+Pgon 258,299,300,263
+PgSz 4
+Pgon 263,300,301,268
+PgSz 4
+Pgon 268,301,302,273
+PgSz 4
+Pgon 273,302,303,278
+PgSz 4
+Pgon 278,303,304,283
+PgSz 4
+Pgon 283,304,305,288
+PgSz 4
+Pgon 288,305,289,208
+PgSz 4
+Pgon 289,306,307,290
+PgSz 4
+Pgon 290,307,308,291
+PgSz 4
+Pgon 291,308,309,292
+PgSz 4
+Pgon 292,309,310,293
+PgSz 4
+Pgon 293,310,311,294
+PgSz 4
+Pgon 294,311,312,295
+PgSz 4
+Pgon 295,312,313,296
+PgSz 4
+Pgon 296,313,314,297
+PgSz 4
+Pgon 297,314,315,298
+PgSz 4
+Pgon 298,315,316,299
+PgSz 4
+Pgon 299,316,317,300
+PgSz 4
+Pgon 300,317,318,301
+PgSz 4
+Pgon 301,318,319,302
+PgSz 4
+Pgon 302,319,320,303
+PgSz 4
+Pgon 303,320,321,304
+PgSz 4
+Pgon 304,321,322,305
+PgSz 4
+Pgon 305,322,306,289
+PgSz 4
+Pgon 306,323,324,307
+PgSz 4
+Pgon 307,324,325,308
+PgSz 4
+Pgon 308,325,326,309
+PgSz 4
+Pgon 309,326,327,310
+PgSz 4
+Pgon 310,327,328,311
+PgSz 4
+Pgon 311,328,329,312
+PgSz 4
+Pgon 312,329,330,313
+PgSz 4
+Pgon 313,330,331,314
+PgSz 4
+Pgon 314,331,332,315
+PgSz 4
+Pgon 315,332,333,316
+PgSz 4
+Pgon 316,333,334,317
+PgSz 4
+Pgon 317,334,335,318
+PgSz 4
+Pgon 318,335,336,319
+PgSz 4
+Pgon 319,336,337,320
+PgSz 4
+Pgon 320,337,338,321
+PgSz 4
+Pgon 321,338,339,322
+PgSz 4
+Pgon 322,339,323,306
+PgSz 4
+Pgon 323,340,341,324
+PgSz 4
+Pgon 324,341,342,325
+PgSz 4
+Pgon 325,342,343,326
+PgSz 4
+Pgon 326,343,344,327
+PgSz 4
+Pgon 327,344,345,328
+PgSz 4
+Pgon 328,345,346,329
+PgSz 4
+Pgon 329,346,347,330
+PgSz 4
+Pgon 330,347,348,331
+PgSz 4
+Pgon 331,348,349,332
+PgSz 4
+Pgon 332,349,350,333
+PgSz 4
+Pgon 333,350,351,334
+PgSz 4
+Pgon 334,351,352,335
+PgSz 4
+Pgon 335,352,353,336
+PgSz 4
+Pgon 336,353,354,337
+PgSz 4
+Pgon 337,354,355,338
+PgSz 4
+Pgon 338,355,356,339
+PgSz 4
+Pgon 339,356,340,323
+PgSz 4
+Pgon 340,357,358,341
+PgSz 4
+Pgon 341,358,359,342
+PgSz 4
+Pgon 342,359,360,343
+PgSz 4
+Pgon 343,360,361,344
+PgSz 4
+Pgon 344,361,362,345
+PgSz 4
+Pgon 345,362,363,346
+PgSz 4
+Pgon 346,363,364,347
+PgSz 4
+Pgon 347,364,365,348
+PgSz 4
+Pgon 348,365,366,349
+PgSz 4
+Pgon 349,366,367,350
+PgSz 4
+Pgon 350,367,368,351
+PgSz 4
+Pgon 351,368,369,352
+PgSz 4
+Pgon 352,369,370,353
+PgSz 4
+Pgon 353,370,371,354
+PgSz 4
+Pgon 354,371,372,355
+PgSz 4
+Pgon 355,372,373,356
+PgSz 4
+Pgon 356,373,357,340
+PgSz 4
+Pgon 357,374,375,358
+PgSz 4
+Pgon 358,375,376,359
+PgSz 4
+Pgon 359,376,377,360
+PgSz 4
+Pgon 360,377,378,361
+PgSz 4
+Pgon 361,378,379,362
+PgSz 4
+Pgon 362,379,380,363
+PgSz 4
+Pgon 363,380,381,364
+PgSz 4
+Pgon 364,381,382,365
+PgSz 4
+Pgon 365,382,383,366
+PgSz 4
+Pgon 366,383,384,367
+PgSz 4
+Pgon 367,384,385,368
+PgSz 4
+Pgon 368,385,386,369
+PgSz 4
+Pgon 369,386,387,370
+PgSz 4
+Pgon 370,387,388,371
+PgSz 4
+Pgon 371,388,389,372
+PgSz 4
+Pgon 372,389,390,373
+PgSz 4
+Pgon 373,390,374,357
+PgSz 4
+Pgon 374,391,392,375
+PgSz 4
+Pgon 375,392,393,376
+PgSz 4
+Pgon 376,393,394,377
+PgSz 4
+Pgon 377,394,395,378
+PgSz 4
+Pgon 378,395,396,379
+PgSz 4
+Pgon 379,396,397,380
+PgSz 4
+Pgon 380,397,398,381
+PgSz 4
+Pgon 381,398,399,382
+PgSz 4
+Pgon 382,399,400,383
+PgSz 4
+Pgon 383,400,401,384
+PgSz 4
+Pgon 384,401,402,385
+PgSz 4
+Pgon 385,402,403,386
+PgSz 4
+Pgon 386,403,404,387
+PgSz 4
+Pgon 387,404,405,388
+PgSz 4
+Pgon 388,405,406,389
+PgSz 4
+Pgon 389,406,407,390
+PgSz 4
+Pgon 390,407,391,374
+PgSz 4
+Pgon 9,0,204,209
+PgSz 4
+Pgon 0,80,284,204
+PgSz 4
+Pgon 14,9,209,214
+PgSz 4
+Pgon 19,14,214,219
+PgSz 4
+Pgon 24,19,219,224
+PgSz 4
+Pgon 29,24,224,229
+PgSz 4
+Pgon 34,29,229,234
+PgSz 4
+Pgon 39,34,234,239
+PgSz 4
+Pgon 44,39,239,244
+PgSz 4
+Pgon 49,44,244,249
+PgSz 4
+Pgon 54,49,249,254
+PgSz 4
+Pgon 59,54,254,259
+PgSz 4
+Pgon 64,59,259,264
+PgSz 4
+Pgon 69,64,264,269
+PgSz 4
+Pgon 74,69,269,274
+PgSz 4
+Pgon 79,74,274,279
+PgSz 4
+Pgon 80,79,279,284
+PgSz 4
+Pgon 187,188,392,391
+PgSz 4
+Pgon 203,187,391,407
+PgSz 4
+Pgon 188,189,393,392
+PgSz 4
+Pgon 189,190,394,393
+PgSz 4
+Pgon 190,191,395,394
+PgSz 4
+Pgon 191,192,396,395
+PgSz 4
+Pgon 192,193,397,396
+PgSz 4
+Pgon 193,194,398,397
+PgSz 4
+Pgon 194,195,399,398
+PgSz 4
+Pgon 195,196,400,399
+PgSz 4
+Pgon 196,197,401,400
+PgSz 4
+Pgon 197,198,402,401
+PgSz 4
+Pgon 198,199,403,402
+PgSz 4
+Pgon 199,200,404,403
+PgSz 4
+Pgon 200,201,405,404
+PgSz 4
+Pgon 201,202,406,405
+PgSz 4
+Pgon 202,203,407,406
+}
+}
+}
+}
+}
+}
+}
+}
+shdr {
+mash {
+name "def_surf_mat"
+shdr {
+scmp {
+Shc0 {
+shdr {
+sclr {
+colr 0.820000, 0.830000, 0.870000
+}
+}
+}
+Shc1 {
+shdr {
+sclr {
+colr 0.150000, 0.150000, 0.150000
+}
+}
+}
+Shc2 {
+shdr {
+sval {
+Val -9900.000000
+}
+}
+}
+Shc5 {
+shdr {
+sval {
+Val 0.000000
+}
+}
+}
+}
+}
+}
+}
+tr {
+gr {
+nm "Universe"
+so {
+inpr {
+shnm "def_surf_mat"
+nm "Form2"
+ob "Form2_0"
+}
+}
+}
+}
+}

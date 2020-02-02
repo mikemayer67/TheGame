@@ -15,13 +15,80 @@
                     <view key="view" contentMode="scaleToFill" id="T7L-Ik-XRa">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" systemColor="systemGreenColor" red="0.20392156859999999" green="0.78039215689999997" blue="0.34901960780000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="15A-0f-Vhs">
+                                <rect key="frame" x="0.0" y="772" width="414" height="90"/>
+                                <subviews>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="kc3-ty-jxn" customClass="GADBannerView">
+                                        <rect key="frame" x="47" y="20" width="320" height="50"/>
+                                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="320" id="2c6-6B-Fv1"/>
+                                            <constraint firstAttribute="height" constant="50" id="ME0-ft-UwG"/>
+                                        </constraints>
+                                    </view>
+                                </subviews>
+                                <color key="backgroundColor" systemColor="systemIndigoColor" red="0.34509803919999998" green="0.33725490200000002" blue="0.83921568629999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="90" id="Nap-gl-Ra7"/>
+                                    <constraint firstItem="kc3-ty-jxn" firstAttribute="centerX" secondItem="15A-0f-Vhs" secondAttribute="centerX" id="Sxo-FB-cnm"/>
+                                    <constraint firstItem="kc3-ty-jxn" firstAttribute="centerY" secondItem="15A-0f-Vhs" secondAttribute="centerY" id="VUZ-bT-WKI"/>
+                                    <constraint firstAttribute="height" constant="90" id="fen-T9-VFE"/>
+                                </constraints>
+                            </view>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="button_12_gray" translatesAutoresizingMaskIntoConstraints="NO" id="jub-57-g0H">
+                                <rect key="frame" x="87" y="634" width="240" height="128"/>
+                            </imageView>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="button_01" translatesAutoresizingMaskIntoConstraints="NO" id="xyS-U3-UER">
+                                <rect key="frame" x="87" y="634" width="240" height="128"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="240" id="3da-uS-Van"/>
+                                    <constraint firstAttribute="height" constant="128" id="XSG-vj-8f6"/>
+                                </constraints>
+                            </imageView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="red-zU-2gV">
+                                <rect key="frame" x="87" y="659" width="240" height="64"/>
+                                <fontDescription key="fontDescription" style="UICTFontTextStyleTitle0"/>
+                                <state key="normal" title="I LOST">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                </state>
+                                <connections>
+                                    <action selector="handleLostButton:" destination="NJc-Gd-BFn" eventType="touchUpInside" id="Z6h-ds-ab9"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <color key="tintColor" systemColor="systemPurpleColor" red="0.68627450980000004" green="0.32156862749999998" blue="0.87058823529999996" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <constraints>
+                            <constraint firstItem="red-zU-2gV" firstAttribute="top" secondItem="xyS-U3-UER" secondAttribute="top" constant="25" id="1O2-pk-KFI"/>
+                            <constraint firstItem="jub-57-g0H" firstAttribute="centerX" secondItem="xyS-U3-UER" secondAttribute="centerX" id="586-NV-hBD"/>
+                            <constraint firstItem="red-zU-2gV" firstAttribute="width" secondItem="xyS-U3-UER" secondAttribute="width" id="8sP-Jy-2Sh"/>
+                            <constraint firstItem="ImC-6l-VMI" firstAttribute="trailing" secondItem="15A-0f-Vhs" secondAttribute="trailing" id="P1I-Tp-7m7"/>
+                            <constraint firstItem="red-zU-2gV" firstAttribute="height" secondItem="xyS-U3-UER" secondAttribute="height" multiplier="0.5" id="R87-YD-u8J"/>
+                            <constraint firstItem="red-zU-2gV" firstAttribute="centerX" secondItem="xyS-U3-UER" secondAttribute="centerX" id="WDV-cW-dab"/>
+                            <constraint firstItem="15A-0f-Vhs" firstAttribute="bottom" secondItem="ImC-6l-VMI" secondAttribute="bottom" id="XO1-ER-gVA"/>
+                            <constraint firstItem="jub-57-g0H" firstAttribute="height" secondItem="xyS-U3-UER" secondAttribute="height" id="XtA-Pt-Bou"/>
+                            <constraint firstItem="xyS-U3-UER" firstAttribute="centerX" secondItem="T7L-Ik-XRa" secondAttribute="centerX" id="YFU-gI-5rd"/>
+                            <constraint firstItem="jub-57-g0H" firstAttribute="centerY" secondItem="xyS-U3-UER" secondAttribute="centerY" id="kYO-FZ-xtn"/>
+                            <constraint firstItem="15A-0f-Vhs" firstAttribute="leading" secondItem="ImC-6l-VMI" secondAttribute="leading" id="kvG-bJ-LQd"/>
+                            <constraint firstItem="15A-0f-Vhs" firstAttribute="top" secondItem="xyS-U3-UER" secondAttribute="bottom" constant="10" id="yMt-oI-g15"/>
+                            <constraint firstItem="jub-57-g0H" firstAttribute="width" secondItem="xyS-U3-UER" secondAttribute="width" id="zXV-v8-VLa"/>
+                        </constraints>
                         <viewLayoutGuide key="safeArea" id="ImC-6l-VMI"/>
                     </view>
+                    <connections>
+                        <outlet property="bannerView" destination="kc3-ty-jxn" id="CTy-Pb-HQm"/>
+                        <outlet property="buttonView" destination="xyS-U3-UER" id="02N-xQ-l3D"/>
+                        <outlet property="lostButton" destination="red-zU-2gV" id="Pnw-ef-eJz"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="hk3-0X-zrd" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="425" y="-44"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="button_01" width="344" height="200"/>
+        <image name="button_12_gray" width="344" height="200"/>
+    </resources>
 </document>

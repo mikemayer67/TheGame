@@ -16,7 +16,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="dice_1024.png" translatesAutoresizingMaskIntoConstraints="NO" id="J6C-Za-cXH">
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="dice_1024" translatesAutoresizingMaskIntoConstraints="NO" id="J6C-Za-cXH">
                                 <rect key="frame" x="20" y="261" width="374" height="374"/>
                                 <constraints>
                                     <constraint firstAttribute="width" secondItem="J6C-Za-cXH" secondAttribute="height" id="Qtx-1a-j8u"/>
@@ -55,6 +55,6 @@
         </scene>
     </scenes>
     <resources>
-        <image name="dice_1024.png" width="1024" height="1024"/>
+        <image name="dice_1024" width="1024" height="1024"/>
     </resources>
 </document>
