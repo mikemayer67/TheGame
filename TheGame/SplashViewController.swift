@@ -59,8 +59,6 @@ class SplashViewController: UIViewController
   
   func transitionToGame(animate:Bool)
   {
-    let vv = view
-    let ww = vv?.window
     guard let w = view.window else { fatalError("Attempting to transition from unwindowed view") }
     
     let gameStoryBoard = UIStoryboard(name: "Game", bundle: nil)

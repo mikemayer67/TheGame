@@ -9,13 +9,19 @@
 import UIKit
 import GoogleMobileAds
 
-class ViewController: UIViewController, GADBannerViewDelegate {
-  
-  @IBOutlet weak var bannerView: GADBannerView!
+class ViewController: UIViewController
+{  
+  @IBOutlet weak var oppenentTable: UITableView!
   @IBOutlet weak var buttonView: UIImageView!
   @IBOutlet weak var lostButton: UIButton!
+  @IBOutlet weak var bannerView: GADBannerView!
+  @IBOutlet weak var lastLossLabel: UILabel!
   
+  @IBOutlet weak var game: GameModel!
+    
   private var buttonImages = [UIImage]()
+  
+  private let feedback = UISelectionFeedbackGenerator()
   
   override func awakeFromNib() {
     super.awakeFromNib()
@@ -26,21 +32,32 @@ class ViewController: UIViewController, GADBannerViewDelegate {
       }
     }
     guard buttonImages.isEmpty == false else { fatalError("missing button images") }
+    
+    //@@@ REMOVE
+    game.add(DebugOpponent("Tom Smith",gameAge:  5, lossFrequency: 3600.0))
+    game.add(DebugOpponent("Gus LeChat",gameAge:  3, lossFrequency: 1800.0, lastLoss: 600.0))
+    game.add(DebugOpponent("Miss Marple",gameAge: 10, lossFrequency: 5400.0, lastLoss:  10.0))
   }
   
   override func viewDidLoad() {
     super.viewDidLoad()
     // Do any additional setup after loading the view.
     
-    bannerView.adUnitID = "ca-app-pub-3940256099942544/2934735716"
-    bannerView.rootViewController = self
-    bannerView.delegate = self
+    initilizeBannerAd()
     
-    bannerView.load(GADRequest())
+    update()
+  }
+  
+  @IBAction func addOpponent(_ sender: UIButton)
+  {
+    print("add opponent")
   }
   
   @IBAction func handleLostButton(_ sender: UIButton)
   {
+    feedback.selectionChanged()
+    
+    // disable the actual lost button (sits on top of the animated button)
     lostButton.isEnabled = false
     UIView.animate(withDuration: 0.2, animations: {
       self.lostButton.alpha = 0
@@ -49,13 +66,14 @@ class ViewController: UIViewController, GADBannerViewDelegate {
       self.lostButton.isHidden = true
       self.lostButton.alpha = 1
     } )
+    // animate the button press
     lostButton.isHidden = true
-    buttonView.image = buttonImages.last!
+    buttonView.image = buttonImages.last! // don't revert to initial button image
     buttonView.animationImages = buttonImages
     buttonView.animationDuration = 0.2
     buttonView.animationRepeatCount = 1
     buttonView.startAnimating()
-    
+    // fade to disabled button image (below animated button)
     UIView.animate(withDuration: 1.0, delay: 0.5, animations: {
       self.buttonView.alpha = 0
     }, completion: {
@@ -63,39 +81,44 @@ class ViewController: UIViewController, GADBannerViewDelegate {
       self.buttonView.alpha = 1
       self.buttonView.isHidden = true
     } )
+    
+    game.iLostTheGame()
   }
-  /// Tells the delegate an ad request loaded an ad.
-  func adViewDidReceiveAd(_ bannerView: GADBannerView) {
-    print("adViewDidReceiveAd")
+  
+  func update() -> Void
+  {
+    if let lastLoss = game.lastLoss
+    {
+      lastLossLabel.text = GameClock.localtime(gametime: lastLoss).lossTimeString
+    }
+    else
+    {
+      lastLossLabel.text = "Go ahead, push the button..."
+    }
+    
+    oppenentTable.reloadData()
+    
+    if game.allowedToLose
+    {
+      if !lostButton.isEnabled {
+        buttonView.image = buttonImages.first!
+        buttonView.alpha = 0.0
+        buttonView.isHidden = false
+        UIView.animate(withDuration: 0.25, animations: {
+          self.buttonView.alpha = 1.0
+        }, completion: {
+          isComplete in
+          self.buttonView.alpha = 1.0
+          self.lostButton.isHidden = false
+          self.lostButton.isEnabled = true
+        })
+      }
+    }
+    else
+    {
+      lostButton.isHidden = true
+      lostButton.isEnabled = false
+      buttonView.isHidden = true
+    }
   }
-
-  /// Tells the delegate an ad request failed.
-  func adView(_ bannerView: GADBannerView,
-      didFailToReceiveAdWithError error: GADRequestError) {
-    print("adView:didFailToReceiveAdWithError: \(error.localizedDescription)")
-  }
-
-  /// Tells the delegate that a full-screen view will be presented in response
-  /// to the user clicking on an ad.
-  func adViewWillPresentScreen(_ bannerView: GADBannerView) {
-    print("adViewWillPresentScreen")
-  }
-
-  /// Tells the delegate that the full-screen view will be dismissed.
-  func adViewWillDismissScreen(_ bannerView: GADBannerView) {
-    print("adViewWillDismissScreen")
-  }
-
-  /// Tells the delegate that the full-screen view has been dismissed.
-  func adViewDidDismissScreen(_ bannerView: GADBannerView) {
-    print("adViewDidDismissScreen")
-  }
-
-  /// Tells the delegate that a user click will open another app (such as
-  /// the App Store), backgrounding the current app.
-  func adViewWillLeaveApplication(_ bannerView: GADBannerView) {
-    print("adViewWillLeaveApplication")
-  }
-
 }
-
