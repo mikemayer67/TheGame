@@ -23,7 +23,8 @@ class ViewController: UIViewController
   
   private let feedback = UISelectionFeedbackGenerator()
   
-  override func awakeFromNib() {
+  override func awakeFromNib()
+  {
     super.awakeFromNib()
     
     for i in 1...12 {
@@ -44,8 +45,8 @@ class ViewController: UIViewController
     // Do any additional setup after loading the view.
     
     initilizeBannerAd()
-    
-    update()
+    update(animated:false)
+    game.viewController = self
   }
   
   @IBAction func addOpponent(_ sender: UIButton)
@@ -56,69 +57,88 @@ class ViewController: UIViewController
   @IBAction func handleLostButton(_ sender: UIButton)
   {
     feedback.selectionChanged()
-    
-    // disable the actual lost button (sits on top of the animated button)
-    lostButton.isEnabled = false
-    UIView.animate(withDuration: 0.2, animations: {
-      self.lostButton.alpha = 0
-    }, completion: {
-      isComplete in
-      self.lostButton.isHidden = true
-      self.lostButton.alpha = 1
-    } )
-    // animate the button press
-    lostButton.isHidden = true
-    buttonView.image = buttonImages.last! // don't revert to initial button image
-    buttonView.animationImages = buttonImages
-    buttonView.animationDuration = 0.2
-    buttonView.animationRepeatCount = 1
-    buttonView.startAnimating()
-    // fade to disabled button image (below animated button)
-    UIView.animate(withDuration: 1.0, delay: 0.5, animations: {
-      self.buttonView.alpha = 0
-    }, completion: {
-      isComplete in
-      self.buttonView.alpha = 1
-      self.buttonView.isHidden = true
-    } )
-    
+    hideLostButton(animated: true)
     game.iLostTheGame()
   }
   
-  func update() -> Void
+  func update(animated:Bool = true) -> Void
   {
-    if let lastLoss = game.lastLoss
-    {
-      lastLossLabel.text = GameClock.localtime(gametime: lastLoss).lossTimeString
-    }
-    else
-    {
-      lastLossLabel.text = "Go ahead, push the button..."
-    }
-    
+    lastLossLabel.text = game.lastLoss?.gameString ?? "Go ahead, push the button..."
     oppenentTable.reloadData()
     
-    if game.allowedToLose
+    if game.allowedToLose { showLostButton(animated:animated) }
+    else                  { hideLostButton(animated:animated) }
+  }
+  
+}
+
+private extension ViewController
+{
+  func showLostButton(animated:Bool)
+  {
+    guard lostButton.isHidden else { return }
+
+    if animated
     {
-      if !lostButton.isEnabled {
-        buttonView.image = buttonImages.first!
-        buttonView.alpha = 0.0
-        buttonView.isHidden = false
-        UIView.animate(withDuration: 0.25, animations: {
-          self.buttonView.alpha = 1.0
-        }, completion: {
-          isComplete in
-          self.buttonView.alpha = 1.0
-          self.lostButton.isHidden = false
-          self.lostButton.isEnabled = true
-        })
-      }
+      buttonView.image    = buttonImages.first!
+      buttonView.alpha    = 0.0
+      lostButton.alpha    = 0.0
+      buttonView.isHidden = false
+      lostButton.isHidden = false
+      UIView.animate(withDuration: 0.25, animations: {
+        self.buttonView.alpha = 1.0
+        self.lostButton.alpha = 1.0
+      }, completion: { _ in
+        self.buttonView.alpha = 1.0
+        self.lostButton.alpha = 1.0
+        self.lostButton.isEnabled = true
+      })
     }
     else
     {
-      lostButton.isHidden = true
-      lostButton.isEnabled = false
-      buttonView.isHidden = true
+      buttonView.alpha = 1.0
+      buttonView.image = buttonImages.first!
+      buttonView.isHidden = false
+      
+      lostButton.isHidden = false
+      lostButton.isEnabled = true
     }
   }
+  
+  func hideLostButton(animated:Bool)
+  {
+    guard lostButton.isHidden == false else { return }
+    
+    if animated
+    {
+      // disable the actual lost button
+      lostButton.isEnabled = false
+      UIView.animate(withDuration: 0.2, animations: {
+        self.lostButton.alpha = 0.0
+      }, completion: { _ in
+        self.lostButton.isHidden = true
+      } )
+      
+      // animate the button press
+      
+      buttonView.image = buttonImages.last! // don't revert to initial button image
+      buttonView.animationImages = buttonImages
+      buttonView.animationDuration = 0.2
+      buttonView.animationRepeatCount = 1
+      buttonView.startAnimating()
+      UIView.animate(withDuration: 1.0, delay: 0.1, animations: {
+        self.buttonView.alpha = 0.0
+      }, completion: {
+        isComplete in
+        self.buttonView.isHidden = true
+      } )
+    }
+    else
+    {
+      buttonView.isHidden = true
+      lostButton.isHidden = true
+      lostButton.isEnabled = false
+    }
+  }
+  
 }

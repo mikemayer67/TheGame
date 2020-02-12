@@ -18,30 +18,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     // Override point for customization after application launch.
         
     GADMobileAds.sharedInstance().start(completionHandler: nil)
-        
+    GADMobileAds.sharedInstance().requestConfiguration.testDeviceIdentifiers = [(kGADSimulatorID as! String)];
+    
     return true
   }
-
-    
-//    if let w = window, let rvc = w.rootViewController
-//    {
-//      let svc = SplashViewController()
-//      if svc
-//      
-//      w.rootViewController = svc
-//
-//      let timer = Timer.scheduledTimer(withTimeInterval: 3.0, repeats: false)
-//      { t in
-//        print("timer fired... transition now")
-//        w.rootViewController = rvc
-//        
-//        UIView.transition(with: w, duration: 0.3, options: .transitionCurlUp, animations: {})
-//        {
-//          v in
-//          print("transition complete")
-//        }
-//      }
-//    }
-
 }
 

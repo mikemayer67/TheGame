@@ -11,73 +11,30 @@ import UIKit
 
 class GameModel : NSObject
 {
-  @IBOutlet weak var viewController : ViewController!
-  
-  private(set) var opponents = [Opponent]()
-
-  private(set) var lastLoss : TimeInterval? // game time
-  
-  private var lossButtonTimer : Timer?
-  let unchallangedLossInterval = 60.0 // may lose every hour
+  let unchallangedLossInterval = 15.0 // may lose every hour
   let challengedLossInterval   = 5.0   // may lose one minute after opponent loses
   
-  private(set) var allowedToLose = false
+  weak var viewController : ViewController?
   
-//  override init()
-//  {
-//    print("init")
-//    lastLoss = UserDefaults.standard.object(forKey: "LastLoss") as? TimeInterval
-//    super.init()
-//    updateLossButtonTimerr()
-//  }
+  private(set) var opponents = [Opponent]()
   
-  override func awakeFromNib() {
-    print("awakFromNib")
-    lastLoss = UserDefaults.standard.object(forKey: "LastLoss") as? TimeInterval
-    updateLossButtonTimerr()
-  }
-  
-  private func updateLossButtonTimerr() -> Void
+  override func awakeFromNib()
   {
-    let now = Date()
-    var nextLoss : Date?
-    
-    if let lastLoss = lastLoss
+    if let t = UserDefaults.standard.object(forKey: "LastLoss") as? TimeInterval
     {
-      nextLoss = GameClock.localtime(gametime: lastLoss + unchallangedLossInterval)
-      print(nextLoss!.unixtime)
-      
-      for opponent in opponents {
-        if let t = opponent.lastLoss, t > lastLoss {
-          nextLoss = GameClock.localtime(gametime: lastLoss + challengedLossInterval)
-        }
-      }
-    }
-    
-    if let t = lossButtonTimer {
-      t.invalidate()
-      lossButtonTimer = nil
-    }
-    
-    if let t = nextLoss
-    {
-      print("Enable Button after",t-now,"seconds")
-      lossButtonTimer = Timer.scheduledTimer(withTimeInterval: (t-now), repeats: false)
-      { _ in
-        print("Enable Button now")
-        self.allowedToLose = true
-        self.viewController.update()
-        self.lossButtonTimer?.invalidate()
-        self.lossButtonTimer = nil
-      }
-    }
-    else
-    {
-      print("Enable Button Immediately")
-      allowedToLose = true
-      viewController.update()
+      lastLoss = GameTime(networktime: t)
     }
   }
+    
+  private(set) var nextLossTimer : Timer?
+
+  private(set) var lastLoss : GameTime?
+  { didSet { updateNextAllowableLoss() } }
+  
+  private(set) var nextAllowableLoss : GameTime = GameTime()
+  { didSet { updateLossTimer() } }
+
+  var allowedToLose : Bool { GameTime() > nextAllowableLoss }
    
   func add(_ opponent:Opponent) -> Void
   {
@@ -86,9 +43,9 @@ class GameModel : NSObject
   
   func iLostTheGame() -> Void
   {
-    lastLoss = GameClock.gametime(localtime: Date() )
-    UserDefaults.standard.set(lastLoss, forKey:"LastLoss")
-    viewController.update()
+    lastLoss = GameTime()
+    UserDefaults.standard.set(lastLoss?.networktime, forKey:"LastLoss")
+    viewController?.update()
   }
 }
 
@@ -98,18 +55,66 @@ extension GameModel // @@@ REMOVE
   {
     UserDefaults.standard.removeObject(forKey: "LastLoss")
     lastLoss = nil
-    viewController.update()
   }
   
   @IBAction func opponentLost(_ sender: UIButton)
   {
     print("opponent",sender.tag,"lost")
-    opponents[sender.tag].lastLoss = GameClock.gametime(localtime: Date())
-    viewController.update()
-    
-    updateLossButtonTimerr()
+    opponents[sender.tag].lastLoss = GameTime()
+    updateNextAllowableLoss()
+    viewController?.update()
   }
 }
+
+
+private extension GameModel
+{
+  func updateNextAllowableLoss() -> Void
+  {
+    if lastLoss == nil
+    {
+      nextAllowableLoss = GameTime() // never loss before, can lose immediately
+    }
+    else
+    {
+      var nextLossDelay = unchallangedLossInterval
+      for opponent in opponents {
+        if opponent.lost(after: lastLoss) {
+          nextLossDelay = challengedLossInterval
+          break
+        }
+      }
+      nextAllowableLoss = lastLoss!.offset(by: nextLossDelay)
+    }
+  }
+  
+  func updateLossTimer() -> Void
+  {
+    if let t = nextLossTimer {
+      t.invalidate()
+      nextLossTimer = nil
+    }
+    
+    if let vc = viewController
+    {
+      let delay = nextAllowableLoss - GameTime()
+      
+      if delay > 0.0 {
+        nextLossTimer = Timer.scheduledTimer(withTimeInterval: delay, repeats: false)
+        { _ in
+          vc.update()
+          self.nextLossTimer = nil
+        }
+      }
+      else
+      {
+        vc.update()
+      }
+    }
+  }
+  
+}
+
 
 extension GameModel : UITableViewDelegate, UITableViewDataSource
 {

@@ -19,14 +19,14 @@ extension Array
 
 extension Date
 {
-  var lossTimeString: String
+  var gameString: String
   {
     return "Last Loss: " + DateFormatter.localizedString(from: self, dateStyle: .medium, timeStyle: .medium)
   }
   
-  var unixtime: Int
+  var unixtime: Double
   {
-    return Int(self.timeIntervalSince1970)
+    return self.timeIntervalSince1970
   }
   
   static func -(lhs:Date,rhs:Date) -> TimeInterval

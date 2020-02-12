@@ -45,14 +45,10 @@ class SplashViewController: UIViewController
       view = splashView
             
       timer = Timer.scheduledTimer(withTimeInterval: 5.0, repeats: false)
-      {  _ in
-        print("timer up, transition")
-        self.transitionToGame(animate: true)
-      }
+      {  _ in self.transitionToGame(animate: true) }
     }
     catch
     {
-      print("catch bloc, transition")
       transitionToGame(animate: false)
     }
   }

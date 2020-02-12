@@ -8,51 +8,91 @@
 
 import Foundation
 
-class GameClock
+fileprivate let clockOffset = calcOffset()
+
+class GameTime
 {
-  static let instance = GameClock()
+  private var value : TimeInterval = 0.0  // store as localtime internally
   
-  private(set) var offset : TimeInterval = 0.0
+  init()                         { value = Date().timeIntervalSince1970 }
+  init(localtime:TimeInterval)   { value = localtime }
+  init(networktime:TimeInterval) { value = networktime - clockOffset }
   
-  class func gametime(localtime:Date) -> TimeInterval {
-    return localtime.timeIntervalSince1970 - GameClock.instance.offset
-  }
+  var gameString: String { self.date.gameString }
   
-  class func localtime(gametime:TimeInterval) -> Date {
-    Date(timeIntervalSince1970: gametime + GameClock.instance.offset)
-  }
-  
-  class func intervalUntil(gametime:TimeInterval) -> TimeInterval {
-    return (gametime + GameClock.instance.offset) - Double(Date().unixtime)
-  }
-  
-  fileprivate init()
+  var localtime : TimeInterval
   {
-    struct WorldTimeAPI : Decodable { let unixtime : Int }
-    
-    let decoder = JSONDecoder()
-    
-    let url = "https://worldtimeapi.org/api/timezone/Etc/GMT"
-    guard let netTimeURL = URL(string: url) else
-    {
-      NSLog("Invalid netTimeURL: \(url)")
-      return
-    }
-    
-    guard let netTimeData = try? Data(contentsOf: netTimeURL) else
-    {
-      NSLog("No response from \(url)")
-      return
-    }
-    
-    guard let wmTime = try? decoder.decode(WorldTimeAPI.self, from:netTimeData) else
-    {
-      NSLog("Failed to decode unix time from response from \(url)")
-      return
-    }
-        
-    let now = Date()
-    offset =  TimeInterval(wmTime.unixtime) - now.timeIntervalSince1970
-    NSLog("GameClock offset: \(offset)")
+    get { return value }
+    set { value = newValue }
   }
+  
+  var networktime : TimeInterval
+  {
+    get { return value + clockOffset }
+    set { value = newValue - clockOffset }
+  }
+  
+  var date : Date  // localtime
+  {
+    get { return Date(timeIntervalSince1970: value) }
+    set { value = newValue.timeIntervalSince1970  }
+  }
+  
+  func offset(by offset:TimeInterval) -> GameTime
+  {
+    return GameTime(localtime: value + offset)
+  }
+  
+  static func > (lhs:GameTime, rhs:GameTime) -> Bool
+  {
+    return lhs.value > rhs.value
+  }
+  
+  static func < (lhs:GameTime, rhs:GameTime) -> Bool
+  {
+    return lhs.value > rhs.value
+  }
+  
+  static func == (lhs:GameTime, rhs:GameTime) -> Bool
+  {
+    return lhs.value == rhs.value
+  }
+  
+  static func - (lhs:GameTime, rhs:GameTime) -> TimeInterval
+  {
+    return lhs.value - rhs.value
+  }
+}
+
+
+fileprivate func calcOffset() -> TimeInterval
+{
+  struct WorldTimeAPI : Decodable { let unixtime : Int }
+  
+  let decoder = JSONDecoder()
+  
+  let url = "https://worldtimeapi.org/api/timezone/Etc/GMT"
+  guard let netTimeURL = URL(string: url) else
+  {
+    NSLog("Invalid netTimeURL: \(url)")
+    return 0.0
+  }
+  
+  guard let netTimeData = try? Data(contentsOf: netTimeURL) else
+  {
+    NSLog("No response from \(url)")
+    return 0.0
+  }
+  
+  guard let wmTime = try? decoder.decode(WorldTimeAPI.self, from:netTimeData) else
+  {
+    NSLog("Failed to decode unix time from response from \(url)")
+    return 0.0
+  }
+      
+  let now = Date()
+  let offset =  TimeInterval(wmTime.unixtime) - now.timeIntervalSince1970
+  NSLog("GameClock offset: \(offset)")
+  
+  return offset
 }

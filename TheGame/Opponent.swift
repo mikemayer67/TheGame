@@ -14,24 +14,23 @@ class Opponent : Comparable
   let playerID  : String
   let name      : String
   let image     : UIImage
-  let gameStart : TimeInterval
-  var lastLoss  : TimeInterval?
+  let gameStart : GameTime
+  var lastLoss  : GameTime?
   
   var lastLossString : String
   {
-    if let t = lastLoss {
-      return GameClock.localtime(gametime: t).lossTimeString
-    } else {
-      return "Hasn't lost yet"
-    }
+    return lastLoss?.gameString ?? "No loss yet"
   }
   
-  func lost(after time:TimeInterval?) -> Bool
+  func lost(after time:GameTime?) -> Bool
   {
-    return ( lastLoss ?? 0.0 ) > ( time ?? 0.0 )
+    if lastLoss == nil { return false }
+    if time == nil     { return true  }
+    return lastLoss! > time!
+
   }
   
-  init(playerID:String, name:String, gameStart:TimeInterval)
+  init(playerID:String, name:String, gameStart:GameTime)
   {
     self.playerID = playerID
     self.name = name
@@ -59,12 +58,20 @@ class Opponent : Comparable
     }
   }
   
-  static func < (lhs: Opponent, rhs: Opponent) -> Bool {
-    return (lhs.lastLoss ?? 0.0) < (rhs.lastLoss ?? 0.0)
+  static func < (lhs: Opponent, rhs: Opponent) -> Bool
+  {
+    if lhs.lastLoss == nil, rhs.lastLoss == nil { return false }
+    if lhs.lastLoss == nil { return true }
+    if rhs.lastLoss == nil { return false }
+    return lhs.lastLoss! < rhs.lastLoss!
   }
   
-  static func == (lhs: Opponent, rhs: Opponent) -> Bool {
-    return (lhs.lastLoss ?? 0.0) == (rhs.lastLoss ?? 0.0)
+  static func == (lhs: Opponent, rhs: Opponent) -> Bool
+  {
+    if lhs.lastLoss == nil, rhs.lastLoss == nil { return true }
+    if lhs.lastLoss == nil { return false }
+    if rhs.lastLoss == nil { return false }
+    return lhs.lastLoss! == rhs.lastLoss!
   }
 }
 
@@ -74,20 +81,22 @@ class DebugOpponent : Opponent  // @@@ REMOVE
   
   let lossFrequency : Double
   
-  init(_ name:String, gameAge:Int /*days*/, lossFrequency:TimeInterval, lastLoss:TimeInterval? = nil)
+  init(_ name:String, gameAge:Double /*days*/, lossFrequency:TimeInterval, lastLoss:TimeInterval? = nil)
   {
     self.lossFrequency = lossFrequency
     
     let pid = name
     DebugOpponent.nextID = DebugOpponent.nextID + 1
     
-    let now : TimeInterval = GameClock.gametime(localtime: Date())
-    let gameStart = now - 86400.0 * Double(gameAge)
+    let now = GameTime()
+    
+    let gameStart = now.offset(by: -86400.0 * gameAge)
     
     super.init(playerID:pid, name:pid, gameStart:gameStart)
     
-    if lastLoss != nil { self.lastLoss = now - lastLoss! }
+    if let t = lastLoss {
+      self.lastLoss = now.offset(by: -1.0 * t)
+    }
   }
-  
-  
+
 }
