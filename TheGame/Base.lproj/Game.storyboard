@@ -213,11 +213,7 @@
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="hk3-0X-zrd" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
-                <customObject id="AbM-Ae-q56" customClass="GameModel" customModule="TheGame" customModuleProvider="target">
-                    <connections>
-                        <outlet property="viewController" destination="NJc-Gd-BFn" id="c2L-DY-Ifk"/>
-                    </connections>
-                </customObject>
+                <customObject id="AbM-Ae-q56" customClass="GameModel" customModule="TheGame" customModuleProvider="target"/>
             </objects>
             <point key="canvasLocation" x="424.63768115942031" y="-44.196428571428569"/>
         </scene>
