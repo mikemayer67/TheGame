@@ -42,9 +42,12 @@ class ViewController: UIViewController
   
   override func viewDidLoad() {
     super.viewDidLoad()
+    
     // Do any additional setup after loading the view.
     
     initilizeBannerAd()
+    GameCenterIF.shared.viewController = self
+    
     update(animated:false)
     game.viewController = self
   }
@@ -70,6 +73,20 @@ class ViewController: UIViewController
     else                  { hideLostButton(animated:animated) }
   }
   
+}
+
+extension ViewController //@@@ REMOVE
+{
+  @IBAction func backToSplash(_ sender:UIButton)
+  {
+     guard let w = view.window else { fatalError("Attempting to transition from unwindowed view") }
+     
+     let sb = UIStoryboard(name: "Main", bundle: nil)
+     let vc = sb.instantiateInitialViewController()
+    
+     w.rootViewController = vc
+     UIView.transition(with: w, duration: 0.5, options: .transitionFlipFromBottom, animations: {})
+  }
 }
 
 private extension ViewController

@@ -164,11 +164,26 @@
                                     <action selector="opponentLost:" destination="AbM-Ae-q56" eventType="touchUpInside" id="FCJ-DD-XHn"/>
                                 </connections>
                             </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="kYG-a1-teX">
+                                <rect key="frame" x="2" y="660" width="57" height="30"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="30" id="275-ZH-8xm"/>
+                                    <constraint firstAttribute="width" constant="57" id="mw2-HF-cy7"/>
+                                </constraints>
+                                <state key="normal" title="SPLASH">
+                                    <color key="titleColor" systemColor="systemRedColor" red="1" green="0.23137254900000001" blue="0.18823529410000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                </state>
+                                <connections>
+                                    <action selector="backToSplash:" destination="NJc-Gd-BFn" eventType="touchUpInside" id="Ta4-y5-pT5"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <color key="tintColor" systemColor="systemIndigoColor" red="0.34509803919999998" green="0.33725490200000002" blue="0.83921568629999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
+                            <constraint firstItem="j2s-Wj-CXE" firstAttribute="top" secondItem="kYG-a1-teX" secondAttribute="bottom" constant="20" id="1A3-iV-1GN"/>
                             <constraint firstItem="ImC-6l-VMI" firstAttribute="trailing" secondItem="53l-2C-k7S" secondAttribute="trailing" constant="20" id="4rn-4y-R8O"/>
+                            <constraint firstItem="kYG-a1-teX" firstAttribute="leading" secondItem="j2s-Wj-CXE" secondAttribute="leading" id="5gC-FI-P0i"/>
                             <constraint firstItem="ImC-6l-VMI" firstAttribute="trailing" secondItem="SyL-QZ-EP3" secondAttribute="trailing" constant="20" id="7sR-bp-kcC"/>
                             <constraint firstItem="lUm-PX-7ZP" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="UIa-Ez-niq" secondAttribute="trailing" constant="8" symbolic="YES" id="8xF-ei-ar8"/>
                             <constraint firstItem="mT4-iL-NS6" firstAttribute="top" secondItem="53l-2C-k7S" secondAttribute="bottom" constant="8" id="9HF-js-81h"/>

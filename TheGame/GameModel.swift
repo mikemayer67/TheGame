@@ -8,7 +8,6 @@
 
 import UIKit
 
-
 class GameModel : NSObject
 {
   let unchallangedLossInterval = 15.0 // may lose every hour
@@ -20,6 +19,7 @@ class GameModel : NSObject
   
   override func awakeFromNib()
   {
+    print("awake from nib: GameModel")
     if let t = UserDefaults.standard.object(forKey: "LastLoss") as? TimeInterval
     {
       lastLoss = GameTime(networktime: t)
@@ -112,8 +112,15 @@ private extension GameModel
       }
     }
   }
-  
 }
+
+//extension GameModel
+//{
+//  func playerAuthenticationHandler(vc:UIViewController?, error:Error?)
+//  {
+//    print("authentication handler:",vc,"\nerror:",error,"\nvalidated:",GKLocalPlayer.local.isAuthenticated)
+//  }
+//}
 
 
 extension GameModel : UITableViewDelegate, UITableViewDataSource

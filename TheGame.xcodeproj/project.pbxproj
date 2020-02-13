@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		2705696D23F57E13009E7D74 /* GameCenterIF.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2705696C23F57E13009E7D74 /* GameCenterIF.swift */; };
 		2727416F23E6144A00B2100B /* SplashViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2727416E23E6144A00B2100B /* SplashViewController.swift */; };
 		2727419323E62CB900B2100B /* Game.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2727419223E62CB900B2100B /* Game.storyboard */; };
 		27D5413123E5E46800CB5065 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27D5413023E5E46800CB5065 /* AppDelegate.swift */; };
@@ -26,6 +27,7 @@
 
 /* Begin PBXFileReference section */
 		175FA88876A0311A3569B334 /* Pods-TheGame.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TheGame.release.xcconfig"; path = "Target Support Files/Pods-TheGame/Pods-TheGame.release.xcconfig"; sourceTree = "<group>"; };
+		2705696C23F57E13009E7D74 /* GameCenterIF.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameCenterIF.swift; sourceTree = "<group>"; };
 		2727416E23E6144A00B2100B /* SplashViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplashViewController.swift; sourceTree = "<group>"; };
 		2727419223E62CB900B2100B /* Game.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Game.storyboard; path = TheGame/Base.lproj/Game.storyboard; sourceTree = SOURCE_ROOT; };
 		27D5412D23E5E46800CB5065 /* TheGame.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TheGame.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -84,11 +86,12 @@
 				27EA805423ECF3D100C937EE /* TheGame.entitlements */,
 				27EA805923EE43C000C937EE /* Extensions.swift */,
 				27D5413023E5E46800CB5065 /* AppDelegate.swift */,
-				2727416E23E6144A00B2100B /* SplashViewController.swift */,
 				2727419223E62CB900B2100B /* Game.storyboard */,
 				27D5413623E5E46800CB5065 /* Main.storyboard */,
 				27D5413B23E5E46B00CB5065 /* LaunchScreen.storyboard */,
 				27D5413923E5E46B00CB5065 /* Assets.xcassets */,
+				2705696C23F57E13009E7D74 /* GameCenterIF.swift */,
+				2727416E23E6144A00B2100B /* SplashViewController.swift */,
 				27D5413E23E5E46B00CB5065 /* Info.plist */,
 				27D5413423E5E46800CB5065 /* ViewController.swift */,
 				27EA805723EE111700C937EE /* ViewController+GADBanner.swift */,
@@ -236,6 +239,7 @@
 			files = (
 				27F3EDE323E7E4800057248B /* GameClock.swift in Sources */,
 				27EA805A23EE43C000C937EE /* Extensions.swift in Sources */,
+				2705696D23F57E13009E7D74 /* GameCenterIF.swift in Sources */,
 				27F9198D23E691DA00FA0E18 /* Player.swift in Sources */,
 				27EA804F23EA86B300C937EE /* Opponent.swift in Sources */,
 				2727416F23E6144A00B2100B /* SplashViewController.swift in Sources */,

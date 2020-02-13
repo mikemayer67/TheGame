@@ -20,6 +20,7 @@ class SplashViewController: UIViewController
   override func viewDidLoad()
   {
     super.viewDidLoad()
+    GameCenterIF.shared.viewController = self
   }
   
   override func viewDidAppear(_ animated: Bool)
@@ -44,12 +45,12 @@ class SplashViewController: UIViewController
       
       view = splashView
             
-      timer = Timer.scheduledTimer(withTimeInterval: 5.0, repeats: false)
-      {  _ in self.transitionToGame(animate: true) }
+//      timer = Timer.scheduledTimer(withTimeInterval: 5.0, repeats: false)
+//      {  _ in self.transitionToGame(animate: true) }
     }
     catch
     {
-      transitionToGame(animate: false)
+//      transitionToGame(animate: false)
     }
   }
   
@@ -65,10 +66,5 @@ class SplashViewController: UIViewController
     {
       UIView.transition(with: w, duration: 0.5, options: .transitionCurlUp, animations: {})
     }
-  }
-  
-  override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
-    timer?.invalidate()
-    transitionToGame(animate: true)
   }
 }
