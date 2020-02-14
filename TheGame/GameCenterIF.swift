@@ -9,9 +9,9 @@
 import Foundation
 import GameKit
 
-protocol GameViewController : UIViewController
+protocol GameCenterIFDelegate
 {
-  func gameAuthenticationChanged(authenticated:Bool) -> Void
+  func localPlayer(authenticated:Bool) -> Void
 }
 
 class GameCenterIF
@@ -20,12 +20,14 @@ class GameCenterIF
   
   static var isAuthenticated : Bool { GKLocalPlayer.local.isAuthenticated }
   
-  var viewController : GameViewController?
+  var viewController : UIViewController?
+  var delgate        : GameCenterIFDelegate?
   
   init()
   {
     GKLocalPlayer.local.authenticateHandler = { vc, error in
       print("authentication handler called")
+      
       if GKLocalPlayer.local.isAuthenticated {
         print("already authenticated")
       }
@@ -36,6 +38,8 @@ class GameCenterIF
       {
         NSLog("Error authentication to GameCenter: %@", error?.localizedDescription ?? "(unknown)")
       }
+      
+      delgate?.localPlayer(authenticated: GKLocalPlayer.local.isAuthenticated)
     }
   }
 }
