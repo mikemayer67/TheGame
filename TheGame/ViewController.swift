@@ -19,6 +19,7 @@ class ViewController: UIViewController
   
   @IBOutlet weak var game: GameModel!
     
+  private var buttonIsEnabled = true
   private var buttonImages = [UIImage]()
   
   private let feedback = UISelectionFeedbackGenerator()
@@ -47,6 +48,7 @@ class ViewController: UIViewController
     
     initilizeBannerAd()
     GameCenterIF.shared.viewController = self
+    GameCenterIF.shared.delgate = self
     
     update(animated:false)
     game.viewController = self
@@ -75,17 +77,22 @@ class ViewController: UIViewController
   
 }
 
-extension ViewController //@@@ REMOVE
+extension ViewController : GameCenterIFDelegate
 {
-  @IBAction func backToSplash(_ sender:UIButton)
-  {
-     guard let w = view.window else { fatalError("Attempting to transition from unwindowed view") }
-     
-     let sb = UIStoryboard(name: "Main", bundle: nil)
-     let vc = sb.instantiateInitialViewController()
-    
-     w.rootViewController = vc
-     UIView.transition(with: w, duration: 0.5, options: .transitionFlipFromBottom, animations: {})
+  func localPlayer(authenticated: Bool) {
+    if authenticated {
+      print("still authenticated, no action needed")
+    }
+    else
+    {
+      guard let w = view.window else { fatalError("Attempting to transition from unwindowed view") }
+       
+       let splashBoard = UIStoryboard(name: "Main", bundle: nil)
+       let vc = splashBoard.instantiateInitialViewController()
+      
+       w.rootViewController = vc
+       UIView.transition(with: w, duration: 0.5, options: .transitionCrossDissolve, animations: {})
+    }
   }
 }
 
@@ -93,7 +100,8 @@ private extension ViewController
 {
   func showLostButton(animated:Bool)
   {
-    guard lostButton.isHidden else { return }
+    guard !buttonIsEnabled else { return }
+    buttonIsEnabled = true
 
     if animated
     {
@@ -124,7 +132,8 @@ private extension ViewController
   
   func hideLostButton(animated:Bool)
   {
-    guard lostButton.isHidden == false else { return }
+    guard buttonIsEnabled else { return }
+    buttonIsEnabled = false
     
     if animated
     {
@@ -137,13 +146,14 @@ private extension ViewController
       } )
       
       // animate the button press
-      
+
+      print("animate:",buttonImages.count)
       buttonView.image = buttonImages.last! // don't revert to initial button image
       buttonView.animationImages = buttonImages
-      buttonView.animationDuration = 0.2
+      buttonView.animationDuration = 0.5
       buttonView.animationRepeatCount = 1
       buttonView.startAnimating()
-      UIView.animate(withDuration: 1.0, delay: 0.1, animations: {
+      UIView.animate(withDuration: 0.5, delay: 0.6, animations: {
         self.buttonView.alpha = 0.0
       }, completion: {
         isComplete in

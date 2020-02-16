@@ -8,6 +8,7 @@
 
 import UIKit
 import GoogleMobileAds
+import GameKit
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {

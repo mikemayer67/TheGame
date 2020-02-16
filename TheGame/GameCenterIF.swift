@@ -19,27 +19,32 @@ class GameCenterIF
   static let shared = GameCenterIF()
   
   static var isAuthenticated : Bool { GKLocalPlayer.local.isAuthenticated }
-  
+    
   var viewController : UIViewController?
   var delgate        : GameCenterIFDelegate?
   
   init()
   {
-    GKLocalPlayer.local.authenticateHandler = { vc, error in
-      print("authentication handler called")
-      
-      if GKLocalPlayer.local.isAuthenticated {
-        print("already authenticated")
+    GKLocalPlayer.local.authenticateHandler = { vc, error in      
+      if error == nil, vc == nil, GKLocalPlayer.local.isAuthenticated
+      {
+        self.delgate?.localPlayer(authenticated: GKLocalPlayer.local.isAuthenticated)
       }
-      else if vc != nil {
-        self.viewController?.present(vc!,animated: true)
+      else if vc != nil
+      {
+        let alert = UIAlertController(title: "Game Center Connection Required", message: nil, preferredStyle: .actionSheet)
+        alert.addAction(UIAlertAction(title: "Connect", style: .default, handler: { _ in
+          self.viewController?.present(vc!,animated: true)
+        }))
+        alert.addAction(UIAlertAction(title:"Not now", style: .cancel, handler: { _ in
+          self.delgate?.localPlayer(authenticated: false)
+        }))
+        self.viewController?.present(alert,animated: true)
       }
       else
       {
-        NSLog("Error authentication to GameCenter: %@", error?.localizedDescription ?? "(unknown)")
+        self.delgate?.localPlayer(authenticated: false)
       }
-      
-      delgate?.localPlayer(authenticated: GKLocalPlayer.local.isAuthenticated)
     }
   }
 }

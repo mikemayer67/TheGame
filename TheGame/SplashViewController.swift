@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import GameKit
 
 enum ViewEncodingError : Error
 {
@@ -15,56 +16,67 @@ enum ViewEncodingError : Error
 
 class SplashViewController: UIViewController
 {
-  var timer : Timer?
+  @IBOutlet weak var connectionLabel : UILabel!
+  @IBOutlet weak var settingsButton : UIButton!
   
   override func viewDidLoad()
   {
     super.viewDidLoad()
     GameCenterIF.shared.viewController = self
+    GameCenterIF.shared.delgate = self
   }
   
-  override func viewDidAppear(_ animated: Bool)
+  override func viewWillAppear(_ animated: Bool)
   {
-    let launchStoryBoard = UIStoryboard(name: "LaunchScreen", bundle: nil)
-    let launchViewController = launchStoryBoard.instantiateInitialViewController()
-    
-    guard let launchView = launchViewController?.view else
-    {
-      fatalError("launch storyboard is missing a view")
-    }
- 
-    do
-    {
-      let data =
-        try NSKeyedArchiver.archivedData( withRootObject: launchView, requiringSecureCoding: false )
-      
-      let decodedData =
-        try NSKeyedUnarchiver.unarchiveTopLevelObjectWithData(data)
-      
-      guard let splashView = decodedData as? UIView else { throw ViewEncodingError.failedToDecode }
-      
-      view = splashView
-            
-//      timer = Timer.scheduledTimer(withTimeInterval: 5.0, repeats: false)
-//      {  _ in self.transitionToGame(animate: true) }
-    }
-    catch
-    {
-//      transitionToGame(animate: false)
-    }
+//    update(animated:animated)
   }
   
   func transitionToGame(animate:Bool)
   {
     guard let w = view.window else { fatalError("Attempting to transition from unwindowed view") }
     
-    let gameStoryBoard = UIStoryboard(name: "Game", bundle: nil)
+    let gameStoryBoard = UIStoryboard(name: "LoserBoard", bundle: nil)
     let gameViewController = gameStoryBoard.instantiateInitialViewController()
    
     w.rootViewController = gameViewController
     if animate
     {
       UIView.transition(with: w, duration: 0.5, options: .transitionCurlUp, animations: {})
+    }
+  }
+  
+  func update(animated:Bool) -> Void
+  {
+    if GKLocalPlayer.local.isAuthenticated
+    {
+      connectionLabel.isHidden = true
+      settingsButton.isHidden = true
+    }
+    else
+    {
+      connectionLabel.isHidden = false
+      settingsButton.isHidden = false
+    }
+  }
+  
+  @IBAction func gotoSettings(_ sender : UIButton) -> Void
+  {
+    if let settingsUrl = URL(string: UIApplication.openSettingsURLString)
+    {
+      UIApplication.shared.open(settingsUrl)
+    }
+  }
+}
+
+extension SplashViewController : GameCenterIFDelegate
+{
+  func localPlayer(authenticated: Bool)
+  {
+    update(animated: true)
+    
+    if authenticated
+    {
+      transitionToGame(animate: true)
     }
   }
 }
