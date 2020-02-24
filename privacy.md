@@ -76,3 +76,8 @@ data associated with the (internal) UserID will be deleted.
 
 The user will be given the option of dropping silently or sending a notification that they are quitting the game.
 In this case, their name will be sent one final time through a push notification to all their current opponents.
+
+## Contact Info
+
+Questions about this privacy policy or requests to have personal data removed from the database should be 
+addressed to thegame@vmwishes.com
