@@ -14,4 +14,6 @@ Although it will appear as though all of your opponents are in one big game, the
 is that each of your opponents can have their own distinct set of opponents.  You will
 not see each others' group of opponents.
 
+### [Privacy Policy](privacy.md)
+
 Enjoy!
