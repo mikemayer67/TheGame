@@ -58,7 +58,7 @@ profile picture (if using Facebook login), and the (GMT) time of last lost.
 
 ## Cookies
 
-*TheGame* does not use any cookies for session persistence.
+*TheGame* does not use any cookies for any reason.
 
 ## Information Collected on Children
 
