@@ -23,18 +23,20 @@ This ID is sent back to your app when your account but is never shared with othe
 
 ### Username and Password
 
-There is no attempt to verify that the username is the user's actual name---pseudonames and aliases are perfectly acceptable.
-The username is stored unencrypted in our database.
+There is no attempt to verify that the username is the user's actual name (pseudonames and aliases are perfectly acceptable). The username is stored unencrypted in our database.
 The password is stored in a hashed format in our database---never as plain text.
+
+A user may elect to provide an email address as a mechanism for recovering a lost userid or password.  This email address will be stored along with the UserID.  It will be used solely 
+for the purpose of userid recovery or password reset.
 
 ### Facebook Login
 
-With the exception noted below, connection accounts created using Facebook login will request only your 
-username, profile picture, and Facebook ID from Facebook.
+With the exception noted below, connection accounts created using Facebook login will 
+request only your username, profile picture, and Facebook ID from Facebook.
 
-If a user elects to play *TheGame* with Facebook friends, the game server will also request your friend list from Facebook.
-Facebook will only return friends that have also registered their account with *TheGame* and have also elected to play 
-with friends. The only information retrieved about your friends' accounts and the only information that will be shared 
+If a user elects to play *TheGame* with Facebook friends, the game server will also request
+your friend list from Facebook. Facebook will only return friends that have also registered their account with *TheGame* and have also elected to play with friends. The only information
+retrieved about your friends' accounts and the only information that will be shared 
 with your friends is name, profile picture, and Facebook ID.
 
 The only information retrieved from Facebook that is stored in *TheGame* database is the Facebook IDs.

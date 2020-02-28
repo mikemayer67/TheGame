@@ -7,7 +7,6 @@
 //
 
 import UIKit
-import GameKit
 
 enum ViewEncodingError : Error
 {
@@ -17,14 +16,8 @@ enum ViewEncodingError : Error
 class SplashViewController: UIViewController
 {
   @IBOutlet weak var connectionLabel : UILabel!
-  @IBOutlet weak var settingsButton : UIButton!
-  
-  override func viewDidLoad()
-  {
-    super.viewDidLoad()
-    GameCenterIF.shared.viewController = self
-    GameCenterIF.shared.delgate = self
-  }
+  @IBOutlet weak var connectButton : UIButton!
+  @IBOutlet weak var playAloneButton : UIButton!
   
   override func viewWillAppear(_ animated: Bool)
   {
@@ -47,16 +40,7 @@ class SplashViewController: UIViewController
   
   func update(animated:Bool) -> Void
   {
-    if GKLocalPlayer.local.isAuthenticated
-    {
-      connectionLabel.isHidden = true
-      settingsButton.isHidden = true
-    }
-    else
-    {
-      connectionLabel.isHidden = false
-      settingsButton.isHidden = false
-    }
+    // @@@ TODO Check login status
   }
   
   @IBAction func gotoSettings(_ sender : UIButton) -> Void
@@ -64,19 +48,6 @@ class SplashViewController: UIViewController
     if let settingsUrl = URL(string: UIApplication.openSettingsURLString)
     {
       UIApplication.shared.open(settingsUrl)
-    }
-  }
-}
-
-extension SplashViewController : GameCenterIFDelegate
-{
-  func localPlayer(authenticated: Bool)
-  {
-    update(animated: true)
-    
-    if authenticated
-    {
-      transitionToGame(animate: true)
     }
   }
 }
