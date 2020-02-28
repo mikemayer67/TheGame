@@ -17,7 +17,6 @@
 		27D5413D23E5E46B00CB5065 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 27D5413B23E5E46B00CB5065 /* LaunchScreen.storyboard */; };
 		27EA804F23EA86B300C937EE /* Opponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27EA804E23EA86B300C937EE /* Opponent.swift */; };
 		27EA805123EBEB3900C937EE /* GameModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27EA805023EBEB3900C937EE /* GameModel.swift */; };
-		27EA805323ECF3C700C937EE /* GameKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 27EA805223ECF3C700C937EE /* GameKit.framework */; };
 		27EA805823EE111800C937EE /* ViewController+GADBanner.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27EA805723EE111700C937EE /* ViewController+GADBanner.swift */; };
 		27EA805A23EE43C000C937EE /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27EA805923EE43C000C937EE /* Extensions.swift */; };
 		27F3EDE323E7E4800057248B /* GameClock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27F3EDE223E7E4800057248B /* GameClock.swift */; };
@@ -39,7 +38,6 @@
 		27D5413E23E5E46B00CB5065 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		27EA804E23EA86B300C937EE /* Opponent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Opponent.swift; sourceTree = "<group>"; };
 		27EA805023EBEB3900C937EE /* GameModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameModel.swift; sourceTree = "<group>"; };
-		27EA805223ECF3C700C937EE /* GameKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GameKit.framework; path = System/Library/Frameworks/GameKit.framework; sourceTree = SDKROOT; };
 		27EA805423ECF3D100C937EE /* TheGame.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = TheGame.entitlements; sourceTree = "<group>"; };
 		27EA805723EE111700C937EE /* ViewController+GADBanner.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ViewController+GADBanner.swift"; sourceTree = "<group>"; };
 		27EA805923EE43C000C937EE /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
@@ -55,7 +53,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				95FB8F89E41826C67D4E881B /* Pods_TheGame.framework in Frameworks */,
-				27EA805323ECF3C700C937EE /* GameKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -115,7 +112,6 @@
 		8647C989555159F5F681787B /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				27EA805223ECF3C700C937EE /* GameKit.framework */,
 				5000D4E827B48E53E9DB3B0D /* Pods_TheGame.framework */,
 			);
 			name = Frameworks;
@@ -322,7 +318,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -376,7 +372,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;
@@ -395,7 +391,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 642SNV9NK2;
 				INFOPLIST_FILE = TheGame/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -403,7 +399,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.vmwishes.TheGame;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = 1;
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
 		};
@@ -416,7 +412,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 642SNV9NK2;
 				INFOPLIST_FILE = TheGame/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -424,7 +420,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.vmwishes.TheGame;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = 1;
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
 		};
