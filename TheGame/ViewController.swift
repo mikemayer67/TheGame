@@ -20,20 +20,12 @@ class ViewController: UIViewController
   @IBOutlet weak var game: GameModel!
     
   private var buttonIsEnabled = true
-  private var buttonImages = [UIImage]()
   
   private let feedback = UISelectionFeedbackGenerator()
   
   override func awakeFromNib()
   {
     super.awakeFromNib()
-    
-    for i in 1...12 {
-      if let image = UIImage(named:String(format:"button_%02d",i)) {
-        buttonImages.append(image)
-      }
-    }
-    guard buttonImages.isEmpty == false else { fatalError("missing button images") }
     
     //@@@ REMOVE
     game.add(DebugOpponent("Tom Smith",gameAge:  5, lossFrequency: 3600.0))
@@ -103,9 +95,11 @@ private extension ViewController
     guard !buttonIsEnabled else { return }
     buttonIsEnabled = true
 
+    let buttonImage = UIImage(named:"button_01")
+    
     if animated
     {
-      buttonView.image    = buttonImages.first!
+      buttonView.image    = buttonImage
       buttonView.alpha    = 0.0
       lostButton.alpha    = 0.0
       buttonView.isHidden = false
@@ -122,7 +116,7 @@ private extension ViewController
     else
     {
       buttonView.alpha = 1.0
-      buttonView.image = buttonImages.first!
+      buttonView.image = buttonImage
       buttonView.isHidden = false
       
       lostButton.isHidden = false
@@ -146,6 +140,13 @@ private extension ViewController
       } )
       
       // animate the button press
+      
+      var buttonImages = [UIImage]()
+      for i in 1...12 {
+         if let image = UIImage(named:String(format:"button_%02d",i)) {
+           buttonImages.append(image)
+         }
+       }
 
       print("animate:",buttonImages.count)
       buttonView.image = buttonImages.last! // don't revert to initial button image

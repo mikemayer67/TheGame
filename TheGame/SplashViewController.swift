@@ -24,6 +24,11 @@ class SplashViewController: UIViewController
 //    update(animated:animated)
   }
   
+  @IBAction func junk(_ sender : UIButton) -> Void
+  {
+    transitionToGame(animate: true)
+  }
+  
   func transitionToGame(animate:Bool)
   {
     guard let w = view.window else { fatalError("Attempting to transition from unwindowed view") }

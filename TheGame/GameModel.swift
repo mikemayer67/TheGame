@@ -134,7 +134,7 @@ extension GameModel : UITableViewDelegate, UITableViewDataSource
   {
     let cell = tableView.dequeueReusableCell(withIdentifier: "opponentCell", for: indexPath)
     
-    cell.backgroundColor=UIColor.white
+    cell.backgroundColor=UIColor.systemBackground
     
     if let opponent = opponents[safe:indexPath.row]
     {

@@ -36,6 +36,9 @@
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Lrn-c9-5yj">
                                 <rect key="frame" x="15" y="526" width="345" height="30"/>
                                 <state key="normal" title="play alone"/>
+                                <connections>
+                                    <action selector="junk:" destination="ISV-GM-3yy" eventType="touchUpInside" id="jLm-ng-89V"/>
+                                </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="k3d-EU-BBF">
                                 <rect key="frame" x="98" y="488" width="179" height="30"/>
