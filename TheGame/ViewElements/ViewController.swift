@@ -1,5 +1,5 @@
 //
-//  ViewController.swift
+//  GameViewController.swift
 //  TheGame
 //
 //  Created by Mike Mayer on 2/1/20.
@@ -9,7 +9,7 @@
 import UIKit
 import GoogleMobileAds
 
-class ViewController: UIViewController
+class GameViewController: UIViewController
 {  
   @IBOutlet weak var oppenentTable: UITableView!
   @IBOutlet weak var buttonView: UIImageView!
@@ -69,7 +69,7 @@ class ViewController: UIViewController
   
 }
 
-extension ViewController : GameCenterIFDelegate
+extension GameViewController : GameCenterIFDelegate
 {
   func localPlayer(authenticated: Bool) {
     if authenticated {
@@ -88,7 +88,7 @@ extension ViewController : GameCenterIFDelegate
   }
 }
 
-private extension ViewController
+private extension GameViewController
 {
   func showLostButton(animated:Bool)
   {

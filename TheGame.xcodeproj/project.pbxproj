@@ -3,39 +3,51 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 51;
+	objectVersion = 52;
 	objects = {
 
 /* Begin PBXBuildFile section */
-		2714982B23F71E7F002183B2 /* LoserBoard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2714982A23F71E7F002183B2 /* LoserBoard.storyboard */; };
-		2727416F23E6144A00B2100B /* SplashViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2727416E23E6144A00B2100B /* SplashViewController.swift */; };
+		2714982B23F71E7F002183B2 /* GameBoard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2714982A23F71E7F002183B2 /* GameBoard.storyboard */; };
+		2727416F23E6144A00B2100B /* StartupViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2727416E23E6144A00B2100B /* StartupViewController.swift */; };
 		27D5413123E5E46800CB5065 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27D5413023E5E46800CB5065 /* AppDelegate.swift */; };
 		27D5413523E5E46800CB5065 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27D5413423E5E46800CB5065 /* ViewController.swift */; };
-		27D5413823E5E46800CB5065 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 27D5413623E5E46800CB5065 /* Main.storyboard */; };
+		27D5413823E5E46800CB5065 /* Startup.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 27D5413623E5E46800CB5065 /* Startup.storyboard */; };
 		27D5413A23E5E46B00CB5065 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 27D5413923E5E46B00CB5065 /* Assets.xcassets */; };
 		27D5413D23E5E46B00CB5065 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 27D5413B23E5E46B00CB5065 /* LaunchScreen.storyboard */; };
 		27DE3A2C240987A30098EE86 /* GameCenterIF.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27DE3A2B240987A30098EE86 /* GameCenterIF.swift */; };
+		27E82FAE240BEA45004DEC8C /* GameServer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27E82FAD240BEA45004DEC8C /* GameServer.swift */; };
+		27E82FB0240BF4FD004DEC8C /* LoginButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27E82FAF240BF4FD004DEC8C /* LoginButton.swift */; };
+		27E82FB3240C6631004DEC8C /* FacebookLogin in Frameworks */ = {isa = PBXBuildFile; productRef = 27E82FB2240C6631004DEC8C /* FacebookLogin */; };
+		27E82FB5240C6631004DEC8C /* FacebookCore in Frameworks */ = {isa = PBXBuildFile; productRef = 27E82FB4240C6631004DEC8C /* FacebookCore */; };
+		27E82FB7240D38B2004DEC8C /* CreateAccountViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27E82FB6240D38B1004DEC8C /* CreateAccountViewController.swift */; };
+		27E82FBC240D3C4A004DEC8C /* FacebookLoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27E82FBB240D3C4A004DEC8C /* FacebookLoginViewController.swift */; };
+		27E82FBE240D3C63004DEC8C /* ReconnectViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27E82FBD240D3C63004DEC8C /* ReconnectViewController.swift */; };
 		27EA804F23EA86B300C937EE /* Opponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27EA804E23EA86B300C937EE /* Opponent.swift */; };
 		27EA805123EBEB3900C937EE /* GameModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27EA805023EBEB3900C937EE /* GameModel.swift */; };
 		27EA805823EE111800C937EE /* ViewController+GADBanner.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27EA805723EE111700C937EE /* ViewController+GADBanner.swift */; };
 		27EA805A23EE43C000C937EE /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27EA805923EE43C000C937EE /* Extensions.swift */; };
 		27F3EDE323E7E4800057248B /* GameClock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27F3EDE223E7E4800057248B /* GameClock.swift */; };
 		27F9198D23E691DA00FA0E18 /* Player.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27F9198C23E691DA00FA0E18 /* Player.swift */; };
-		95FB8F89E41826C67D4E881B /* Pods_TheGame.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5000D4E827B48E53E9DB3B0D /* Pods_TheGame.framework */; };
+		41F696B1DAD12E4164E4A83D /* Pods_TheGame.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 04608212D72D75D8391E90C8 /* Pods_TheGame.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		175FA88876A0311A3569B334 /* Pods-TheGame.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TheGame.release.xcconfig"; path = "Target Support Files/Pods-TheGame/Pods-TheGame.release.xcconfig"; sourceTree = "<group>"; };
-		2714982A23F71E7F002183B2 /* LoserBoard.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = LoserBoard.storyboard; sourceTree = "<group>"; };
-		2727416E23E6144A00B2100B /* SplashViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplashViewController.swift; sourceTree = "<group>"; };
+		04608212D72D75D8391E90C8 /* Pods_TheGame.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_TheGame.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		2714982A23F71E7F002183B2 /* GameBoard.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = GameBoard.storyboard; sourceTree = "<group>"; };
+		2727416E23E6144A00B2100B /* StartupViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StartupViewController.swift; sourceTree = "<group>"; };
 		27D5412D23E5E46800CB5065 /* TheGame.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TheGame.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		27D5413023E5E46800CB5065 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		27D5413423E5E46800CB5065 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
-		27D5413723E5E46800CB5065 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		27D5413723E5E46800CB5065 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Startup.storyboard; sourceTree = "<group>"; };
 		27D5413923E5E46B00CB5065 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		27D5413C23E5E46B00CB5065 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		27D5413E23E5E46B00CB5065 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		27DE3A2B240987A30098EE86 /* GameCenterIF.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameCenterIF.swift; sourceTree = "<group>"; };
+		27E82FAD240BEA45004DEC8C /* GameServer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameServer.swift; sourceTree = "<group>"; };
+		27E82FAF240BF4FD004DEC8C /* LoginButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginButton.swift; sourceTree = "<group>"; };
+		27E82FB6240D38B1004DEC8C /* CreateAccountViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateAccountViewController.swift; sourceTree = "<group>"; };
+		27E82FBB240D3C4A004DEC8C /* FacebookLoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FacebookLoginViewController.swift; sourceTree = "<group>"; };
+		27E82FBD240D3C63004DEC8C /* ReconnectViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReconnectViewController.swift; sourceTree = "<group>"; };
 		27EA804E23EA86B300C937EE /* Opponent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Opponent.swift; sourceTree = "<group>"; };
 		27EA805023EBEB3900C937EE /* GameModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameModel.swift; sourceTree = "<group>"; };
 		27EA805423ECF3D100C937EE /* TheGame.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = TheGame.entitlements; sourceTree = "<group>"; };
@@ -43,8 +55,8 @@
 		27EA805923EE43C000C937EE /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		27F3EDE223E7E4800057248B /* GameClock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameClock.swift; sourceTree = "<group>"; };
 		27F9198C23E691DA00FA0E18 /* Player.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Player.swift; sourceTree = "<group>"; };
-		5000D4E827B48E53E9DB3B0D /* Pods_TheGame.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_TheGame.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		B89E85AF6C5A2673EC2F7855 /* Pods-TheGame.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TheGame.debug.xcconfig"; path = "Target Support Files/Pods-TheGame/Pods-TheGame.debug.xcconfig"; sourceTree = "<group>"; };
+		4451D3FFCB40324BCB3097DB /* Pods-TheGame.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TheGame.release.xcconfig"; path = "Target Support Files/Pods-TheGame/Pods-TheGame.release.xcconfig"; sourceTree = "<group>"; };
+		AFCD8377F35807C044F6ABA7 /* Pods-TheGame.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TheGame.debug.xcconfig"; path = "Target Support Files/Pods-TheGame/Pods-TheGame.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -52,20 +64,30 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				95FB8F89E41826C67D4E881B /* Pods_TheGame.framework in Frameworks */,
+				27E82FB3240C6631004DEC8C /* FacebookLogin in Frameworks */,
+				27E82FB5240C6631004DEC8C /* FacebookCore in Frameworks */,
+				41F696B1DAD12E4164E4A83D /* Pods_TheGame.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		0EE2BAC009085B025D30398C /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				04608212D72D75D8391E90C8 /* Pods_TheGame.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		27D5412423E5E46800CB5065 = {
 			isa = PBXGroup;
 			children = (
 				27D5412F23E5E46800CB5065 /* TheGame */,
 				27D5412E23E5E46800CB5065 /* Products */,
 				502EA7C1A30E981C45183748 /* Pods */,
-				8647C989555159F5F681787B /* Frameworks */,
+				0EE2BAC009085B025D30398C /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -83,38 +105,59 @@
 				27DE3A2B240987A30098EE86 /* GameCenterIF.swift */,
 				27EA805423ECF3D100C937EE /* TheGame.entitlements */,
 				27D5413023E5E46800CB5065 /* AppDelegate.swift */,
-				27D5413B23E5E46B00CB5065 /* LaunchScreen.storyboard */,
-				2714982A23F71E7F002183B2 /* LoserBoard.storyboard */,
-				27D5413623E5E46800CB5065 /* Main.storyboard */,
 				27D5413923E5E46B00CB5065 /* Assets.xcassets */,
 				27D5413E23E5E46B00CB5065 /* Info.plist */,
 				27EA805923EE43C000C937EE /* Extensions.swift */,
-				2727416E23E6144A00B2100B /* SplashViewController.swift */,
+				27E82FB9240D3B9E004DEC8C /* Boards */,
+				27E82FB8240D3B82004DEC8C /* ViewElements */,
+				27E82FBA240D3C06004DEC8C /* GameElements */,
+			);
+			path = TheGame;
+			sourceTree = "<group>";
+		};
+		27E82FB8240D3B82004DEC8C /* ViewElements */ = {
+			isa = PBXGroup;
+			children = (
+				27E82FAF240BF4FD004DEC8C /* LoginButton.swift */,
+				2727416E23E6144A00B2100B /* StartupViewController.swift */,
 				27D5413423E5E46800CB5065 /* ViewController.swift */,
 				27EA805723EE111700C937EE /* ViewController+GADBanner.swift */,
+				27E82FB6240D38B1004DEC8C /* CreateAccountViewController.swift */,
+				27E82FBB240D3C4A004DEC8C /* FacebookLoginViewController.swift */,
+				27E82FBD240D3C63004DEC8C /* ReconnectViewController.swift */,
+			);
+			path = ViewElements;
+			sourceTree = "<group>";
+		};
+		27E82FB9240D3B9E004DEC8C /* Boards */ = {
+			isa = PBXGroup;
+			children = (
+				27D5413B23E5E46B00CB5065 /* LaunchScreen.storyboard */,
+				2714982A23F71E7F002183B2 /* GameBoard.storyboard */,
+				27D5413623E5E46800CB5065 /* Startup.storyboard */,
+			);
+			path = Boards;
+			sourceTree = "<group>";
+		};
+		27E82FBA240D3C06004DEC8C /* GameElements */ = {
+			isa = PBXGroup;
+			children = (
 				27F9198C23E691DA00FA0E18 /* Player.swift */,
 				27EA804E23EA86B300C937EE /* Opponent.swift */,
 				27F3EDE223E7E4800057248B /* GameClock.swift */,
 				27EA805023EBEB3900C937EE /* GameModel.swift */,
+				27E82FAD240BEA45004DEC8C /* GameServer.swift */,
 			);
-			path = TheGame;
+			path = GameElements;
 			sourceTree = "<group>";
 		};
 		502EA7C1A30E981C45183748 /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				B89E85AF6C5A2673EC2F7855 /* Pods-TheGame.debug.xcconfig */,
-				175FA88876A0311A3569B334 /* Pods-TheGame.release.xcconfig */,
+				AFCD8377F35807C044F6ABA7 /* Pods-TheGame.debug.xcconfig */,
+				4451D3FFCB40324BCB3097DB /* Pods-TheGame.release.xcconfig */,
 			);
 			path = Pods;
-			sourceTree = "<group>";
-		};
-		8647C989555159F5F681787B /* Frameworks */ = {
-			isa = PBXGroup;
-			children = (
-				5000D4E827B48E53E9DB3B0D /* Pods_TheGame.framework */,
-			);
-			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -124,17 +167,21 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 27D5414123E5E46B00CB5065 /* Build configuration list for PBXNativeTarget "TheGame" */;
 			buildPhases = (
-				899FE3868B0913C12BB5F223 /* [CP] Check Pods Manifest.lock */,
+				802A1A845693C113C04A507A /* [CP] Check Pods Manifest.lock */,
 				27D5412923E5E46800CB5065 /* Sources */,
 				27D5412A23E5E46800CB5065 /* Frameworks */,
 				27D5412B23E5E46800CB5065 /* Resources */,
-				F14334859263E766A56B8FF8 /* [CP] Embed Pods Frameworks */,
+				47F8ED93175774AB9E697133 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
 			dependencies = (
 			);
 			name = TheGame;
+			packageProductDependencies = (
+				27E82FB2240C6631004DEC8C /* FacebookLogin */,
+				27E82FB4240C6631004DEC8C /* FacebookCore */,
+			);
 			productName = TheGame;
 			productReference = 27D5412D23E5E46800CB5065 /* TheGame.app */;
 			productType = "com.apple.product-type.application";
@@ -163,6 +210,9 @@
 				Base,
 			);
 			mainGroup = 27D5412423E5E46800CB5065;
+			packageReferences = (
+				27E82FB1240C6631004DEC8C /* XCRemoteSwiftPackageReference "facebook-ios-sdk" */,
+			);
 			productRefGroup = 27D5412E23E5E46800CB5065 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -178,16 +228,33 @@
 			buildActionMask = 2147483647;
 			files = (
 				27D5413D23E5E46B00CB5065 /* LaunchScreen.storyboard in Resources */,
-				2714982B23F71E7F002183B2 /* LoserBoard.storyboard in Resources */,
+				2714982B23F71E7F002183B2 /* GameBoard.storyboard in Resources */,
 				27D5413A23E5E46B00CB5065 /* Assets.xcassets in Resources */,
-				27D5413823E5E46800CB5065 /* Main.storyboard in Resources */,
+				27D5413823E5E46800CB5065 /* Startup.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		899FE3868B0913C12BB5F223 /* [CP] Check Pods Manifest.lock */ = {
+		47F8ED93175774AB9E697133 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-TheGame/Pods-TheGame-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-TheGame/Pods-TheGame-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-TheGame/Pods-TheGame-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		802A1A845693C113C04A507A /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -209,23 +276,6 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
-		F14334859263E766A56B8FF8 /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-TheGame/Pods-TheGame-frameworks-${CONFIGURATION}-input-files.xcfilelist",
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-TheGame/Pods-TheGame-frameworks-${CONFIGURATION}-output-files.xcfilelist",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-TheGame/Pods-TheGame-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
@@ -234,11 +284,16 @@
 			buildActionMask = 2147483647;
 			files = (
 				27F3EDE323E7E4800057248B /* GameClock.swift in Sources */,
+				27E82FBE240D3C63004DEC8C /* ReconnectViewController.swift in Sources */,
+				27E82FB0240BF4FD004DEC8C /* LoginButton.swift in Sources */,
 				27EA805A23EE43C000C937EE /* Extensions.swift in Sources */,
+				27E82FAE240BEA45004DEC8C /* GameServer.swift in Sources */,
 				27F9198D23E691DA00FA0E18 /* Player.swift in Sources */,
+				27E82FB7240D38B2004DEC8C /* CreateAccountViewController.swift in Sources */,
 				27DE3A2C240987A30098EE86 /* GameCenterIF.swift in Sources */,
 				27EA804F23EA86B300C937EE /* Opponent.swift in Sources */,
-				2727416F23E6144A00B2100B /* SplashViewController.swift in Sources */,
+				27E82FBC240D3C4A004DEC8C /* FacebookLoginViewController.swift in Sources */,
+				2727416F23E6144A00B2100B /* StartupViewController.swift in Sources */,
 				27EA805123EBEB3900C937EE /* GameModel.swift in Sources */,
 				27D5413523E5E46800CB5065 /* ViewController.swift in Sources */,
 				27D5413123E5E46800CB5065 /* AppDelegate.swift in Sources */,
@@ -249,12 +304,12 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXVariantGroup section */
-		27D5413623E5E46800CB5065 /* Main.storyboard */ = {
+		27D5413623E5E46800CB5065 /* Startup.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
 				27D5413723E5E46800CB5065 /* Base */,
 			);
-			name = Main.storyboard;
+			name = Startup.storyboard;
 			sourceTree = "<group>";
 		};
 		27D5413B23E5E46B00CB5065 /* LaunchScreen.storyboard */ = {
@@ -384,7 +439,7 @@
 		};
 		27D5414223E5E46B00CB5065 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = B89E85AF6C5A2673EC2F7855 /* Pods-TheGame.debug.xcconfig */;
+			baseConfigurationReference = AFCD8377F35807C044F6ABA7 /* Pods-TheGame.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = TheGame/TheGame.entitlements;
@@ -405,7 +460,7 @@
 		};
 		27D5414323E5E46B00CB5065 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 175FA88876A0311A3569B334 /* Pods-TheGame.release.xcconfig */;
+			baseConfigurationReference = 4451D3FFCB40324BCB3097DB /* Pods-TheGame.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = TheGame/TheGame.entitlements;
@@ -446,6 +501,30 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		27E82FB1240C6631004DEC8C /* XCRemoteSwiftPackageReference "facebook-ios-sdk" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/facebook/facebook-ios-sdk";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 6.0.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		27E82FB2240C6631004DEC8C /* FacebookLogin */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 27E82FB1240C6631004DEC8C /* XCRemoteSwiftPackageReference "facebook-ios-sdk" */;
+			productName = FacebookLogin;
+		};
+		27E82FB4240C6631004DEC8C /* FacebookCore */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 27E82FB1240C6631004DEC8C /* XCRemoteSwiftPackageReference "facebook-ios-sdk" */;
+			productName = FacebookCore;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 27D5412523E5E46800CB5065 /* Project object */;
 }

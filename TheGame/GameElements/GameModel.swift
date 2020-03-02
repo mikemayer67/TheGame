@@ -13,7 +13,7 @@ class GameModel : NSObject
   let unchallangedLossInterval = 15.0 // may lose every hour
   let challengedLossInterval   = 5.0   // may lose one minute after opponent loses
   
-  weak var viewController : ViewController?
+  weak var viewController : GameViewController?
   
   private(set) var opponents = [Opponent]()
   

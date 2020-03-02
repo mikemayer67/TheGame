@@ -10,7 +10,7 @@ import Foundation
 
 import GoogleMobileAds
 
-extension ViewController : GADBannerViewDelegate
+extension GameViewController : GADBannerViewDelegate
 {
   func initilizeBannerAd()
   {

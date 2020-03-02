@@ -7,6 +7,8 @@ target 'TheGame' do
 
   # Pods for TheGame
 
+  platform :ios, '13.0'
+
   pod 'Google-Mobile-Ads-SDK'
 
 end
