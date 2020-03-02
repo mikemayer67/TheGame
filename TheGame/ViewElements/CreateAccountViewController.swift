@@ -20,6 +20,11 @@ class CreateAccountViewController: UIViewController {
     navigationController?.setNavigationBarHidden(false, animated: animated)
   }
   
+  @IBAction func switchToFacebook(_ sender : UIButton)
+  {
+    performSegue(withIdentifier: "switchToFacebook", sender: sender)
+  }
+  
   
   /*
    // MARK: - Navigation

@@ -34,17 +34,22 @@ class StartupViewController: UIViewController
   
   @IBAction func connectWithFacebook(_ sender : UIButton)
   {
-    performSegue(withIdentifier: "facebookLoginSegue", sender: sender)
+    performSegue(withIdentifier: "facebookLogin", sender: sender)
   }
   
   @IBAction func createNewAccount(_ sender : UIButton)
   {
-    performSegue(withIdentifier: "createAccountSegue", sender: sender)
+    performSegue(withIdentifier: "createAccount", sender: sender)
   }
   
   @IBAction func reconnectToAccount(_ sender : UIButton)
   {
-    performSegue(withIdentifier: "reconnectSegue", sender: sender)
+    performSegue(withIdentifier: "reconnect", sender: sender)
+  }
+  
+  @IBAction func unwindToStartup(unwindSegue:UIStoryboardSegue)
+  {
+    print("unwind to startup")
   }
   
   func transitionToGame(animate:Bool)

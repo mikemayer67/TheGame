@@ -124,32 +124,14 @@
                         <outlet property="facebookButton" destination="k3d-EU-BBF" id="Wnr-82-XcY"/>
                         <outlet property="newAccountButton" destination="U5C-D9-8sk" id="Su1-Th-H6Z"/>
                         <outlet property="reconnectButton" destination="AW9-Zk-Ubh" id="acx-6X-Jqv"/>
-                        <segue destination="dn6-ku-MNg" kind="show" identifier="createAccountSegue" id="bNp-DL-ecL"/>
-                        <segue destination="5Ja-PZ-cua" kind="show" identifier="reconnectSegue" id="QnG-6h-YAt"/>
-                        <segue destination="yyx-j9-ey8" kind="show" identifier="facebookLoginSegue" id="kuS-OT-DnL"/>
+                        <segue destination="dn6-ku-MNg" kind="show" identifier="createAccount" id="bNp-DL-ecL"/>
+                        <segue destination="5Ja-PZ-cua" kind="show" identifier="reconnect" id="QnG-6h-YAt"/>
+                        <segue destination="GJk-pw-Fqy" kind="show" identifier="facebookLogin" id="LWh-Bo-tsY"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="T0E-ir-Nmm" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="-553.62318840579712" y="-93.75"/>
-        </scene>
-        <!--Connect with Facebook-->
-        <scene sceneID="lwI-W7-95w">
-            <objects>
-                <viewController id="yyx-j9-ey8" customClass="FacebookLoginViewController" customModule="TheGame" customModuleProvider="target" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="f6M-6Y-ftT">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
-                        <viewLayoutGuide key="safeArea" id="pmv-MS-0oG"/>
-                    </view>
-                    <navigationItem key="navigationItem" title="Connect with Facebook" id="WIu-4L-r1o">
-                        <barButtonItem key="backBarButtonItem" title="Cancel" id="vGJ-dR-sKC"/>
-                    </navigationItem>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="BRN-0w-ohO" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="1074" y="-197"/>
         </scene>
         <!--Reconnect-->
         <scene sceneID="58t-ZD-Xbk">
@@ -163,11 +145,40 @@
                     </view>
                     <navigationItem key="navigationItem" title="Reconnect" id="fCo-SE-0HL">
                         <barButtonItem key="backBarButtonItem" title="Cancel" id="CyU-Xw-L0O"/>
+                        <barButtonItem key="leftBarButtonItem" title="cancel" id="sKd-30-Hv8">
+                            <connections>
+                                <segue destination="6ei-HJ-uMT" kind="unwind" unwindAction="unwindToStartupWithUnwindSegue:" id="yPE-3v-YwM"/>
+                            </connections>
+                        </barButtonItem>
                     </navigationItem>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="QD8-ah-aZ8" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+                <exit id="6ei-HJ-uMT" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
             <point key="canvasLocation" x="396" y="388"/>
+        </scene>
+        <!--Connect With Facebook-->
+        <scene sceneID="fcv-nk-Wec">
+            <objects>
+                <viewController id="GJk-pw-Fqy" customClass="FacebookLoginViewController" customModule="TheGame" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="VRe-Ch-isQ">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <viewLayoutGuide key="safeArea" id="kh6-yA-6Pr"/>
+                    </view>
+                    <navigationItem key="navigationItem" title="Connect With Facebook" id="H7y-dF-LEi">
+                        <barButtonItem key="leftBarButtonItem" title="cancel" id="As8-wR-Xjb">
+                            <connections>
+                                <segue destination="J8O-Qt-GwP" kind="unwind" unwindAction="unwindToStartupWithUnwindSegue:" id="WDb-2y-W6F"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="nJO-km-4ET" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+                <exit id="J8O-Qt-GwP" userLabel="Exit" sceneMemberID="exit"/>
+            </objects>
+            <point key="canvasLocation" x="1208" y="-110"/>
         </scene>
         <!--Create Account-->
         <scene sceneID="GvY-9u-Sdx">
@@ -176,14 +187,60 @@
                     <view key="view" contentMode="scaleToFill" id="JUu-Sq-rYE">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="DAk-Y3-Aa5" customClass="LoginButton" customModule="TheGame" customModuleProvider="target">
+                                <rect key="frame" x="10" y="792" width="394" height="50"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="50" id="vf6-oC-4fz"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
+                                <state key="normal" title="Connect With Facebook">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                </state>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="color" keyPath="buttonColor">
+                                        <color key="value" name="fbBlue"/>
+                                    </userDefinedRuntimeAttribute>
+                                </userDefinedRuntimeAttributes>
+                                <connections>
+                                    <action selector="switchToFacebook:" destination="dn6-ku-MNg" eventType="touchUpInside" id="0g8-XG-Dr7"/>
+                                </connections>
+                            </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="8" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cRC-lO-Ify">
+                                <rect key="frame" x="20" y="692.33333333333337" width="374" height="89.666666666666629"/>
+                                <string key="text">Connecting with Facebook eliminates the need to remember userid and password, enhances your experience with others by using your recognized name and profile picture, and simplifies setting up games with friends</string>
+                                <fontDescription key="fontDescription" name=".AppleSystemUIFont" family=".AppleSystemUIFont" pointSize="15"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <constraints>
+                            <constraint firstItem="DJp-2M-ETI" firstAttribute="trailing" secondItem="cRC-lO-Ify" secondAttribute="trailing" constant="20" id="6hl-A5-hMv"/>
+                            <constraint firstItem="DAk-Y3-Aa5" firstAttribute="top" secondItem="cRC-lO-Ify" secondAttribute="bottom" constant="10" id="7mg-7B-lxY"/>
+                            <constraint firstItem="DJp-2M-ETI" firstAttribute="bottom" secondItem="DAk-Y3-Aa5" secondAttribute="bottom" constant="20" id="Ekr-gG-B9F"/>
+                            <constraint firstItem="DAk-Y3-Aa5" firstAttribute="leading" secondItem="DJp-2M-ETI" secondAttribute="leading" constant="10" id="Qbc-aE-c4Z"/>
+                            <constraint firstItem="DJp-2M-ETI" firstAttribute="trailing" secondItem="DAk-Y3-Aa5" secondAttribute="trailing" constant="10" id="tJT-lf-uqr"/>
+                            <constraint firstItem="cRC-lO-Ify" firstAttribute="leading" secondItem="DJp-2M-ETI" secondAttribute="leading" constant="20" id="w55-Ru-ALC"/>
+                        </constraints>
                         <viewLayoutGuide key="safeArea" id="DJp-2M-ETI"/>
                     </view>
-                    <navigationItem key="navigationItem" title="Create Account" id="6yJ-0D-eGw"/>
+                    <navigationItem key="navigationItem" title="Create Account" id="6yJ-0D-eGw">
+                        <barButtonItem key="backBarButtonItem" title="cancel" id="FCl-lX-zoe"/>
+                        <barButtonItem key="leftBarButtonItem" title="cancel" id="cZD-cT-A1W">
+                            <connections>
+                                <segue destination="W6f-rF-Dw0" kind="unwind" unwindAction="unwindToStartupWithUnwindSegue:" id="AjZ-kY-ogh"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
+                    <connections>
+                        <segue destination="GJk-pw-Fqy" kind="show" identifier="switchToFacebook" id="hiE-kv-JFh"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="q5j-bO-fUc" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+                <exit id="W6f-rF-Dw0" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
-            <point key="canvasLocation" x="397" y="-588"/>
+            <point key="canvasLocation" x="268" y="-605"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="kgv-tD-9km">
@@ -207,10 +264,13 @@
     <resources>
         <image name="dice_splash" width="837" height="681"/>
         <namedColor name="dieRed">
-            <color red="0.80502277612686157" green="0.15134626626968384" blue="0.11486171931028366" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="0.80500000715255737" green="0.15099999308586121" blue="0.11500000208616257" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
         <namedColor name="fbBlue">
             <color red="0.25882352941176473" green="0.40392156862745099" blue="0.69803921568627447" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
     </resources>
+    <inferredMetricsTieBreakers>
+        <segue reference="hiE-kv-JFh"/>
+    </inferredMetricsTieBreakers>
 </document>
