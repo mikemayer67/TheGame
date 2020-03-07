@@ -8,14 +8,18 @@
 
 import UIKit
 
-class DictationAwareTextView: UITextView {
+@objc protocol DictationDelegate
+{
+  func dictationDidEnd(_ sender:UITextField)
+}
 
-    /*
-    // Only override draw() if you perform custom drawing.
-    // An empty implementation adversely affects performance during animation.
-    override func draw(_ rect: CGRect) {
-        // Drawing code
-    }
-    */
+class DictationAwareTextView: UITextField
+{
+  @IBOutlet weak var dictationDelegate : DictationDelegate?
 
+//  override func dictationRecordingDidEnd()
+//  {
+//    print("dictationRecordingDidEnd")
+//    dictationDelegate?.dictationDidEnd(self)
+//  }
 }

@@ -25,7 +25,7 @@
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" insetsLayoutMarginsFromSafeArea="NO" image="dice_splash" adjustsImageSizeForAccessibilityContentSizeCategory="YES" translatesAutoresizingMaskIntoConstraints="NO" id="fmd-UM-eBj">
-                                        <rect key="frame" x="0.0" y="114.5" width="355.00000000000023" height="236.5"/>
+                                        <rect key="frame" x="0.0" y="114.5" width="355" height="236.5"/>
                                         <constraints>
                                             <constraint firstAttribute="width" secondItem="fmd-UM-eBj" secondAttribute="height" multiplier="1.5" id="oMl-kM-YAY"/>
                                         </constraints>

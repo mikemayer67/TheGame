@@ -10,12 +10,10 @@ import UIKit
 
 @IBDesignable class LoginButton: UIButton
 {
-  @IBInspectable var buttonColor : UIColor = UIColor.blue
-  
   override func draw(_ rect: CGRect) {
-    layer.borderWidth = 1.0
-    layer.backgroundColor = buttonColor.cgColor
+    layer.borderWidth = ( isEnabled ? 1.0 : 0.0 )
     layer.borderColor = UIColor.black.cgColor
+    layer.backgroundColor = ( isEnabled ? tintColor.cgColor : UIColor.lightGray.cgColor )
     layer.cornerRadius = 10.0
   }
 
