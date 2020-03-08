@@ -10,9 +10,9 @@ import UIKit
 
 class CreateAccountViewController: UIViewController
 {
-  @IBOutlet weak var usernameTextField    : UITextField!
-  @IBOutlet weak var password1TextField   : UITextField!
-  @IBOutlet weak var password2TextField   : UITextField!
+  @IBOutlet weak var usernameTextField    : LoginTextField!
+  @IBOutlet weak var password1TextField   : LoginTextField!
+  @IBOutlet weak var password2TextField   : LoginTextField!
   @IBOutlet weak var displayNameTextField : UITextField!
   @IBOutlet weak var emailTextField       : UITextField!
   @IBOutlet weak var createButton         : UIButton!
@@ -65,11 +65,6 @@ class CreateAccountViewController: UIViewController
     self.present(alert,animated:true)
   }
   
-  @IBAction func validateUserInput(_ sender:UITextField)
-  {
-    print("validateUserInput:", sender.text ?? "[empty]" )
-  }
-  
   /*
    // MARK: - Navigation
    
@@ -80,90 +75,4 @@ class CreateAccountViewController: UIViewController
    }
    */
   
-}
-
-extension CreateAccountViewController : UITextFieldDelegate, UITextPasteDelegate, DictationDelegate
-{
-
-  
-  func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool
-  {
-    guard let value = textField.text else { return false }
-    let testString = (value as NSString).replacingCharacters(in: range, with: string)
-    
-    let rval = validate(textField,string:string)
-    print("allow: '\(string)' '\(testString)' ", (rval ? "OK" : "NOPE"))
-    return rval
-  }
-  
-//  func textFieldShouldEndEditing(_ textField: UITextField) -> Bool
-//  {
-//    // Dicatation and Copy/paste inserts can insert spaces into the UITextField even
-//    //
-//    switch textField
-//    {
-//    case usernameTextField, password1TextField, password2TextField:
-//      if let value = textField.text,  validate(textField, string: value)
-//      {
-//        return true
-//      }
-//      else
-//      {
-//        let alert = UIAlertController(title:"Invalid Input",message:"fix it to continue",preferredStyle: .alert)
-//        alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
-//        self.present(alert,animated:true)
-//        return false
-//      }
-//    case emailTextField:
-//      print("@@@ Add email validator")
-//      return true
-//    default:
-//      return true
-//    }
-//  }
-  
-  func validate(_ textField: UITextField, string:String) -> Bool
-  {
-    var allowedCharacters = CharacterSet.alphanumerics
-    if textField == password1TextField || textField == password2TextField
-    {
-      allowedCharacters.insert(charactersIn: "-!:#$@.")
-    }
-    
-    return string.rangeOfCharacter(from: allowedCharacters.inverted) == nil
-  }
-   
-  func textPasteConfigurationSupporting(_ textPasteConfigurationSupporting: UITextPasteConfigurationSupporting, performPasteOf attributedString: NSAttributedString, to textRange: UITextRange) -> UITextRange
-  {
-    guard let tf = textPasteConfigurationSupporting as? UITextField else { return textRange }
-
-    var insertString = attributedString.string
-    if !validate(tf, string: insertString)
-    {
-      let sp: Set<Character> = [" "]
-      insertString.removeAll(where: { sp.contains($0) })
-      if(!validate(tf, string:insertString)) { return textRange }
-    }
-
-    tf.replace(textRange, withText: insertString)
-    
-    return textRange
-  }
-  
-  func dictationDidEnd(_ sender: UITextField)
-  {
-    if var value = sender.text
-    {
-      print("dictation did end old:",value)
-      let sp: Set<Character> = [" "]
-      value.removeAll(where: { sp.contains($0) })
-      sender.text = value
-      print("dictation did end new:",value)
-    }
-  }
-  
-  @IBAction func textDidChange(_ sender:UITextField)
-  {
-    print("textDidChange:",sender.text ?? "Empty")
-  }
 }

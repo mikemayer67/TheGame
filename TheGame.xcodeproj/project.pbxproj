@@ -8,7 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		2714982B23F71E7F002183B2 /* GameBoard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2714982A23F71E7F002183B2 /* GameBoard.storyboard */; };
-		271D007B2412BA5A003B15A1 /* DictationAwareTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 271D007A2412BA5A003B15A1 /* DictationAwareTextView.swift */; };
+		271D007D24147048003B15A1 /* LoginTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 271D007C24147048003B15A1 /* LoginTextField.swift */; };
 		271E562A240E914900F9AC97 /* AuthenticationServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 271E5629240E914800F9AC97 /* AuthenticationServices.framework */; };
 		2727416F23E6144A00B2100B /* StartupViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2727416E23E6144A00B2100B /* StartupViewController.swift */; };
 		27D5413123E5E46800CB5065 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27D5413023E5E46800CB5065 /* AppDelegate.swift */; };
@@ -36,7 +36,7 @@
 /* Begin PBXFileReference section */
 		04608212D72D75D8391E90C8 /* Pods_TheGame.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_TheGame.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		2714982A23F71E7F002183B2 /* GameBoard.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = GameBoard.storyboard; sourceTree = "<group>"; };
-		271D007A2412BA5A003B15A1 /* DictationAwareTextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DictationAwareTextView.swift; sourceTree = "<group>"; };
+		271D007C24147048003B15A1 /* LoginTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginTextField.swift; sourceTree = "<group>"; };
 		271E5629240E914800F9AC97 /* AuthenticationServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AuthenticationServices.framework; path = System/Library/Frameworks/AuthenticationServices.framework; sourceTree = SDKROOT; };
 		2727416E23E6144A00B2100B /* StartupViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StartupViewController.swift; sourceTree = "<group>"; };
 		27D5412D23E5E46800CB5065 /* TheGame.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TheGame.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -87,12 +87,20 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		271D007E24147059003B15A1 /* UIElements */ = {
+			isa = PBXGroup;
+			children = (
+				27E82FAF240BF4FD004DEC8C /* LoginButton.swift */,
+				271D007C24147048003B15A1 /* LoginTextField.swift */,
+			);
+			path = UIElements;
+			sourceTree = "<group>";
+		};
 		271E5626240E224C00F9AC97 /* Support Classes */ = {
 			isa = PBXGroup;
 			children = (
 				27EA805923EE43C000C937EE /* Extensions.swift */,
 				27DE3A2B240987A30098EE86 /* GameCenterIF.swift */,
-				271D007A2412BA5A003B15A1 /* DictationAwareTextView.swift */,
 			);
 			path = "Support Classes";
 			sourceTree = "<group>";
@@ -124,6 +132,7 @@
 				27D5413E23E5E46B00CB5065 /* Info.plist */,
 				271E5626240E224C00F9AC97 /* Support Classes */,
 				27E82FB9240D3B9E004DEC8C /* Boards */,
+				271D007E24147059003B15A1 /* UIElements */,
 				27E82FB8240D3B82004DEC8C /* ViewElements */,
 				27E82FBA240D3C06004DEC8C /* GameElements */,
 			);
@@ -133,7 +142,6 @@
 		27E82FB8240D3B82004DEC8C /* ViewElements */ = {
 			isa = PBXGroup;
 			children = (
-				27E82FAF240BF4FD004DEC8C /* LoginButton.swift */,
 				2727416E23E6144A00B2100B /* StartupViewController.swift */,
 				27D5413423E5E46800CB5065 /* ViewController.swift */,
 				27EA805723EE111700C937EE /* ViewController+GADBanner.swift */,
@@ -299,12 +307,12 @@
 			buildActionMask = 2147483647;
 			files = (
 				27F3EDE323E7E4800057248B /* GameClock.swift in Sources */,
+				271D007D24147048003B15A1 /* LoginTextField.swift in Sources */,
 				27E82FBE240D3C63004DEC8C /* ReconnectViewController.swift in Sources */,
 				27E82FB0240BF4FD004DEC8C /* LoginButton.swift in Sources */,
 				27EA805A23EE43C000C937EE /* Extensions.swift in Sources */,
 				27E82FAE240BEA45004DEC8C /* GameServer.swift in Sources */,
 				27F9198D23E691DA00FA0E18 /* Player.swift in Sources */,
-				271D007B2412BA5A003B15A1 /* DictationAwareTextView.swift in Sources */,
 				27E82FB7240D38B2004DEC8C /* CreateAccountViewController.swift in Sources */,
 				27DE3A2C240987A30098EE86 /* GameCenterIF.swift in Sources */,
 				27EA804F23EA86B300C937EE /* Opponent.swift in Sources */,
