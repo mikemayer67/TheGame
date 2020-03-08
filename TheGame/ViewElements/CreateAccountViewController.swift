@@ -10,15 +10,22 @@ import UIKit
 
 class CreateAccountViewController: UIViewController
 {
+  //MARK:- Outlets
+  
   @IBOutlet weak var usernameTextField    : LoginTextField!
   @IBOutlet weak var password1TextField   : LoginTextField!
   @IBOutlet weak var password2TextField   : LoginTextField!
+  @IBOutlet weak var usernameError        : UILabel!
+  @IBOutlet weak var passwordError        : UILabel!
+  @IBOutlet weak var emailError           : UILabel!
   @IBOutlet weak var displayNameTextField : UITextField!
   @IBOutlet weak var emailTextField       : UITextField!
   @IBOutlet weak var createButton         : UIButton!
   
   @IBOutlet weak var facebookInfoLabel    : UILabel!
   @IBOutlet weak var facebookButton       : UIButton!
+  
+  //MARK:- View State
   
   override func viewDidLoad()
   {
@@ -28,12 +35,9 @@ class CreateAccountViewController: UIViewController
   override func viewWillAppear(_ animated: Bool)
   {
     navigationController?.setNavigationBarHidden(false, animated: animated)
-  }
-  
-  override func viewDidAppear(_ animated: Bool) {
-    print("username: ",usernameTextField.smartInsertDeleteType.rawValue)
-    print("passwd1: ",password1TextField.smartInsertDeleteType.rawValue)
-    print("passwd2: ",password2TextField.smartInsertDeleteType.rawValue)
+    
+    self.loginTextFiledUpdated(usernameTextField)
+    self.loginTextFiledUpdated(password1TextField)
   }
   
   @IBAction func switchToFacebook(_ sender : UIButton)
@@ -43,36 +47,73 @@ class CreateAccountViewController: UIViewController
   
   @IBAction func displayInfo(_ sender:UIButton)
   {
-    var title : String?
-    var message : String?
     switch sender.tag
     {
-    case 0:
-      title   = "Password"
-      message = "Your password must contain at least 8 characters.\n\nIt may contain any combination of letters, numbers, exclamation points, or dashes"
-    case 1:
-      title   = "Display Name"
-      message = "Specifying a display name is optional.\n\nIf provided, this is the name that will be displayed to other players in the game.\n\nIf you choose to not provide a display name, your username will be displayed to other players."
-    case 2:
-      title   = "Email"
-      message = "Specifying your email is optinal.\n\nIf provided, your email will only  be used to recover a lost userid or password. It will not be used for any other purpose.\n\nIf you choose to not provide an email address, it might not be possible to recover your userid or password if lost."
-    default:
-      break
+    case 0: InfoAlert.username.display(over: self)
+    case 1: InfoAlert.password.display(over: self)
+    case 2: InfoAlert.displayname.display(over: self)
+    case 3: InfoAlert.email.display(over: self)
+    default: break
     }
-    
-    let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
-    alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
-    self.present(alert,animated:true)
   }
   
-  /*
-   // MARK: - Navigation
-   
-   // In a storyboard-based application, you will often want to do a little preparation before navigation
-   override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-   // Get the new view controller using segue.destination.
-   // Pass the selected object to the new view controller.
-   }
-   */
+  // MARK:- Input State
   
+  func setUsernameError(_ err:String)
+  {
+    usernameError.text = err
+    usernameError.isHidden = false
+    createButton.isEnabled = false
+  }
+  func clearUsernameError()
+  {
+    usernameError.isHidden = true
+    createButton.isEnabled = passwordError.isHidden && emailError.isHidden
+  }
+  
+  func setPasswordError(_ err:String)
+  {
+    passwordError.text = err
+    passwordError.isHidden = false
+    createButton.isEnabled = false
+  }
+  func clearPasswordError()
+  {
+    passwordError.isHidden = true
+    createButton.isEnabled = usernameError.isHidden && emailError.isHidden
+  }
+  
+  func setEmailError(_ err:String)
+  {
+    emailError.text = err
+    emailError.isHidden = false
+    createButton.isEnabled = false
+  }
+  func clearEmailError()
+  {
+    emailError.isHidden = true
+    createButton.isEnabled = usernameError.isHidden && passwordError.isHidden
+  }
+}
+
+extension CreateAccountViewController : LoginTextFieldDelegate
+{
+  func loginTextFiledUpdated(_ sender:LoginTextField)
+  {
+    let t = sender.text ?? ""
+    if( sender == usernameTextField )
+    {
+      if      t.isEmpty   { setUsernameError("(required)") }
+      else if t.count < 6 { setUsernameError("too short")  }
+      else                { clearUsernameError()           }
+    }
+    else if( sender == password1TextField || sender == password2TextField )
+    {
+      let t2 = (sender == password1TextField ? password2TextField : password1TextField).text ?? ""
+      if      t.isEmpty || t2.isEmpty  { setPasswordError("(required)") }
+      else if t.count < 8              { setPasswordError("too short")  }
+      else if t != t2                  { setPasswordError("mismatched") }
+      else                             { clearPasswordError()           }
+    }
+  }
 }

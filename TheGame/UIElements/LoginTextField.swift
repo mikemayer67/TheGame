@@ -8,9 +8,15 @@
 
 import UIKit
 
+@objc protocol LoginTextFieldDelegate
+{
+  func loginTextFiledUpdated(_ sender:LoginTextField)
+}
+
 @IBDesignable class LoginTextField: UITextField, UITextFieldDelegate
 {
   @IBInspectable var allowPasswordCharacters : Bool = false
+  @IBOutlet var loginDelegate : LoginTextFieldDelegate?
   
   var validatedText: String?
   var dictationText: String?
@@ -60,24 +66,34 @@ import UIKit
   //  Otherwise, leave the text as is.
   func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool
   {
+    var changed = false
+    
+    print("shouldchange: \(string)")
+    
     if let t = dictationText
     {
       // Handle change here, don't let UIKit do it
       text          = t
       validatedText = t
       dictationText = nil
+      changed       = true
     }
     else if let value = textField.text
     {
       let testString =
         (value as NSString).replacingCharacters(in: range, with: string).replacingOccurrences(of: " ", with: "")
+      
+      print("test string",testString)
 
       if validate(string:testString)
       {
         text          = testString
         validatedText = testString
+        changed       = true
       }
     }
+    
+    if changed { loginDelegate?.loginTextFiledUpdated(self) }
     
     return false
   }

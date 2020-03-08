@@ -11,6 +11,7 @@
 		271D007D24147048003B15A1 /* LoginTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 271D007C24147048003B15A1 /* LoginTextField.swift */; };
 		271E562A240E914900F9AC97 /* AuthenticationServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 271E5629240E914800F9AC97 /* AuthenticationServices.framework */; };
 		2727416F23E6144A00B2100B /* StartupViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2727416E23E6144A00B2100B /* StartupViewController.swift */; };
+		276AAB982415446200CF72A4 /* InfoAlert.swift in Sources */ = {isa = PBXBuildFile; fileRef = 276AAB972415446200CF72A4 /* InfoAlert.swift */; };
 		27D5413123E5E46800CB5065 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27D5413023E5E46800CB5065 /* AppDelegate.swift */; };
 		27D5413523E5E46800CB5065 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27D5413423E5E46800CB5065 /* ViewController.swift */; };
 		27D5413823E5E46800CB5065 /* Startup.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 27D5413623E5E46800CB5065 /* Startup.storyboard */; };
@@ -39,6 +40,7 @@
 		271D007C24147048003B15A1 /* LoginTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginTextField.swift; sourceTree = "<group>"; };
 		271E5629240E914800F9AC97 /* AuthenticationServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AuthenticationServices.framework; path = System/Library/Frameworks/AuthenticationServices.framework; sourceTree = SDKROOT; };
 		2727416E23E6144A00B2100B /* StartupViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StartupViewController.swift; sourceTree = "<group>"; };
+		276AAB972415446200CF72A4 /* InfoAlert.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InfoAlert.swift; sourceTree = "<group>"; };
 		27D5412D23E5E46800CB5065 /* TheGame.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TheGame.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		27D5413023E5E46800CB5065 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		27D5413423E5E46800CB5065 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -92,6 +94,7 @@
 			children = (
 				27E82FAF240BF4FD004DEC8C /* LoginButton.swift */,
 				271D007C24147048003B15A1 /* LoginTextField.swift */,
+				276AAB972415446200CF72A4 /* InfoAlert.swift */,
 			);
 			path = UIElements;
 			sourceTree = "<group>";
@@ -318,6 +321,7 @@
 				27EA804F23EA86B300C937EE /* Opponent.swift in Sources */,
 				27E82FBC240D3C4A004DEC8C /* FacebookLoginViewController.swift in Sources */,
 				2727416F23E6144A00B2100B /* StartupViewController.swift in Sources */,
+				276AAB982415446200CF72A4 /* InfoAlert.swift in Sources */,
 				27EA805123EBEB3900C937EE /* GameModel.swift in Sources */,
 				27D5413523E5E46800CB5065 /* ViewController.swift in Sources */,
 				27D5413123E5E46800CB5065 /* AppDelegate.swift in Sources */,

@@ -26,7 +26,7 @@
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" insetsLayoutMarginsFromSafeArea="NO" image="dice_splash" translatesAutoresizingMaskIntoConstraints="NO" id="MVX-JY-YYI">
-                                        <rect key="frame" x="0.0" y="79" width="300" height="200"/>
+                                        <rect key="frame" x="0.0" y="79" width="300.00000000000023" height="200"/>
                                         <constraints>
                                             <constraint firstAttribute="width" secondItem="MVX-JY-YYI" secondAttribute="height" multiplier="1.5" id="P5o-5r-Cuq"/>
                                         </constraints>
@@ -44,11 +44,6 @@
                                                 <state key="normal" title="Connect with Facebook">
                                                     <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 </state>
-                                                <userDefinedRuntimeAttributes>
-                                                    <userDefinedRuntimeAttribute type="color" keyPath="buttonColor">
-                                                        <color key="value" name="fbBlue"/>
-                                                    </userDefinedRuntimeAttribute>
-                                                </userDefinedRuntimeAttributes>
                                                 <connections>
                                                     <action selector="connectWithFacebook:" destination="ISV-GM-3yy" eventType="touchUpInside" id="44E-bd-lJ5"/>
                                                 </connections>
@@ -63,11 +58,6 @@
                                                 <state key="normal" title="Create Account">
                                                     <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 </state>
-                                                <userDefinedRuntimeAttributes>
-                                                    <userDefinedRuntimeAttribute type="color" keyPath="buttonColor">
-                                                        <color key="value" name="dieRed"/>
-                                                    </userDefinedRuntimeAttribute>
-                                                </userDefinedRuntimeAttributes>
                                                 <connections>
                                                     <action selector="createNewAccount:" destination="ISV-GM-3yy" eventType="touchUpInside" id="J4c-6E-NIM"/>
                                                 </connections>
@@ -187,11 +177,6 @@
                                 <state key="normal" title="Connect With Facebook">
                                     <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 </state>
-                                <userDefinedRuntimeAttributes>
-                                    <userDefinedRuntimeAttribute type="color" keyPath="buttonColor">
-                                        <color key="value" name="fbBlue"/>
-                                    </userDefinedRuntimeAttribute>
-                                </userDefinedRuntimeAttributes>
                                 <connections>
                                     <action selector="switchToFacebook:" destination="dn6-ku-MNg" eventType="touchUpInside" id="0g8-XG-Dr7"/>
                                 </connections>
@@ -229,9 +214,11 @@
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no" keyboardType="alphabet" smartDashesType="no" smartInsertDeleteType="no" smartQuotesType="no" textContentType="username"/>
                                 <userDefinedRuntimeAttributes>
-                                    <userDefinedRuntimeAttribute type="boolean" keyPath="passwordFilter" value="NO"/>
                                     <userDefinedRuntimeAttribute type="boolean" keyPath="allowPasswordCharacters" value="NO"/>
                                 </userDefinedRuntimeAttributes>
+                                <connections>
+                                    <outlet property="loginDelegate" destination="dn6-ku-MNg" id="lPX-aV-1jN"/>
+                                </connections>
                             </textField>
                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="required" textAlignment="natural" minimumFontSize="17" clearButtonMode="always" translatesAutoresizingMaskIntoConstraints="NO" id="y9a-KR-shf" customClass="LoginTextField" customModule="TheGame" customModuleProvider="target">
                                 <rect key="frame" x="20" y="142" width="280" height="30"/>
@@ -243,6 +230,9 @@
                                 <userDefinedRuntimeAttributes>
                                     <userDefinedRuntimeAttribute type="boolean" keyPath="allowPasswordCharacters" value="YES"/>
                                 </userDefinedRuntimeAttributes>
+                                <connections>
+                                    <outlet property="loginDelegate" destination="dn6-ku-MNg" id="S3c-EN-HXJ"/>
+                                </connections>
                             </textField>
                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="retype to confirm" textAlignment="natural" minimumFontSize="17" clearButtonMode="always" translatesAutoresizingMaskIntoConstraints="NO" id="tON-XH-4Dd" customClass="LoginTextField" customModule="TheGame" customModuleProvider="target">
                                 <rect key="frame" x="20" y="177" width="280" height="30"/>
@@ -254,6 +244,9 @@
                                 <userDefinedRuntimeAttributes>
                                     <userDefinedRuntimeAttribute type="boolean" keyPath="allowPasswordCharacters" value="YES"/>
                                 </userDefinedRuntimeAttributes>
+                                <connections>
+                                    <outlet property="loginDelegate" destination="dn6-ku-MNg" id="6F5-5N-j2T"/>
+                                </connections>
                             </textField>
                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="optional" textAlignment="natural" minimumFontSize="17" clearButtonMode="always" translatesAutoresizingMaskIntoConstraints="NO" id="du1-9F-kcU">
                                 <rect key="frame" x="20" y="252" width="280" height="30"/>
@@ -277,7 +270,7 @@
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <button opaque="NO" tag="1" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="infoLight" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="XZb-sw-cDb">
+                            <button opaque="NO" tag="2" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="infoLight" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="XZb-sw-cDb" userLabel="display name info">
                                 <rect key="frame" x="280" y="225.5" width="20" height="20"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="20" id="2Qb-oB-7FH"/>
@@ -290,7 +283,7 @@
                                     <action selector="displayInfo:" destination="dn6-ku-MNg" eventType="touchUpInside" id="ykg-Dv-hVp"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" tag="2" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="infoLight" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="2FK-oP-NtM">
+                            <button opaque="NO" tag="3" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="infoLight" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="2FK-oP-NtM" userLabel="email info">
                                 <rect key="frame" x="280" y="290.5" width="20" height="20"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="20" id="80r-en-JyY"/>
@@ -310,13 +303,8 @@
                                 <state key="normal" title="Create Account">
                                     <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 </state>
-                                <userDefinedRuntimeAttributes>
-                                    <userDefinedRuntimeAttribute type="color" keyPath="buttonColor">
-                                        <color key="value" name="dieRed"/>
-                                    </userDefinedRuntimeAttribute>
-                                </userDefinedRuntimeAttributes>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="infoLight" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="6p6-Cp-dhb">
+                            <button opaque="NO" tag="1" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="infoLight" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="6p6-Cp-dhb" userLabel="password info">
                                 <rect key="frame" x="280" y="115.5" width="20" height="20"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="20" id="0SQ-0w-gu5"/>
@@ -326,20 +314,53 @@
                                     <action selector="displayInfo:" destination="dn6-ku-MNg" eventType="touchUpInside" id="ixs-Ai-CrO"/>
                                 </connections>
                             </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="infoLight" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="nGS-oY-BbX" userLabel="username info">
+                                <rect key="frame" x="280" y="52.5" width="20" height="20"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="20" id="3AQ-WM-uMK"/>
+                                    <constraint firstAttribute="height" constant="20" id="VZW-X9-lD1"/>
+                                </constraints>
+                                <connections>
+                                    <action selector="displayInfo:" destination="dn6-ku-MNg" eventType="touchUpInside" id="Wm6-7q-ur9"/>
+                                </connections>
+                            </button>
+                            <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="xit-ls-ZTg">
+                                <rect key="frame" x="243" y="118.5" width="29" height="14"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="11"/>
+                                <color key="textColor" name="dieRed"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ZQe-RD-ACK">
+                                <rect key="frame" x="243" y="293.5" width="29" height="14"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="11"/>
+                                <color key="textColor" name="dieRed"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="TSB-Uh-GD0">
+                                <rect key="frame" x="243" y="55.5" width="29" height="14"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="11"/>
+                                <color key="textColor" name="dieRed"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <constraints>
+                            <constraint firstItem="ZQe-RD-ACK" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="lFh-vQ-HiV" secondAttribute="trailing" id="25P-Ws-K4z"/>
                             <constraint firstItem="XZb-sw-cDb" firstAttribute="trailing" secondItem="du1-9F-kcU" secondAttribute="trailing" id="2PM-xR-4YT"/>
+                            <constraint firstItem="xit-ls-ZTg" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="AZF-dX-IgS" secondAttribute="trailing" id="35j-T1-ns8"/>
                             <constraint firstItem="DJp-2M-ETI" firstAttribute="trailing" secondItem="cRC-lO-Ify" secondAttribute="trailing" constant="20" id="6hl-A5-hMv"/>
                             <constraint firstItem="DAk-Y3-Aa5" firstAttribute="top" secondItem="cRC-lO-Ify" secondAttribute="bottom" constant="10" id="7mg-7B-lxY"/>
                             <constraint firstItem="DJp-2M-ETI" firstAttribute="trailing" secondItem="YfE-lz-VYB" secondAttribute="trailing" constant="20" id="85U-lK-N6f"/>
                             <constraint firstItem="tON-XH-4Dd" firstAttribute="leading" secondItem="DJp-2M-ETI" secondAttribute="leading" constant="20" id="Dc1-Oz-LsE"/>
                             <constraint firstItem="MsJ-Ks-B91" firstAttribute="top" secondItem="tON-XH-4Dd" secondAttribute="bottom" constant="20" id="DjJ-4e-qhZ"/>
                             <constraint firstItem="DJp-2M-ETI" firstAttribute="bottom" secondItem="DAk-Y3-Aa5" secondAttribute="bottom" constant="20" id="Ekr-gG-B9F"/>
+                            <constraint firstItem="xit-ls-ZTg" firstAttribute="centerY" secondItem="6p6-Cp-dhb" secondAttribute="centerY" id="Gua-a6-RYC"/>
                             <constraint firstItem="DJp-2M-ETI" firstAttribute="trailing" secondItem="y9a-KR-shf" secondAttribute="trailing" constant="20" id="Hm6-kc-in5"/>
+                            <constraint firstItem="ypz-Ff-JYR" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="DJp-2M-ETI" secondAttribute="leading" id="Ib4-FW-0IX"/>
                             <constraint firstItem="ypz-Ff-JYR" firstAttribute="trailing" secondItem="YfE-lz-VYB" secondAttribute="trailing" id="L2b-qR-lY7"/>
                             <constraint firstItem="XZb-sw-cDb" firstAttribute="centerY" secondItem="MsJ-Ks-B91" secondAttribute="centerY" id="LvO-Zu-MAL"/>
                             <constraint firstItem="YfE-lz-VYB" firstAttribute="leading" secondItem="DJp-2M-ETI" secondAttribute="leading" constant="20" id="NsY-Yc-WsJ"/>
+                            <constraint firstItem="nGS-oY-BbX" firstAttribute="trailing" secondItem="MVo-gd-LOE" secondAttribute="trailing" id="POa-de-4p9"/>
                             <constraint firstItem="du1-9F-kcU" firstAttribute="leading" secondItem="DJp-2M-ETI" secondAttribute="leading" constant="20" id="QKF-TU-ZsD"/>
                             <constraint firstItem="YfE-lz-VYB" firstAttribute="top" secondItem="lFh-vQ-HiV" secondAttribute="bottom" constant="8" id="QV7-u3-0UX"/>
                             <constraint firstItem="DAk-Y3-Aa5" firstAttribute="leading" secondItem="DJp-2M-ETI" secondAttribute="leading" constant="10" id="Qbc-aE-c4Z"/>
@@ -347,22 +368,30 @@
                             <constraint firstItem="6p6-Cp-dhb" firstAttribute="trailing" secondItem="y9a-KR-shf" secondAttribute="trailing" id="Tte-Mz-g1K"/>
                             <constraint firstItem="2FK-oP-NtM" firstAttribute="trailing" secondItem="YfE-lz-VYB" secondAttribute="trailing" id="V25-rP-HgL"/>
                             <constraint firstItem="y9a-KR-shf" firstAttribute="leading" secondItem="DJp-2M-ETI" secondAttribute="leading" constant="20" id="W9a-eB-AGc"/>
+                            <constraint firstItem="nGS-oY-BbX" firstAttribute="centerY" secondItem="Q2T-2b-Fp4" secondAttribute="centerY" id="Xqk-7F-zNP"/>
                             <constraint firstItem="Q2T-2b-Fp4" firstAttribute="leading" secondItem="DJp-2M-ETI" secondAttribute="leading" constant="20" id="YfQ-II-QWa"/>
                             <constraint firstItem="MsJ-Ks-B91" firstAttribute="leading" secondItem="DJp-2M-ETI" secondAttribute="leading" constant="20" id="Yw2-iG-hTF"/>
                             <constraint firstItem="AZF-dX-IgS" firstAttribute="top" secondItem="MVo-gd-LOE" secondAttribute="bottom" constant="8" id="adE-OP-5Pl"/>
+                            <constraint firstItem="2FK-oP-NtM" firstAttribute="leading" secondItem="ZQe-RD-ACK" secondAttribute="trailing" constant="8" id="ai4-aw-Rbq"/>
+                            <constraint firstItem="nGS-oY-BbX" firstAttribute="leading" secondItem="TSB-Uh-GD0" secondAttribute="trailing" constant="8" id="ayj-6i-khO"/>
                             <constraint firstItem="lFh-vQ-HiV" firstAttribute="leading" secondItem="DJp-2M-ETI" secondAttribute="leading" constant="20" id="bYM-VR-OW5"/>
                             <constraint firstItem="lFh-vQ-HiV" firstAttribute="top" secondItem="du1-9F-kcU" secondAttribute="bottom" constant="10" id="dDn-wd-fTI"/>
                             <constraint firstItem="2FK-oP-NtM" firstAttribute="centerY" secondItem="lFh-vQ-HiV" secondAttribute="centerY" id="f2o-Wa-gwT"/>
                             <constraint firstItem="MVo-gd-LOE" firstAttribute="top" secondItem="Q2T-2b-Fp4" secondAttribute="bottom" constant="8" id="fcr-31-0WZ"/>
                             <constraint firstItem="du1-9F-kcU" firstAttribute="top" secondItem="MsJ-Ks-B91" secondAttribute="bottom" constant="8" id="fem-bQ-GUs"/>
+                            <constraint firstItem="ZQe-RD-ACK" firstAttribute="centerY" secondItem="2FK-oP-NtM" secondAttribute="centerY" id="g8d-72-Ahm"/>
+                            <constraint firstItem="XZb-sw-cDb" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="MsJ-Ks-B91" secondAttribute="trailing" id="hEa-fR-Rzd"/>
                             <constraint firstItem="6p6-Cp-dhb" firstAttribute="centerY" secondItem="AZF-dX-IgS" secondAttribute="centerY" id="hGq-8L-Y5l"/>
                             <constraint firstItem="Q2T-2b-Fp4" firstAttribute="top" secondItem="DJp-2M-ETI" secondAttribute="top" constant="10" id="ha3-HK-SnU"/>
+                            <constraint firstItem="6p6-Cp-dhb" firstAttribute="leading" secondItem="xit-ls-ZTg" secondAttribute="trailing" constant="8" id="iSO-jJ-nkM"/>
                             <constraint firstItem="ypz-Ff-JYR" firstAttribute="width" secondItem="JUu-Sq-rYE" secondAttribute="width" multiplier="0.5" constant="-20" id="inv-sQ-b5X"/>
                             <constraint firstItem="ypz-Ff-JYR" firstAttribute="top" secondItem="YfE-lz-VYB" secondAttribute="bottom" constant="15" id="jo9-xE-V5o"/>
                             <constraint firstItem="MVo-gd-LOE" firstAttribute="leading" secondItem="DJp-2M-ETI" secondAttribute="leading" constant="20" id="kOl-KP-mI1"/>
                             <constraint firstItem="y9a-KR-shf" firstAttribute="top" secondItem="AZF-dX-IgS" secondAttribute="bottom" constant="8" id="kfQ-Oc-2c4"/>
+                            <constraint firstItem="TSB-Uh-GD0" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="Q2T-2b-Fp4" secondAttribute="trailing" id="lkg-b6-jeZ"/>
                             <constraint firstItem="AZF-dX-IgS" firstAttribute="leading" secondItem="DJp-2M-ETI" secondAttribute="leading" constant="20" id="mRQ-ja-1xO"/>
                             <constraint firstItem="tON-XH-4Dd" firstAttribute="top" secondItem="y9a-KR-shf" secondAttribute="bottom" constant="5" id="mbL-Qk-TBj"/>
+                            <constraint firstItem="TSB-Uh-GD0" firstAttribute="centerY" secondItem="nGS-oY-BbX" secondAttribute="centerY" id="np6-i0-wcc"/>
                             <constraint firstItem="DJp-2M-ETI" firstAttribute="trailing" secondItem="du1-9F-kcU" secondAttribute="trailing" constant="20" id="t5I-XM-R8M"/>
                             <constraint firstItem="DJp-2M-ETI" firstAttribute="trailing" secondItem="DAk-Y3-Aa5" secondAttribute="trailing" constant="10" id="tJT-lf-uqr"/>
                             <constraint firstItem="DJp-2M-ETI" firstAttribute="trailing" secondItem="tON-XH-4Dd" secondAttribute="trailing" constant="20" id="ujA-bI-NsC"/>
@@ -376,11 +405,14 @@
                     <connections>
                         <outlet property="createButton" destination="ypz-Ff-JYR" id="kdQ-Fg-vjg"/>
                         <outlet property="displayNameTextField" destination="du1-9F-kcU" id="zCS-xe-Raf"/>
+                        <outlet property="emailError" destination="ZQe-RD-ACK" id="X2y-KR-ChJ"/>
                         <outlet property="emailTextField" destination="YfE-lz-VYB" id="YlR-NW-oGb"/>
                         <outlet property="facebookButton" destination="DAk-Y3-Aa5" id="vXU-tB-MWi"/>
                         <outlet property="facebookInfoLabel" destination="cRC-lO-Ify" id="ORS-hp-Rdq"/>
                         <outlet property="password1TextField" destination="y9a-KR-shf" id="Iqa-Uv-d56"/>
                         <outlet property="password2TextField" destination="tON-XH-4Dd" id="UWz-Wc-2bo"/>
+                        <outlet property="passwordError" destination="xit-ls-ZTg" id="lGj-xy-6xo"/>
+                        <outlet property="usernameError" destination="TSB-Uh-GD0" id="fDq-vt-fQV"/>
                         <outlet property="usernameTextField" destination="MVo-gd-LOE" id="PcA-gT-47Y"/>
                         <segue destination="GJk-pw-Fqy" kind="show" identifier="switchToFacebook" id="hiE-kv-JFh"/>
                     </connections>
