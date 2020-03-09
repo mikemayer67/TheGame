@@ -10,7 +10,7 @@ import UIKit
 
 @objc protocol LoginTextFieldDelegate
 {
-  func loginTextFiledUpdated(_ sender:LoginTextField)
+  func loginTextFieldUpdated(_ sender:LoginTextField)
 }
 
 @IBDesignable class LoginTextField: UITextField, UITextFieldDelegate
@@ -66,10 +66,9 @@ import UIKit
   //  Otherwise, leave the text as is.
   func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool
   {
+    var rval    = false
     var changed = false
-    
-    print("shouldchange: \(string)")
-    
+            
     if let t = dictationText
     {
       // Handle change here, don't let UIKit do it
@@ -80,22 +79,30 @@ import UIKit
     }
     else if let value = textField.text
     {
-      let testString =
-        (value as NSString).replacingCharacters(in: range, with: string).replacingOccurrences(of: " ", with: "")
+      let fullString = (value as NSString).replacingCharacters(in: range, with: string)
+      let strippedString = fullString.replacingOccurrences(of: " ", with: "")
       
-      print("test string",testString)
-
-      if validate(string:testString)
+      if validate(string:fullString)
       {
-        text          = testString
-        validatedText = testString
+        changed = true
+        rval    = true
+      }
+      else if validate(string:strippedString)
+      {
+        text          = strippedString
+        validatedText = strippedString
         changed       = true
       }
     }
     
-    if changed { loginDelegate?.loginTextFiledUpdated(self) }
+    if changed { loginDelegate?.loginTextFieldUpdated(self) }
     
-    return false
+    return rval
+  }
+  
+  func textFieldDidEndEditing(_ textField: UITextField)
+  {
+    loginDelegate?.loginTextFieldUpdated(textField as! LoginTextField)
   }
   
   func validate(string:String) -> Bool

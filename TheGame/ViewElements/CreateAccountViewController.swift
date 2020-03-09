@@ -15,15 +15,20 @@ class CreateAccountViewController: UIViewController
   @IBOutlet weak var usernameTextField    : LoginTextField!
   @IBOutlet weak var password1TextField   : LoginTextField!
   @IBOutlet weak var password2TextField   : LoginTextField!
-  @IBOutlet weak var usernameError        : UILabel!
-  @IBOutlet weak var passwordError        : UILabel!
-  @IBOutlet weak var emailError           : UILabel!
   @IBOutlet weak var displayNameTextField : UITextField!
   @IBOutlet weak var emailTextField       : UITextField!
+  @IBOutlet weak var usernameError        : UILabel!
+  @IBOutlet weak var passwordError        : UILabel!
+  @IBOutlet weak var displayNameError     : UILabel!
+  @IBOutlet weak var emailError           : UILabel!
   @IBOutlet weak var createButton         : UIButton!
   
   @IBOutlet weak var facebookInfoLabel    : UILabel!
   @IBOutlet weak var facebookButton       : UIButton!
+  
+  private var updateTimer : Timer?
+
+
   
   //MARK:- View State
   
@@ -36,8 +41,8 @@ class CreateAccountViewController: UIViewController
   {
     navigationController?.setNavigationBarHidden(false, animated: animated)
     
-    self.loginTextFiledUpdated(usernameTextField)
-    self.loginTextFiledUpdated(password1TextField)
+    self.loginTextFieldUpdated(usernameTextField)
+    self.loginTextFieldUpdated(password1TextField)
   }
   
   @IBAction func switchToFacebook(_ sender : UIButton)
@@ -57,63 +62,116 @@ class CreateAccountViewController: UIViewController
     }
   }
   
+  @IBAction func createAccount(_ sender:UIButton)
+  {
+    if checkAll()
+    {
+      print("ceaate account")
+    }
+  }
+  
   // MARK:- Input State
   
-  func setUsernameError(_ err:String)
+  func startupUpdateTimer()
   {
+    updateTimer?.invalidate()
+    updateTimer = Timer.scheduledTimer(withTimeInterval: 0.3, repeats: false) { _ in self.checkAll() }
+  }
+  
+  @discardableResult
+  func checkAll() -> Bool
+  {
+    var allOK = true
+    if !checkUsername()    { allOK = false }
+    if !checkPassword()    { allOK = false }
+    if !checkDisplayName() { allOK = false }
+    if !checkEmail()       { allOK = false }
+    createButton.isEnabled = allOK
+    return allOK
+  }
+  
+  func checkUsername() -> Bool
+  {
+    let t = usernameTextField.text ?? ""
+    
+    var err : String?
+
+    if      t.isEmpty   { err = "(required)" }
+    else if t.count < 6 { err = "too short"  }
+    
+    let ok = ( err == nil )
     usernameError.text = err
-    usernameError.isHidden = false
-    createButton.isEnabled = false
-  }
-  func clearUsernameError()
-  {
-    usernameError.isHidden = true
-    createButton.isEnabled = passwordError.isHidden && emailError.isHidden
+    usernameError.isHidden = ok
+    return ok
   }
   
-  func setPasswordError(_ err:String)
+  func checkPassword() -> Bool
   {
+    let t1 = password1TextField.text ?? ""
+    let t2 = password2TextField.text ?? ""
+        
+    var err : String?
+        
+    if      t1.isEmpty            { err = "(required)" }
+    else if t1.count < 8          { err = "too short"  }
+    else if t2.isEmpty            { err = "confirmation missing" }
+    else if t2.count < t1.count,
+      t2 == t1.prefix(t2.count)   { err = "confirmation incomplete" }
+    else if t1 != t2              { err = "failed confirmation" }
+    
+    let ok = ( err == nil )
     passwordError.text = err
-    passwordError.isHidden = false
-    createButton.isEnabled = false
-  }
-  func clearPasswordError()
-  {
-    passwordError.isHidden = true
-    createButton.isEnabled = usernameError.isHidden && emailError.isHidden
+    passwordError.isHidden = ok
+    return ok
   }
   
-  func setEmailError(_ err:String)
+  func checkDisplayName() -> Bool
   {
-    emailError.text = err
-    emailError.isHidden = false
-    createButton.isEnabled = false
+    let t = (displayNameTextField.text ?? "").trimmingCharacters(in: .whitespaces)
+    
+    var err : String?
+    
+    if t.count > 0, t.count<8 { err = "too short" }
+    
+    let ok = ( err == nil )
+    displayNameError.text = err
+    displayNameError.isHidden = ok
+    return ok
   }
-  func clearEmailError()
+  
+  func checkEmail() -> Bool
   {
-    emailError.isHidden = true
-    createButton.isEnabled = usernameError.isHidden && passwordError.isHidden
+    let t = (emailTextField.text ?? "").trimmingCharacters(in: .whitespaces)
+    
+    // From http://emailregex.com
+    let emailRegex = #"""
+    (?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*|"(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21\x23-\x5b\x5d-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])*")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\[(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?|[a-z0-9-]*[a-z0-9]:(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21-\x5a\x53-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])+)\])
+    """#
+    
+    var err : String?
+    
+    if !t.isEmpty,  t.range(of:emailRegex, options: .regularExpression) == nil
+    {
+      err = "invalid address"
+    }
+    
+    let ok = ( err == nil )
+    emailError.text = err
+    emailError.isHidden = ok
+    return ok
   }
 }
 
-extension CreateAccountViewController : LoginTextFieldDelegate
+extension CreateAccountViewController : LoginTextFieldDelegate, UITextFieldDelegate
 {
-  func loginTextFiledUpdated(_ sender:LoginTextField)
+  func loginTextFieldUpdated(_ sender:LoginTextField)
   {
-    let t = sender.text ?? ""
-    if( sender == usernameTextField )
-    {
-      if      t.isEmpty   { setUsernameError("(required)") }
-      else if t.count < 6 { setUsernameError("too short")  }
-      else                { clearUsernameError()           }
-    }
-    else if( sender == password1TextField || sender == password2TextField )
-    {
-      let t2 = (sender == password1TextField ? password2TextField : password1TextField).text ?? ""
-      if      t.isEmpty || t2.isEmpty  { setPasswordError("(required)") }
-      else if t.count < 8              { setPasswordError("too short")  }
-      else if t != t2                  { setPasswordError("mismatched") }
-      else                             { clearPasswordError()           }
-    }
+    startupUpdateTimer()
+  }
+  
+  func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool
+  {
+    startupUpdateTimer()
+    return true
   }
 }
