@@ -20,10 +20,17 @@ class GameServer
 {
   static let shared = GameServer()
   
+  var username : String?
+  var password : String?
   var fbToken : AccessToken?
   
   private init()
   {
     fbToken = AccessToken.current
+  }
+  
+  func hasConnection() -> Bool
+  {
+    return true
   }
 }

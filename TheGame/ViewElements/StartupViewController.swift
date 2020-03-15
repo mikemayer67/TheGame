@@ -29,7 +29,14 @@ class StartupViewController: UIViewController
   override func viewWillAppear(_ animated: Bool)
   {
     super.viewWillAppear(animated)
-    navigationController?.setNavigationBarHidden(true, animated: animated)
+    if GameServer.shared.hasConnection()
+    {
+      transitionToGame(animate: false)
+    }
+    else
+    {
+      navigationController?.setNavigationBarHidden(true, animated: animated)
+    }
   }
   
   @IBAction func connectWithFacebook(_ sender : UIButton)
@@ -45,6 +52,12 @@ class StartupViewController: UIViewController
   @IBAction func reconnectToAccount(_ sender : UIButton)
   {
     performSegue(withIdentifier: "reconnect", sender: sender)
+  }
+  
+  @IBAction func whyConnect(_ sender : UIButton)
+  {
+    print("WhyConnect")
+    InfoAlert.connectInfo.display(over: self)
   }
   
   @IBAction func unwindToStartup(unwindSegue:UIStoryboardSegue)

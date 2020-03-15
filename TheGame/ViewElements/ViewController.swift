@@ -39,8 +39,6 @@ class GameViewController: UIViewController
     // Do any additional setup after loading the view.
     
     initilizeBannerAd()
-    GameCenterIF.shared.viewController = self
-    GameCenterIF.shared.delgate = self
     
     update(animated:false)
     game.viewController = self
@@ -67,25 +65,6 @@ class GameViewController: UIViewController
     else                  { hideLostButton(animated:animated) }
   }
   
-}
-
-extension GameViewController : GameCenterIFDelegate
-{
-  func localPlayer(authenticated: Bool) {
-    if authenticated {
-      print("still authenticated, no action needed")
-    }
-    else
-    {
-      guard let w = view.window else { fatalError("Attempting to transition from unwindowed view") }
-       
-       let splashBoard = UIStoryboard(name: "Main", bundle: nil)
-       let vc = splashBoard.instantiateInitialViewController()
-      
-       w.rootViewController = vc
-       UIView.transition(with: w, duration: 0.5, options: .transitionCrossDissolve, animations: {})
-    }
-  }
 }
 
 private extension GameViewController

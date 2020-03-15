@@ -14,6 +14,7 @@ enum InfoAlert : String
   case password    = "Password"
   case displayname = "Display Name"
   case email       = "Email"
+  case connectInfo  = "Connection"
   
   func display(over controller:UIViewController, animated:Bool = true)
   {
@@ -27,15 +28,17 @@ enum InfoAlert : String
       message = "Your password must contain at least 8 characters.\n\nIt may contain any combination of letters, numbers, or the following punctuation marks: - ! : # $ @ ."
       
     case .email:
-      message = "Specifying your email is optinal.\n\nIf provided, your email will only  be used to recover a lost userid or password. It will not be used for any other purpose.\n\nIf you choose to not provide an email address, it might not be possible to recover your userid or password if lost."
+      message = "Specifying your email is optional.\n\nIf provided, your email will only  be used to recover a lost username or password. It will not be used for any other purpose.\n\nIf you choose to not provide an email address, it won't be possible to recover your username or password if lost."
       
     case .displayname:
-      message = "Specifying a display name is optional.\n\nIf provided, this is the name that will be displayed to other players in the game.\n\nIF you choose to specify a display name, it must be at least 8 characters long.\n\nIf you choose to not provide a display name, your username will be displayed to other players."
+      message = "Specifying a display name is optional.\n\nIf provided, this is the name that will be displayed to other players in the game.\n\nIf you choose to specify a display name, it must be at least 8 characters long.\n\nIf you choose to not provide a display name, your username will be displayed to other players."
+      
+    case .connectInfo:
+      message = "The Game is a social game. A connection to the game server enables play with others.\n\nA Facebook connection makes it easier to start matches with Facebook friends.\n\nA login account also allows you to play with friends, but requires a little coordination with them to start the match."
     }
     
     let alert = UIAlertController(title: self.rawValue, message: message, preferredStyle: .alert)
     alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
     controller.present(alert,animated:animated)
   }
-
 }

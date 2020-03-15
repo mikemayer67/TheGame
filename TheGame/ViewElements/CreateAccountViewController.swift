@@ -25,7 +25,7 @@ class CreateAccountViewController: UIViewController
   
   @IBOutlet weak var facebookInfoLabel    : UILabel!
   @IBOutlet weak var facebookButton       : UIButton!
-  
+    
   private var updateTimer : Timer?
 
 
@@ -64,10 +64,25 @@ class CreateAccountViewController: UIViewController
   
   @IBAction func createAccount(_ sender:UIButton)
   {
-    if checkAll()
+    guard checkAll() else { return }
+    
+    let email = emailTextField.text ?? ""
+    
+    if email.isEmpty
     {
-      print("ceaate account")
+      ConfirmationAlert.noEmail.display(over: self) { _ in self.requestNewAccount() }
     }
+    else
+    {
+      requestNewAccount()
+    }
+  }
+  
+  func requestNewAccount()
+  {
+    print("request new account")
+    self.showSpinner(onView: navigationController!.view)
+    self.showSpinner(onView: self.view)
   }
   
   // MARK:- Input State
