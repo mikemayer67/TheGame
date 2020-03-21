@@ -1,6 +1,6 @@
 <?php
 
-require_once(__DIR__.'/pri/init.php');
+require_once(__DIR__.'/pri/util.php');
 require_once(__DIR__.'/pri/db.php');
 
 try

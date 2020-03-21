@@ -81,8 +81,50 @@ class CreateAccountViewController: UIViewController
   func requestNewAccount()
   {
     print("request new account")
-    self.showSpinner(onView: navigationController!.view)
-    self.showSpinner(onView: self.view)
+
+    if let username = usernameTextField.text,
+       let password = password1TextField.text
+    {
+      // if all checks are working correctly, should always get here
+      
+      let alias = displayNameTextField.text ?? ""
+      let email = emailTextField.text ?? ""
+      
+      self.showSpinner(onView: navigationController!.view)
+    
+      GameServer.shared.createAccount(username: username, password: password, alias: alias, email: email,
+                                      completion: { (response) in self.handleConnectionResponse(response) } )
+    }
+  }
+  
+  func handleConnectionResponse(_ response:GameServerResponse )
+  {
+    switch response
+    {
+    case .UserAlreadyExists:
+      response.displayAlert(over: self)
+      self.removeSpinner()
+
+    case .UserCreated:
+      self.removeSpinner()
+      
+      if let nav = navigationController
+      {
+        let transition = CATransition()
+        transition.duration = 0.3
+        transition.type = .fade
+        transition.subtype = .fromBottom
+        nav.view.layer.add(transition, forKey: kCATransition)
+        
+        let vc = nav.storyboard!.instantiateViewController(identifier: "loserBoard")
+        nav.pushViewController(vc, animated: false)
+        nav.setViewControllers([vc], animated: false) // remove the login view controllers from the view stack
+      }
+      
+    default:
+      response.displayAlert(over: self)
+      self.removeSpinner()
+    }
   }
   
   // MARK:- Input State
@@ -132,7 +174,7 @@ class CreateAccountViewController: UIViewController
     else if t2.isEmpty            { err = "confirmation missing" }
     else if t2.count < t1.count,
       t2 == t1.prefix(t2.count)   { err = "confirmation incomplete" }
-    else if t1 != t2              { err = "failed confirmation" }
+    else if t1 != t2              { err = "passwords don't match" }
     
     let ok = ( err == nil )
     passwordError.text = err

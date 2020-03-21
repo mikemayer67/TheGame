@@ -93,19 +93,25 @@ function api_error($msg)
 
 function send_success($result)
 {
-  $result['success'] = 0;
+  $result['rc'] = 0;
   print(json_encode($result));
   exit(0);
 }
 
-function send_failure($errno,$reason=null)
+function send_failure($errno,$extra=null)
 {
-  $result = array();
+  $result = array('rc'=>$errno);
 
-  if( isset($errno) )  { $result['status'] = $errno;  }
-  else                 { $result['status'] = 1;       }
-
-  if( isset($reason) ) { $result['reason'] = $reason; }
+  if( isset($extra) ) { 
+    if( is_array($extra) )
+    {
+      $result = array_merge($result,$extra);
+    }
+    else
+    {
+      $result['reason'] = $extra; 
+    }
+  }
 
   print( json_encode($result) );
  

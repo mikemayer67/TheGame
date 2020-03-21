@@ -133,7 +133,7 @@ function db_create_user_with_username($username,$password,$alias,$email)
   if( ! empty($email) )
   {
     $key = db_gen_email_validation_key();
-    $sql = "insert into tg_pending_email values ($userid,'$email','$key')";
+    $sql = "update tg_users set email='$email', email_validation='$key' where userid=$userid";
     $result = $db->query($sql);
   }
 
@@ -204,25 +204,18 @@ function db_drop_facebook($userid)
 function db_confirm_email($key)
 {
   $db = new TGDB;
-  $sql = "select userid,email from tg_pending_email where request_key='$key'";
+  $sql = "select userid from tg_uses where email_validation='$key'";
   $result = $db->query($sql);
 
   $n = $result->num_rows;
-  if($n>1) { throw new Exception("Multiple pending email with same request key",500); }
+  if($n>1) { throw new Exception("Multiple pending email with same validation key",500); }
   if($n<1) return null;
 
   $data = $result->fetch_assoc();
   $userid = $data['userid'];
-  $email  = $data['email'];
 
-  $sql = "delete from tg_pending_email where $userid=$userid";
+  $sql = "update tg_users set email_validation='Y' where userid=$userid";
   $result = $db->query($sql);
-
-  if($result)
-  {
-    $sql = "update tg_users set email='$email' where userid=$userid";
-    $result = $db->query($sql);
-  }
 
   return $result;
 }
@@ -238,7 +231,7 @@ function db_gen_email_validation_key()
   {
     $key = db_gen_key(24);
 
-    $result = $db->query("select request_key from tg_pending_email where request_key='$key'");
+    $result = $db->query("select email_validation from tg_users where email_validation='$key'");
     $n = $result->num_rows;
     $result->close();
 

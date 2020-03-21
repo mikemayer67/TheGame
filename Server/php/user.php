@@ -1,6 +1,6 @@
 <?php
 
-require_once(__DIR__.'/pri/init.php');
+require_once(__DIR__.'/pri/util.php');
 require_once(__DIR__.'/pri/db.php');
 require_once(__DIR__.'/pri/notify.php');
 
@@ -38,6 +38,7 @@ function user_create()
 
   if( $id[0] == 1 ) # create account with username and password
   {
+    error_log("user_create");
     $username = $id[1];
     $password = get_required_arg('password');
     $alias    = get_optional_arg('alias');
@@ -46,7 +47,15 @@ function user_create()
 
     $user_data = db_find_user_by_username($username);
 
-    if( ! empty($user_data) ) { send_failure(1); }
+    $extra = array();
+    if( ! empty($user_data) ) 
+    { 
+      if( isset($user_data['email']) )
+      {
+        $extra['email'] = (int)( $user_data['email_validation'] == 'Y' );
+      }
+      send_failure(1, $extra);
+    }
 
     $userkey = db_create_user_with_username($username,$password,$alias,$email);
 

@@ -19,7 +19,8 @@ class StartupViewController: UIViewController
   @IBOutlet weak var newAccountButton : UIButton!
   @IBOutlet weak var reconnectButton : UIButton!
   
-  override func awakeFromNib() {
+  override func awakeFromNib()
+  {
     super.awakeFromNib()
     
     let gs = GameServer.shared
@@ -29,14 +30,7 @@ class StartupViewController: UIViewController
   override func viewWillAppear(_ animated: Bool)
   {
     super.viewWillAppear(animated)
-    if GameServer.shared.hasConnection()
-    {
-      transitionToGame(animate: false)
-    }
-    else
-    {
-      navigationController?.setNavigationBarHidden(true, animated: animated)
-    }
+    navigationController?.setNavigationBarHidden(true, animated: animated)
   }
   
   @IBAction func connectWithFacebook(_ sender : UIButton)

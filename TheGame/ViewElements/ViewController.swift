@@ -33,6 +33,11 @@ class GameViewController: UIViewController
     game.add(DebugOpponent("Miss Marple",gameAge: 10, lossFrequency: 5400.0, lastLoss:  10.0))
   }
   
+  override func viewWillAppear(_ animated: Bool) {
+    super.viewWillAppear(animated)
+    navigationController?.setNavigationBarHidden(true, animated: animated)
+  }
+  
   override func viewDidLoad() {
     super.viewDidLoad()
     
