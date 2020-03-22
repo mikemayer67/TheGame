@@ -8,6 +8,12 @@
 
 import UIKit
 
+fileprivate var cachedUsername : String?
+fileprivate var cachedPassword1 : String?
+fileprivate var cachedPassword2 : String?
+fileprivate var cachedDisplayName : String?
+fileprivate var cachedEmail : String?
+
 class CreateAccountViewController: UIViewController
 {
   //MARK:- Outlets
@@ -27,8 +33,6 @@ class CreateAccountViewController: UIViewController
   @IBOutlet weak var facebookButton       : UIButton!
     
   private var updateTimer : Timer?
-
-
   
   //MARK:- View State
   
@@ -94,36 +98,6 @@ class CreateAccountViewController: UIViewController
     
       GameServer.shared.createAccount(username: username, password: password, alias: alias, email: email,
                                       completion: { (response) in self.handleConnectionResponse(response) } )
-    }
-  }
-  
-  func handleConnectionResponse(_ response:GameServerResponse )
-  {
-    switch response
-    {
-    case .UserAlreadyExists:
-      response.displayAlert(over: self)
-      self.removeSpinner()
-
-    case .UserCreated:
-      self.removeSpinner()
-      
-      if let nav = navigationController
-      {
-        let transition = CATransition()
-        transition.duration = 0.3
-        transition.type = .fade
-        transition.subtype = .fromBottom
-        nav.view.layer.add(transition, forKey: kCATransition)
-        
-        let vc = nav.storyboard!.instantiateViewController(identifier: "loserBoard")
-        nav.pushViewController(vc, animated: false)
-        nav.setViewControllers([vc], animated: false) // remove the login view controllers from the view stack
-      }
-      
-    default:
-      response.displayAlert(over: self)
-      self.removeSpinner()
     }
   }
   
@@ -230,5 +204,45 @@ extension CreateAccountViewController : LoginTextFieldDelegate, UITextFieldDeleg
   {
     startupUpdateTimer()
     return true
+  }
+}
+
+extension CreateAccountViewController : GameServerAlertObserver
+{
+  func handleConnectionResponse(_ response:GameServerResponse )
+  {
+    switch response
+    {
+    case .UserAlreadyExists:
+      response.displayAlert(over: self, observer: self)
+      self.removeSpinner()
+
+    case .UserCreated:
+      self.removeSpinner()
+      self.transition(to:.LoserBoard, direction: .fromBottom)
+      
+    default:
+      response.displayAlert(over: self, observer: self)
+      self.removeSpinner()
+    }
+  }
+  
+  
+  
+  func ok()
+  {
+    // nothing to do here... this is just user confirmation that they read the alert
+  }
+  
+  func cancel()
+  {
+    // transistion back to the startup view controller
+    self.transition(to:.Startup, direction: .fromLeft)
+  }
+  
+  func goToLogin()
+  {
+    // transition to the login view controller
+    self.transition(to:.AccountLogin, direction: .fromRight)
   }
 }

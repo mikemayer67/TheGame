@@ -1,5 +1,5 @@
 //
-//  FacebookLoginViewController.swift
+//  AccountLoginViewController.swift
 //  TheGame
 //
 //  Created by Mike Mayer on 3/2/20.
@@ -8,7 +8,7 @@
 
 import UIKit
 
-class FacebookLoginViewController: UIViewController {
+class AccountLoginViewController: UIViewController {
   
   override func viewDidLoad() {
     super.viewDidLoad()
@@ -19,7 +19,16 @@ class FacebookLoginViewController: UIViewController {
   override func viewWillAppear(_ animated: Bool) {
     navigationController?.setNavigationBarHidden(false, animated: animated)
   }
-
+  
+  override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+    print("Prepare for segue")
+    if let fromVC = sender as? UIViewController
+    {
+      print("Prepare for segue from:",fromVC)
+    }
+  }
+  
+  
   /*
    // MARK: - Navigation
    

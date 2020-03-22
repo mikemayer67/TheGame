@@ -11,7 +11,7 @@
         <!--Startup View Controller-->
         <scene sceneID="nlu-cj-Dkm">
             <objects>
-                <viewController storyboardIdentifier="splashScreen" id="ISV-GM-3yy" customClass="StartupViewController" customModule="TheGame" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="startup" id="ISV-GM-3yy" customClass="StartupViewController" customModule="TheGame" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="JSk-wM-pcr">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -77,9 +77,9 @@
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="30" id="1bX-lK-9My"/>
                                                 </constraints>
-                                                <state key="normal" title="Reconnect to Existing Account"/>
+                                                <state key="normal" title="Login to Existing Account"/>
                                                 <connections>
-                                                    <action selector="reconnectToAccount:" destination="ISV-GM-3yy" eventType="touchUpInside" id="A06-OU-Az9"/>
+                                                    <action selector="loginToAccount:" destination="ISV-GM-3yy" eventType="touchUpInside" id="Hsq-Qc-aw8"/>
                                                 </connections>
                                             </button>
                                         </subviews>
@@ -126,10 +126,10 @@
                     </navigationItem>
                     <connections>
                         <outlet property="facebookButton" destination="k3d-EU-BBF" id="Wnr-82-XcY"/>
+                        <outlet property="loginButton" destination="AW9-Zk-Ubh" id="U8X-Bs-RFU"/>
                         <outlet property="newAccountButton" destination="U5C-D9-8sk" id="Su1-Th-H6Z"/>
-                        <outlet property="reconnectButton" destination="AW9-Zk-Ubh" id="acx-6X-Jqv"/>
                         <segue destination="dn6-ku-MNg" kind="show" identifier="createAccount" id="bNp-DL-ecL"/>
-                        <segue destination="5Ja-PZ-cua" kind="show" identifier="reconnect" id="QnG-6h-YAt"/>
+                        <segue destination="5Ja-PZ-cua" kind="show" identifier="accountLogin" id="QnG-6h-YAt"/>
                         <segue destination="GJk-pw-Fqy" kind="show" identifier="facebookLogin" id="LWh-Bo-tsY"/>
                     </connections>
                 </viewController>
@@ -137,17 +137,17 @@
             </objects>
             <point key="canvasLocation" x="-553.62318840579712" y="-93.75"/>
         </scene>
-        <!--Reconnect-->
+        <!--Account Login-->
         <scene sceneID="58t-ZD-Xbk">
             <objects>
-                <viewController id="5Ja-PZ-cua" customClass="ReconnectViewController" customModule="TheGame" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="accountLogin" id="5Ja-PZ-cua" customClass="AccountLoginViewController" customModule="TheGame" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="90P-cW-wr2">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <viewLayoutGuide key="safeArea" id="Wfc-Gt-RAV"/>
                     </view>
-                    <navigationItem key="navigationItem" title="Reconnect" id="fCo-SE-0HL">
+                    <navigationItem key="navigationItem" title="Account Login" id="fCo-SE-0HL">
                         <barButtonItem key="backBarButtonItem" title="Cancel" id="CyU-Xw-L0O"/>
                     </navigationItem>
                 </viewController>
@@ -158,7 +158,7 @@
         <!--Facebook Login-->
         <scene sceneID="fcv-nk-Wec">
             <objects>
-                <viewController id="GJk-pw-Fqy" customClass="FacebookLoginViewController" customModule="TheGame" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="facebookLogin" id="GJk-pw-Fqy" customClass="FacebookLoginViewController" customModule="TheGame" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="VRe-Ch-isQ">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -174,7 +174,7 @@
         <!--CreateAccount-->
         <scene sceneID="GvY-9u-Sdx">
             <objects>
-                <viewController id="dn6-ku-MNg" userLabel="CreateAccount" customClass="CreateAccountViewController" customModule="TheGame" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="createAccount" id="dn6-ku-MNg" userLabel="CreateAccount" customClass="CreateAccountViewController" customModule="TheGame" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="JUu-Sq-rYE">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -430,7 +430,7 @@
                         <viewLayoutGuide key="safeArea" id="DJp-2M-ETI"/>
                     </view>
                     <navigationItem key="navigationItem" title="Create Account" id="6yJ-0D-eGw">
-                        <barButtonItem key="backBarButtonItem" title="cancel" id="FCl-lX-zoe"/>
+                        <barButtonItem key="backBarButtonItem" title="back" id="FCl-lX-zoe"/>
                     </navigationItem>
                     <connections>
                         <outlet property="createButton" destination="ypz-Ff-JYR" id="kdQ-Fg-vjg"/>

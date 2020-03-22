@@ -1,5 +1,5 @@
 //
-//  GamerServerResponse.swift
+//  GamerServerAlert.swift
 //  TheGame
 //
 //  Created by Mike Mayer on 3/21/20.
@@ -8,32 +8,22 @@
 
 import UIKit
 
-enum UserEmailStatus
+protocol GameServerAlertObserver
 {
-  case NoEmail
-  case HasValidatedEmail
-  case HasUnvalidatedEmail
-}
-
-enum GameServerResponse
-{
-  case FailedToConnect
-  case ServerError
-  case UserCreated(String)      // userkey
-  case UserAlreadyExists(UserEmailStatus)
-  
-  case NotYetImplemented // @@@ delete after all dev complete
+  func ok()
+  func cancel()
+  func goToLogin()
 }
 
 extension GameServerResponse
 {
-  func displayAlert(over controller:UIViewController, animated:Bool = true)
+  func displayAlert(over controller:UIViewController, observer:GameServerAlertObserver? = nil)
   {
     var title   : String
     var message : String
     var actions : [UIAlertAction] = [
-      UIAlertAction(title: "OK", style:.default, handler:nil),
-      UIAlertAction(title: "Cancel", style: .cancel, handler:nil)
+      UIAlertAction(title: "OK", style: .default, handler: { _ in observer?.ok() } ),
+      UIAlertAction(title: "Cancel", style: .cancel, handler: { _ in observer?.cancel() } )
     ]
     
     switch self
@@ -50,9 +40,9 @@ extension GameServerResponse
       title = "User already exists"
       message = "\nIf this is you, please use the login page to reconnect.\n\nIf this is not you, you will need to select a different username."
       actions = [
-        UIAlertAction(title: "Go to Login page", style:.default, handler:nil),
-        UIAlertAction(title: "Enter new username", style:.default, handler:nil),
-        UIAlertAction(title: "Cancel", style: .cancel, handler:nil)
+        UIAlertAction(title: "Go to Login page",   style: .default, handler: { _ in observer?.goToLogin() } ),
+        UIAlertAction(title: "Enter new username", style: .default, handler: { _ in observer?.ok() } ),
+        UIAlertAction(title: "Cancel",             style: .cancel,  handler: { _ in observer?.cancel() } )
       ]
       
     case .NotYetImplemented:
@@ -65,6 +55,6 @@ extension GameServerResponse
     
     let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
     actions.forEach { (action) in alert.addAction(action) }
-    controller.present(alert,animated:animated)
+    controller.present(alert,animated:true)
   }
 }

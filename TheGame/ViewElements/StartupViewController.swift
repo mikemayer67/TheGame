@@ -17,7 +17,7 @@ class StartupViewController: UIViewController
 {
   @IBOutlet weak var facebookButton : UIButton!
   @IBOutlet weak var newAccountButton : UIButton!
-  @IBOutlet weak var reconnectButton : UIButton!
+  @IBOutlet weak var loginButton : UIButton!
   
   override func awakeFromNib()
   {
@@ -43,9 +43,9 @@ class StartupViewController: UIViewController
     performSegue(withIdentifier: "createAccount", sender: sender)
   }
   
-  @IBAction func reconnectToAccount(_ sender : UIButton)
+  @IBAction func loginToAccount(_ sender : UIButton)
   {
-    performSegue(withIdentifier: "reconnect", sender: sender)
+    performSegue(withIdentifier: "accountLogin", sender: sender)
   }
   
   @IBAction func whyConnect(_ sender : UIButton)
@@ -71,6 +71,10 @@ class StartupViewController: UIViewController
     {
       UIView.transition(with: w, duration: 0.5, options: .transitionCurlUp, animations: {})
     }
+  }
+  
+  override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+    print("prepare for segue from:",segue.source,"to:",segue.destination,"sender:", sender)
   }
   
   func update(animated:Bool) -> Void

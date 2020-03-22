@@ -11,9 +11,22 @@ import FacebookLogin
 
 fileprivate let SERVER_HOST = "https://localhost/thegame"
 
-protocol GameServerListener
+
+enum UserEmailStatus
 {
+  case NoEmail
+  case HasValidatedEmail
+  case HasUnvalidatedEmail
+}
+
+enum GameServerResponse
+{
+  case FailedToConnect
+  case ServerError
+  case UserCreated(String)      // userkey
+  case UserAlreadyExists(UserEmailStatus)
   
+  case NotYetImplemented // @@@ delete after all dev complete
 }
 
 class GameServer
