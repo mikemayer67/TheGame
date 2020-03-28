@@ -1,5 +1,5 @@
 //
-//  ViewController+GADBannerViewDelegate.swift
+//  GameiewController_GADBannerViewDelegate.swift
 //  TheGame
 //
 //  Created by Mike Mayer on 2/7/20.

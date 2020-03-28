@@ -25,15 +25,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate
         
     GADMobileAds.sharedInstance().start(completionHandler: nil)
     GADMobileAds.sharedInstance().requestConfiguration.testDeviceIdentifiers = [(kGADSimulatorID as! String)];
+
+    RootViewController.shared.rootWindow = window
     
-    if GameServer.shared.hasConnection()
-    {
-      let storyBoard = UIStoryboard(name: "Main", bundle: nil)
-      let gameVC = storyBoard.instantiateViewController(withIdentifier: "loserBoard")
-      self.window?.rootViewController = gameVC
-    }
-    
-    print("NSHomeDirectory:",NSHomeDirectory())
+//    debug("NSHomeDirectory:",NSHomeDirectory())
     return true
   }
 }

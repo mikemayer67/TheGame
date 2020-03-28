@@ -8,28 +8,49 @@
 
 import UIKit
 
+enum RootViewControllerID : String
+{
+  case startup            = "startup"
+  case loginNavController = "loginNavController"
+  case loserBoard         = "loserBoard"
+}
+
 class RootViewController
 {
   static let shared = RootViewController()
   
-  var rootWindow : UIWindow?
-  {
-    didSet { setViewController() }
-  }
+  var rootWindow : UIWindow? = nil
   
-  func setViewController()
+  func update(animate : Bool = true)
   {
     if let w = rootWindow
     {
-      if GameServer.shared.hasConnection()
+      let storyBoard = UIStoryboard(name: "Main", bundle: nil)
+
+      let id : RootViewControllerID = GameServer.shared.hasConnection ?
+        ( GameServer.shared.hasLogin ? .loserBoard : .loginNavController ) :
+        .startup
+      
+      let vc = storyBoard.instantiateViewController(withIdentifier: id.rawValue)
+      let ovc = w.rootViewController
+      
+      if vc != ovc
       {
-        let storyBoard = UIStoryboard(name: "Main", bundle: nil)
-        let gameVC = storyBoard.instantiateViewController(withIdentifier: "loserBoard")
-        w.rootViewController = gameVC
-      }
-      else
-      {
-        
+        w.rootViewController = vc
+
+        if animate, ovc != nil,
+          let snapshot = ovc!.view.snapshotView(afterScreenUpdates:true)
+        {
+          vc.view.addSubview(snapshot)
+
+          UIView.animate(withDuration: 0.3, animations: { () in
+            snapshot.layer.opacity = 0
+            snapshot.layer.transform = CATransform3DMakeScale(0,1.5,1)
+          }, completion: {
+            (value:Bool) in snapshot.removeFromSuperview()
+          } )
+
+        }
       }
     }
   }

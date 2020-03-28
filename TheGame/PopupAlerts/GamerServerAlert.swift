@@ -8,22 +8,19 @@
 
 import UIKit
 
-protocol GameServerAlertObserver
-{
-  func ok()
-  func cancel()
-  func goToLogin()
-}
-
 extension GameServerResponse
 {
-  func displayAlert(over controller:UIViewController, observer:GameServerAlertObserver? = nil)
+  typealias Callback = () -> ()
+  func displayAlert(over controller:UIViewController,
+                    ok: Callback?,
+                    cancel: Callback?,
+                    action: Callback? )
   {
     var title   : String
     var message : String
     var actions : [UIAlertAction] = [
-      UIAlertAction(title: "OK", style: .default, handler: { _ in observer?.ok() } ),
-      UIAlertAction(title: "Cancel", style: .cancel, handler: { _ in observer?.cancel() } )
+      UIAlertAction(title: "OK", style: .default, handler: { _ in ok?() } ),
+      UIAlertAction(title: "Cancel", style: .cancel, handler: { _ in cancel?() } )
     ]
     
     switch self
@@ -40,9 +37,9 @@ extension GameServerResponse
       title = "User already exists"
       message = "\nIf this is you, please use the login page to reconnect.\n\nIf this is not you, you will need to select a different username."
       actions = [
-        UIAlertAction(title: "Go to Login page",   style: .default, handler: { _ in observer?.goToLogin() } ),
-        UIAlertAction(title: "Enter new username", style: .default, handler: { _ in observer?.ok() } ),
-        UIAlertAction(title: "Cancel",             style: .cancel,  handler: { _ in observer?.cancel() } )
+        UIAlertAction(title: "Go to Login page",   style: .default, handler: { _ in action?() } ),
+        UIAlertAction(title: "Enter new username", style: .default, handler: { _ in ok?() } ),
+        UIAlertAction(title: "Cancel",             style: .cancel,  handler: { _ in cancel?() } )
       ]
       
     case .NotYetImplemented:

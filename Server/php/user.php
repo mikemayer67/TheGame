@@ -137,6 +137,8 @@ function user_info()
 
     if( isset($user_info['alias']) ) { $reply['name'] = $user_info['alias']; }
 
+    error_log(print_r($reply,TRUE));
+
     send_success($reply);
   }
   else # Facebook ID

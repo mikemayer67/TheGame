@@ -25,16 +25,16 @@
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" insetsLayoutMarginsFromSafeArea="NO" image="dice_splash" adjustsImageSizeForAccessibilityContentSizeCategory="YES" translatesAutoresizingMaskIntoConstraints="NO" id="fmd-UM-eBj">
-                                        <rect key="frame" x="0.0" y="114.5" width="355" height="236.5"/>
+                                        <rect key="frame" x="0.0" y="105" width="355" height="236.5"/>
                                         <constraints>
                                             <constraint firstAttribute="width" secondItem="fmd-UM-eBj" secondAttribute="height" multiplier="1.5" id="oMl-kM-YAY"/>
                                         </constraints>
                                     </imageView>
                                     <view contentMode="scaleToFill" verticalHuggingPriority="249" translatesAutoresizingMaskIntoConstraints="NO" id="pQM-k1-c6Y" userLabel="ButtonBox">
-                                        <rect key="frame" x="10" y="404.5" width="335" height="146"/>
+                                        <rect key="frame" x="10" y="385" width="335" height="175"/>
                                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                                         <constraints>
-                                            <constraint firstAttribute="height" constant="146" id="a9X-gU-fyS"/>
+                                            <constraint firstAttribute="height" constant="175" id="a9X-gU-fyS"/>
                                         </constraints>
                                     </view>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="by VMWISHES" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9Bc-WR-aFZ">

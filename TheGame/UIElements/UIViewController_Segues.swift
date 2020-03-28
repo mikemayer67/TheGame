@@ -10,24 +10,15 @@ import UIKit
 
 enum SegueIdentifier : String
 {
-  case LoserBoard             = "loserBoard"
   case CreateAccount          = "createAccount"
   case AccountLogin           = "accountLogin"
   case FacebookLogin          = "facebookLogin"
-  case SwitchToFacebookLogin  = "switchToFacebookLogin"
-  case SwitchToAccountLogin   = "switchToAccountLogin"
-  case CreateAccountToStartup = "createAccountToStartup"
-  case AccountLoginToStartup  = "accountLoginToStartup"
-  case FacebookLoginToStartup = "facebookLoginToStartup"
-  case UnwindToStartup        = "unwindToStartup"
-}
-
-class CustomSegue : UIStoryboardSegue
-{
-  override func perform() {
-    print("Custom Segue")
-    super.perform()
-  }
+  case SwitchToFacebook       = "switchToFacebook"
+  case SwitchToAccount        = "switchToAccount"
+  case CreateAccountToLogin   = "createAccountToLogin"
+  case AccountToLogin         = "accountToLogin"
+  case FacebookToLogin        = "facebookToLogin"
+  case UnwindToLogin          = "unwindToLogin"
 }
 
 extension UIViewController
@@ -54,7 +45,7 @@ extension UIViewController
   
   func performSegue(_ target:SegueIdentifier, sender:Any?)
   {
-    print("performSegue:", target.rawValue)
+    debug("performSegue:", target.rawValue)
     performSegue(withIdentifier: target.rawValue, sender: sender)
   }
 }

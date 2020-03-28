@@ -19,7 +19,7 @@ class GameModel : NSObject
   
   override func awakeFromNib()
   {
-    print("awake from nib: GameModel")
+    debug("awake from nib: GameModel")
     if let t = UserDefaults.standard.object(forKey: "LastLoss") as? TimeInterval
     {
       lastLoss = GameTime(networktime: t)
@@ -59,7 +59,7 @@ extension GameModel // @@@ REMOVE
   
   @IBAction func opponentLost(_ sender: UIButton)
   {
-    print("opponent",sender.tag,"lost")
+    debug("opponent",sender.tag,"lost")
     opponents[sender.tag].lastLoss = GameTime()
     updateNextAllowableLoss()
     viewController?.update()
@@ -118,7 +118,7 @@ private extension GameModel
 //{
 //  func playerAuthenticationHandler(vc:UIViewController?, error:Error?)
 //  {
-//    print("authentication handler:",vc,"\nerror:",error,"\nvalidated:",GKLocalPlayer.local.isAuthenticated)
+//    debug("authentication handler:",vc,"\nerror:",error,"\nvalidated:",GKLocalPlayer.local.isAuthenticated)
 //  }
 //}
 

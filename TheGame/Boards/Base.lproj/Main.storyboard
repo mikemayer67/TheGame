@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="15705" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="QNt-0X-MiR">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="15705" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="TTF-dm-E0x">
     <device id="retina4_0" orientation="portrait" appearance="light"/>
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15706"/>
@@ -8,10 +8,10 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--Startup View Controller-->
+        <!--Login View Controller-->
         <scene sceneID="nlu-cj-Dkm">
             <objects>
-                <viewController storyboardIdentifier="startup" id="ISV-GM-3yy" customClass="StartupViewController" customModule="TheGame" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="login" id="ISV-GM-3yy" customClass="LoginViewController" customModule="TheGame" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="JSk-wM-pcr">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -26,13 +26,13 @@
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" insetsLayoutMarginsFromSafeArea="NO" image="dice_splash" translatesAutoresizingMaskIntoConstraints="NO" id="MVX-JY-YYI">
-                                        <rect key="frame" x="0.0" y="70.5" width="300" height="200"/>
+                                        <rect key="frame" x="0.0" y="69.5" width="300" height="200"/>
                                         <constraints>
                                             <constraint firstAttribute="width" secondItem="MVX-JY-YYI" secondAttribute="height" multiplier="1.5" id="S89-w4-TPb"/>
                                         </constraints>
                                     </imageView>
                                     <view contentMode="scaleToFill" verticalHuggingPriority="249" translatesAutoresizingMaskIntoConstraints="NO" id="CRg-Ur-aR4" userLabel="ButtonBox">
-                                        <rect key="frame" x="0.0" y="280.5" width="300" height="171"/>
+                                        <rect key="frame" x="0.0" y="277.5" width="300" height="175"/>
                                         <subviews>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="infoLight" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="EBw-V2-00a">
                                                 <rect key="frame" x="280" y="0.0" width="20" height="20"/>
@@ -85,7 +85,6 @@
                                         </subviews>
                                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                                         <constraints>
-                                            <constraint firstAttribute="bottom" secondItem="AW9-Zk-Ubh" secondAttribute="bottom" id="72c-gu-jkV"/>
                                             <constraint firstAttribute="trailing" secondItem="EBw-V2-00a" secondAttribute="trailing" id="Acv-v1-dNl"/>
                                             <constraint firstItem="AW9-Zk-Ubh" firstAttribute="leading" secondItem="CRg-Ur-aR4" secondAttribute="leading" id="Cl7-KT-8Lu"/>
                                             <constraint firstItem="k3d-EU-BBF" firstAttribute="leading" secondItem="CRg-Ur-aR4" secondAttribute="leading" id="D19-nW-HRq"/>
@@ -96,6 +95,7 @@
                                             <constraint firstAttribute="trailing" secondItem="k3d-EU-BBF" secondAttribute="trailing" id="bRM-OB-AMQ"/>
                                             <constraint firstAttribute="trailing" secondItem="AW9-Zk-Ubh" secondAttribute="trailing" id="iDp-1B-oJZ"/>
                                             <constraint firstItem="k3d-EU-BBF" firstAttribute="top" secondItem="EBw-V2-00a" secondAttribute="bottom" constant="5" id="p9D-QD-Q3F"/>
+                                            <constraint firstAttribute="height" constant="175" id="ucp-hX-OHN"/>
                                             <constraint firstItem="EBw-V2-00a" firstAttribute="top" secondItem="CRg-Ur-aR4" secondAttribute="top" id="ymV-A1-fYz"/>
                                         </constraints>
                                     </view>
@@ -150,10 +150,14 @@
                     <navigationItem key="navigationItem" title="Account Login" id="fCo-SE-0HL">
                         <barButtonItem key="backBarButtonItem" title="Cancel" id="CyU-Xw-L0O"/>
                     </navigationItem>
+                    <connections>
+                        <segue destination="lYn-74-zFx" kind="unwind" identifier="accoutToLogin" unwindAction="returnToLoginWithSegue:" id="pzd-00-odI"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="QD8-ah-aZ8" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+                <exit id="lYn-74-zFx" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
-            <point key="canvasLocation" x="396" y="388"/>
+            <point key="canvasLocation" x="1824" y="466"/>
         </scene>
         <!--Facebook Login-->
         <scene sceneID="fcv-nk-Wec">
@@ -166,10 +170,14 @@
                         <viewLayoutGuide key="safeArea" id="kh6-yA-6Pr"/>
                     </view>
                     <navigationItem key="navigationItem" title="Facebook Login" id="H7y-dF-LEi"/>
+                    <connections>
+                        <segue destination="dOW-90-XaO" kind="unwind" identifier="facebookTLoginToLogin" unwindAction="returnToLoginWithSegue:" id="byK-rw-PFf"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="nJO-km-4ET" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+                <exit id="dOW-90-XaO" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
-            <point key="canvasLocation" x="1208" y="-110"/>
+            <point key="canvasLocation" x="1823" y="-652"/>
         </scene>
         <!--CreateAccount-->
         <scene sceneID="GvY-9u-Sdx">
@@ -446,16 +454,19 @@
                         <outlet property="usernameError" destination="TSB-Uh-GD0" id="fDq-vt-fQV"/>
                         <outlet property="usernameTextField" destination="MVo-gd-LOE" id="PcA-gT-47Y"/>
                         <segue destination="GJk-pw-Fqy" kind="show" identifier="switchToFacebook" id="hiE-kv-JFh"/>
+                        <segue destination="5Ja-PZ-cua" kind="show" identifier="switchToAccount" id="Oej-iK-SRL"/>
+                        <segue destination="TXM-wV-KUZ" kind="unwind" identifier="createAccountToLogin" unwindAction="returnToLoginWithSegue:" id="IjC-ST-wFT"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="q5j-bO-fUc" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+                <exit id="TXM-wV-KUZ" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
-            <point key="canvasLocation" x="266.25" y="-606.33802816901414"/>
+            <point key="canvasLocation" x="716" y="-94"/>
         </scene>
-        <!--Navigation Controller-->
+        <!--Login Nav Controller-->
         <scene sceneID="kgv-tD-9km">
             <objects>
-                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="QNt-0X-MiR" sceneMemberID="viewController">
+                <navigationController storyboardIdentifier="loginNavController" automaticallyAdjustsScrollViewInsets="NO" id="QNt-0X-MiR" userLabel="Login Nav Controller" sceneMemberID="viewController">
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="cDS-kn-uzR">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
@@ -678,7 +689,101 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="pWO-7A-VYf" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
                 <customObject id="WDJ-Qp-Kwo" customClass="GameModel" customModule="TheGame" customModuleProvider="target"/>
             </objects>
-            <point key="canvasLocation" x="-1464" y="694"/>
+            <point key="canvasLocation" x="-1464" y="657"/>
+        </scene>
+        <!--Startup-->
+        <scene sceneID="q1C-nm-cC1">
+            <objects>
+                <viewController storyboardIdentifier="startup" title="waitingToConnect" id="TTF-dm-E0x" userLabel="Startup" customClass="StartupViewController" customModule="TheGame" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="fAv-Qr-OKF">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="equalSpacing" alignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="Zom-Dd-z87">
+                                <rect key="frame" x="10" y="20" width="300" height="528"/>
+                                <subviews>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="The GAME" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5uQ-eI-Cxj">
+                                        <rect key="frame" x="9.5" y="0.0" width="281.5" height="61"/>
+                                        <fontDescription key="fontDescription" name="Chalkduster" family="Chalkduster" pointSize="48"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" insetsLayoutMarginsFromSafeArea="NO" image="dice_splash" translatesAutoresizingMaskIntoConstraints="NO" id="z6j-Vd-yxC">
+                                        <rect key="frame" x="0.0" y="84" width="300" height="200"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" secondItem="z6j-Vd-yxC" secondAttribute="height" multiplier="1.5" id="THS-xL-fbx"/>
+                                        </constraints>
+                                    </imageView>
+                                    <view contentMode="scaleToFill" verticalHuggingPriority="249" translatesAutoresizingMaskIntoConstraints="NO" id="Kfk-pp-llu" userLabel="ButtonBox">
+                                        <rect key="frame" x="0.0" y="307" width="300" height="175"/>
+                                        <subviews>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Connecting to Game Server" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="EXP-vz-tdP">
+                                                <rect key="frame" x="38" y="32" width="224.5" height="12"/>
+                                                <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
+                                                <nil key="textColor"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                            <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" animating="YES" style="large" translatesAutoresizingMaskIntoConstraints="NO" id="1zq-za-0BQ">
+                                                <rect key="frame" x="131.5" y="69" width="37" height="37"/>
+                                            </activityIndicatorView>
+                                            <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Failed to Connect" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="k59-ok-qeF">
+                                                <rect key="frame" x="83" y="69" width="134" height="20.5"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                <color key="textColor" systemColor="systemRedColor" red="1" green="0.23137254900000001" blue="0.18823529410000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                            <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Trying again in" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="kOV-nS-jnw">
+                                                <rect key="frame" x="97.5" y="94.5" width="105.5" height="19.5"/>
+                                                <fontDescription key="fontDescription" type="italicSystem" pointSize="16"/>
+                                                <nil key="textColor"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                        </subviews>
+                                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                                        <constraints>
+                                            <constraint firstItem="k59-ok-qeF" firstAttribute="top" secondItem="1zq-za-0BQ" secondAttribute="top" id="3ql-GQ-gAa"/>
+                                            <constraint firstItem="k59-ok-qeF" firstAttribute="centerX" secondItem="Kfk-pp-llu" secondAttribute="centerX" id="7XO-4D-BuM"/>
+                                            <constraint firstItem="EXP-vz-tdP" firstAttribute="centerX" secondItem="Kfk-pp-llu" secondAttribute="centerX" id="9ta-d5-Fgi"/>
+                                            <constraint firstItem="kOV-nS-jnw" firstAttribute="top" secondItem="k59-ok-qeF" secondAttribute="bottom" constant="5" id="AQt-TG-sWf"/>
+                                            <constraint firstItem="1zq-za-0BQ" firstAttribute="centerX" secondItem="Kfk-pp-llu" secondAttribute="centerX" id="E18-fT-cZ8"/>
+                                            <constraint firstItem="1zq-za-0BQ" firstAttribute="top" secondItem="EXP-vz-tdP" secondAttribute="bottom" constant="25" id="FtI-c0-mky"/>
+                                            <constraint firstItem="1zq-za-0BQ" firstAttribute="centerY" secondItem="Kfk-pp-llu" secondAttribute="centerY" id="dWA-Yx-xiZ"/>
+                                            <constraint firstItem="EXP-vz-tdP" firstAttribute="top" secondItem="Kfk-pp-llu" secondAttribute="top" constant="32" id="efi-hs-LjI"/>
+                                            <constraint firstItem="kOV-nS-jnw" firstAttribute="centerX" secondItem="Kfk-pp-llu" secondAttribute="centerX" id="lhU-NT-H7d"/>
+                                            <constraint firstAttribute="height" constant="175" id="xyS-Zj-twB"/>
+                                        </constraints>
+                                    </view>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="by VMWISHES" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Xt8-R3-XRp">
+                                        <rect key="frame" x="86.5" y="505" width="127" height="23"/>
+                                        <fontDescription key="fontDescription" name="Chalkduster" family="Chalkduster" pointSize="18"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                </subviews>
+                                <constraints>
+                                    <constraint firstItem="Kfk-pp-llu" firstAttribute="leading" secondItem="Zom-Dd-z87" secondAttribute="leading" id="KJd-rl-0nF"/>
+                                    <constraint firstAttribute="trailing" secondItem="Kfk-pp-llu" secondAttribute="trailing" id="yc2-7H-8Xt"/>
+                                </constraints>
+                            </stackView>
+                        </subviews>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <constraints>
+                            <constraint firstItem="Zom-Dd-z87" firstAttribute="leading" secondItem="P3p-FK-4H7" secondAttribute="leading" constant="10" id="68R-pW-wE4"/>
+                            <constraint firstAttribute="trailing" secondItem="Zom-Dd-z87" secondAttribute="trailing" constant="10" id="SYY-fz-4uw"/>
+                            <constraint firstItem="Zom-Dd-z87" firstAttribute="top" secondItem="P3p-FK-4H7" secondAttribute="top" constant="20" id="fk5-Ro-aIL"/>
+                            <constraint firstAttribute="bottom" secondItem="Zom-Dd-z87" secondAttribute="bottom" constant="20" id="jJp-jm-hMY"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="P3p-FK-4H7"/>
+                    </view>
+                    <connections>
+                        <outlet property="failedLabel" destination="k59-ok-qeF" id="tQB-qS-ApH"/>
+                        <outlet property="reconnectLabel" destination="kOV-nS-jnw" id="xbv-al-yFx"/>
+                        <outlet property="spinner" destination="1zq-za-0BQ" id="eGu-FB-Edw"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Xvo-DS-YiU" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-1464" y="-889"/>
         </scene>
     </scenes>
     <resources>
@@ -694,6 +799,7 @@
         </namedColor>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="hiE-kv-JFh"/>
+        <segue reference="LWh-Bo-tsY"/>
+        <segue reference="QnG-6h-YAt"/>
     </inferredMetricsTieBreakers>
 </document>

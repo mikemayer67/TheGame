@@ -51,7 +51,7 @@ class CreateAccountViewController: UIViewController
   
   @IBAction func switchToFacebook(_ sender : UIButton)
   {
-    performSegue(.SwitchToFacebookLogin, sender: sender)
+    performSegue(.SwitchToFacebook, sender: sender)
   }
   
   @IBAction func displayInfo(_ sender:UIButton)
@@ -84,26 +84,48 @@ class CreateAccountViewController: UIViewController
   
   func requestNewAccount()
   {
-    debug("request new account")
-
-    if let username = usernameTextField.text,
-       let password = password1TextField.text
-    {
-      // if all checks are working correctly, should always get here
+    guard let username = usernameTextField.text  else { return }
+    guard let password = password1TextField.text else { return }
+     
+    // if all checks are working correctly, should always get here
       
-      let alias = displayNameTextField.text ?? ""
-      let email = emailTextField.text ?? ""
-      
-      self.showSpinner(onView: navigationController!.view)
+    let alias = displayNameTextField.text ?? ""
+    let email = emailTextField.text ?? ""
     
-      GameServer.shared.createAccount(username: username, password: password, alias: alias, email: email,
-                                      completion: { (response) in self.handleConnectionResponse(response) } )
+    self.showSpinner(onView: navigationController!.view)
+    
+    GameServer.shared.createAccount(username: username, password: password, alias: alias, email: email)
+    {
+      (response:GameServerResponse) in
+      
+      if case .UserCreated = response
+      {
+        self.removeSpinner()
+        RootViewController.shared.update(animate: true)
+      }
+      else
+      {
+        response.displayAlert(over: self, ok: {
+          // user chose to enter new  password... clear the existing username field
+          self.usernameTextField.text = ""
+          self.removeSpinner()
+        }, cancel: {
+          // segue back to the login view controller
+          self.removeSpinner()
+          self.performSegue(.CreateAccountToLogin, sender: self)
+        }, action: {
+          // segue to the login view controller
+          self.removeSpinner()
+          self.performSegue(.SwitchToAccount, sender:self)
+        }
+        )
+      }
     }
   }
   
   // MARK:- Input State
   
-  func startupUpdateTimer()
+  func startUpdateTimer()
   {
     updateTimer?.invalidate()
     updateTimer = Timer.scheduledTimer(withTimeInterval: 0.3, repeats: false) { _ in self.checkAll() }
@@ -197,54 +219,12 @@ extension CreateAccountViewController : LoginTextFieldDelegate, UITextFieldDeleg
 {
   func loginTextFieldUpdated(_ sender:LoginTextField)
   {
-    startupUpdateTimer()
+    startUpdateTimer()
   }
   
   func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool
   {
-    startupUpdateTimer()
+    startUpdateTimer()
     return true
-  }
-}
-
-extension CreateAccountViewController : GameServerAlertObserver
-{
-  func handleConnectionResponse(_ response:GameServerResponse )
-  {
-    switch response
-    {
-    case .UserAlreadyExists:
-      response.displayAlert(over: self, observer: self)
-      self.removeSpinner()
-
-    case .UserCreated:
-      self.removeSpinner()
-      performSegue(.CreateAccountToStartup, sender: self)
-      // self.transition(to:.LoserBoard, direction: .fromBottom)
-      
-    default:
-      response.displayAlert(over: self, observer: self)
-      self.removeSpinner()
-    }
-  }
-  
-  
-  
-  func ok()
-  {
-    // user chose to enter new  password... clear the existing username field
-    usernameTextField.text = ""
-  }
-  
-  func cancel()
-  {
-    // segue back to the startup view controller
-    performSegue(.CreateAccountToStartup, sender: self)
-  }
-  
-  func goToLogin()
-  {
-    // segue to the login view controller
-    performSegue(.SwitchToAccountLogin, sender:self)
   }
 }

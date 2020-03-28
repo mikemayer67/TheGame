@@ -34,3 +34,8 @@ extension Date
     return lhs.timeIntervalSince1970 - rhs.timeIntervalSince1970
   }
 }
+
+func debug(_ args:Any...)
+{
+  print("DEBUG::",args)
+}
