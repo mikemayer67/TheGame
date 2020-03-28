@@ -51,7 +51,7 @@ class CreateAccountViewController: UIViewController
   
   @IBAction func switchToFacebook(_ sender : UIButton)
   {
-    performSegue(withIdentifier: "switchToFacebook", sender: sender)
+    performSegue(.SwitchToFacebookLogin, sender: sender)
   }
   
   @IBAction func displayInfo(_ sender:UIButton)
@@ -84,7 +84,7 @@ class CreateAccountViewController: UIViewController
   
   func requestNewAccount()
   {
-    print("request new account")
+    debug("request new account")
 
     if let username = usernameTextField.text,
        let password = password1TextField.text
@@ -219,7 +219,8 @@ extension CreateAccountViewController : GameServerAlertObserver
 
     case .UserCreated:
       self.removeSpinner()
-      self.transition(to:.LoserBoard, direction: .fromBottom)
+      performSegue(.CreateAccountToStartup, sender: self)
+      // self.transition(to:.LoserBoard, direction: .fromBottom)
       
     default:
       response.displayAlert(over: self, observer: self)
@@ -231,18 +232,19 @@ extension CreateAccountViewController : GameServerAlertObserver
   
   func ok()
   {
-    // nothing to do here... this is just user confirmation that they read the alert
+    // user chose to enter new  password... clear the existing username field
+    usernameTextField.text = ""
   }
   
   func cancel()
   {
-    // transistion back to the startup view controller
-    self.transition(to:.Startup, direction: .fromLeft)
+    // segue back to the startup view controller
+    performSegue(.CreateAccountToStartup, sender: self)
   }
   
   func goToLogin()
   {
-    // transition to the login view controller
-    self.transition(to:.AccountLogin, direction: .fromRight)
+    // segue to the login view controller
+    performSegue(.SwitchToAccountLogin, sender:self)
   }
 }

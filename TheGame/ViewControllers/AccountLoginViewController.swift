@@ -21,10 +21,10 @@ class AccountLoginViewController: UIViewController {
   }
   
   override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-    print("Prepare for segue")
+    debug("Prepare for segue")
     if let fromVC = sender as? UIViewController
     {
-      print("Prepare for segue from:",fromVC)
+      debug("Prepare for segue from:",fromVC)
     }
   }
   
