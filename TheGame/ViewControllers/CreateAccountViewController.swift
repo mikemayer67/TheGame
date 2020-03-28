@@ -9,8 +9,6 @@
 import UIKit
 
 fileprivate var cachedUsername : String?
-fileprivate var cachedPassword1 : String?
-fileprivate var cachedPassword2 : String?
 fileprivate var cachedDisplayName : String?
 fileprivate var cachedEmail : String?
 
@@ -45,8 +43,21 @@ class CreateAccountViewController: UIViewController
   {
     navigationController?.setNavigationBarHidden(false, animated: animated)
     
+    self.usernameTextField.text    = cachedUsername ?? ""
+    self.password1TextField.text   = ""
+    self.password2TextField.text   = ""
+    self.displayNameTextField.text = cachedDisplayName ?? ""
+    self.emailTextField.text       = cachedEmail ?? ""
+        
     self.loginTextFieldUpdated(usernameTextField)
     self.loginTextFieldUpdated(password1TextField)
+  }
+  
+  override func viewWillDisappear(_ animated: Bool)
+  {
+    cachedUsername    = self.usernameTextField.text
+    cachedDisplayName = self.displayNameTextField.text
+    cachedEmail       = self.emailTextField.text
   }
   
   @IBAction func switchToFacebook(_ sender : UIButton)
@@ -98,13 +109,17 @@ class CreateAccountViewController: UIViewController
     {
       (response:GameServerResponse) in
       
-      if case .UserCreated = response
+      switch response
       {
+      case .UserCreated:
         self.removeSpinner()
         RootViewController.shared.update(animate: true)
-      }
-      else
-      {
+        
+      case .FailedToConnect:
+        self.removeSpinner()
+        RootViewController.shared.update(animate: true)
+        
+      default:
         response.displayAlert(over: self, ok: {
           // user chose to enter new  password... clear the existing username field
           self.usernameTextField.text = ""
@@ -117,8 +132,8 @@ class CreateAccountViewController: UIViewController
           // segue to the login view controller
           self.removeSpinner()
           self.performSegue(.SwitchToAccount, sender:self)
-        }
-        )
+        } )
+        
       }
     }
   }

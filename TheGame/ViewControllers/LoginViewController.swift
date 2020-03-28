@@ -24,8 +24,7 @@ class LoginViewController: UIViewController
     super.awakeFromNib()
     
     let gs = GameServer.shared
-    debug(gs.fbToken?.tokenString ?? "no token")
-  }  
+  }
   
   @IBAction func connectWithFacebook(_ sender : UIButton)
   {
@@ -44,17 +43,15 @@ class LoginViewController: UIViewController
   
   @IBAction func whyConnect(_ sender : UIButton)
   {
-    debug("WhyConnect")
     InfoAlert.connectInfo.display(over: self)
   }
   
   @IBAction func returnToLogin(segue:UIStoryboardSegue)
-  {
-    debug("unwind to login")
-  }
+  {}
   
   func update(animated:Bool) -> Void
   {
+    debug("LoginViewController.update()")
     // @@@ TODO Check login status
   }
 }

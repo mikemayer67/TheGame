@@ -39,9 +39,6 @@ class GameServer
   var username : String?
   { didSet { UserDefaults.standard.set(username, forKey: "username") } }
   
-  var password : String?
-  { didSet { UserDefaults.standard.set(password, forKey: "password") } }
-  
   var userkey  : String?
   { didSet { UserDefaults.standard.set(userkey, forKey: "userkey") }  }
 
@@ -51,11 +48,6 @@ class GameServer
   var currentTask : URLSessionDataTask?
   
   var hasConnection = false
-  {
-    didSet {
-      if hasConnection != oldValue { RootViewController.shared.update() }
-    }
-  }
   
   var hasLogin : Bool
   {
@@ -67,7 +59,6 @@ class GameServer
     fbToken = AccessToken.current
     
     username = UserDefaults.standard.string(forKey: "username")
-    password = UserDefaults.standard.string(forKey: "password")
     userkey  = UserDefaults.standard.string(forKey: "userkey")
     
     let config = URLSessionConfiguration.default
@@ -113,7 +104,7 @@ class GameServer
       {
         DispatchQueue.main.async {
           self.hasConnection = false
-          completion(-1,QueryReturnData())
+          completion(-1, QueryReturnData())
         }
       }
     }
@@ -125,9 +116,11 @@ extension GameServer  // connection
 {
   func testConnection( completion: @escaping (GameServerResponse)->())
   {
+    debug("Test Connection")
     query("test")
     {
       (rc,_) in
+      debug("TestConnection RC=\(rc)")
       if rc == 0 { self.hasConnection = true;  completion(.ConnectionExists) }
       else       { self.hasConnection = false; completion(.FailedToConnect)  }
     }
@@ -150,11 +143,14 @@ extension GameServer  // connection
           let alias    = reply["name"]      as? String
           debug("Add user info to Player")
           completion(.UserKeyValidated(lastLoss, alias))
+          
         case 3: // unknown userkey
           self.userkey = nil
           completion(.InvalidUserKey)
+          
         case -1:
           completion(.FailedToConnect)
+          
         default:
           // We got a response, but it's not consistent with the API
           completion(.ServerError)
@@ -191,7 +187,6 @@ extension GameServer  // Username/Password accounts
         if let userkey = reply["userkey"] as? String
         {
           self.username = username
-          self.password = password
           self.userkey  = userkey
           completion(.UserCreated(userkey))
         }
@@ -203,6 +198,9 @@ extension GameServer  // Username/Password accounts
           emailStatus = ( email == 1 ? .HasValidatedEmail : .HasUnvalidatedEmail )
         }
         completion(.UserAlreadyExists(emailStatus))
+        
+      case -1:
+        completion(.FailedToConnect)
         
       default:
         // We got a response, but it's not consistent with the API

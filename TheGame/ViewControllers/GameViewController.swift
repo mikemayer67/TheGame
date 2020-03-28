@@ -35,14 +35,12 @@ class GameViewController: UIViewController
   
   override func viewWillAppear(_ animated: Bool) {
     super.viewWillAppear(animated)
-    debug("view will appear:",self.view.bounds)
     navigationController?.setNavigationBarHidden(true, animated: animated)
   }
   
   override func viewDidLoad() {
     super.viewDidLoad()
     
-    debug("view did load")
     // Do any additional setup after loading the view.
     
     initilizeBannerAd()
@@ -134,7 +132,6 @@ private extension GameViewController
          }
        }
 
-      debug("animate:",buttonImages.count)
       buttonView.image = buttonImages.last! // don't revert to initial button image
       buttonView.animationImages = buttonImages
       buttonView.animationDuration = 0.5

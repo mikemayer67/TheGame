@@ -30,9 +30,7 @@ class StartupViewController: UIViewController
     spinner.isHidden = false
     
     connectionAttempt = connectionAttempt + 1
-    
-    debug("Connection attempt:",connectionAttempt)
-    
+        
     GameServer.shared.testConnection { (response) in
       if case .ConnectionExists = response
       {
