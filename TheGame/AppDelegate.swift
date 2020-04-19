@@ -17,19 +17,44 @@ class AppDelegate: UIResponder, UIApplicationDelegate
 {
   var window: UIWindow?
 
-  func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool
+  func application(_ application: UIApplication,
+                   didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]? ) -> Bool
   {
-    // Override point for customization after application launch.
-    
+    // Facebook
     ApplicationDelegate.shared.application(application, didFinishLaunchingWithOptions: launchOptions)
         
+    // AdMobi
     GADMobileAds.sharedInstance().start(completionHandler: nil)
     GADMobileAds.sharedInstance().requestConfiguration.testDeviceIdentifiers = [(kGADSimulatorID as! String)];
-
-    RootViewController.shared.rootWindow = window
     
-//    debug("NSHomeDirectory:",NSHomeDirectory())
+    debug("NSHomeDirectory:",NSHomeDirectory())
+    
     return true
   }
+  
+        
+  func application(_ app: UIApplication,
+                   open url: URL,
+                   options: [UIApplication.OpenURLOptionsKey : Any] = [:] ) -> Bool
+  {
+    // Facebook
+    return ApplicationDelegate.shared.application(
+      app,
+      open: url,
+      sourceApplication: options[UIApplication.OpenURLOptionsKey.sourceApplication] as? String,
+      annotation: options[UIApplication.OpenURLOptionsKey.annotation]
+    )
+  }
+  
+  static var shared : AppDelegate
+  {
+    UIApplication.shared.delegate as! AppDelegate
+  }
+  
+  static var rootViewController : RootViewController
+  {
+    AppDelegate.shared.window?.rootViewController as! RootViewController
+  }
+  
 }
 

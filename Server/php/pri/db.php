@@ -72,11 +72,26 @@ function db_find_user_by_username($username)
   return $data;
 }
 
+function db_find_user_by_userkey($userkey)
+{
+  $db = new TGDB;
+
+  $sql = "select * from tg_users where userkey='$userkey'";
+  $result = $db->query($sql);
+  $n = $result->num_rows;
+
+  if($n>1) { throw new Exception('Multiple players with userkey $userkey',500); }
+
+  $data = $result->fetch_assoc();
+  return $data;
+}
+
 function db_find_user_by_facebook_id($fbid)
 {
   $db = new TGDB;
 
-  $result = $db->query("select * from tg_users where fb_id='$fbid'");
+  $sql = "select * from tg_users where fbid='$fbid'";
+  $result = $db->query($sql);
   $n = $result->num_rows;
   if($n>1) { throw new Exception("Multiple players with facebookd ID $fbid",500); }
 
@@ -88,21 +103,9 @@ function db_find_user_by_userid($userid)
 {
   $db = new TGDB;
 
-  $result = $db->query("select * from tg_users where userid='$userid'");
+  $result = $db->query("select * from tg_users where userid=$userid");
   $n = $result->num_rows;
   if($n>1) { throw new Exception("Multiple players with userid $userid",500); }
-
-  $data = $result->fetch_assoc();
-  return $data;
-}
-
-function db_find_user_by_userkey($userkey)
-{
-  $db = new TGDB;
-
-  $result = $db->query("select * from tg_users where user_key='$userkey'");
-  $n = $result->num_rows;
-  if($n>1) { throw new Exception("Multiple players with user key $userkey",500); }
 
   $data = $result->fetch_assoc();
   return $data;
@@ -112,32 +115,43 @@ function db_create_user_with_username($username,$password,$alias,$email)
 {
   $db = new TGDB;
 
-  $hashed_password = password_hash($password,PASSWORD_DEFAULT);
-  $userkey = db_gen_user_key();
+  $userkey   = db_gen_userkey();
+  $hashed_pw = password_hash($password,PASSWORD_DEFAULT);
 
-  $sql = "insert into tg_users (username,password,user_key) values ('$username','$hashed_password','$userkey')";
-  $result = $db->query($sql);
+  $columns = 'userkey,username,password';
+  $values  = "'$userkey','$username','$hashed_pw'";
 
-  $sql = 'select last_insert_id()';
-  $result = $db->query($sql);
-  $data = $result->fetch_array();
-
-  $userid = $data[0];
-
-  if( ! empty($alias) )
+  if( !empty($alias) )
   {
-    $sql = "update tg_users set alias = '$alias' where userid = $userid";
-    $result = $db->query($sql);
+    $columns .= ',alias';
+    $values  .= ",'$alias'";
   }
 
-  if( ! empty($email) )
+  if( !empty($email) )
   {
     $key = db_gen_email_validation_key();
-    $sql = "update tg_users set email='$email', email_validation='$key' where userid=$userid";
-    $result = $db->query($sql);
+
+    $columns .= ',email,email_validation';
+    $values  .= ",'$email','$key'";
   }
 
-  return $userkey;
+  $sql = "insert into tg_users ($columns) values ($values)";
+
+  if( $db->query($sql) ) { return $userkey; }
+
+  return null;
+}
+
+function db_create_user_with_facebook_id($fbid)
+{
+  $db = new TGDB;
+
+  $userkey   = db_gen_userkey();
+  $sql = "insert into tg_users (userkey,fbid) values ('$userkey','$fbid')";
+
+  if( $db->query($sql) ) { return $userkey; }
+
+  return null;
 }
 
 function db_update_user_password($userid,$password)
@@ -165,11 +179,58 @@ function db_update_user_email($userid,$email)
 {
   $db = new TGDB;
 
-  if( empty($email) ) { $sql = "update tg_users set email=NULL where userid=$userid"; }
-  else                { $sql = "update tg_users set email='$email' where userid=$userid"; }
+  if( empty($email) ) 
+  { 
+    $sql = "update tg_users set email=NULL, email_validation=NULL where userid=$userid";
+  }
+  else 
+  { 
+    $key = db_gen_email_validation_key();
+    $sql = "update tg_users set email='$email', email_validation='$key' where userid=$userid";
+  }
   $result = $db->query($sql);
   return $result;
 }
+
+function db_add_facebook($userid,$fbid)
+{
+  $db = new TGDB;
+
+  $sql = "update tg_users set fbid='$fbid' where userid=$userid";
+  $result = $db->query($sql);
+  return $result;
+}
+
+function db_add_username($userid,$username,$password,$alias,$email)
+{
+  $db = new TGDB;
+
+  $userkey   = db_gen_userkey();
+  $hashed_pw = password_hash($password,PASSWORD_DEFAULT);
+
+  $sql = "update tg_users set username='$username', password='$hashed_pw' where userid=$userid";
+
+  if( $db->query($sql) )
+  {
+    if( ! empty($alias) )
+    {
+      $sql = "update tg_users set alias = '$alias' where userid=$userid";
+      $db->query($sql);
+    }
+
+    if( ! empty($email) )
+    {
+      $key = db_gen_email_validation_key();
+      $sql = "update tg_users set email='$email', email_validation='$key' where userid=$userid";
+      $db->query($sql);
+    }
+
+    $result = $userkey;
+  }
+
+  return $result;
+}
+
 
 function db_drop_user($userid)
 {
@@ -182,7 +243,7 @@ function db_drop_user($userid)
 function db_drop_username($userid)
 {
   $db = new TGDB;
-  $sql = "update tg_users set username=NULL, password=NULL, alias=NULL, email=NULL, userkey=NULL where userid=$userid";
+  $sql = "update tg_users set username=NULL, password=NULL, alias=NULL, email=NULL, email_validation=NULL where userid=$userid";
   $result = $db->query($sql);
 
   db_cleanup();
@@ -193,11 +254,13 @@ function db_drop_username($userid)
 function db_drop_facebook($userid)
 {
   $db = new TGDB;
-  $sql = "update tg_users set fb_id=NULL where userid=$userid";
+
+  $sql = "update tg_users set fbid=NULL where userid=$userid";
   $result = $db->query($sql);
 
   db_cleanup();
 
+  print("a\n");
   return $result;
 }
 
@@ -241,16 +304,16 @@ function db_gen_email_validation_key()
   throw new Exception("Failed to generate a unique ID in $max_attempts attempts", 500);
 }
 
-function db_gen_user_key()
+function db_gen_userkey()
 {
   $db = new TGDB;
 
   $max_attempts = 256;
   for($attempt=0; $attempt<$max_attempts; ++$attempt)
   {
-    $key = db_gen_key(15);
+    $key = db_gen_key(32);
 
-    $result = $db->query("select user_key from tg_users where user_key='$key'");
+    $result = $db->query("select userkey from tg_users where userkey='$key'");
     $n = $result->num_rows;
     $result->close();
 
@@ -282,7 +345,7 @@ function db_cleanup()
 {
   $db = new TGDB;
 
-  $sql = "delete from tg_users where username is NULL and fb_id is NULL";
+  $sql = "delete from tg_users where username is NULL and fbid is NULL";
   $result = $db->query($sql);
   return $result;
 }

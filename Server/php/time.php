@@ -6,7 +6,8 @@ require_once(__DIR__.'/pri/notify.php');
 try
 { 
   fail_on_extra_args();  
-  send_success(array());
+  $time = time();
+  send_success(array('time'=>$time));
 }
 catch (Exception $e)
 {

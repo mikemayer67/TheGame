@@ -9,6 +9,20 @@ $tg_admin_email = 'games@vmwishes.com';
 $tg_admin_uri   = "mailto:$tg_admin_email?Subject=".urlencode("The Game");
 $tg_admin_email_link = "<a href='$tg_admin_uri'>$tg_admin</a>";
 
+class RC
+{
+  const USER_EXISTS              =  1;
+  const INVALID_USERKEY          =  2;
+  const INVALID_USERNAME         =  3;
+  const INVALID_USERKEY_FBID     =  4;  
+  const INCORRECT_USERNAME       =  5;
+  const INCORRECT_PASSWORD       =  6;
+  const FAILED_TO_CREATE_FBID    =  7;
+  const FAILED_TO_CREATE_USER    =  8;
+  const FAILED_TO_UPDATE_USER    =  9;
+  const NO_VALIDATED_EMAIL       = 10; 
+}
+
 if( $tg_delog > 0 )
 {
   error_log('----------NEW GAME-------------');
@@ -91,8 +105,10 @@ function api_error($msg)
   exit(1);
 }
 
-function send_success($result)
+function send_success($result = null)
 {
+  if( is_null($result) ) { $result = array(); }
+
   $result['rc'] = 0;
   print(json_encode($result));
   exit(0);

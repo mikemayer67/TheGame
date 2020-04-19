@@ -10,11 +10,13 @@ import UIKit
 
 class AccountLoginViewController: UIViewController {
   
-  override func viewDidLoad() {
+  override func viewDidLoad()
+  {
     super.viewDidLoad()
   }
   
-  override func viewWillAppear(_ animated: Bool) {
-    navigationController?.setNavigationBarHidden(false, animated: animated)
+  override func viewWillAppear(_ animated: Bool)
+  {
+    super.viewWillAppear(animated)
   }
 }

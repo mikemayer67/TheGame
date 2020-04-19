@@ -8,14 +8,14 @@
 
 import UIKit
 
-enum RootViewControllerID : String
+enum old_RootViewControllerID : String
 {
   case startup            = "startup"
   case loginNavController = "loginNavController"
   case loserBoard         = "loserBoard"
 }
 
-class RootViewController
+class old_RootViewController
 {
   static let shared = RootViewController()
   
@@ -27,8 +27,8 @@ class RootViewController
     {
       let storyBoard = UIStoryboard(name: "Main", bundle: nil)
 
-      let id : RootViewControllerID = GameServer.shared.hasConnection ?
-        ( GameServer.shared.hasLogin ? .loserBoard : .loginNavController ) :
+      let id : RootViewControllerID = TheGame.server.connected ?
+        ( TheGame.server.hasLogin ? .loserBoard : .loginNavController ) :
         .startup
       
       let vc = storyBoard.instantiateViewController(withIdentifier: id.rawValue)

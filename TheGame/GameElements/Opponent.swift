@@ -9,35 +9,23 @@
 import Foundation
 import UIKit
 
-class Opponent : Comparable
+class Opponent : Player, Comparable
 {
-  let playerID  : String
-  let name      : String
-  let image     : UIImage
-  let gameStart : GameTime
-  var lastLoss  : GameTime?
+  let image      : UIImage
+  let matchStart : GameTime
   
-  var lastLossString : String
+  init(key:String, name:String, fb:FBUserInfo? = nil, matchStart:GameTime, lastLoss:GameTime? = nil)
   {
-    return lastLoss?.gameString ?? "No loss yet"
-  }
-  
-  func lost(after time:GameTime?) -> Bool
-  {
-    if lastLoss == nil { return false }
-    if time == nil     { return true  }
-    return lastLoss! > time!
+    self.matchStart = matchStart
+    self.image = Opponent.image(for:name)
 
+    super.init(key:key, name:name, fb:fb, lastLoss:lastLoss)
   }
   
-  init(playerID:String, name:String, gameStart:GameTime)
+  static func image(for name:String) -> UIImage
   {
-    self.playerID = playerID
-    self.name = name
-    self.gameStart = gameStart
-    
     let renderer = UIGraphicsImageRenderer(size:CGSize(width:32,height:32));
-    image = renderer.image {
+    let image = renderer.image {
       c in
       
       let box = CGRect(x: 0.0, y: 0.0, width: 32, height: 32)
@@ -45,7 +33,7 @@ class Opponent : Comparable
         .foregroundColor: UIColor.white ,
         .font: UIFont.systemFont(ofSize: 20.0, weight: .black)
       ]
-  
+      
       UIColor(named: "systemIndigo")!.setFill()
       UIBezierPath(ovalIn: box).fill()
       
@@ -53,11 +41,12 @@ class Opponent : Comparable
       let x = NSAttributedString(string:initial, attributes:attr)
       var q = x.boundingRect(with: box.size, options: [], context: nil)
       q = q.offsetBy(dx: 0.5*(box.size.width - q.size.width),
-                          dy: 0.5*(box.size.height - q.size.height)-q.origin.y)
+                     dy: 0.5*(box.size.height - q.size.height)-q.origin.y)
       x.draw(in:q)
     }
+    return image
   }
-  
+    
   static func < (lhs: Opponent, rhs: Opponent) -> Bool
   {
     if lhs.lastLoss == nil, rhs.lastLoss == nil { return false }
@@ -85,18 +74,18 @@ class DebugOpponent : Opponent  // @@@ REMOVE
   {
     self.lossFrequency = lossFrequency
     
-    let pid = name
     DebugOpponent.nextID = DebugOpponent.nextID + 1
     
     let now = GameTime()
     
-    let gameStart = now.offset(by: -86400.0 * gameAge)
+    var t : GameTime?
+    if lastLoss != nil { t = now.offset(by: -1.0 * lastLoss!) }
     
-    super.init(playerID:pid, name:pid, gameStart:gameStart)
-    
-    if let t = lastLoss {
-      self.lastLoss = now.offset(by: -1.0 * t)
-    }
+    super.init(
+      key : "DebugOpponent-\(DebugOpponent.nextID)",
+      name : name,
+      matchStart : now.offset(by: -86400.0 * gameAge),
+      lastLoss : t
+    )
   }
-
 }

@@ -67,32 +67,35 @@ class GameTime
 
 fileprivate func calcOffset() -> TimeInterval
 {
-  struct WorldTimeAPI : Decodable { let unixtime : Int }
+  guard let serverTime = TheGame.server.time() else { return 0.0 }
   
-  let decoder = JSONDecoder()
-  
-  let url = "https://worldtimeapi.org/api/timezone/Etc/GMT"
-  guard let netTimeURL = URL(string: url) else
-  {
-    NSLog("Invalid netTimeURL: \(url)")
-    return 0.0
-  }
-  
-  guard let netTimeData = try? Data(contentsOf: netTimeURL) else
-  {
-    NSLog("No response from \(url)")
-    return 0.0
-  }
-  
-  guard let wmTime = try? decoder.decode(WorldTimeAPI.self, from:netTimeData) else
-  {
-    NSLog("Failed to decode unix time from response from \(url)")
-    return 0.0
-  }
-      
   let now = Date()
-  let offset =  TimeInterval(wmTime.unixtime) - now.timeIntervalSince1970
+  let offset =  TimeInterval(serverTime) - now.timeIntervalSince1970
   NSLog("GameClock offset: \(offset)")
-  
+
   return offset
 }
+
+
+//  struct WorldTimeAPI : Decodable { let unixtime : Int }
+//
+//  let decoder = JSONDecoder()
+//
+//  let url = "https://worldtimeapi.org/api/timezone/Etc/GMT"
+//  guard let netTimeURL = URL(string: url) else
+//  {
+//    NSLog("Invalid netTimeURL: \(url)")
+//    return 0.0
+//  }
+//
+//  guard let netTimeData = try? Data(contentsOf: netTimeURL) else
+//  {
+//    NSLog("No response from \(url)")
+//    return 0.0
+//  }
+//
+//  guard let wmTime = try? decoder.decode(WorldTimeAPI.self, from:netTimeData) else
+//  {
+//    NSLog("Failed to decode unix time from response from \(url)")
+//    return 0.0
+//  }

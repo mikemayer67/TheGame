@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="15705" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="TTF-dm-E0x">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="16096" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="md2-hz-Z13">
     <device id="retina4_0" orientation="portrait" appearance="light"/>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15706"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="16086"/>
         <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--Login View Controller-->
+        <!--loginVC-->
         <scene sceneID="nlu-cj-Dkm">
             <objects>
-                <viewController storyboardIdentifier="login" id="ISV-GM-3yy" customClass="LoginViewController" customModule="TheGame" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="loginVC" id="ISV-GM-3yy" userLabel="loginVC" customClass="LoginViewController" customModule="TheGame" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="JSk-wM-pcr">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -34,14 +34,14 @@
                                     <view contentMode="scaleToFill" verticalHuggingPriority="249" translatesAutoresizingMaskIntoConstraints="NO" id="CRg-Ur-aR4" userLabel="ButtonBox">
                                         <rect key="frame" x="0.0" y="277.5" width="300" height="175"/>
                                         <subviews>
-                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="infoLight" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="EBw-V2-00a">
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="infoLight" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="EBw-V2-00a" userLabel="whyConnect">
                                                 <rect key="frame" x="280" y="0.0" width="20" height="20"/>
                                                 <constraints>
                                                     <constraint firstAttribute="width" constant="20" id="0yP-v0-LLC"/>
                                                     <constraint firstAttribute="height" constant="20" id="uds-mq-Qb1"/>
                                                 </constraints>
                                                 <connections>
-                                                    <action selector="whyConnect:" destination="ISV-GM-3yy" eventType="touchUpInside" id="ldI-ch-IWU"/>
+                                                    <action selector="handleButton:" destination="ISV-GM-3yy" eventType="touchUpInside" id="j54-lj-rE5"/>
                                                 </connections>
                                             </button>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="k3d-EU-BBF" customClass="LoginButton" customModule="TheGame" customModuleProvider="target">
@@ -55,7 +55,7 @@
                                                     <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 </state>
                                                 <connections>
-                                                    <action selector="connectWithFacebook:" destination="ISV-GM-3yy" eventType="touchUpInside" id="44E-bd-lJ5"/>
+                                                    <action selector="handleButton:" destination="ISV-GM-3yy" eventType="touchUpInside" id="y7i-Cs-CvL"/>
                                                 </connections>
                                             </button>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="U5C-D9-8sk" customClass="LoginButton" customModule="TheGame" customModuleProvider="target">
@@ -69,7 +69,7 @@
                                                     <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 </state>
                                                 <connections>
-                                                    <action selector="createNewAccount:" destination="ISV-GM-3yy" eventType="touchUpInside" id="J4c-6E-NIM"/>
+                                                    <action selector="handleButton:" destination="ISV-GM-3yy" eventType="touchUpInside" id="STc-5f-Z0c"/>
                                                 </connections>
                                             </button>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="AW9-Zk-Ubh">
@@ -78,9 +78,6 @@
                                                     <constraint firstAttribute="height" constant="30" id="1bX-lK-9My"/>
                                                 </constraints>
                                                 <state key="normal" title="Login to Existing Account"/>
-                                                <connections>
-                                                    <action selector="loginToAccount:" destination="ISV-GM-3yy" eventType="touchUpInside" id="Hsq-Qc-aw8"/>
-                                                </connections>
                                             </button>
                                         </subviews>
                                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
@@ -128,6 +125,7 @@
                         <outlet property="facebookButton" destination="k3d-EU-BBF" id="Wnr-82-XcY"/>
                         <outlet property="loginButton" destination="AW9-Zk-Ubh" id="U8X-Bs-RFU"/>
                         <outlet property="newAccountButton" destination="U5C-D9-8sk" id="Su1-Th-H6Z"/>
+                        <outlet property="whyConnect" destination="EBw-V2-00a" id="3Oq-qf-fPu"/>
                         <segue destination="dn6-ku-MNg" kind="show" identifier="createAccount" id="bNp-DL-ecL"/>
                         <segue destination="5Ja-PZ-cua" kind="show" identifier="accountLogin" id="QnG-6h-YAt"/>
                         <segue destination="GJk-pw-Fqy" kind="show" identifier="facebookLogin" id="LWh-Bo-tsY"/>
@@ -135,12 +133,12 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="T0E-ir-Nmm" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-553.62318840579712" y="-93.75"/>
+            <point key="canvasLocation" x="-206" y="-92"/>
         </scene>
-        <!--Account Login-->
+        <!--accountLoginVC-->
         <scene sceneID="58t-ZD-Xbk">
             <objects>
-                <viewController storyboardIdentifier="accountLogin" id="5Ja-PZ-cua" customClass="AccountLoginViewController" customModule="TheGame" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="accountLoginVC" id="5Ja-PZ-cua" userLabel="accountLoginVC" customClass="AccountLoginViewController" customModule="TheGame" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="90P-cW-wr2">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -157,12 +155,12 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="QD8-ah-aZ8" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
                 <exit id="lYn-74-zFx" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
-            <point key="canvasLocation" x="1824" y="466"/>
+            <point key="canvasLocation" x="2434" y="-889"/>
         </scene>
-        <!--Facebook Login-->
+        <!--facebookLoginVC-->
         <scene sceneID="fcv-nk-Wec">
             <objects>
-                <viewController storyboardIdentifier="facebookLogin" id="GJk-pw-Fqy" customClass="FacebookLoginViewController" customModule="TheGame" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="facebookLoginVC" id="GJk-pw-Fqy" userLabel="facebookLoginVC" customClass="FacebookLoginViewController" customModule="TheGame" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="VRe-Ch-isQ">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -177,12 +175,12 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="nJO-km-4ET" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
                 <exit id="dOW-90-XaO" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
-            <point key="canvasLocation" x="1823" y="-652"/>
+            <point key="canvasLocation" x="675" y="782"/>
         </scene>
-        <!--CreateAccount-->
+        <!--createAccountVC-->
         <scene sceneID="GvY-9u-Sdx">
             <objects>
-                <viewController storyboardIdentifier="createAccount" id="dn6-ku-MNg" userLabel="CreateAccount" customClass="CreateAccountViewController" customModule="TheGame" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="createAccountVC" id="dn6-ku-MNg" userLabel="createAccountVC" customClass="CreateAccountViewController" customModule="TheGame" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="JUu-Sq-rYE">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -198,7 +196,7 @@
                                     <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 </state>
                                 <connections>
-                                    <action selector="switchToFacebook:" destination="dn6-ku-MNg" eventType="touchUpInside" id="0g8-XG-Dr7"/>
+                                    <action selector="handleButton:" destination="dn6-ku-MNg" eventType="touchUpInside" id="6FC-Z8-do3"/>
                                 </connections>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="8" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cRC-lO-Ify">
@@ -306,7 +304,7 @@
                                     <preferredSymbolConfiguration key="preferredSymbolConfiguration" scale="default" weight="regular"/>
                                 </state>
                                 <connections>
-                                    <action selector="displayInfo:" destination="dn6-ku-MNg" eventType="touchUpInside" id="ykg-Dv-hVp"/>
+                                    <action selector="createAccount:" destination="dn6-ku-MNg" eventType="touchUpInside" id="NwM-k7-CsH"/>
                                 </connections>
                             </button>
                             <button opaque="NO" tag="3" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="infoLight" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="2FK-oP-NtM" userLabel="email info">
@@ -316,7 +314,7 @@
                                     <constraint firstAttribute="width" constant="20" id="kHT-vS-UvW"/>
                                 </constraints>
                                 <connections>
-                                    <action selector="displayInfo:" destination="dn6-ku-MNg" eventType="touchUpInside" id="AiQ-so-sVX"/>
+                                    <action selector="handleButton:" destination="dn6-ku-MNg" eventType="touchUpInside" id="nef-wQ-gRd"/>
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ypz-Ff-JYR" customClass="LoginButton" customModule="TheGame" customModuleProvider="target">
@@ -340,7 +338,7 @@
                                     <constraint firstAttribute="height" constant="20" id="Y1a-Ac-8TU"/>
                                 </constraints>
                                 <connections>
-                                    <action selector="displayInfo:" destination="dn6-ku-MNg" eventType="touchUpInside" id="ixs-Ai-CrO"/>
+                                    <action selector="handleButton:" destination="dn6-ku-MNg" eventType="touchUpInside" id="14E-yL-4dT"/>
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="infoLight" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="nGS-oY-BbX" userLabel="username info">
@@ -350,7 +348,7 @@
                                     <constraint firstAttribute="height" constant="20" id="VZW-X9-lD1"/>
                                 </constraints>
                                 <connections>
-                                    <action selector="displayInfo:" destination="dn6-ku-MNg" eventType="touchUpInside" id="Wm6-7q-ur9"/>
+                                    <action selector="handleButton:" destination="dn6-ku-MNg" eventType="touchUpInside" id="Tib-VN-pdm"/>
                                 </connections>
                             </button>
                             <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="xit-ls-ZTg">
@@ -443,15 +441,19 @@
                     <connections>
                         <outlet property="createButton" destination="ypz-Ff-JYR" id="kdQ-Fg-vjg"/>
                         <outlet property="displayNameError" destination="7Mb-Ua-XGF" id="9MF-3y-aAO"/>
+                        <outlet property="displayNameInfo" destination="XZb-sw-cDb" id="YaU-j8-gbf"/>
                         <outlet property="displayNameTextField" destination="du1-9F-kcU" id="zCS-xe-Raf"/>
                         <outlet property="emailError" destination="ZQe-RD-ACK" id="X2y-KR-ChJ"/>
+                        <outlet property="emailInfo" destination="2FK-oP-NtM" id="xKV-gx-kTY"/>
                         <outlet property="emailTextField" destination="YfE-lz-VYB" id="YlR-NW-oGb"/>
                         <outlet property="facebookButton" destination="DAk-Y3-Aa5" id="vXU-tB-MWi"/>
                         <outlet property="facebookInfoLabel" destination="cRC-lO-Ify" id="ORS-hp-Rdq"/>
                         <outlet property="password1TextField" destination="y9a-KR-shf" id="Iqa-Uv-d56"/>
                         <outlet property="password2TextField" destination="tON-XH-4Dd" id="UWz-Wc-2bo"/>
                         <outlet property="passwordError" destination="xit-ls-ZTg" id="lGj-xy-6xo"/>
+                        <outlet property="passwordInfo" destination="6p6-Cp-dhb" id="xkb-jv-jR0"/>
                         <outlet property="usernameError" destination="TSB-Uh-GD0" id="fDq-vt-fQV"/>
+                        <outlet property="usernameInfo" destination="nGS-oY-BbX" id="WK8-qH-nPm"/>
                         <outlet property="usernameTextField" destination="MVo-gd-LOE" id="PcA-gT-47Y"/>
                         <segue destination="GJk-pw-Fqy" kind="show" identifier="switchToFacebook" id="hiE-kv-JFh"/>
                         <segue destination="5Ja-PZ-cua" kind="show" identifier="switchToAccount" id="Oej-iK-SRL"/>
@@ -461,12 +463,27 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="q5j-bO-fUc" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
                 <exit id="TXM-wV-KUZ" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
-            <point key="canvasLocation" x="716" y="-94"/>
+            <point key="canvasLocation" x="1506" y="-134"/>
         </scene>
-        <!--Login Nav Controller-->
+        <!--rootVC-->
+        <scene sceneID="5Hp-s0-azX">
+            <objects>
+                <viewController storyboardIdentifier="rootVC" id="md2-hz-Z13" userLabel="rootVC" customClass="RootViewController" customModule="TheGame" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="iIx-My-Tse">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <viewLayoutGuide key="safeArea" id="rsr-Fh-ic9"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Orm-Or-Hk2" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-2700" y="-91"/>
+        </scene>
+        <!--navVC-->
         <scene sceneID="kgv-tD-9km">
             <objects>
-                <navigationController storyboardIdentifier="loginNavController" automaticallyAdjustsScrollViewInsets="NO" id="QNt-0X-MiR" userLabel="Login Nav Controller" sceneMemberID="viewController">
+                <navigationController storyboardIdentifier="navVC" automaticallyAdjustsScrollViewInsets="NO" id="QNt-0X-MiR" userLabel="navVC" sceneMemberID="viewController">
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="cDS-kn-uzR">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
@@ -481,10 +498,10 @@
             </objects>
             <point key="canvasLocation" x="-1463.768115942029" y="-93.75"/>
         </scene>
-        <!--LoserBoard-->
+        <!--gameVC-->
         <scene sceneID="4Z8-hl-cpo">
             <objects>
-                <viewController storyboardIdentifier="loserBoard" id="rCI-oy-28V" userLabel="LoserBoard" customClass="GameViewController" customModule="TheGame" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="gameVC" id="rCI-oy-28V" userLabel="gameVC" customClass="GameViewController" customModule="TheGame" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="cbB-rl-LvI">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -689,12 +706,12 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="pWO-7A-VYf" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
                 <customObject id="WDJ-Qp-Kwo" customClass="GameModel" customModule="TheGame" customModuleProvider="target"/>
             </objects>
-            <point key="canvasLocation" x="-1464" y="657"/>
+            <point key="canvasLocation" x="-1464" y="782"/>
         </scene>
-        <!--Startup-->
+        <!--splashVC-->
         <scene sceneID="q1C-nm-cC1">
             <objects>
-                <viewController storyboardIdentifier="startup" title="waitingToConnect" id="TTF-dm-E0x" userLabel="Startup" customClass="StartupViewController" customModule="TheGame" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="splashVC" title="waitingToConnect" id="TTF-dm-E0x" userLabel="splashVC" customClass="SplashViewController" customModule="TheGame" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="fAv-Qr-OKF">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -783,9 +800,13 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Xvo-DS-YiU" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-1464" y="-889"/>
+            <point key="canvasLocation" x="-1464" y="-937"/>
         </scene>
     </scenes>
+    <inferredMetricsTieBreakers>
+        <segue reference="hiE-kv-JFh"/>
+        <segue reference="Oej-iK-SRL"/>
+    </inferredMetricsTieBreakers>
     <resources>
         <image name="button_01" width="344" height="200"/>
         <image name="button_12_gray" width="344" height="200"/>
@@ -798,8 +819,4 @@
             <color red="0.25882352941176473" green="0.40392156862745099" blue="0.69803921568627447" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
     </resources>
-    <inferredMetricsTieBreakers>
-        <segue reference="hiE-kv-JFh"/>
-        <segue reference="Oej-iK-SRL"/>
-    </inferredMetricsTieBreakers>
 </document>

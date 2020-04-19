@@ -18,36 +18,26 @@ class LoginViewController: UIViewController
   @IBOutlet weak var facebookButton : UIButton!
   @IBOutlet weak var newAccountButton : UIButton!
   @IBOutlet weak var loginButton : UIButton!
+  @IBOutlet weak var whyConnect : UIButton!
   
   override func awakeFromNib()
   {
     super.awakeFromNib()
-    
-    let gs = GameServer.shared
   }
   
-  @IBAction func connectWithFacebook(_ sender : UIButton)
+  @IBAction func handleButton(_ sender : UIButton )
   {
-    performSegue(.FacebookLogin, sender: sender)
+    switch sender
+    {
+    case facebookButton:   performSegue(.FacebookLogin, sender: sender)
+    case newAccountButton: performSegue(.CreateAccount, sender: sender)
+    case loginButton:      performSegue(.AccountLogin,  sender: sender)
+    case whyConnect:       InfoAlert.connectInfo.display(over: self)
+    default:               break
+    }
   }
   
-  @IBAction func createNewAccount(_ sender : UIButton)
-  {
-    performSegue(.CreateAccount, sender: sender)
-  }
-  
-  @IBAction func loginToAccount(_ sender : UIButton)
-  {
-    performSegue(.AccountLogin, sender: sender)
-  }
-  
-  @IBAction func whyConnect(_ sender : UIButton)
-  {
-    InfoAlert.connectInfo.display(over: self)
-  }
-  
-  @IBAction func returnToLogin(segue:UIStoryboardSegue)
-  {}
+  @IBAction func returnToLogin(segue:UIStoryboardSegue) {}
   
   func update(animated:Bool) -> Void
   {

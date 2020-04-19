@@ -16,5 +16,4 @@ import UIKit
     layer.backgroundColor = ( isEnabled ? tintColor.cgColor : UIColor.lightGray.cgColor )
     layer.cornerRadius = 10.0
   }
-
 }
