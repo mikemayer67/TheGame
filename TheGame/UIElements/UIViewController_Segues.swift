@@ -12,13 +12,9 @@ enum SegueIdentifier : String
 {
   case CreateAccount          = "createAccount"
   case AccountLogin           = "accountLogin"
-  case FacebookLogin          = "facebookLogin"
-  case SwitchToFacebook       = "switchToFacebook"
   case SwitchToAccount        = "switchToAccount"
   case CreateAccountToLogin   = "createAccountToLogin"
   case AccountToLogin         = "accountToLogin"
-  case FacebookToLogin        = "facebookToLogin"
-  case UnwindToLogin          = "unwindToLogin"
 }
 
 extension UIViewController

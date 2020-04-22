@@ -8,7 +8,7 @@
 
 import UIKit
 
-extension GameServerResponse
+extension QueryResponse
 {
   typealias Callback = () -> ()
   func displayAlert(over controller:UIViewController,
@@ -23,7 +23,7 @@ extension GameServerResponse
       UIAlertAction(title: "Cancel", style: .cancel, handler: { _ in cancel?() } )
     ]
     
-    switch self
+    switch self.rc
     {
     case .FailedToConnect:
       title = "Sorry"

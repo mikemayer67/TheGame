@@ -14,7 +14,6 @@ const EMAIL       = 'email';
 const EMAIL_VAL   = 'email_validation';
 const LASTLOSS    = 'last_loss';
 const VALIDATED   = 'Y';
-const DROPPED     = 'dropped';
 const UPDATED     = 'updated';
 const SCOPE       = 'scope';
 const NOTIFY      = 'notify';
@@ -183,20 +182,23 @@ function drop()
     error_log('@@@ Need to add drop notification logic');
   }
 
-  $dropped = array();
+  $reply = array();
 
   if( $dropF ) 
   {
     db_drop_facebook($userid);
-    if( isset($info[FBID]) ) { $dropped[] = 'F'; }
+    if( isset($info[FBID]) ) { $reply[FBID] = 1; }
   }
   if( $dropU )
   {
     db_drop_username($userid);
-    if( isset($info[USERNAME]) ) { $dropped[] = 'U'; }
+    if( isset($info[USERNAME]) ) { $reply[USERNAME] = 1; }
   }
 
-  send_success( array( DROPPED=>$dropped ) );
+  $t = db_find_user_by_userkey($userkey);
+  if( empty($t) ) { $reply[USERKEY] = 1; }
+
+  send_success($reply);
 }
 
 

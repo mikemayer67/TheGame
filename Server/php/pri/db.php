@@ -258,9 +258,8 @@ function db_drop_facebook($userid)
   $sql = "update tg_users set fbid=NULL where userid=$userid";
   $result = $db->query($sql);
 
-  db_cleanup();
+  return db_cleanup();
 
-  print("a\n");
   return $result;
 }
 

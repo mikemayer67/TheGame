@@ -29,7 +29,6 @@ class LoginViewController: UIViewController
   {
     switch sender
     {
-    case facebookButton:   performSegue(.FacebookLogin, sender: sender)
     case newAccountButton: performSegue(.CreateAccount, sender: sender)
     case loginButton:      performSegue(.AccountLogin,  sender: sender)
     case whyConnect:       InfoAlert.connectInfo.display(over: self)

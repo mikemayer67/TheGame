@@ -28,11 +28,11 @@ class GameServer
     connected = self.testConnection()
   }
     
-  func query(_ page:String, args:QueryArgs? = nil,  completion: @escaping QueryCompletion)
+  func query(_ action:QueryAction, args:QueryArgs? = nil,  completion: @escaping QueryCompletion)
   {
     currentTask?.cancel()
     
-    guard let url = GameServer.url(page, args:args) else { fatalError("Invalid URL") }
+    guard let url = GameServer.url(action, args:args) else { fatalError("Invalid URL") }
     
     currentTask = session.dataTask(with: url) { (data, response, err) in
       defer { self.currentTask = nil }
@@ -55,23 +55,23 @@ class GameServer
     currentTask!.resume()
   }
   
-  func query(_ page:String, args:QueryArgs? = nil) -> QueryResponse
+  func query(_ action:QueryAction, args:QueryArgs? = nil) -> QueryResponse
   {
-    guard let url = GameServer.url(page, args:args) else { fatalError("Invalid URL") }
+    guard let url = GameServer.url(action, args:args) else { fatalError("Invalid URL") }
     
     let data = try? Data(contentsOf: url)
     
     return QueryResponse(data)
   }
   
-  static func url(_ page:String, args:QueryArgs? = nil) -> URL?
+  static func url(_ action:QueryAction, args:QueryArgs? = nil) -> URL?
   {
-    guard var uc = URLComponents(string:"\(SERVER_HOST)/\(page)") else { return nil }
+    guard var uc = URLComponents(string:"\(SERVER_HOST)/\(action.rawValue)") else { return nil }
     
     var queryItems = [URLQueryItem]()
     if let args = args{
-      for (name,value) in args {
-        queryItems.append(URLQueryItem(name: name, value: value))
+      for (key,value) in args {
+        queryItems.append(URLQueryItem(name: key.rawValue, value: value))
       }
     }
     uc.queryItems = queryItems
@@ -79,28 +79,13 @@ class GameServer
     return URL(string: uc.url!.absoluteString)
   }
 
-  func testConnection() -> Bool
-  {
-    let response = query("time")
-    return response.rc == .Success
-  }
+  var time : Int? { query(.Time).time }
+  
+  func testConnection() -> Bool {  return query(.Time).success  }
   
   func testConnection( completion: @escaping (Bool)->())
   {
-    query("time") { response in completion( response.rc == .Success ) }
-  }
-
-  func time() -> Int?
-  {
-    let response = query("time")
-    guard response.rc == .Success,
-      let data = response.data,
-      let time = data["time"] as? Int
-    else {
-      NSLog("Failed to response from server")
-      return nil
-    }
-    return time
+    query(.Time) { response in completion( response.success ) }
   }
 }
 

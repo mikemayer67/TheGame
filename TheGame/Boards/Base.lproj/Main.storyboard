@@ -2,7 +2,7 @@
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="16096" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="md2-hz-Z13">
     <device id="retina4_0" orientation="portrait" appearance="light"/>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="16086"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="16087"/>
         <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -128,7 +128,6 @@
                         <outlet property="whyConnect" destination="EBw-V2-00a" id="3Oq-qf-fPu"/>
                         <segue destination="dn6-ku-MNg" kind="show" identifier="createAccount" id="bNp-DL-ecL"/>
                         <segue destination="5Ja-PZ-cua" kind="show" identifier="accountLogin" id="QnG-6h-YAt"/>
-                        <segue destination="GJk-pw-Fqy" kind="show" identifier="facebookLogin" id="LWh-Bo-tsY"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="T0E-ir-Nmm" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -155,27 +154,7 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="QD8-ah-aZ8" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
                 <exit id="lYn-74-zFx" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
-            <point key="canvasLocation" x="2434" y="-889"/>
-        </scene>
-        <!--facebookLoginVC-->
-        <scene sceneID="fcv-nk-Wec">
-            <objects>
-                <viewController storyboardIdentifier="facebookLoginVC" id="GJk-pw-Fqy" userLabel="facebookLoginVC" customClass="FacebookLoginViewController" customModule="TheGame" customModuleProvider="target" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="VRe-Ch-isQ">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
-                        <viewLayoutGuide key="safeArea" id="kh6-yA-6Pr"/>
-                    </view>
-                    <navigationItem key="navigationItem" title="Facebook Login" id="H7y-dF-LEi"/>
-                    <connections>
-                        <segue destination="dOW-90-XaO" kind="unwind" identifier="facebookTLoginToLogin" unwindAction="returnToLoginWithSegue:" id="byK-rw-PFf"/>
-                    </connections>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="nJO-km-4ET" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
-                <exit id="dOW-90-XaO" userLabel="Exit" sceneMemberID="exit"/>
-            </objects>
-            <point key="canvasLocation" x="675" y="782"/>
+            <point key="canvasLocation" x="1560" y="-190"/>
         </scene>
         <!--createAccountVC-->
         <scene sceneID="GvY-9u-Sdx">
@@ -455,7 +434,6 @@
                         <outlet property="usernameError" destination="TSB-Uh-GD0" id="fDq-vt-fQV"/>
                         <outlet property="usernameInfo" destination="nGS-oY-BbX" id="WK8-qH-nPm"/>
                         <outlet property="usernameTextField" destination="MVo-gd-LOE" id="PcA-gT-47Y"/>
-                        <segue destination="GJk-pw-Fqy" kind="show" identifier="switchToFacebook" id="hiE-kv-JFh"/>
                         <segue destination="5Ja-PZ-cua" kind="show" identifier="switchToAccount" id="Oej-iK-SRL"/>
                         <segue destination="TXM-wV-KUZ" kind="unwind" identifier="createAccountToLogin" unwindAction="returnToLoginWithSegue:" id="IjC-ST-wFT"/>
                     </connections>
@@ -463,7 +441,7 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="q5j-bO-fUc" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
                 <exit id="TXM-wV-KUZ" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
-            <point key="canvasLocation" x="1506" y="-134"/>
+            <point key="canvasLocation" x="739" y="275"/>
         </scene>
         <!--rootVC-->
         <scene sceneID="5Hp-s0-azX">
@@ -478,7 +456,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Orm-Or-Hk2" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-2700" y="-91"/>
+            <point key="canvasLocation" x="-2743" y="-94"/>
         </scene>
         <!--navVC-->
         <scene sceneID="kgv-tD-9km">
@@ -496,7 +474,7 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="rRs-aG-qsV" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-1463.768115942029" y="-93.75"/>
+            <point key="canvasLocation" x="-1504" y="-93"/>
         </scene>
         <!--gameVC-->
         <scene sceneID="4Z8-hl-cpo">
@@ -706,7 +684,7 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="pWO-7A-VYf" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
                 <customObject id="WDJ-Qp-Kwo" customClass="GameModel" customModule="TheGame" customModuleProvider="target"/>
             </objects>
-            <point key="canvasLocation" x="-1464" y="782"/>
+            <point key="canvasLocation" x="-1504" y="760"/>
         </scene>
         <!--splashVC-->
         <scene sceneID="q1C-nm-cC1">
@@ -792,6 +770,7 @@
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="P3p-FK-4H7"/>
                     </view>
+                    <navigationItem key="navigationItem" id="cgl-q7-Lqr"/>
                     <connections>
                         <outlet property="failedLabel" destination="k59-ok-qeF" id="tQB-qS-ApH"/>
                         <outlet property="reconnectLabel" destination="kOV-nS-jnw" id="xbv-al-yFx"/>
@@ -800,12 +779,11 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Xvo-DS-YiU" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-1464" y="-937"/>
+            <point key="canvasLocation" x="-1506" y="-962"/>
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="hiE-kv-JFh"/>
-        <segue reference="Oej-iK-SRL"/>
+        <segue reference="QnG-6h-YAt"/>
     </inferredMetricsTieBreakers>
     <resources>
         <image name="button_01" width="344" height="200"/>

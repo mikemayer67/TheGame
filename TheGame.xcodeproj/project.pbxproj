@@ -17,7 +17,7 @@
 		275404C3243790BF0003EFED /* LocalPlayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 275404C2243790BF0003EFED /* LocalPlayer.swift */; };
 		275A16052426F2280032432C /* UIViewController_Segues.swift in Sources */ = {isa = PBXBuildFile; fileRef = 275A16042426F2280032432C /* UIViewController_Segues.swift */; };
 		276AAB982415446200CF72A4 /* InfoAlert.swift in Sources */ = {isa = PBXBuildFile; fileRef = 276AAB972415446200CF72A4 /* InfoAlert.swift */; };
-		27CA19BB243A3894005C53FC /* GamerServer_DataTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27CA19BA243A3894005C53FC /* GamerServer_DataTypes.swift */; };
+		27CA19BB243A3894005C53FC /* GameQueryTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27CA19BA243A3894005C53FC /* GameQueryTypes.swift */; };
 		27CA19BD243A941B005C53FC /* TheGame.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27CA19BC243A941B005C53FC /* TheGame.swift */; };
 		27D5413123E5E46800CB5065 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27D5413023E5E46800CB5065 /* AppDelegate.swift */; };
 		27D5413523E5E46800CB5065 /* GameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27D5413423E5E46800CB5065 /* GameViewController.swift */; };
@@ -29,7 +29,6 @@
 		27E82FB3240C6631004DEC8C /* FacebookLogin in Frameworks */ = {isa = PBXBuildFile; productRef = 27E82FB2240C6631004DEC8C /* FacebookLogin */; };
 		27E82FB5240C6631004DEC8C /* FacebookCore in Frameworks */ = {isa = PBXBuildFile; productRef = 27E82FB4240C6631004DEC8C /* FacebookCore */; };
 		27E82FB7240D38B2004DEC8C /* CreateAccountViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27E82FB6240D38B1004DEC8C /* CreateAccountViewController.swift */; };
-		27E82FBC240D3C4A004DEC8C /* FacebookLoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27E82FBB240D3C4A004DEC8C /* FacebookLoginViewController.swift */; };
 		27E82FBE240D3C63004DEC8C /* AccountLoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27E82FBD240D3C63004DEC8C /* AccountLoginViewController.swift */; };
 		27EA804F23EA86B300C937EE /* Opponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27EA804E23EA86B300C937EE /* Opponent.swift */; };
 		27EA805123EBEB3900C937EE /* GameModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27EA805023EBEB3900C937EE /* GameModel.swift */; };
@@ -52,7 +51,7 @@
 		275A16042426F2280032432C /* UIViewController_Segues.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIViewController_Segues.swift; sourceTree = "<group>"; };
 		276AAB972415446200CF72A4 /* InfoAlert.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InfoAlert.swift; sourceTree = "<group>"; };
 		277A2BAA2429AFB10022596B /* old_RootViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = old_RootViewController.swift; sourceTree = "<group>"; };
-		27CA19BA243A3894005C53FC /* GamerServer_DataTypes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GamerServer_DataTypes.swift; sourceTree = "<group>"; };
+		27CA19BA243A3894005C53FC /* GameQueryTypes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameQueryTypes.swift; sourceTree = "<group>"; };
 		27CA19BC243A941B005C53FC /* TheGame.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TheGame.swift; sourceTree = "<group>"; };
 		27D5412D23E5E46800CB5065 /* TheGame.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TheGame.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		27D5413023E5E46800CB5065 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -64,7 +63,6 @@
 		27E82FAD240BEA45004DEC8C /* GameServer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameServer.swift; sourceTree = "<group>"; };
 		27E82FAF240BF4FD004DEC8C /* LoginButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginButton.swift; sourceTree = "<group>"; };
 		27E82FB6240D38B1004DEC8C /* CreateAccountViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateAccountViewController.swift; sourceTree = "<group>"; };
-		27E82FBB240D3C4A004DEC8C /* FacebookLoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FacebookLoginViewController.swift; sourceTree = "<group>"; };
 		27E82FBD240D3C63004DEC8C /* AccountLoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountLoginViewController.swift; sourceTree = "<group>"; };
 		27EA804E23EA86B300C937EE /* Opponent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Opponent.swift; sourceTree = "<group>"; };
 		27EA805023EBEB3900C937EE /* GameModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameModel.swift; sourceTree = "<group>"; };
@@ -165,7 +163,6 @@
 				272445D1242E576400700677 /* SplashViewController.swift */,
 				2727416E23E6144A00B2100B /* LoginViewController.swift */,
 				27E82FB6240D38B1004DEC8C /* CreateAccountViewController.swift */,
-				27E82FBB240D3C4A004DEC8C /* FacebookLoginViewController.swift */,
 				27E82FBD240D3C63004DEC8C /* AccountLoginViewController.swift */,
 				27D5413423E5E46800CB5065 /* GameViewController.swift */,
 			);
@@ -192,7 +189,7 @@
 				27F3EDE223E7E4800057248B /* GameClock.swift */,
 				27EA805023EBEB3900C937EE /* GameModel.swift */,
 				27E82FAD240BEA45004DEC8C /* GameServer.swift */,
-				27CA19BA243A3894005C53FC /* GamerServer_DataTypes.swift */,
+				27CA19BA243A3894005C53FC /* GameQueryTypes.swift */,
 			);
 			path = GameElements;
 			sourceTree = "<group>";
@@ -344,14 +341,13 @@
 				27EA804F23EA86B300C937EE /* Opponent.swift in Sources */,
 				275404C3243790BF0003EFED /* LocalPlayer.swift in Sources */,
 				272445D2242E576400700677 /* SplashViewController.swift in Sources */,
-				27E82FBC240D3C4A004DEC8C /* FacebookLoginViewController.swift in Sources */,
 				2727416F23E6144A00B2100B /* LoginViewController.swift in Sources */,
 				276AAB982415446200CF72A4 /* InfoAlert.swift in Sources */,
 				27EA805123EBEB3900C937EE /* GameModel.swift in Sources */,
 				27D5413523E5E46800CB5065 /* GameViewController.swift in Sources */,
 				27D5413123E5E46800CB5065 /* AppDelegate.swift in Sources */,
 				27CA19BD243A941B005C53FC /* TheGame.swift in Sources */,
-				27CA19BB243A3894005C53FC /* GamerServer_DataTypes.swift in Sources */,
+				27CA19BB243A3894005C53FC /* GameQueryTypes.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

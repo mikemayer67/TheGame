@@ -8,15 +8,26 @@
 
 import Foundation
 
-fileprivate let clockOffset = calcOffset()
-
-class GameTime
+struct GameTime
 {
+  private static var _clockOffset : TimeInterval?
+  private static var  clockOffset : TimeInterval
+  {
+    get {
+      if GameTime._clockOffset == nil, let serverTime = TheGame.server.time
+      {
+        let now = Date().timeIntervalSince1970 as TimeInterval
+        GameTime._clockOffset = TimeInterval(serverTime) - now
+      }
+      return GameTime._clockOffset ?? 0.0
+    }
+  }
+  
   private var value : TimeInterval = 0.0  // store as localtime internally
   
   init()                         { value = Date().timeIntervalSince1970 }
   init(localtime:TimeInterval)   { value = localtime }
-  init(networktime:TimeInterval) { value = networktime - clockOffset }
+  init(networktime:TimeInterval) { value = networktime - GameTime.clockOffset }
   
   var gameString: String { self.date.gameString }
   
@@ -28,8 +39,8 @@ class GameTime
   
   var networktime : TimeInterval
   {
-    get { return value + clockOffset }
-    set { value = newValue - clockOffset }
+    get { return value + GameTime.clockOffset }
+    set { value = newValue - GameTime.clockOffset }
   }
   
   var date : Date  // localtime
@@ -62,18 +73,6 @@ class GameTime
   {
     return lhs.value - rhs.value
   }
-}
-
-
-fileprivate func calcOffset() -> TimeInterval
-{
-  guard let serverTime = TheGame.server.time() else { return 0.0 }
-  
-  let now = Date()
-  let offset =  TimeInterval(serverTime) - now.timeIntervalSince1970
-  NSLog("GameClock offset: \(offset)")
-
-  return offset
 }
 
 

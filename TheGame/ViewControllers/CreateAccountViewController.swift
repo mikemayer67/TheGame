@@ -70,7 +70,6 @@ class CreateAccountViewController: UIViewController
   {
     switch sender
     {
-    case facebookButton:  performSegue(.SwitchToFacebook, sender: sender)
     case usernameInfo:    InfoAlert.username.display(over: self)
     case passwordInfo:    InfoAlert.password.display(over: self)
     case displayNameInfo: InfoAlert.displayname.display(over: self)
@@ -219,36 +218,36 @@ extension CreateAccountViewController
     
     self.showSpinner(onView: navigationController!.view)
     
-    TheGame.server.createAccount(username: username, password: password, alias: alias, email: email)
-    {
-      (response:GameServerResponse) in
-      
-      switch response
-      {
-      case .UserCreated:
-        self.removeSpinner()
-        RootViewController.shared.update(animate: true)
-        
-      case .FailedToConnect:
-        self.removeSpinner()
-        RootViewController.shared.update(animate: true)
-        
-      default:
-        response.displayAlert(over: self, ok: {
-          // user chose to enter new  password... clear the existing username field
-          self.usernameTextField.text = ""
-          self.removeSpinner()
-        }, cancel: {
-          // segue back to the login view controller
-          self.removeSpinner()
-          self.performSegue(.CreateAccountToLogin, sender: self)
-        }, action: {
-          // segue to the login view controller
-          self.removeSpinner()
-          self.performSegue(.SwitchToAccount, sender:self)
-        } )
-        
-      }
-    }
+//    TheGame.server.createAccount(username: username, password: password, alias: alias, email: email)
+//    {
+//      (response:QueryResponse) in
+//
+//      switch response
+//      {
+//      case .UserCreated:
+//        self.removeSpinner()
+//        RootViewController.shared.update(animate: true)
+//
+//      case .FailedToConnect:
+//        self.removeSpinner()
+//        RootViewController.shared.update(animate: true)
+//
+//      default:
+//        response.displayAlert(over: self, ok: {
+//          // user chose to enter new  password... clear the existing username field
+//          self.usernameTextField.text = ""
+//          self.removeSpinner()
+//        }, cancel: {
+//          // segue back to the login view controller
+//          self.removeSpinner()
+//          self.performSegue(.CreateAccountToLogin, sender: self)
+//        }, action: {
+//          // segue to the login view controller
+//          self.removeSpinner()
+//          self.performSegue(.SwitchToAccount, sender:self)
+//        } )
+//
+//      }
+//    }
   }
 }
