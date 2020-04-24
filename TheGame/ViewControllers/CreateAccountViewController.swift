@@ -216,7 +216,7 @@ extension CreateAccountViewController
     let alias = displayNameTextField.text ?? ""
     let email = emailTextField.text ?? ""
     
-    self.showSpinner(onView: navigationController!.view)
+ //   self.showSpinner(onView: navigationController!.view)
     
 //    TheGame.server.createAccount(username: username, password: password, alias: alias, email: email)
 //    {

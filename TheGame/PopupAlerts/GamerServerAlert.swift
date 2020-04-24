@@ -29,11 +29,7 @@ extension QueryResponse
       title = "Sorry"
       message = "Failed to connect to the game server.\n\nEnsure that you have network connectivity and try again later."
       
-    case .ServerError:
-      title = "Sorry"
-      message = "Failed to recieve valid response from the game server.\n\nTry again later.\nIf this persists, please contact games@vmwishes.com"
-      
-    case .UserAlreadyExists:
+    case .UserExists:
       title = "User already exists"
       message = "\nIf this is you, please use the login page to reconnect.\n\nIf this is not you, you will need to select a different username."
       actions = [
@@ -41,10 +37,6 @@ extension QueryResponse
         UIAlertAction(title: "Enter new username", style: .default, handler: { _ in ok?() } ),
         UIAlertAction(title: "Cancel",             style: .cancel,  handler: { _ in cancel?() } )
       ]
-      
-    case .NotYetImplemented:
-      title = "NOT YET IMPLEMENTED"
-      message = "Fix this before shipping..."
       
     default:
       return

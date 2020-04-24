@@ -18,6 +18,13 @@ class GameServer
   var currentTask : URLSessionDataTask?
   
   var connected = false
+  {
+    didSet {
+      if connected != oldValue {
+        debug("Connected flag changed to: \(connected)")
+      }
+    }
+  }
   
   init()
   {
@@ -33,22 +40,20 @@ class GameServer
     currentTask?.cancel()
     
     guard let url = GameServer.url(action, args:args) else { fatalError("Invalid URL") }
-    
+        
     currentTask = session.dataTask(with: url) { (data, response, err) in
       defer { self.currentTask = nil }
       
       var queryResponse = QueryResponse()
       
-      debug(url)
-      debug("data:",data,"\nerr:",err,"\nresponse",response)
-      if err == nil,
-        let response = response as? HTTPURLResponse,
-        response.statusCode == 200
+      debug("data:\(String(describing: data))\nerr:\(String(describing: err))\nresponse:\(String(describing: response))")
+      if err == nil, let response = response as? HTTPURLResponse
       {
-        queryResponse = QueryResponse( data )
+        if response.statusCode == 200 { queryResponse = QueryResponse( data ) }
+        else                          { queryResponse = QueryResponse(.InvalidURI) }
       }
       
-      if queryResponse.rc == .FailedToConnect { self.connected = false }
+      self.connected = queryResponse.rc != .FailedToConnect
       
       DispatchQueue.main.async { completion(queryResponse) }
     }
@@ -60,6 +65,8 @@ class GameServer
     guard let url = GameServer.url(action, args:args) else { fatalError("Invalid URL") }
     
     let data = try? Data(contentsOf: url)
+    
+    self.connected = data != nil
     
     return QueryResponse(data)
   }
@@ -74,18 +81,24 @@ class GameServer
         queryItems.append(URLQueryItem(name: key.rawValue, value: value))
       }
     }
-    uc.queryItems = queryItems
+    if queryItems.count > 0 { uc.queryItems = queryItems }
     
     return URL(string: uc.url!.absoluteString)
   }
 
   var time : Int? { query(.Time).time }
   
-  func testConnection() -> Bool {  return query(.Time).success  }
+  func testConnection() -> Bool
+  {
+    self.connected = query(.Time).success
+    return self.connected
+  }
   
   func testConnection( completion: @escaping (Bool)->())
   {
-    query(.Time) { response in completion( response.success ) }
+    query(.Time) { response in
+      completion( response.success )
+    }
   }
 }
 

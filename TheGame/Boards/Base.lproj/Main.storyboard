@@ -713,22 +713,19 @@
                                         <rect key="frame" x="0.0" y="307" width="300" height="175"/>
                                         <subviews>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Connecting to Game Server" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="EXP-vz-tdP">
-                                                <rect key="frame" x="38" y="32" width="224.5" height="12"/>
+                                                <rect key="frame" x="38" y="33.5" width="224.5" height="20.5"/>
                                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
                                                 <nil key="textColor"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
-                                            <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" animating="YES" style="large" translatesAutoresizingMaskIntoConstraints="NO" id="1zq-za-0BQ">
-                                                <rect key="frame" x="131.5" y="69" width="37" height="37"/>
-                                            </activityIndicatorView>
                                             <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Failed to Connect" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="k59-ok-qeF">
-                                                <rect key="frame" x="83" y="69" width="134" height="20.5"/>
+                                                <rect key="frame" x="83" y="77.5" width="134" height="20.5"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                 <color key="textColor" systemColor="systemRedColor" red="1" green="0.23137254900000001" blue="0.18823529410000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Trying again in" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="kOV-nS-jnw">
-                                                <rect key="frame" x="97.5" y="94.5" width="105.5" height="19.5"/>
+                                                <rect key="frame" x="97.5" y="103" width="105.5" height="19.5"/>
                                                 <fontDescription key="fontDescription" type="italicSystem" pointSize="16"/>
                                                 <nil key="textColor"/>
                                                 <nil key="highlightedColor"/>
@@ -736,14 +733,11 @@
                                         </subviews>
                                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                                         <constraints>
-                                            <constraint firstItem="k59-ok-qeF" firstAttribute="top" secondItem="1zq-za-0BQ" secondAttribute="top" id="3ql-GQ-gAa"/>
+                                            <constraint firstItem="k59-ok-qeF" firstAttribute="centerY" secondItem="Kfk-pp-llu" secondAttribute="centerY" id="29c-Cg-RM3"/>
                                             <constraint firstItem="k59-ok-qeF" firstAttribute="centerX" secondItem="Kfk-pp-llu" secondAttribute="centerX" id="7XO-4D-BuM"/>
                                             <constraint firstItem="EXP-vz-tdP" firstAttribute="centerX" secondItem="Kfk-pp-llu" secondAttribute="centerX" id="9ta-d5-Fgi"/>
                                             <constraint firstItem="kOV-nS-jnw" firstAttribute="top" secondItem="k59-ok-qeF" secondAttribute="bottom" constant="5" id="AQt-TG-sWf"/>
-                                            <constraint firstItem="1zq-za-0BQ" firstAttribute="centerX" secondItem="Kfk-pp-llu" secondAttribute="centerX" id="E18-fT-cZ8"/>
-                                            <constraint firstItem="1zq-za-0BQ" firstAttribute="top" secondItem="EXP-vz-tdP" secondAttribute="bottom" constant="25" id="FtI-c0-mky"/>
-                                            <constraint firstItem="1zq-za-0BQ" firstAttribute="centerY" secondItem="Kfk-pp-llu" secondAttribute="centerY" id="dWA-Yx-xiZ"/>
-                                            <constraint firstItem="EXP-vz-tdP" firstAttribute="top" secondItem="Kfk-pp-llu" secondAttribute="top" constant="32" id="efi-hs-LjI"/>
+                                            <constraint firstItem="EXP-vz-tdP" firstAttribute="centerY" secondItem="Kfk-pp-llu" secondAttribute="centerY" multiplier="0.5" id="MK5-TE-qkf"/>
                                             <constraint firstItem="kOV-nS-jnw" firstAttribute="centerX" secondItem="Kfk-pp-llu" secondAttribute="centerX" id="lhU-NT-H7d"/>
                                             <constraint firstAttribute="height" constant="175" id="xyS-Zj-twB"/>
                                         </constraints>
@@ -774,7 +768,6 @@
                     <connections>
                         <outlet property="failedLabel" destination="k59-ok-qeF" id="tQB-qS-ApH"/>
                         <outlet property="reconnectLabel" destination="kOV-nS-jnw" id="xbv-al-yFx"/>
-                        <outlet property="spinner" destination="1zq-za-0BQ" id="eGu-FB-Edw"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Xvo-DS-YiU" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -783,7 +776,7 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="QnG-6h-YAt"/>
+        <segue reference="Oej-iK-SRL"/>
     </inferredMetricsTieBreakers>
     <resources>
         <image name="button_01" width="344" height="200"/>

@@ -16,8 +16,8 @@ class TheGame
   var me        : LocalPlayer? = nil
   var opponents = [Opponent]()
   
-//  fileprivate init()
-//  {
+  fileprivate init()
+  {
 //    self.me = LocalPlayer()
-//  }
+  }
 }

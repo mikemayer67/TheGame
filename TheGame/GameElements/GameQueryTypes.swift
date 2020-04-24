@@ -44,8 +44,9 @@ typealias QueryArgs = [QueryKey:String]
 
 enum QueryReturnCode : Int
 {
-  case InvalidCode           = -3
-  case MissingCode           = -2
+  case InvalidCode           = -4
+  case MissingCode           = -3
+  case InvalidURI            = -2
   case FailedToConnect       = -1
   case Success               =  0
   case UserExists            =  1
@@ -76,9 +77,15 @@ struct QueryResponse
   let rc   : QueryReturnCode
   let data : DataType?
   
-  init(_ rc:Int = -1)
+  init(_ rc:Int)
   {
     self.rc = QueryReturnCode(rawValue: rc) ?? .InvalidCode
+    self.data = nil
+  }
+  
+  init(_ rc:QueryReturnCode = .FailedToConnect)
+  {
+    self.rc = rc
     self.data = nil
   }
   
@@ -88,7 +95,9 @@ struct QueryResponse
       let json = try? JSONSerialization.jsonObject(with: rawData, options: .allowFragments),
       let data = json as? DataType
     {
-      self.rc   = QueryReturnCode( data["rc"] as? Int )
+      if let rc = data["rc"] as? Int { self.rc = QueryReturnCode( rc ) }
+      else                           { self.rc = .MissingCode          }
+      
       self.data = data
     }
     else

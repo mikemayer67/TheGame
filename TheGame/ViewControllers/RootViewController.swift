@@ -8,11 +8,54 @@
 
 import UIKit
 
-class RootViewController: UIViewController {
+class RootViewController: UIViewController
+{
+  var currentVC : UIViewController?
   
-  override func viewDidLoad() {
+  override func viewDidLoad()
+  {
     super.viewDidLoad()
+    
+    let sb = UIStoryboard(.Main)
+    let vc = sb.instantiateViewController(.SplashScreen)
+    
+    currentVC = vc
+    
+    addChild(vc)
+    vc.view.frame = view.bounds
+    view.addSubview(vc.view)
+    vc.didMove(toParent: self)
   }
   
-  
+  func update()
+  {
+    guard currentVC != nil else { print("debug: No current VC"); return }
+    
+    
+    let id : ViewControllerID =
+      ( TheGame.server.connected == false ? .SplashScreen
+        : TheGame.shared.me      == nil   ? .ConnectScreen
+        : .GameScreen  )
+    
+    let sb = UIStoryboard(.Main)
+    let vc = sb.instantiateViewController(id)
+    
+    guard vc != currentVC else { print("debug already showing \(id)"); return }
+    
+    print("debug update view to \(id.rawValue)")
+    
+    currentVC?.willMove(toParent: nil)
+    addChild(vc)
+    
+    transition(from: currentVC!, to: vc, duration: 0.3,
+               options: [.transitionCrossDissolve,.curveEaseInOut],
+               animations: { vc.view.frame = self.view.bounds } )
+    {
+      (_) in
+      self.currentVC!.removeFromParent()
+      vc.didMove(toParent: self)
+      self.currentVC = vc
+    }
+    
+  }
 }
