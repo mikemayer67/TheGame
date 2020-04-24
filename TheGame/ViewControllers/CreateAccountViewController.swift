@@ -27,8 +27,6 @@ class CreateAccountViewController: UIViewController
   @IBOutlet weak var displayNameInfo      : UIButton!
   @IBOutlet weak var emailInfo            : UIButton!
   
-  
-  
   @IBOutlet weak var usernameError        : UILabel!
   @IBOutlet weak var passwordError        : UILabel!
   @IBOutlet weak var displayNameError     : UILabel!
@@ -55,6 +53,8 @@ class CreateAccountViewController: UIViewController
     
     self.loginTextFieldUpdated(usernameTextField)
     self.loginTextFieldUpdated(password1TextField)
+    
+    navigationController?.setNavigationBarHidden(false,animated:animated)
   }
   
   override func viewWillDisappear(_ animated: Bool)

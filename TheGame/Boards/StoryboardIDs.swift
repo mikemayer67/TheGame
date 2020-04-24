@@ -17,9 +17,6 @@ enum SegueID : String
 {
   case CreateAccount          = "createAccount"
   case AccountLogin           = "accountLogin"
-  case SwitchToAccount        = "switchToAccount"
-  case CreateAccountToLogin   = "createAccountToLogin"
-  case AccountToLogin         = "accountToLogin"
 }
 
 enum ViewControllerID : String

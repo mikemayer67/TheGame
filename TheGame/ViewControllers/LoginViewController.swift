@@ -8,11 +8,6 @@
 
 import UIKit
 
-enum ViewEncodingError : Error
-{
-  case failedToDecode
-}
-
 class LoginViewController: UIViewController
 {
   @IBOutlet weak var facebookButton : UIButton!
@@ -25,12 +20,19 @@ class LoginViewController: UIViewController
     super.awakeFromNib()
   }
   
+  override func viewWillAppear(_ animated: Bool)
+  {
+    navigationController?.setNavigationBarHidden(true,animated:animated)
+  }
+
   @IBAction func handleButton(_ sender : UIButton )
   {
+    debug(sender)
+
     switch sender
     {
-    case newAccountButton: performSegue(.CreateAccount, sender: sender)
-    case loginButton:      performSegue(.AccountLogin,  sender: sender)
+//    case newAccountButton: performSegue(.CreateAccount, sender: sender)
+//    case loginButton:      performSegue(.AccountLogin,  sender: sender)
     case whyConnect:       InfoAlert.connectInfo.display(over: self)
     default:               break
     }

@@ -34,7 +34,7 @@ class RootViewController: UIViewController
     
     let id : ViewControllerID =
       ( TheGame.server.connected == false ? .SplashScreen
-        : TheGame.shared.me      == nil   ? .ConnectScreen
+        : TheGame.shared.me      == nil   ? .ConnectNav
         : .GameScreen  )
     
     let sb = UIStoryboard(.Main)

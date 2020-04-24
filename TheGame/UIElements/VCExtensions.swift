@@ -36,9 +36,9 @@ extension UIViewController
 //      vSpinner = nil
 //    }
 //  }
-  
-  func performSegue(_ target:SegueID, sender:Any?)
-  {
-    performSegue(withIdentifier: target.rawValue, sender: sender)
-  }
+//  
+//  func performSegue(_ target:SegueID, sender:Any?)
+//  {
+//    performSegue(withIdentifier: target.rawValue, sender: sender)
+//  }
 }
