@@ -16,6 +16,8 @@ class CreateAccountViewController: UIViewController
 {
   //MARK:- Outlets
   
+  @IBOutlet weak var popupView            : UIView!
+  
   @IBOutlet weak var usernameTextField    : LoginTextField!
   @IBOutlet weak var password1TextField   : LoginTextField!
   @IBOutlet weak var password2TextField   : LoginTextField!
@@ -33,6 +35,7 @@ class CreateAccountViewController: UIViewController
   @IBOutlet weak var emailError           : UILabel!
   
   @IBOutlet weak var createButton         : UIButton!
+  @IBOutlet weak var cancelButton         : UIButton!
   
   @IBOutlet weak var facebookInfoLabel    : UILabel!
   @IBOutlet weak var facebookButton       : UIButton!
@@ -40,6 +43,17 @@ class CreateAccountViewController: UIViewController
   private var updateTimer : Timer?
   
   // MARK:- View State
+  
+  override func viewDidLoad()
+  {
+    super.viewDidLoad()
+    
+    let layer = popupView.layer
+    layer.cornerRadius = 10
+    layer.masksToBounds = true
+    layer.borderColor = UIColor.gray.cgColor
+    layer.borderWidth = 1.0
+  }
   
   override func viewWillAppear(_ animated: Bool)
   {
