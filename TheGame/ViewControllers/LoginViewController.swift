@@ -25,24 +25,10 @@ class LoginViewController: UIViewController
     navigationController?.setNavigationBarHidden(true,animated:animated)
   }
 
-  @IBAction func handleButton(_ sender : UIButton )
+  @IBAction func whyFacebook(_ sender : UIButton)
   {
-    debug(sender)
-
-    switch sender
-    {
-//    case newAccountButton: performSegue(.CreateAccount, sender: sender)
-//    case loginButton:      performSegue(.AccountLogin,  sender: sender)
-    case whyConnect:       InfoAlert.connectInfo.display(over: self)
-    default:               break
-    }
+    InfoAlert.connectInfo.display(over:self)
   }
   
   @IBAction func returnToLogin(segue:UIStoryboardSegue) {}
-  
-  func update(animated:Bool) -> Void
-  {
-    debug("LoginViewController.update()")
-    // @@@ TODO Check login status
-  }
 }

@@ -7,23 +7,23 @@
 //
 
 import UIKit
+import FBSDKCoreKit
+import FBSDKLoginKit
 
 class SplashViewController: UIViewController
 {
   @IBOutlet weak var failedLabel    : UILabel!
   @IBOutlet weak var reconnectLabel : UILabel!
-  
+    
   var connectionAttempt = 0
   
-  override func viewDidLoad()
+  override func viewDidAppear(_ animated: Bool)
   {
-    super.viewDidLoad()
-    
     connectionAttempt = 0
-    testConnection()
+    attemptToConnect()
   }
   
-  func testConnection()
+  private func attemptToConnect()
   {
     failedLabel.isHidden    = true
     reconnectLabel.isHidden = true
@@ -31,46 +31,103 @@ class SplashViewController: UIViewController
     connectionAttempt = connectionAttempt + 1
 
     TheGame.server.testConnection { (connected) in
-      if connected
+      if connected { self.connectUser() }
+      else         { self.startRetryTimer() }
+    }
+  }
+  
+  private func connectUser()
+  {
+    let userkey  = UserDefaults.standard.string(forKey: "userkey")
+    
+    if AccessToken.current != nil { connectFacebook(userkey:userkey)   }
+    else if let userkey = userkey { validate(userkey:userkey)          }
+    else                          { AppDelegate.rootViewController.update() }
+  }
+  
+  private func validate(userkey:String)
+  {
+    let args : QueryArgs = [.Userkey:userkey]
+    TheGame.server.query(.User, action: .Validate, args: args)
+    {
+      (response) in
+      if response.success
       {
-        AppDelegate.rootViewController.update()
+        var last_loss : GameTime?
+        if let t = response.lastLoss
+        {
+          last_loss = GameTime(networktime: TimeInterval(t))
+        }
+        let username = UserDefaults.standard.string(forKey: "username")
+        let alias    = UserDefaults.standard.string(forKey: "alias")
+        
+        let me = LocalPlayer(userkey, username: username, alias: alias, lastLoss: last_loss)
+        TheGame.shared.me = me
       }
       else
       {
-        var wait : Int = 0
+        UserDefaults.standard.removeObject(forKey: "userkey")
+      }
+      AppDelegate.rootViewController.update()
+    }
+  }
+  
+  private func connectFacebook(userkey:String?)
+  {
+    let request = GraphRequest(graphPath: "me", parameters: ["fields":"name"])
+    request.start { (_, result, error) in
+      debug("FB callback")
+      if error != nil {
+        AppDelegate.rootViewController.update()
+        return
+      }
 
-        switch self.connectionAttempt
+      if let result = result as? NSDictionary,
+        let fbid = result["id"] as? String
+      {
+        var args : QueryArgs = [.FBID:fbid]
+        if let uk = userkey { args[.Userkey] = uk }
+        TheGame.server.query(.User, action: .Connect, args: args)
         {
-        case ..<5:  wait = 5
-        case ..<10: wait = 10
-        case ..<15: wait = 20
-        case ..<20: wait = 30
-        case ..<30: wait = 45
-        default:    wait = 60
-        }
-
-        self.failedLabel.isHidden = false
-        self.reconnectLabel.isHidden = false
-        self.reconnectLabel.text = "Trying again in \(wait) seconds"
-
-        Timer.scheduledTimer(withTimeInterval: 1.0, repeats: false) { _ in
-          self.retryConnection(wait-1)
+          (response) in
+          debug("Create ME from F")
+          AppDelegate.rootViewController.update()
         }
       }
     }
   }
+  
+  private func startRetryTimer()
+  {
+    var wait : Int = 0
 
-  func retryConnection(_ wait:Int)
+    switch self.connectionAttempt
+    {
+    case ..<5:  wait = 5
+    case ..<10: wait = 10
+    case ..<15: wait = 20
+    case ..<20: wait = 30
+    case ..<30: wait = 45
+    default:    wait = 60
+    }
+
+    self.failedLabel.isHidden = false
+    self.reconnectLabel.isHidden = false
+    
+    retryConnection(in: wait)
+  }
+
+  private func retryConnection(in wait:Int)
   {
     if wait == 0
     {
-      self.testConnection()
+      self.attemptToConnect()
     }
     else
     {
       self.reconnectLabel.text = "Trying again in \(wait) second\(wait > 1 ? "s" : "")"
       Timer.scheduledTimer(withTimeInterval: 1.0, repeats: false) { _ in
-        self.retryConnection(wait - 1)
+        self.retryConnection(in:wait - 1)
       }
     }
   }

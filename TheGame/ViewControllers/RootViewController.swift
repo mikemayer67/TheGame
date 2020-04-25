@@ -29,21 +29,18 @@ class RootViewController: UIViewController
   
   func update()
   {
-    guard currentVC != nil else { print("debug: No current VC"); return }
-    
+    guard currentVC != nil else { return }
     
     let id : ViewControllerID =
       ( TheGame.server.connected == false ? .SplashScreen
-        : TheGame.shared.me      == nil   ? .ConnectNav
+        : TheGame.shared.me      == nil   ? .ConnectScreen
         : .GameScreen  )
     
     let sb = UIStoryboard(.Main)
     let vc = sb.instantiateViewController(id)
     
-    guard vc != currentVC else { print("debug already showing \(id)"); return }
-    
-    print("debug update view to \(id.rawValue)")
-    
+    guard vc != currentVC else { return }
+        
     currentVC?.willMove(toParent: nil)
     addChild(vc)
     

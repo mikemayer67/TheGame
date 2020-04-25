@@ -9,32 +9,33 @@
 import Foundation
 import FacebookLogin
 
+typealias LocalPlayerCreateCallback = (LocalPlayer?)->()
+
 class LocalPlayer : Player
 {
   // Username/Password account
   let username    : String?
   let alias       : String?
-  let emailStatus : EmailStatus?
   
   // Facebook account
   // Helpful links:
   //   https://www.youtube.com/watch?v=tSIYcQmUav4
   
   // Designated Initializer for user account with or without facebook account
-  init(_ key:String, username:String, alias:String?, emailStatus:EmailStatus, fb:FBUserInfo?, lastLoss:GameTime?)
+  init(_ key:String, username:String?, alias:String?, fb:FBUserInfo? = nil, lastLoss:GameTime?)
   {
     self.username             = username
     self.alias                = alias
-    self.emailStatus          = emailStatus
     
-    var name : String!
-    if let fb = fb            { name = fb.name }
-    else if let alias = alias { name = alias }
-    else                      { name = username }
+    var name = UIDevice.current.name
+    
+    if let fb = fb                  { name = fb.name }
+    else if let alias = alias       { name = alias }
+    else if let username = username { name = username }
     
     super.init(key:key, name:name, fb:fb, lastLoss: lastLoss)
   }
-  
+    
   // Designated Initializier for facebook account only
 //  init(_ userkey:String, fb:FBUserInfo, lastLoss:GameTime? = nil)
 //  {

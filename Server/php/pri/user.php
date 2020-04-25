@@ -44,7 +44,7 @@ function connect()
       if( $fb_info[USERID] != $userid )   { send_failure(\RC::INVALID_USERKEY_FBID); }
 
       if( isset($user_info[USERNAME]) ) { $reply[USERNAME] = 1; }
-      if( isset($user_info[LASTLOSS]) ) { $reply[LASTLOSS] = $user_info[LASTLOSS]; }
+      if( isset($user_info[LASTLOSS]) ) { $reply[LASTLOSS] = (int)$user_info[LASTLOSS]; }
     }
     else # new FBID, existing userkey
     {
@@ -52,14 +52,14 @@ function connect()
       if( !db_add_facebook($userid,$fbid) ) { send_failure(\RC::FAILED_TO_CREATE_FBID); }
 
       if( isset($user_info[USERNAME]) ) { $reply[USERNAME] = 1; }
-      if( isset($user_info[LASTLOSS]) ) { $reply[LASTLOSS] = $user_info[LASTLOSS]; }
+      if( isset($user_info[LASTLOSS]) ) { $reply[LASTLOSS] = (int)$user_info[LASTLOSS]; }
     }
   }
   else if(isset($fb_info) ) # existing FBID
   {
     $reply[USERKEY] = $fb_info[USERKEY];
     if( isset($fb_info[USERNAME]) ) { $reply[USERNAME] = 1; }
-    if( isset($fb_info[LASTLOSS]) ) { $reply[LASTLOSS] = $fb_info[LASTLOSS]; }
+    if( isset($fb_info[LASTLOSS]) ) { $reply[LASTLOSS] = (int)$fb_info[LASTLOSS]; }
   }
   else
   {
@@ -107,6 +107,9 @@ function validate()
     {
       $reply[USERKEY] = $userkey;
     }
+
+    if( isset($info[ALIAS]) ) { $reply[ALIAS] = $info[ALIAS]; }
+    if( isset($info[EMAIL]) ) { $reply[EMAIL] = $info[EMAIL]; }
   }
   else
   {
@@ -117,7 +120,7 @@ function validate()
     if( empty($info) ) { send_failure(\RC::INVALID_USERKEY); }
   }
 
-  if( isset($info[LASTLOSS]) ) { $reply[LASTLOSS] = $info[LASTLOSS]; }
+  if( isset($info[LASTLOSS]) ) { $reply[LASTLOSS] = (int)$info[LASTLOSS]; }
 
   send_success($reply);
 }

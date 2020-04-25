@@ -24,7 +24,6 @@ enum ViewControllerID : String
   case Root           = "rootVC"
   case SplashScreen   = "splashVC"
   case GameScreen     = "gameVC"
-  case ConnectNav     = "navVC"
   case ConnectScreen  = "loginVC"
   case CreateAccount  = "createAccountVC"
   case AccountLogin   = "accountLoginVC"

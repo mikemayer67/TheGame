@@ -20,6 +20,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate
   func application(_ application: UIApplication,
                    didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]? ) -> Bool
   {
+    // @@@ REMOVE AFTER TESTING
+    if let uk = Bundle.main.object(forInfoDictionaryKey: "UserkeyOverride") as? String
+    {
+      debug("UserKeyOverride: '\(uk)'")
+      if uk.count > 0 { UserDefaults.standard.set(uk, forKey: "userkey") }
+      else            { UserDefaults.standard.removeObject(forKey: "userkey") }
+    }
+    
     // Facebook
     ApplicationDelegate.shared.application(application, didFinishLaunchingWithOptions: launchOptions)
         

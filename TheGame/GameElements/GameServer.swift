@@ -18,13 +18,6 @@ class GameServer
   var currentTask : URLSessionDataTask?
   
   var connected = false
-  {
-    didSet {
-      if connected != oldValue {
-        debug("Connected flag changed to: \(connected)")
-      }
-    }
-  }
   
   init()
   {
@@ -35,18 +28,17 @@ class GameServer
     connected = self.testConnection()
   }
     
-  func query(_ action:QueryAction, args:QueryArgs? = nil,  completion: @escaping QueryCompletion)
+  func query(_ page:QueryPage, action: QueryAction? = nil, args:QueryArgs? = nil,  completion: @escaping QueryCompletion)
   {
     currentTask?.cancel()
     
-    guard let url = GameServer.url(action, args:args) else { fatalError("Invalid URL") }
+    guard let url = GameServer.url(page, action:action, args:args) else { fatalError("Invalid URL") }
         
     currentTask = session.dataTask(with: url) { (data, response, err) in
       defer { self.currentTask = nil }
       
       var queryResponse = QueryResponse()
       
-      debug("data:\(String(describing: data))\nerr:\(String(describing: err))\nresponse:\(String(describing: response))")
       if err == nil, let response = response as? HTTPURLResponse
       {
         if response.statusCode == 200 { queryResponse = QueryResponse( data ) }
@@ -60,9 +52,9 @@ class GameServer
     currentTask!.resume()
   }
   
-  func query(_ action:QueryAction, args:QueryArgs? = nil) -> QueryResponse
+  func query(_ page:QueryPage, action:QueryAction? = nil, args:QueryArgs? = nil) -> QueryResponse
   {
-    guard let url = GameServer.url(action, args:args) else { fatalError("Invalid URL") }
+    guard let url = GameServer.url(page, action:action, args:args) else { fatalError("Invalid URL") }
     
     let data = try? Data(contentsOf: url)
     
@@ -71,11 +63,15 @@ class GameServer
     return QueryResponse(data)
   }
   
-  static func url(_ action:QueryAction, args:QueryArgs? = nil) -> URL?
+  static func url(_ page:QueryPage, action: QueryAction? = nil, args:QueryArgs? = nil) -> URL?
   {
-    guard var uc = URLComponents(string:"\(SERVER_HOST)/\(action.rawValue)") else { return nil }
+    guard var uc = URLComponents(string:"\(SERVER_HOST)/\(page.rawValue)") else { return nil }
     
     var queryItems = [URLQueryItem]()
+    if let action = action
+    {
+      queryItems.append(URLQueryItem(name:"action", value:action.rawValue))
+    }
     if let args = args{
       for (key,value) in args {
         queryItems.append(URLQueryItem(name: key.rawValue, value: value))

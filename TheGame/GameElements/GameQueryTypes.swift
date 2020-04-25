@@ -10,15 +10,22 @@ import Foundation
 
 enum EmailStatus
 {
+  case Unknown
   case NoEmail
   case HasValidatedEmail
   case HasUnvalidatedEmail
 }
 
-enum QueryAction : String
+enum QueryPage : String
 {
   case Time = "time"
   case User = "user"
+}
+
+enum QueryAction : String
+{
+  case Validate = "validate"
+  case Connect  = "connect"
 }
 
 enum QueryKey : String
@@ -122,13 +129,15 @@ struct QueryResponse
   var serverFailure : Bool { rc.rawValue < 0 }
   var queryFailure  : Bool { rc.rawValue > 0 }
   
-  var time        : Int?    { getInt(QueryKey.Time) }
-  var userkey     : String? { getString(QueryKey.Userkey) }
-  var lastLoss    : Int?    { getInt(QueryKey.Lastloss) }
+  var time        : Int?    { getInt(.Time) }
+  var userkey     : String? { getString(.Userkey) }
+  var alias       : String? { getString(.Alias) }
+  var email       : String? { getString(.Email) }
+  var lastLoss    : Int?    { getInt(.Lastloss) }
   
-  var hasUserkey  : Bool?   { getBool(QueryKey.Userkey) }
-  var hasUsername : Bool?   { getBool(QueryKey.Username) }
-  var hasFacebook : Bool?   { getBool(QueryKey.FBID) }
+  var hasUserkey  : Bool?   { getBool(.Userkey) }
+  var hasUsername : Bool?   { getBool(.Username) }
+  var hasFacebook : Bool?   { getBool(.FBID) }
   
   var emailStatus : EmailStatus
   {
