@@ -59,10 +59,5 @@ class AppDelegate: UIResponder, UIApplicationDelegate
     UIApplication.shared.delegate as! AppDelegate
   }
   
-  static var rootViewController : RootViewController
-  {
-    AppDelegate.shared.window?.rootViewController as! RootViewController
-  }
-  
 }
 

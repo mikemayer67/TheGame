@@ -8,7 +8,7 @@
 
 import UIKit
 
-class LoginViewController: UIViewController
+class LoginViewController: ChildViewController
 {
   @IBOutlet weak var facebookButton : UIButton!
   @IBOutlet weak var newAccountButton : UIButton!

@@ -8,16 +8,23 @@
 
 import UIKit
 
+class ChildViewController : UIViewController
+{
+  var rootViewController : RootViewController!
+}
+
+@IBDesignable
 class RootViewController: UIViewController
 {
-  var currentVC : UIViewController?
+  @IBInspectable var initialVC : String!
+  
+  var currentVC  : ChildViewController?
   
   override func viewDidLoad()
   {
     super.viewDidLoad()
     
-    let sb = UIStoryboard(.Main)
-    let vc = sb.instantiateViewController(.SplashScreen)
+    let vc = childView(withName: initialVC)
     
     currentVC = vc
     
@@ -27,20 +34,28 @@ class RootViewController: UIViewController
     vc.didMove(toParent: self)
   }
   
-  func update()
+  private func childView(withName viewControllerID:String) -> ChildViewController
   {
-    guard currentVC != nil else { return }
+    guard let sb = storyboard
+      else { fatalError("RootViewController must originate in a storyboard") }
     
-    let id : ViewControllerID =
-      ( TheGame.server.connected == false ? .SplashScreen
-        : TheGame.shared.me      == nil   ? .ConnectScreen
-        : .GameScreen  )
+    guard let vc =
+      sb.instantiateViewController(identifier: viewControllerID) as? ChildViewController
+      else { fatalError("Cannot find ChildViewController: \(viewControllerID)") }
     
-    let sb = UIStoryboard(.Main)
-    let vc = sb.instantiateViewController(id)
+    vc.rootViewController = self
+    
+    return vc
+  }
+  
+  func present(viewControllerID:String)
+  {
+    guard currentVC != nil    else { return }
+    
+    let vc = childView(withName: viewControllerID)
     
     guard vc != currentVC else { return }
-        
+    
     currentVC?.willMove(toParent: nil)
     addChild(vc)
     

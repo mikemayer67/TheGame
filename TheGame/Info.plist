@@ -83,6 +83,8 @@
 		<string>UIInterfaceOrientationLandscapeRight</string>
 	</array>
 	<key>UserkeyOverride</key>
-	<string>UserKey3</string>
+	<string></string>
+	<key>ServerHost</key>
+	<string>https://localhost/thegame</string>
 </dict>
 </plist>

@@ -10,7 +10,7 @@ import UIKit
 import FBSDKCoreKit
 import FBSDKLoginKit
 
-class SplashViewController: UIViewController
+class SplashViewController: ChildViewController
 {
   @IBOutlet weak var failedLabel    : UILabel!
   @IBOutlet weak var reconnectLabel : UILabel!
@@ -31,24 +31,25 @@ class SplashViewController: UIViewController
     connectionAttempt = connectionAttempt + 1
 
     TheGame.server.testConnection { (connected) in
-      if connected { self.connectUser() }
-      else         { self.startRetryTimer() }
+      if connected
+      {
+        let userkey  = UserDefaults.standard.string(forKey: "userkey")
+        
+        if AccessToken.current != nil { self.connectFacebook(userkey:userkey)   }
+        else if let userkey = userkey { self.validate(userkey:userkey)          }
+        else                          { self.updateRootView()                   }
+      }
+      else
+      {
+        self.startRetryTimer()
+      }
     }
-  }
-  
-  private func connectUser()
-  {
-    let userkey  = UserDefaults.standard.string(forKey: "userkey")
-    
-    if AccessToken.current != nil { connectFacebook(userkey:userkey)   }
-    else if let userkey = userkey { validate(userkey:userkey)          }
-    else                          { AppDelegate.rootViewController.update() }
   }
   
   private func validate(userkey:String)
   {
-    let args : QueryArgs = [.Userkey:userkey]
-    TheGame.server.query(.User, action: .Validate, args: args)
+    let args : GameQueryArgs = [.Userkey:userkey]
+    TheGame.server.query(.User, action: .Validate, gameArgs: args)
     {
       (response) in
       if response.success
@@ -61,14 +62,14 @@ class SplashViewController: UIViewController
         let username = UserDefaults.standard.string(forKey: "username")
         let alias    = UserDefaults.standard.string(forKey: "alias")
         
-        let me = LocalPlayer(userkey, username: username, alias: alias, lastLoss: last_loss)
-        TheGame.shared.me = me
+        TheGame.shared.me =
+          LocalPlayer(userkey, username: username, alias: alias, lastLoss: last_loss)
       }
       else
       {
         UserDefaults.standard.removeObject(forKey: "userkey")
       }
-      AppDelegate.rootViewController.update()
+      self.updateRootView()
     }
   }
   
@@ -77,22 +78,22 @@ class SplashViewController: UIViewController
     let request = GraphRequest(graphPath: "me", parameters: ["fields":"name"])
     request.start { (_, result, error) in
       debug("FB callback")
-      if error != nil {
-        AppDelegate.rootViewController.update()
-        return
-      }
-
-      if let result = result as? NSDictionary,
+      if error == nil,
+        let result = result as? NSDictionary,
         let fbid = result["id"] as? String
       {
-        var args : QueryArgs = [.FBID:fbid]
+        var args : GameQueryArgs = [.FBID:fbid]
         if let uk = userkey { args[.Userkey] = uk }
-        TheGame.server.query(.User, action: .Connect, args: args)
+        TheGame.server.query(.User, action: .Connect, gameArgs: args)
         {
           (response) in
           debug("Create ME from F")
-          AppDelegate.rootViewController.update()
+          self.updateRootView()
         }
+      }
+      else
+      {
+        self.updateRootView()
       }
     }
   }

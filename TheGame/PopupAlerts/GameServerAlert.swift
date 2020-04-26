@@ -1,5 +1,5 @@
 //
-//  GamerServerAlert.swift
+//  GameServerAlert.swift
 //  TheGame
 //
 //  Created by Mike Mayer on 3/21/20.
@@ -23,7 +23,7 @@ extension QueryResponse
       UIAlertAction(title: "Cancel", style: .cancel, handler: { _ in cancel?() } )
     ]
     
-    switch self.rc
+    switch self.returnCode
     {
     case .FailedToConnect:
       title = "Sorry"

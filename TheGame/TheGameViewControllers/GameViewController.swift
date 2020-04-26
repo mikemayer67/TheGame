@@ -10,7 +10,7 @@ import UIKit
 import GoogleMobileAds
 
 
-class GameViewController: UIViewController
+class GameViewController: ChildViewController
 {  
   @IBOutlet weak var oppenentTable: UITableView!
   @IBOutlet weak var buttonView: UIImageView!
