@@ -7,8 +7,6 @@
 //
 
 import UIKit
-import FBSDKCoreKit
-import FBSDKLoginKit
 
 class SplashViewController: ChildViewController
 {
@@ -31,69 +29,13 @@ class SplashViewController: ChildViewController
     connectionAttempt = connectionAttempt + 1
 
     TheGame.server.testConnection { (connected) in
-      if connected
-      {
-        let userkey  = UserDefaults.standard.string(forKey: "userkey")
-        
-        if AccessToken.current != nil { self.connectFacebook(userkey:userkey)   }
-        else if let userkey = userkey { self.validate(userkey:userkey)          }
-        else                          { self.updateRootView()                   }
-      }
-      else
-      {
-        self.startRetryTimer()
-      }
-    }
-  }
-  
-  private func validate(userkey:String)
-  {
-    let args : GameQueryArgs = [.Userkey:userkey]
-    TheGame.server.query(.User, action: .Validate, gameArgs: args)
-    {
-      (response) in
-      if response.success
-      {
-        var last_loss : GameTime?
-        if let t = response.lastLoss
-        {
-          last_loss = GameTime(networktime: TimeInterval(t))
-        }
-        let username = UserDefaults.standard.string(forKey: "username")
-        let alias    = UserDefaults.standard.string(forKey: "alias")
-        
-        TheGame.shared.me =
-          LocalPlayer(userkey, username: username, alias: alias, lastLoss: last_loss)
-      }
-      else
-      {
-        UserDefaults.standard.removeObject(forKey: "userkey")
-      }
-      self.updateRootView()
-    }
-  }
-  
-  private func connectFacebook(userkey:String?)
-  {
-    let request = GraphRequest(graphPath: "me", parameters: ["fields":"name"])
-    request.start { (_, result, error) in
-      debug("FB callback")
-      if error == nil,
-        let result = result as? NSDictionary,
-        let fbid = result["id"] as? String
-      {
-        var args : GameQueryArgs = [.FBID:fbid]
-        if let uk = userkey { args[.Userkey] = uk }
-        TheGame.server.query(.User, action: .Connect, gameArgs: args)
-        {
-          (response) in
-          debug("Create ME from F")
+      if connected {
+        LocalPlayer.connect { (localPlayer) in
+          TheGame.shared.me = localPlayer
           self.updateRootView()
         }
-      }
-      else
-      {
-        self.updateRootView()
+      } else {
+        self.startRetryTimer()
       }
     }
   }
@@ -120,10 +62,7 @@ class SplashViewController: ChildViewController
 
   private func retryConnection(in wait:Int)
   {
-    if wait == 0
-    {
-      self.attemptToConnect()
-    }
+    if wait == 0  {  self.attemptToConnect()  }
     else
     {
       self.reconnectLabel.text = "Trying again in \(wait) second\(wait > 1 ? "s" : "")"

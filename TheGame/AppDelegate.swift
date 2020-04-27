@@ -27,6 +27,18 @@ class AppDelegate: UIResponder, UIApplicationDelegate
       if uk.count > 0 { UserDefaults.standard.set(uk, forKey: "userkey") }
       else            { UserDefaults.standard.removeObject(forKey: "userkey") }
     }
+    if let u = Bundle.main.object(forInfoDictionaryKey: "UsernameOverride") as? String
+    {
+      debug("UserNameOverride: '\(u)'")
+      if u.count > 0 { UserDefaults.standard.set(u, forKey: "username") }
+      else            { UserDefaults.standard.removeObject(forKey: "username") }
+    }
+    if let a = Bundle.main.object(forInfoDictionaryKey: "AliasOverride") as? String
+    {
+      debug("AliasOverride: '\(a)'")
+      if a.count > 0 { UserDefaults.standard.set(a, forKey: "alias") }
+      else            { UserDefaults.standard.removeObject(forKey: "alias") }
+    }
     
     // Facebook
     ApplicationDelegate.shared.application(application, didFinishLaunchingWithOptions: launchOptions)

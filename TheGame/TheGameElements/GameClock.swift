@@ -29,7 +29,10 @@ struct GameTime
   init(localtime:TimeInterval)   { value = localtime }
   init(networktime:TimeInterval) { value = networktime - GameTime.clockOffset }
   
-  var gameString: String { self.date.gameString }
+  var string : String
+  {
+    DateFormatter.localizedString(from: self.date, dateStyle: .medium, timeStyle: .medium)
+  }
   
   var localtime : TimeInterval
   {

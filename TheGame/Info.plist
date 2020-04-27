@@ -83,6 +83,10 @@
 		<string>UIInterfaceOrientationLandscapeRight</string>
 	</array>
 	<key>UserkeyOverride</key>
+	<string>UserKey2</string>
+	<key>UsernameOverride</key>
+	<string>mikemayer67</string>
+	<key>AliasOverride</key>
 	<string></string>
 	<key>ServerHost</key>
 	<string>https://localhost/thegame</string>

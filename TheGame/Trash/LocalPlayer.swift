@@ -17,10 +17,6 @@ class LocalPlayer : Player
   let username    : String?
   let alias       : String?
   
-  // Facebook account
-  // Helpful links:
-  //   https://www.youtube.com/watch?v=tSIYcQmUav4
-  
   // Designated Initializer for user account with or without facebook account
   init(_ key:String, username:String?, alias:String?, fb:FBUserInfo? = nil, lastLoss:GameTime?)
   {

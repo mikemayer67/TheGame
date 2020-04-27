@@ -11,11 +11,9 @@ import Foundation
 // MARK:- Support Structures
 
 class QueryResponse
-{
-  typealias DataType = [String:Any]
-  
+{  
   let rc   : Int?
-  let data : DataType?
+  let data : HashData?
   
   init(_ rc:Int? = nil)
   {
@@ -28,7 +26,7 @@ class QueryResponse
     let json =
       try? JSONSerialization.jsonObject(with: rawData, options: .allowFragments)
       
-    self.data = json as? DataType
+    self.data = json as? HashData
     self.rc   = data?["rc"] as? Int
   }
   

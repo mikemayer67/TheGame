@@ -1,5 +1,5 @@
 //
-//  GameServerCustomization.swift
+//  TheGameServer.swift
 //  GameServer extensions for TheGame
 //
 //  Created by Mike Mayer on 3/1/20.
@@ -39,7 +39,6 @@ enum EmailStatus
 
 typealias GameQueryArgs = [GameQueryKey:String]
 
-
 extension GameServer
 {
   enum Page : String
@@ -53,10 +52,7 @@ extension GameServer
     case Validate = "validate"
     case Connect  = "connect"
   }
-}
-
-extension GameServer
-{
+  
   var time : Int? { query(.Time).time }
   
   func query(_ page:Page, action:Action? = nil, gameArgs:GameQueryArgs? = nil, completion: @escaping QueryCompletion)
@@ -119,7 +115,6 @@ extension QueryResponse
       }
     }
   }
-  
   
   func getInt   (_ key:GameQueryKey) -> Int?    { data?[key.rawValue] as? Int    }
   func getDouble(_ key:GameQueryKey) -> Double? { data?[key.rawValue] as? Double }

@@ -129,7 +129,7 @@ extension GameModel : UITableViewDelegate, UITableViewDataSource
     {
       cell.textLabel?.text = opponent.name
       cell.detailTextLabel?.text = opponent.lastLossString
-      cell.imageView?.image = opponent.image
+      cell.imageView?.image = opponent.icon
       
       let layer = cell.contentView.layer
       layer.cornerRadius = 15.0

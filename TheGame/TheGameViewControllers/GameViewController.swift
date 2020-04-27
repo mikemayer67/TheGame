@@ -29,9 +29,9 @@ class GameViewController: ChildViewController
     super.awakeFromNib()
     
     //@@@ REMOVE
-    game.add(DebugOpponent("Tom Smith",gameAge:  5, lossFrequency: 3600.0))
-    game.add(DebugOpponent("Gus LeChat",gameAge:  3, lossFrequency: 1800.0, lastLoss: 600.0))
-    game.add(DebugOpponent("Miss Marple",gameAge: 10, lossFrequency: 5400.0, lastLoss:  10.0))
+    game.add(DebugOpponent("Tom Smith",  gameAge:  5, lossFrequency: 3600.0             ))
+    game.add(DebugOpponent("Gus LeChat", gameAge:  3, lossFrequency: 1800.0, lost: 600.0))
+    game.add(DebugOpponent("Miss Marple",gameAge: 10, lossFrequency: 5400.0, lost:  10.0))
   }
   
   override func viewDidLoad() {
@@ -59,7 +59,10 @@ class GameViewController: ChildViewController
   
   func update(animated:Bool = true) -> Void
   {
-    lastLossLabel.text = game.lastLoss?.gameString ?? "Go ahead, push the button..."
+    var text = "Go ahead, push the button..."
+    if let t = game.lastLoss?.string { text = "Last Loss: \(t)" }
+    lastLossLabel.text = text
+      
     oppenentTable.reloadData()
     
     if game.allowedToLose { showLostButton(animated:animated) }
