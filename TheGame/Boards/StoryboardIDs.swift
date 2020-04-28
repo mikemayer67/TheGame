@@ -6,7 +6,7 @@
 //  Copyright © 2020 VMWishes. All rights reserved.
 //
 
-import Foundation
+import UIKit
 
 enum ViewControllerID : String
 {
@@ -24,17 +24,28 @@ extension RootViewController
   {
     present(viewControllerID: vcid.rawValue)
   }
-}
-
-extension ChildViewController
-{
-  func updateRootView()
+  
+  func update()
   {
     let id : ViewControllerID =
     ( TheGame.server.connected == false ? .SplashScreen
       : TheGame.shared.me      == nil   ? .ConnectScreen
       : .GameScreen )
     
-    rootViewController.transition(to: id)
+    self.transition(to: id)
+  }
+  
+  @IBAction func returnToRoot(segue:UIStoryboardSegue)
+  {
+    debug("segue to Root")
+    self.update()
+  }
+}
+
+extension ChildViewController
+{
+  func updateRootView()
+  {
+    rootViewController.update()
   }
 }

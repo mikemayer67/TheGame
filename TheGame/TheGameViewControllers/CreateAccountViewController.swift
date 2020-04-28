@@ -8,9 +8,9 @@
 
 import UIKit
 
-fileprivate var cachedUsername : String?
+fileprivate var cachedUsername    : String?
 fileprivate var cachedDisplayName : String?
-fileprivate var cachedEmail : String?
+fileprivate var cachedEmail       : String?
 
 class CreateAccountViewController: UIViewController
 {
@@ -36,9 +36,6 @@ class CreateAccountViewController: UIViewController
   
   @IBOutlet weak var createButton         : UIButton!
   @IBOutlet weak var cancelButton         : UIButton!
-  
-  @IBOutlet weak var facebookInfoLabel    : UILabel!
-  @IBOutlet weak var facebookButton       : UIButton!
   
   private var updateTimer : Timer?
   
@@ -84,10 +81,33 @@ class CreateAccountViewController: UIViewController
   {
     switch sender
     {
-    case usernameInfo:    InfoAlert.username.display(over: self)
-    case passwordInfo:    InfoAlert.password.display(over: self)
-    case displayNameInfo: InfoAlert.displayname.display(over: self)
-    case emailInfo:       InfoAlert.email.display(over: self)
+    case usernameInfo:
+      infoPopup(title: "Username", message: [
+        "Your username must contain at least 8 characters.",
+        "It may contain any combination of letters and numbers"
+      ] )
+      
+    case passwordInfo:
+      infoPopup(title: "Password", message: [
+        "Your password must contain at least 8 characters.",
+        "It may contain any combination of letters, numbers, or the following punctuation marks: - ! : # $ @ ."
+      ])
+      
+    case displayNameInfo:
+      infoPopup(title: "Display Name", message: [
+        "Specifying a display name is optional.",
+        "If provided, this is the name that will be displayed to other players in the game.",
+        "If you choose to specify a display name, it must be at least 8 characters long.",
+        "If you choose to not provide a display name, your username will be displayed to other players."
+      ])
+      
+    case emailInfo:
+      infoPopup(title:"Email", message: [
+        "Specifying your email is optional.",
+        "If provided, your email will only  be used to recover a lost username or password. It will not be used for any other purpose.",
+        "If you choose to not provide an email address, it won't be possible to recover your username or password if lost."
+      ])
+      
     default: break
     }
   }
@@ -100,7 +120,16 @@ class CreateAccountViewController: UIViewController
     
     if email.isEmpty
     {
-      ConfirmationAlert.noEmail.display(over: self) { _ in self.requestNewAccount() }
+      let message = [
+        "Creating an account without an email address is acceptable.",
+        "But if you choose to proceed without one, it might not be possible to recover your username or password if lost"
+      ]
+      
+      confirmationPopup(title:"Proceed without Email", message:message, ok:"Proceed")
+      {
+        (proceed) in
+        if proceed { self.requestNewAccount() }
+      }
     }
     else
     {
@@ -230,38 +259,67 @@ extension CreateAccountViewController
     let alias = displayNameTextField.text ?? ""
     let email = emailTextField.text ?? ""
     
- //   self.showSpinner(onView: navigationController!.view)
+    var args : GameQueryArgs = [.Username:username, .Password:password]
     
-//    TheGame.server.createAccount(username: username, password: password, alias: alias, email: email)
-//    {
-//      (response:QueryResponse) in
-//
-//      switch response
-//      {
-//      case .UserCreated:
-//        self.removeSpinner()
-//        RootViewController.shared.update(animate: true)
-//
-//      case .FailedToConnect:
-//        self.removeSpinner()
-//        RootViewController.shared.update(animate: true)
-//
-//      default:
-//        response.displayAlert(over: self, ok: {
-//          // user chose to enter new  password... clear the existing username field
-//          self.usernameTextField.text = ""
-//          self.removeSpinner()
-//        }, cancel: {
-//          // segue back to the login view controller
-//          self.removeSpinner()
-//          self.performSegue(.CreateAccountToLogin, sender: self)
-//        }, action: {
-//          // segue to the login view controller
-//          self.removeSpinner()
-//          self.performSegue(.SwitchToAccount, sender:self)
-//        } )
-//
-//      }
-//    }
+    if alias.count > 0 { args[.Alias] = alias }
+    if email.count > 0 { args[.Email] = email }
+    
+    TheGame.server.query(.User, action: .Create, gameArgs: args) {
+      (response) in
+      
+      var internalError = false
+      
+      switch response.status
+      {
+      case .FailedToConnect:  self.performSegue(.createToLogin)
+        
+      case .InvalidURI:  internalError = true
+      case .MissingCode: internalError = true
+        
+      case .Success:
+        
+        switch response.returnCode
+        {
+        case .FailedToCreateUser: internalError = true
+          
+        case .Success:
+          if let userkey = response.userkey
+          {
+            var message = ["Username: \(username)"]
+            if alias.count > 0 { message.append("Alias: \(alias)") }
+            if email.count > 0 { message.append("Check your email for instructions on validating your email address") }
+            
+            UserDefaults.standard.set(userkey, forKey: "userkey")
+            UserDefaults.standard.set(username, forKey: "username")
+            UserDefaults.standard.set(alias, forKey:"alias")
+            
+            let me = LocalPlayer(userkey, username: username, alias: alias, gameData: response.data)
+            TheGame.shared.me = me
+            
+            self.infoPopup(title: "User Created", message: message) { self.performSegue(.createToLogin) }
+          }
+          else
+          {
+            internalError = true
+          }
+          
+        case .UserExists:
+          self.infoPopup(title: "User Exists", message: "User Exists\n\nCHANGE THiS TO INCLUDE EMAIL LOGIC")
+          
+        default: internalError = true
+        }
+      }
+      
+      if internalError
+      {
+        self.confirmationPopup(title: "Internal Error",
+                               message: [ "Something went wrong.", "Report the issue to VMWishes.com?" ],
+                               ok: "Submit", cancel: "Not Now")
+        {
+          (submit) in
+          if submit { debug("@@@ Add code to submit internal error (\(response.status), \(response.returnCode))") }
+        }
+      }
+    }
   }
 }

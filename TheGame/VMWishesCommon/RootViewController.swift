@@ -68,6 +68,5 @@ class RootViewController: UIViewController
       vc.didMove(toParent: self)
       self.currentVC = vc
     }
-    
   }
 }

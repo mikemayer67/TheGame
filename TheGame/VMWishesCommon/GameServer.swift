@@ -11,14 +11,31 @@ import Foundation
 // MARK:- Support Structures
 
 class QueryResponse
-{  
-  let rc   : Int?
-  let data : HashData?
-  
-  init(_ rc:Int? = nil)
+{
+  enum Status
   {
-    self.rc = rc
+    case Success
+    case FailedToConnect
+    case InvalidURI
+    case MissingCode
+  }
+  
+  let rc     : Int?
+  let status : Status
+  let data   : HashData?
+  
+  init()
+  {
+    self.rc = nil
     self.data = nil
+    self.status = .FailedToConnect
+  }
+  
+  init(_ status : Status = .FailedToConnect )
+  {
+    self.rc     = nil
+    self.data   = nil
+    self.status = status
   }
   
   init(_ rawData:Data )
@@ -27,12 +44,21 @@ class QueryResponse
       try? JSONSerialization.jsonObject(with: rawData, options: .allowFragments)
       
     self.data = json as? HashData
-    self.rc   = data?["rc"] as? Int
+    if let rc = data?["rc"] as? Int
+    {
+      self.status = .Success
+      self.rc     = rc
+    }
+    else
+    {
+      self.status = .MissingCode
+      self.rc     = nil
+    }
   }
   
-  var success       : Bool { rc == 0 }
-  var serverFailure : Bool { (rc ?? -1) < 0 }
-  var queryFailure  : Bool { (rc ?? -1) > 0 }
+  var success       : Bool { (rc ?? -1) == 0 }
+  var serverFailure : Bool { (rc ?? -1)  < 0 }
+  var queryFailure  : Bool { (rc ?? -1)  > 0 }
 }
 
 typealias QueryArgs       = [String:String]
@@ -73,16 +99,17 @@ class GameServer
       
       var queryResponse = QueryResponse()
       
-      if err == nil,
-        let response = response as? HTTPURLResponse,
-        response.statusCode == 200,
-        let data = data
+      if err == nil, let response = response as? HTTPURLResponse
       {
-        queryResponse = QueryResponse( data )
+        self.connected = true
+        if response.statusCode == 200, let data = data { queryResponse = QueryResponse(data)        }
+        else                                           { queryResponse = QueryResponse(.InvalidURI) }
       }
-      
-      self.connected = queryResponse.rc != nil
-      
+      else
+      {
+        self.connected = false
+      }
+            
       DispatchQueue.main.async { completion(queryResponse) }
     }
     currentTask!.resume()

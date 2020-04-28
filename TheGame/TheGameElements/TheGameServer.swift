@@ -51,6 +51,7 @@ extension GameServer
   {
     case Validate = "validate"
     case Connect  = "connect"
+    case Create   = "create"
   }
   
   var time : Int? { query(.Time).time }
@@ -90,10 +91,8 @@ extension QueryResponse
 {
   enum ReturnCode : Int
   {
-    case InvalidCode           = -4
-    case MissingCode           = -3
-    case InvalidURI            = -2
-    case FailedToConnect       = -1
+    case MissingCode           = -2
+    case InvalidCode           = -1
     case Success               =  0
     case UserExists            =  1
     case InvalidUserkey        =  2
@@ -108,11 +107,8 @@ extension QueryResponse
     
     init(_ rc:Int?)
     {
-      if let rc = rc {
-        self = ReturnCode(rawValue: rc) ?? .InvalidCode
-      } else {
-        self = .MissingCode
-      }
+      if let rc = rc { self = ReturnCode(rawValue: rc) ?? .InvalidCode }
+      else           { self = .MissingCode                             }
     }
   }
   

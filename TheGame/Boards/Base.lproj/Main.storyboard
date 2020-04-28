@@ -458,13 +458,16 @@
                                             <color key="titleColor" systemColor="systemRedColor" red="1" green="0.23137254900000001" blue="0.18823529410000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         </state>
                                         <connections>
-                                            <segue destination="TXM-wV-KUZ" kind="unwind" unwindAction="returnToLoginWithSegue:" id="Qnz-Ta-Lra"/>
+                                            <segue destination="TXM-wV-KUZ" kind="unwind" identifier="createToLogin" unwindAction="returnToLoginWithSegue:" id="heC-lo-QOg"/>
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="tJ2-QT-Kd2">
                                         <rect key="frame" x="211" y="307.5" width="62" height="30"/>
                                         <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
                                         <state key="normal" title="Connect"/>
+                                        <connections>
+                                            <action selector="createAccount:" destination="dn6-ku-MNg" eventType="touchUpInside" id="z2Z-43-Kvw"/>
+                                        </connections>
                                     </button>
                                 </subviews>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
@@ -551,6 +554,7 @@
                         <outlet property="usernameError" destination="TSB-Uh-GD0" id="fDq-vt-fQV"/>
                         <outlet property="usernameInfo" destination="nGS-oY-BbX" id="WK8-qH-nPm"/>
                         <outlet property="usernameTextField" destination="MVo-gd-LOE" id="PcA-gT-47Y"/>
+                        <segue destination="TXM-wV-KUZ" kind="unwind" identifier="createToRoot" unwindAction="returnToRootWithSegue:" id="EMy-PS-D0W"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="q5j-bO-fUc" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>

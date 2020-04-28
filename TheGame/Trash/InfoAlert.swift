@@ -8,6 +8,7 @@
 
 import UIKit
 
+
 enum InfoAlert : String
 {
   case username    = "Username"
@@ -32,9 +33,6 @@ enum InfoAlert : String
       
     case .displayname:
       message = "Specifying a display name is optional.\n\nIf provided, this is the name that will be displayed to other players in the game.\n\nIf you choose to specify a display name, it must be at least 8 characters long.\n\nIf you choose to not provide a display name, your username will be displayed to other players."
-      
-    case .connectInfo:
-      message = "The Game is a social experience. A connection to the game server enables play with others.\n\nYou can either create a Game account or use your Facebook login.\n\nConnecting with Facebook makes it easier to start matches with friends."
     }
     
     let alert = UIAlertController(title: self.rawValue, message: message, preferredStyle: .alert)

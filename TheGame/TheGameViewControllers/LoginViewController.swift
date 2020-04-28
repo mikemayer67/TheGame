@@ -27,8 +27,16 @@ class LoginViewController: ChildViewController
 
   @IBAction func whyFacebook(_ sender : UIButton)
   {
-    InfoAlert.connectInfo.display(over:self)
+    self.infoPopup(title: "Connection", message:
+      ["The Game is a social experience. A connection to the game server enables play with others.",
+      "You can either create a Game account or use your Facebook login.",
+      "Connecting with Facebook makes it easier to start matches with friends."]
+    )
   }
   
-  @IBAction func returnToLogin(segue:UIStoryboardSegue) {}
+  @IBAction func returnToLogin(segue:UIStoryboardSegue)
+  {
+    debug("segue to Login")
+    self.updateRootView()
+  }
 }
