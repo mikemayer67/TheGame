@@ -26,7 +26,9 @@ class LocalPlayer : GamePlayer
     }
     else
     {
-      let name = alias ?? username ?? UIDevice.current.name
+      var name = UIDevice.current.name
+      if let username = username, username.count > 0 { name = username }
+      if let alias = alias, alias.count > 0          { name = alias }
       super.init(key:key, name:name, gameData:gameData)
     }
   }

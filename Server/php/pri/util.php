@@ -137,6 +137,7 @@ function send_failure($errno,$extra=null)
 function send_http_code($code)
 {
   require(TG_ROOT."/$code.html");
+  http_response_code($code);
 }
 
 ?>

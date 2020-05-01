@@ -1,0 +1,63 @@
+//
+//  TheGameUtil.swift
+//  TheGame
+//
+//  Created by Mike Mayer on 4/28/20.
+//  Copyright © 2020 VMWishes. All rights reserved.
+//
+
+import UIKit
+
+extension UIViewController
+{
+  enum SegueID : String
+  {
+    case createToLogin   = "createToLogin"
+    case accountToLogin  = "accountToLogin"
+    case createToRoot    = "createToRoot"
+    case accountToRoot   = "accountToRoot"
+    case loginToCreate   = "loginToCreate"
+    case loginToAccount  = "loginToAccount"
+    case createToAccount = "createToAccount"
+    case accountToCreate = "accountToCreate"
+  }
+  
+  func performSegue(_ id: SegueID)
+  {
+    self.performSegue(withIdentifier: id.rawValue, sender: self)
+  }
+}
+
+extension UIViewController
+{  
+  func internalError(_ details:String..., file:String? = nil, line:Int? = nil, function:String? = nil)
+  {
+    var details = details.joined(separator: "\n")
+
+    if var file = file {
+      if let i = file.lastIndex(of: "/")  { file.removeSubrange(...i) }
+      details.append("\nFile: \(file)")
+      if let line = line { details.append("\nLine: \(line)") }
+    }
+    if let function = function { details.append("\nFunc: \(function)") }
+    
+    let now = GameTime()
+    let lastErrorEmail = GameTime(networktime: UserDefaults.standard.double(forKey: "lastErrorEmail"))
+    let nextErrorEmail = lastErrorEmail.offset(by: 3600.0)
+        
+    if now < nextErrorEmail  // only send one email per hour
+    {
+      self.infoPopup(title: "Internal Error", message: "Something went wrong");
+    }
+    else
+    {
+      self.confirmationPopup(title: "Internal Error",
+                             message: [ "Something went wrong.", "Report the issue to VMWishes.com?" ],
+                             ok: "Submit", cancel: "Not Now") { (submit) in
+                              if submit {
+                                debug("@@@ Add code to submit internal error:\n\(details)")
+                                UserDefaults.standard.set(now.localtime, forKey: "lastErrorEmail")
+                              } }
+    }
+  }
+}

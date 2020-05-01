@@ -85,6 +85,13 @@ extension GameServer
     
     return serverArgs
   }
+  
+  func sendErrorReport(_ message:[String]) { sendErrorReport(message.joined(separator: "\n")) }
+  
+  func sendErrorReport(_ message:String)
+  {
+    debug("@@@ Send Error Report: \(message)")
+  }
 }
 
 extension QueryResponse
@@ -138,6 +145,6 @@ extension QueryResponse
   var emailStatus : EmailStatus
   {
     guard let v = getBool(.Email) else { return .NoEmail }
-    return ( v ? .HasUnvalidatedEmail : .HasValidatedEmail )
+    return ( v ? .HasValidatedEmail : .HasUnvalidatedEmail )
   }
 }

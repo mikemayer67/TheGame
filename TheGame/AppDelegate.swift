@@ -39,6 +39,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate
       if a.count > 0 { UserDefaults.standard.set(a, forKey: "alias") }
       else            { UserDefaults.standard.removeObject(forKey: "alias") }
     }
+    UserDefaults.standard.removeObject(forKey: "lastErrorEmail")
     
     // Facebook
     ApplicationDelegate.shared.application(application, didFinishLaunchingWithOptions: launchOptions)

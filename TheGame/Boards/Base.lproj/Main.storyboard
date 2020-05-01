@@ -66,7 +66,7 @@
                                                     <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 </state>
                                                 <connections>
-                                                    <segue destination="dn6-ku-MNg" kind="presentation" modalPresentationStyle="overCurrentContext" modalTransitionStyle="crossDissolve" id="aZI-Xe-jSW"/>
+                                                    <segue destination="dn6-ku-MNg" kind="presentation" identifier="loginToCreate" modalPresentationStyle="overCurrentContext" modalTransitionStyle="crossDissolve" id="aZI-Xe-jSW"/>
                                                 </connections>
                                             </button>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="AW9-Zk-Ubh">
@@ -77,7 +77,7 @@
                                                 <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="15"/>
                                                 <state key="normal" title="Login to Existing Account"/>
                                                 <connections>
-                                                    <segue destination="5Ja-PZ-cua" kind="presentation" modalPresentationStyle="overCurrentContext" modalTransitionStyle="crossDissolve" id="gkH-cw-qYS"/>
+                                                    <segue destination="5Ja-PZ-cua" kind="presentation" identifier="loginToAccount" modalPresentationStyle="overCurrentContext" modalTransitionStyle="crossDissolve" id="gkH-cw-qYS"/>
                                                 </connections>
                                             </button>
                                         </subviews>
@@ -210,7 +210,7 @@
                                             <color key="titleColor" systemColor="systemRedColor" red="1" green="0.23137254900000001" blue="0.18823529410000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         </state>
                                         <connections>
-                                            <segue destination="lYn-74-zFx" kind="unwind" unwindAction="returnToLoginWithSegue:" id="DY3-jY-den"/>
+                                            <segue destination="lYn-74-zFx" kind="unwind" identifier="accountToLogin" unwindAction="returnToLoginWithSegue:" id="DY3-jY-den"/>
                                         </connections>
                                     </button>
                                 </subviews>
@@ -258,6 +258,7 @@
                         <outlet property="password" destination="rSa-Ng-wQd" id="drG-By-fB6"/>
                         <outlet property="popupView" destination="fwz-o6-Rbe" id="GhV-LA-zQC"/>
                         <outlet property="username" destination="1hV-Yk-Tb8" id="53g-9e-0bH"/>
+                        <segue destination="lYn-74-zFx" kind="unwind" identifier="accountToRoot" unwindAction="returnToRootWithSegue:" id="oTF-MY-EhY"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="QD8-ah-aZ8" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -555,6 +556,7 @@
                         <outlet property="usernameInfo" destination="nGS-oY-BbX" id="WK8-qH-nPm"/>
                         <outlet property="usernameTextField" destination="MVo-gd-LOE" id="PcA-gT-47Y"/>
                         <segue destination="TXM-wV-KUZ" kind="unwind" identifier="createToRoot" unwindAction="returnToRootWithSegue:" id="EMy-PS-D0W"/>
+                        <segue destination="TXM-wV-KUZ" kind="unwind" identifier="createToAccount" unwindAction="returnToLoginAndSwitchWithSegue:" id="TBx-jp-UWm"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="q5j-bO-fUc" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>

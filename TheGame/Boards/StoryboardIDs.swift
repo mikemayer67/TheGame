@@ -37,7 +37,6 @@ extension RootViewController
   
   @IBAction func returnToRoot(segue:UIStoryboardSegue)
   {
-    debug("segue to Root")
     self.update()
   }
 }

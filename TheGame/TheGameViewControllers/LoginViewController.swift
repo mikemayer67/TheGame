@@ -14,17 +14,20 @@ class LoginViewController: ChildViewController
   @IBOutlet weak var newAccountButton : UIButton!
   @IBOutlet weak var loginButton : UIButton!
   @IBOutlet weak var whyConnect : UIButton!
-  
+    
   override func awakeFromNib()
   {
     super.awakeFromNib()
   }
   
-  override func viewWillAppear(_ animated: Bool)
-  {
-    navigationController?.setNavigationBarHidden(true,animated:animated)
+  override func viewDidAppear(_ animated: Bool) {
+    debug("viewDidAppear")
   }
-
+  
+  override func viewWillAppear(_ animated: Bool) {
+    debug("viewWillAppear")
+  }
+  
   @IBAction func whyFacebook(_ sender : UIButton)
   {
     self.infoPopup(title: "Connection", message:
@@ -36,7 +39,21 @@ class LoginViewController: ChildViewController
   
   @IBAction func returnToLogin(segue:UIStoryboardSegue)
   {
-    debug("segue to Login")
     self.updateRootView()
+  }
+  
+  @IBAction func returnToLoginAndSwitch(segue:UIStoryboardSegue)
+  {
+    debug("returnToLoginAndSwitch self:\(self) from:\(segue.source)")
+    if let cvc = segue.source as? CreateAccountViewController
+    {
+      if cvc.switchToAccount {
+        performSegue(.loginToAccount)
+      }
+    }
+  }
+  
+  override func unwind(for unwindSegue: UIStoryboardSegue, towards subsequentVC: UIViewController) {
+    debug("unwind:\(unwindSegue) toward:\(subsequentVC)")
   }
 }

@@ -13,7 +13,7 @@ fileprivate var cachedDisplayName : String?
 fileprivate var cachedEmail       : String?
 
 class CreateAccountViewController: UIViewController
-{
+{  
   //MARK:- Outlets
   
   @IBOutlet weak var popupView            : UIView!
@@ -38,6 +38,8 @@ class CreateAccountViewController: UIViewController
   @IBOutlet weak var cancelButton         : UIButton!
   
   private var updateTimer : Timer?
+  
+  private(set) var switchToAccount = false
   
   // MARK:- View State
   
@@ -97,7 +99,7 @@ class CreateAccountViewController: UIViewController
       infoPopup(title: "Display Name", message: [
         "Specifying a display name is optional.",
         "If provided, this is the name that will be displayed to other players in the game.",
-        "If you choose to specify a display name, it must be at least 8 characters long.",
+        "If you choose to specify a display name, it must be at least 6 characters long.",
         "If you choose to not provide a display name, your username will be displayed to other players."
       ])
       
@@ -192,7 +194,7 @@ class CreateAccountViewController: UIViewController
     
     var err : String?
     
-    if t.count > 0, t.count<8 { err = "too short" }
+    if t.count > 0, t.count<6 { err = "too short" }
     
     let ok = ( err == nil )
     displayNameError.text = err
@@ -266,60 +268,51 @@ extension CreateAccountViewController
     
     TheGame.server.query(.User, action: .Create, gameArgs: args) {
       (response) in
-      
-      var internalError = false
-      
-      switch response.status
+            
+      switch ( response.status, response.returnCode )
       {
-      case .FailedToConnect:  self.performSegue(.createToLogin)
+      case (.FailedToConnect,_): self.performSegue(.createToLogin)
         
-      case .InvalidURI:  internalError = true
-      case .MissingCode: internalError = true
+      case (.InvalidURI,_),
+           (.MissingCode,_): self.internalError(response.status.rawValue, file: #file, function: #function)
         
-      case .Success:
+      case (.Success,.Success):
         
-        switch response.returnCode
+        if let userkey = response.userkey
         {
-        case .FailedToCreateUser: internalError = true
+          var message = ["Username: \(username)"]
+          if alias.count > 0 { message.append("Alias: \(alias)") }
+          if email.count > 0 { message.append("Check your email for instructions on validating your email address") }
           
-        case .Success:
-          if let userkey = response.userkey
-          {
-            var message = ["Username: \(username)"]
-            if alias.count > 0 { message.append("Alias: \(alias)") }
-            if email.count > 0 { message.append("Check your email for instructions on validating your email address") }
-            
-            UserDefaults.standard.set(userkey, forKey: "userkey")
-            UserDefaults.standard.set(username, forKey: "username")
-            UserDefaults.standard.set(alias, forKey:"alias")
-            
-            let me = LocalPlayer(userkey, username: username, alias: alias, gameData: response.data)
-            TheGame.shared.me = me
-            
-            self.infoPopup(title: "User Created", message: message) { self.performSegue(.createToLogin) }
-          }
-          else
-          {
-            internalError = true
-          }
+          UserDefaults.standard.set(userkey, forKey: "userkey")
+          UserDefaults.standard.set(username, forKey: "username")
+          UserDefaults.standard.set(alias, forKey:"alias")
           
-        case .UserExists:
-          self.infoPopup(title: "User Exists", message: "User Exists\n\nCHANGE THiS TO INCLUDE EMAIL LOGIC")
+          let me = LocalPlayer(userkey, username: username, alias: alias, gameData: response.data)
+          TheGame.shared.me = me
           
-        default: internalError = true
+          self.infoPopup(title: "User Created", message: message) { self.performSegue(.createToLogin) }
         }
-      }
-      
-      if internalError
-      {
-        self.confirmationPopup(title: "Internal Error",
-                               message: [ "Something went wrong.", "Report the issue to VMWishes.com?" ],
-                               ok: "Submit", cancel: "Not Now")
+
+      case (.Success,.UserExists):
+        
+        self.infoPopup(title: "User Exists", message: "User Exists\n\nCHANGE THiS TO INCLUDE EMAIL LOGIC")
         {
-          (submit) in
-          if submit { debug("@@@ Add code to submit internal error (\(response.status), \(response.returnCode))") }
+          self.switchToAccount = true
+          self.performSegue(.createToAccount)
         }
+        
+      default:
+        
+        var message : String
+        if let  rc = response.rc { message = "Unexpected Game Server Return Code: \(rc)" }
+        else                     { message = "Missing Response Code"                     }
+        self.internalError( message, file:#file, function:#function )
       }
     }
+  }
+  
+  override func unwind(for unwindSegue: UIStoryboardSegue, towards subsequentVC: UIViewController) {
+    debug("unwind:\(unwindSegue) toward:\(subsequentVC)")
   }
 }

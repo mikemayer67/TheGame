@@ -12,12 +12,12 @@ import Foundation
 
 class QueryResponse
 {
-  enum Status
+  enum Status : String
   {
-    case Success
-    case FailedToConnect
-    case InvalidURI
-    case MissingCode
+    case Success          = "Success"
+    case FailedToConnect  = "Failed To Connect"
+    case InvalidURI       = "Invalid URI"
+    case MissingCode      = "Missing Return Code"
   }
   
   let rc     : Int?
@@ -97,7 +97,7 @@ class GameServer
     currentTask = session.dataTask(with: url) { (data, response, err) in
       defer { self.currentTask = nil }
       
-      var queryResponse = QueryResponse()
+      var queryResponse : QueryResponse!
       
       if err == nil, let response = response as? HTTPURLResponse
       {
@@ -108,8 +108,9 @@ class GameServer
       else
       {
         self.connected = false
+        queryResponse = QueryResponse(.FailedToConnect)
       }
-            
+ 
       DispatchQueue.main.async { completion(queryResponse) }
     }
     currentTask!.resume()
@@ -118,17 +119,15 @@ class GameServer
   func query(_ page:String, args:QueryArgs? = nil) -> QueryResponse
   {
     guard let url = self.url(page, args:args) else { fatalError("Invalid URL") }
-
-    var queryResponse = QueryResponse()
-
-    if let data = try? Data(contentsOf: url)
-    {
-      queryResponse = QueryResponse(data)
-    }
-
-    self.connected = queryResponse.rc != nil
     
-    return queryResponse
+    guard let data = try? Data(contentsOf: url) else
+    {
+      self.connected = false
+      return QueryResponse(.FailedToConnect)
+    }
+    
+    self.connected = true
+    return QueryResponse(data)
   }
   
   func url(_ page:String, args:QueryArgs? = nil) -> URL?

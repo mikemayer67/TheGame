@@ -64,7 +64,7 @@ struct GameTime
   
   static func < (lhs:GameTime, rhs:GameTime) -> Bool
   {
-    return lhs.value > rhs.value
+    return lhs.value < rhs.value
   }
   
   static func == (lhs:GameTime, rhs:GameTime) -> Bool

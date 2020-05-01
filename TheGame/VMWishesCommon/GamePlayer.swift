@@ -30,6 +30,7 @@ class GamePlayer
     self.key        = key
     self.name       = name
     self.gameData   = gameData
+    self.icon       = createIcon(for: name)
   }
   
   init(key:String, facebook:FacebookInfo, gameData:HashData? = nil)
