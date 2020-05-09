@@ -32,7 +32,7 @@ class SplashViewController: ChildViewController
       if connected {
         LocalPlayer.connect { (localPlayer) in
           TheGame.shared.me = localPlayer
-          self.updateRootView()
+          self.rootViewController.update()
         }
       } else {
         self.startRetryTimer()

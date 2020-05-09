@@ -16,6 +16,7 @@ class CreateAccountViewController : UIViewController, ManagedViewController
 {
   @IBOutlet weak var managedView: UIView!
   
+  var loginVC  : LoginViewController?
   var container: MultiModalViewController?
     
   //MARK:- Outlets
@@ -115,7 +116,7 @@ class CreateAccountViewController : UIViewController, ManagedViewController
   
   @IBAction func cancel(_ sender:UIButton)
   {
-    self.dismiss(animated: true)
+    loginVC?.cancel(self)
   }
   
   @IBAction func createAccount(_ sender:UIButton)
@@ -126,15 +127,15 @@ class CreateAccountViewController : UIViewController, ManagedViewController
     
     if email.isEmpty
     {
-      let message = [
-        "Creating an account without an email address is acceptable.",
-        "But if you choose to proceed without one, it might not be possible to recover your username or password if lost"
-      ]
-      
-      confirmationPopup(title:"Proceed without Email", message:message, ok:"Proceed")
+      confirmationPopup(
+        title:"Proceed without Email",
+        message: [
+          "Creating an account without an email address is acceptable.",
+          "But if you choose to proceed without one, it might not be possible to recover your username or password if lost"
+        ],
+        ok:"Proceed")
       {
-        (proceed) in
-        if proceed { self.requestNewAccount() }
+        (proceed) in if proceed { self.requestNewAccount() }
       }
     }
     else
@@ -276,12 +277,10 @@ extension CreateAccountViewController
       switch ( response.status, response.returnCode )
       {
       case (.FailedToConnect,_):
-        self.dismiss(animated: true) {
-          debug("@@@ All the way back to splash?")
-        }
+        self.loginVC?.cancel(self, updateRoot:true)
         
-      case (.InvalidURI,_),
-           (.MissingCode,_): self.internalError(response.status.rawValue, file: #file, function: #function)
+      case (.InvalidURI,_), (.MissingCode,_):
+        self.internalError(response.status.rawValue, file: #file, function: #function)
         
       case (.Success,.Success):
         
@@ -306,15 +305,13 @@ extension CreateAccountViewController
 
       case (.Success,.UserExists):
         
-        self.infoPopup(title: "User Exists", message: "User Exists\n\nCHANGE THiS TO INCLUDE EMAIL LOGIC")
-        {
-          if let container = self.container
-          {
-            container.present(ViewControllerID.AccountLogin.rawValue)
-          }
-          else
-          {
-            self.dismiss(animated: true)
+        self.confirmationPopup(
+          title: "User Exists",
+          message: "Would you like to log in as \(self.usernameTextField.text!)?",
+          ok: "Yes", cancel: "No", animated: true
+        ) { (swithToLogin) in
+          if swithToLogin {
+            self.container?.present(ViewControllerID.AccountLogin.rawValue)
           }
         }
         

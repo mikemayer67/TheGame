@@ -47,11 +47,3 @@ extension RootViewController
     self.transition(to: id)
   }
 }
-
-extension ChildViewController
-{
-  func updateRootView()
-  {
-    rootViewController.update()
-  }
-}

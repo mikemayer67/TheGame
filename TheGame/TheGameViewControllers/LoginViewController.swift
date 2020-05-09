@@ -44,11 +44,40 @@ class LoginViewController: ChildViewController
     guard let mmvc = instantiate(.MultiModal) as? MultiModalViewController
       else { fatalError("Storyboard is missing MultiModalViewController") }
     
+    mmvc.delegate = self
     mmvc.modalPresentationStyle = .overCurrentContext
     mmvc.modalTransitionStyle = .crossDissolve
     mmvc.present(id.rawValue)
     self.present(mmvc, animated: true) {
       debug("mmvc presented")
+    }
+  }
+}
+
+extension LoginViewController : MultiModalDelegate
+{
+  func viewController(_ identifier: String, for container: MultiModalViewController) -> ManagedViewController?
+  {
+    return nil // read all modal view controllers from storyboard
+  }
+  
+  func configure(_ vc: ManagedViewController, for container: MultiModalViewController)
+  {
+    if let vc = vc as? CreateAccountViewController
+    {
+      vc.loginVC = self
+    }
+    else if let vc = vc as? AccountLoginViewController
+    {
+      vc.loginVC = self
+    }
+  }
+  
+  func cancel(_ vc:ManagedViewController, updateRoot:Bool = false)
+  {
+    dismiss(animated: true)
+    {
+      if updateRoot { self.rootViewController.update() }
     }
   }
   

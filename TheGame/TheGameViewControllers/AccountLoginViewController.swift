@@ -14,7 +14,8 @@ class AccountLoginViewController: UIViewController, ManagedViewController
 {
   @IBOutlet weak var managedView: UIView!
   
-  var container: MultiModalViewController?
+  var loginVC   : LoginViewController?
+  var container : MultiModalViewController?
     
   @IBOutlet weak var username  : LoginTextField!
   @IBOutlet weak var password  : LoginTextField!
@@ -47,6 +48,13 @@ class AccountLoginViewController: UIViewController, ManagedViewController
   override func viewWillDisappear(_ animated: Bool)
   {
     cachedUsername = username.text
+  }
+  
+  // MARK:- IBActions
+  
+  @IBAction func cancel(_ sender:UIButton)
+  {
+    loginVC?.cancel(self)
   }
   
   func update()
