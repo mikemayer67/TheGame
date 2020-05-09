@@ -10,9 +10,12 @@ import UIKit
 
 fileprivate var cachedUsername : String?
 
-class AccountLoginViewController: UIViewController
+class AccountLoginViewController: UIViewController, ManagedViewController
 {
-  @IBOutlet weak var popupView : UIView!
+  @IBOutlet weak var managedView: UIView!
+  
+  var container: MultiModalViewController?
+    
   @IBOutlet weak var username  : LoginTextField!
   @IBOutlet weak var password  : LoginTextField!
   
@@ -25,11 +28,10 @@ class AccountLoginViewController: UIViewController
   {
     super.viewDidLoad()
     
-    let layer = popupView.layer
-    layer.cornerRadius = 10
-    layer.masksToBounds = true
-    layer.borderColor = UIColor.gray.cgColor
-    layer.borderWidth = 1.0
+    managedView.layer.cornerRadius = 10
+    managedView.layer.masksToBounds = true
+    managedView.layer.borderColor = UIColor.gray.cgColor
+    managedView.layer.borderWidth = 1.0
   }
   
   override func viewWillAppear(_ animated: Bool)

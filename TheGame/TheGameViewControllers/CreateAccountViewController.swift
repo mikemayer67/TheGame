@@ -12,11 +12,13 @@ fileprivate var cachedUsername    : String?
 fileprivate var cachedDisplayName : String?
 fileprivate var cachedEmail       : String?
 
-class CreateAccountViewController: UIViewController
-{  
-  //MARK:- Outlets
+class CreateAccountViewController : UIViewController, ManagedViewController
+{
+  @IBOutlet weak var managedView: UIView!
   
-  @IBOutlet weak var popupView            : UIView!
+  var container: MultiModalViewController?
+    
+  //MARK:- Outlets
   
   @IBOutlet weak var usernameTextField    : LoginTextField!
   @IBOutlet weak var password1TextField   : LoginTextField!
@@ -38,20 +40,17 @@ class CreateAccountViewController: UIViewController
   @IBOutlet weak var cancelButton         : UIButton!
   
   private var updateTimer : Timer?
-  
-  private(set) var switchToAccount = false
-  
+    
   // MARK:- View State
   
   override func viewDidLoad()
   {
     super.viewDidLoad()
     
-    let layer = popupView.layer
-    layer.cornerRadius = 10
-    layer.masksToBounds = true
-    layer.borderColor = UIColor.gray.cgColor
-    layer.borderWidth = 1.0
+    managedView.layer.cornerRadius = 10
+    managedView.layer.masksToBounds = true
+    managedView.layer.borderColor = UIColor.gray.cgColor
+    managedView.layer.borderWidth = 1.0
   }
   
   override func viewWillAppear(_ animated: Bool)
@@ -112,6 +111,11 @@ class CreateAccountViewController: UIViewController
       
     default: break
     }
+  }
+  
+  @IBAction func cancel(_ sender:UIButton)
+  {
+    self.dismiss(animated: true)
   }
   
   @IBAction func createAccount(_ sender:UIButton)
@@ -271,7 +275,10 @@ extension CreateAccountViewController
             
       switch ( response.status, response.returnCode )
       {
-      case (.FailedToConnect,_): self.performSegue(.createToLogin)
+      case (.FailedToConnect,_):
+        self.dismiss(animated: true) {
+          debug("@@@ All the way back to splash?")
+        }
         
       case (.InvalidURI,_),
            (.MissingCode,_): self.internalError(response.status.rawValue, file: #file, function: #function)
@@ -291,15 +298,24 @@ extension CreateAccountViewController
           let me = LocalPlayer(userkey, username: username, alias: alias, gameData: response.data)
           TheGame.shared.me = me
           
-          self.infoPopup(title: "User Created", message: message) { self.performSegue(.createToLogin) }
+          self.infoPopup(title: "User Created", message: message)
+          {
+            self.dismiss(animated: true)
+          }
         }
 
       case (.Success,.UserExists):
         
         self.infoPopup(title: "User Exists", message: "User Exists\n\nCHANGE THiS TO INCLUDE EMAIL LOGIC")
         {
-          self.switchToAccount = true
-          self.performSegue(.createToAccount)
+          if let container = self.container
+          {
+            container.present(ViewControllerID.AccountLogin.rawValue)
+          }
+          else
+          {
+            self.dismiss(animated: true)
+          }
         }
         
       default:
@@ -310,9 +326,5 @@ extension CreateAccountViewController
         self.internalError( message, file:#file, function:#function )
       }
     }
-  }
-  
-  override func unwind(for unwindSegue: UIStoryboardSegue, towards subsequentVC: UIViewController) {
-    debug("unwind:\(unwindSegue) toward:\(subsequentVC)")
   }
 }

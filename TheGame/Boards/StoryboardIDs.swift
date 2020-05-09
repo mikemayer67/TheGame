@@ -10,12 +10,24 @@ import UIKit
 
 enum ViewControllerID : String
 {
+  case none           = ""
   case Root           = "rootVC"
   case SplashScreen   = "splashVC"
   case GameScreen     = "gameVC"
   case ConnectScreen  = "loginVC"
+  case MultiModal     = "multiModalVC"
   case CreateAccount  = "createAccountVC"
   case AccountLogin   = "accountLoginVC"
+}
+
+extension UIViewController
+{
+  func instantiate(_ id:ViewControllerID) -> UIViewController
+  {
+    guard let vc = self.storyboard?.instantiateViewController(identifier: id.rawValue)
+      else { fatalError("Storyboard is missing: \(id.rawValue)") }
+    return vc
+  }
 }
 
 extension RootViewController
@@ -33,11 +45,6 @@ extension RootViewController
       : .GameScreen )
     
     self.transition(to: id)
-  }
-  
-  @IBAction func returnToRoot(segue:UIStoryboardSegue)
-  {
-    self.update()
   }
 }
 

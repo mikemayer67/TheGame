@@ -20,14 +20,6 @@ class LoginViewController: ChildViewController
     super.awakeFromNib()
   }
   
-  override func viewDidAppear(_ animated: Bool) {
-    debug("viewDidAppear")
-  }
-  
-  override func viewWillAppear(_ animated: Bool) {
-    debug("viewWillAppear")
-  }
-  
   @IBAction func whyFacebook(_ sender : UIButton)
   {
     self.infoPopup(title: "Connection", message:
@@ -37,23 +29,27 @@ class LoginViewController: ChildViewController
     )
   }
   
-  @IBAction func returnToLogin(segue:UIStoryboardSegue)
+  @IBAction func showCreateAccount(_ sender: UIButton)
   {
-    self.updateRootView()
+    showConnectionPopup(.CreateAccount)
   }
   
-  @IBAction func returnToLoginAndSwitch(segue:UIStoryboardSegue)
+  @IBAction func showAccountLogin(_ sender: UIButton)
   {
-    debug("returnToLoginAndSwitch self:\(self) from:\(segue.source)")
-    if let cvc = segue.source as? CreateAccountViewController
-    {
-      if cvc.switchToAccount {
-        performSegue(.loginToAccount)
-      }
+    showConnectionPopup(.AccountLogin)
+  }
+  
+  private func showConnectionPopup(_ id:ViewControllerID)
+  {
+    guard let mmvc = instantiate(.MultiModal) as? MultiModalViewController
+      else { fatalError("Storyboard is missing MultiModalViewController") }
+    
+    mmvc.modalPresentationStyle = .overCurrentContext
+    mmvc.modalTransitionStyle = .crossDissolve
+    mmvc.present(id.rawValue)
+    self.present(mmvc, animated: true) {
+      debug("mmvc presented")
     }
   }
   
-  override func unwind(for unwindSegue: UIStoryboardSegue, towards subsequentVC: UIViewController) {
-    debug("unwind:\(unwindSegue) toward:\(subsequentVC)")
-  }
 }

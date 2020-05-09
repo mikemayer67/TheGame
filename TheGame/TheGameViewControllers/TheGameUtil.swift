@@ -9,26 +9,6 @@
 import UIKit
 
 extension UIViewController
-{
-  enum SegueID : String
-  {
-    case createToLogin   = "createToLogin"
-    case accountToLogin  = "accountToLogin"
-    case createToRoot    = "createToRoot"
-    case accountToRoot   = "accountToRoot"
-    case loginToCreate   = "loginToCreate"
-    case loginToAccount  = "loginToAccount"
-    case createToAccount = "createToAccount"
-    case accountToCreate = "accountToCreate"
-  }
-  
-  func performSegue(_ id: SegueID)
-  {
-    self.performSegue(withIdentifier: id.rawValue, sender: self)
-  }
-}
-
-extension UIViewController
 {  
   func internalError(_ details:String..., file:String? = nil, line:Int? = nil, function:String? = nil)
   {
