@@ -12,13 +12,8 @@ fileprivate var cachedUsername    : String?
 fileprivate var cachedDisplayName : String?
 fileprivate var cachedEmail       : String?
 
-class CreateAccountViewController : UIViewController, ManagedViewController
+class CreateAccountViewController : LoginModalViewController
 {
-  @IBOutlet weak var managedView: UIView!
-  
-  var loginVC  : LoginViewController?
-  var container: MultiModalViewController?
-    
   //MARK:- Outlets
   
   @IBOutlet weak var usernameTextField    : LoginTextField!
@@ -40,8 +35,6 @@ class CreateAccountViewController : UIViewController, ManagedViewController
   @IBOutlet weak var createButton         : UIButton!
   @IBOutlet weak var cancelButton         : UIButton!
   
-  private var updateTimer : Timer?
-    
   // MARK:- View State
   
   override func viewDidLoad()
@@ -114,11 +107,6 @@ class CreateAccountViewController : UIViewController, ManagedViewController
     }
   }
   
-  @IBAction func cancel(_ sender:UIButton)
-  {
-    loginVC?.cancel(self)
-  }
-  
   @IBAction func createAccount(_ sender:UIButton)
   {
     guard checkAll() else { return }
@@ -147,7 +135,7 @@ class CreateAccountViewController : UIViewController, ManagedViewController
   // MARK:- Input State
 
   @discardableResult
-  func checkAll() -> Bool
+  override func checkAll() -> Bool
   {
     var allOK = true
     if !checkUsername()    { allOK = false }
@@ -228,34 +216,8 @@ class CreateAccountViewController : UIViewController, ManagedViewController
     emailError.isHidden = ok
     return ok
   }
-}
 
-// MARK:- Text Field Delegate
-
-extension CreateAccountViewController : LoginTextFieldDelegate, UITextFieldDelegate
-{
-  func loginTextFieldUpdated(_ sender:LoginTextField)
-  {
-    startUpdateTimer()
-  }
   
-  func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool
-  {
-    startUpdateTimer()
-    return true
-  }
-  
-  func startUpdateTimer()
-  {
-    updateTimer?.invalidate()
-    updateTimer = Timer.scheduledTimer(withTimeInterval: 0.3, repeats: false) { _ in self.checkAll() }
-  }
-}
-
-// MARK:- Account Creation
-
-extension CreateAccountViewController
-{
   func requestNewAccount()
   {
     guard let username = usernameTextField.text  else { return }
@@ -277,7 +239,8 @@ extension CreateAccountViewController
       switch ( response.status, response.returnCode )
       {
       case (.FailedToConnect,_):
-        self.loginVC?.cancel(self, updateRoot:true)
+        if let lvc = self.loginVC { lvc.cancel(self, updateRoot: true) }
+        else                      { self.dismiss(animated: true) }
         
       case (.InvalidURI,_), (.MissingCode,_):
         self.internalError(response.status.rawValue, file: #file, function: #function)
@@ -290,16 +253,17 @@ extension CreateAccountViewController
           if alias.count > 0 { message.append("Alias: \(alias)") }
           if email.count > 0 { message.append("Check your email for instructions on validating your email address") }
           
-          UserDefaults.standard.set(userkey, forKey: "userkey")
-          UserDefaults.standard.set(username, forKey: "username")
-          UserDefaults.standard.set(alias, forKey:"alias")
+          UserDefaults.standard.userkey = userkey
+          UserDefaults.standard.username = username
+          UserDefaults.standard.alias = alias
           
           let me = LocalPlayer(userkey, username: username, alias: alias, gameData: response.data)
           TheGame.shared.me = me
           
           self.infoPopup(title: "User Created", message: message)
           {
-            self.dismiss(animated: true)
+            if let lvc = self.loginVC { lvc.completed(self) }
+            else                      { self.dismiss(animated: true) }
           }
         }
 
@@ -310,8 +274,14 @@ extension CreateAccountViewController
           message: "Would you like to log in as \(self.usernameTextField.text!)?",
           ok: "Yes", cancel: "No", animated: true
         ) { (swithToLogin) in
-          if swithToLogin {
+          if swithToLogin
+          {
+            UserDefaults.standard.username = self.usernameTextField.text!
             self.container?.present(ViewControllerID.AccountLogin.rawValue)
+          }
+          else
+          {
+            self.usernameTextField.selectAll(self)
           }
         }
         

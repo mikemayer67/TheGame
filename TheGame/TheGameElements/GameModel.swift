@@ -19,7 +19,7 @@ class GameModel : NSObject
   
   override func awakeFromNib()
   {
-    if let t = UserDefaults.standard.object(forKey: "LastLoss") as? TimeInterval
+    if let t = UserDefaults.standard.lastLoss
     {
       lastLoss = GameTime(networktime: t)
     }
@@ -43,7 +43,7 @@ class GameModel : NSObject
   func iLostTheGame() -> Void
   {
     lastLoss = GameTime()
-    UserDefaults.standard.set(lastLoss?.networktime, forKey:"LastLoss")
+    UserDefaults.standard.lastLoss = lastLoss?.networktime
     viewController?.update()
   }
 }
@@ -52,7 +52,7 @@ extension GameModel // @@@ REMOVE
 {
   @IBAction func RESET(_ sender: UIButton)  // @@@ REMOVE
   {
-    UserDefaults.standard.removeObject(forKey: "LastLoss")
+    UserDefaults.standard.lastLoss = nil
     lastLoss = nil
   }
   

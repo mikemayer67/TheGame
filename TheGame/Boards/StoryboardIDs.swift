@@ -18,6 +18,7 @@ enum ViewControllerID : String
   case MultiModal     = "multiModalVC"
   case CreateAccount  = "createAccountVC"
   case AccountLogin   = "accountLoginVC"
+  case RetrieveLogin  = "retrieveLoginVC"
 }
 
 extension UIViewController

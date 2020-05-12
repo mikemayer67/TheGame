@@ -8,23 +8,54 @@
 
 import UIKit
 
-class LoginModalViewControllers: UIViewController {
-
-    override func viewDidLoad() {
-        super.viewDidLoad()
-
-        // Do any additional setup after loading the view.
-    }
+class LoginModalViewController: UIViewController, ManagedViewController
+{
+  @IBOutlet weak var managedView: UIView!
+  
+  var loginVC  : LoginViewController?
+  var container: MultiModalViewController?
+  
+  private var updateTimer : Timer?
+  
+  override func viewDidLoad()
+  {
+    super.viewDidLoad()
     
+    managedView.layer.cornerRadius = 10
+    managedView.layer.masksToBounds = true
+    managedView.layer.borderColor = UIColor.gray.cgColor
+    managedView.layer.borderWidth = 1.0
+  }
+  
+  @IBAction func cancel(_ sender:UIButton)
+  {
+    loginVC?.cancel(self)
+  }
+  
+  @discardableResult func checkAll() -> Bool { return true }
+}
+  
+extension LoginModalViewController : LoginTextFieldDelegate, UITextFieldDelegate
+{
+  func loginTextFieldUpdated(_ sender:LoginTextField)
+  {
+    startUpdateTimer()
+  }
+  
+  func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool
+  {
+    startUpdateTimer()
+    return true
+  }
+  
+  func startUpdateTimer()
+  {
+    updateTimer?.invalidate()
+    updateTimer = Timer.scheduledTimer(withTimeInterval: 0.3, repeats: false) { _ in self.checkAll() }
+  }
+}
 
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
-    }
-    */
-
+extension MultiModalViewController
+{
+  func present(_ key:ViewControllerID) { self.present(key.rawValue) }
 }

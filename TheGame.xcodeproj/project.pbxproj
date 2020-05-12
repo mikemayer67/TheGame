@@ -17,6 +17,7 @@
 		272FB2B82456743A00F70E1A /* LocalPlayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 272FB2B72456743A00F70E1A /* LocalPlayer.swift */; };
 		27300C3F2444027500E8310C /* RootViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27300C3E2444027500E8310C /* RootViewController.swift */; };
 		27300C4024448A3300E8310C /* CommonUtil.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27EA805923EE43C000C937EE /* CommonUtil.swift */; };
+		275711AE2468C5690034DB61 /* LoginModalViewControllers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 275711AD2468C5690034DB61 /* LoginModalViewControllers.swift */; };
 		277CC4B62466DDC7001C5404 /* MultiModalViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 277CC4B52466DDC6001C5404 /* MultiModalViewController.swift */; };
 		277CC4BA246726AD001C5404 /* GradientView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 277CC4B9246726AC001C5404 /* GradientView.swift */; };
 		27CA19BD243A941B005C53FC /* TheGame.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27CA19BC243A941B005C53FC /* TheGame.swift */; };
@@ -50,6 +51,7 @@
 		272FB2B52456276500F70E1A /* TheGamePlayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TheGamePlayer.swift; sourceTree = "<group>"; };
 		272FB2B72456743A00F70E1A /* LocalPlayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalPlayer.swift; sourceTree = "<group>"; };
 		27300C3E2444027500E8310C /* RootViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootViewController.swift; sourceTree = "<group>"; };
+		275711AD2468C5690034DB61 /* LoginModalViewControllers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginModalViewControllers.swift; sourceTree = "<group>"; };
 		277CC4B52466DDC6001C5404 /* MultiModalViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MultiModalViewController.swift; sourceTree = "<group>"; };
 		277CC4B9246726AC001C5404 /* GradientView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GradientView.swift; sourceTree = "<group>"; };
 		27CA19BC243A941B005C53FC /* TheGame.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TheGame.swift; sourceTree = "<group>"; };
@@ -162,6 +164,7 @@
 				27E8D23F245869610061DEF2 /* TheGameUtil.swift */,
 				272445D1242E576400700677 /* SplashViewController.swift */,
 				2727416E23E6144A00B2100B /* LoginViewController.swift */,
+				275711AD2468C5690034DB61 /* LoginModalViewControllers.swift */,
 				27E82FB6240D38B1004DEC8C /* CreateAccountViewController.swift */,
 				27E82FBD240D3C63004DEC8C /* AccountLoginViewController.swift */,
 				27D5413423E5E46800CB5065 /* GameViewController.swift */,
@@ -331,6 +334,7 @@
 				27E82FBE240D3C63004DEC8C /* AccountLoginViewController.swift in Sources */,
 				272FB2B22455BFFA00F70E1A /* GameServer.swift in Sources */,
 				2723A2A124507F5900CDDEE1 /* StoryboardIDs.swift in Sources */,
+				275711AE2468C5690034DB61 /* LoginModalViewControllers.swift in Sources */,
 				27E8D240245869610061DEF2 /* TheGameUtil.swift in Sources */,
 				27300C3F2444027500E8310C /* RootViewController.swift in Sources */,
 				272FB2B62456276500F70E1A /* TheGamePlayer.swift in Sources */,

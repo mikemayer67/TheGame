@@ -48,9 +48,7 @@ class LoginViewController: ChildViewController
     mmvc.modalPresentationStyle = .overCurrentContext
     mmvc.modalTransitionStyle = .crossDissolve
     mmvc.present(id.rawValue)
-    self.present(mmvc, animated: true) {
-      debug("mmvc presented")
-    }
+    self.present(mmvc, animated: true)
   }
 }
 
@@ -78,6 +76,14 @@ extension LoginViewController : MultiModalDelegate
     dismiss(animated: true)
     {
       if updateRoot { self.rootViewController.update() }
+    }
+  }
+  
+  func completed(_ vc:ManagedViewController)
+  {
+    dismiss(animated: true)
+    {
+      self.rootViewController.update()
     }
   }
   

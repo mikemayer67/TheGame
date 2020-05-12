@@ -10,36 +10,19 @@ import UIKit
 
 fileprivate var cachedUsername : String?
 
-class AccountLoginViewController: UIViewController, ManagedViewController
+class AccountLoginViewController: LoginModalViewController
 {
-  @IBOutlet weak var managedView: UIView!
-  
-  var loginVC   : LoginViewController?
-  var container : MultiModalViewController?
-    
   @IBOutlet weak var username  : LoginTextField!
   @IBOutlet weak var password  : LoginTextField!
   
   @IBOutlet weak var loginButton : UIButton!
   @IBOutlet weak var cancelButton : UIButton!
   
-  private var updateTimer : Timer?
-  
-  override func viewDidLoad()
-  {
-    super.viewDidLoad()
-    
-    managedView.layer.cornerRadius = 10
-    managedView.layer.masksToBounds = true
-    managedView.layer.borderColor = UIColor.gray.cgColor
-    managedView.layer.borderWidth = 1.0
-  }
-  
   override func viewWillAppear(_ animated: Bool)
   {
     super.viewWillAppear(animated)
     
-    username.text = cachedUsername ?? ""
+    username.text = UserDefaults.standard.username ?? cachedUsername ?? ""
     password.text = ""
     
     update()
@@ -52,9 +35,14 @@ class AccountLoginViewController: UIViewController, ManagedViewController
   
   // MARK:- IBActions
   
-  @IBAction func cancel(_ sender:UIButton)
+  @IBAction func login(_ sender:UIButton)
   {
-    loginVC?.cancel(self)
+    debug("login")
+  }
+  
+  @IBAction func sendLoginInfo(_ sender:UIButton)
+  {
+    container?.present(ViewControllerID.RetrieveLogin)
   }
   
   func update()
@@ -65,24 +53,8 @@ class AccountLoginViewController: UIViewController, ManagedViewController
   }
 }
 
-// MARK:- Text Field Delegate
+// MARK:- Forgot Login Info
 
-extension AccountLoginViewController : LoginTextFieldDelegate, UITextFieldDelegate
+class ForgotLoginViewController: LoginModalViewController
 {
-  func loginTextFieldUpdated(_ sender:LoginTextField)
-  {
-    startUpdateTimer()
-  }
-  
-  func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool
-  {
-    startUpdateTimer()
-    return true
-  }
-  
-  func startUpdateTimer()
-  {
-    updateTimer?.invalidate()
-    updateTimer = Timer.scheduledTimer(withTimeInterval: 0.3, repeats: false) { _ in self.update() }
-  }
 }

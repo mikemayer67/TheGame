@@ -37,7 +37,7 @@ class LocalPlayer : GamePlayer
   
   static func connect( completion: @escaping ConnectCallback )
   {
-    let userkey  = UserDefaults.standard.string(forKey: "userkey")
+    let userkey  = UserDefaults.standard.userkey
 
     if AccessToken.current != nil { connectFacebook(userkey:userkey, completion:completion)  }
     else if let userkey = userkey { connect(userkey:userkey, completion:completion)          }
@@ -53,14 +53,14 @@ class LocalPlayer : GamePlayer
       if response.success
       {
         let me = LocalPlayer(userkey,
-                             username: UserDefaults.standard.string(forKey: "username"),
-                             alias: UserDefaults.standard.string(forKey: "alias"),
+                             username: UserDefaults.standard.username,
+                             alias: UserDefaults.standard.alias,
                              gameData: response.data)
         completion(me)
       }
       else
       {
-        UserDefaults.standard.removeObject(forKey: "userkey")
+        UserDefaults.standard.userkey = nil
         completion(nil)
       }
     }

@@ -24,20 +24,17 @@ class AppDelegate: UIResponder, UIApplicationDelegate
     if let uk = Bundle.main.object(forInfoDictionaryKey: "UserkeyOverride") as? String
     {
       debug("UserKeyOverride: '\(uk)'")
-      if uk.count > 0 { UserDefaults.standard.set(uk, forKey: "userkey") }
-      else            { UserDefaults.standard.removeObject(forKey: "userkey") }
+      UserDefaults.standard.userkey = uk
     }
     if let u = Bundle.main.object(forInfoDictionaryKey: "UsernameOverride") as? String
     {
       debug("UserNameOverride: '\(u)'")
-      if u.count > 0 { UserDefaults.standard.set(u, forKey: "username") }
-      else            { UserDefaults.standard.removeObject(forKey: "username") }
+      UserDefaults.standard.username = u
     }
     if let a = Bundle.main.object(forInfoDictionaryKey: "AliasOverride") as? String
     {
       debug("AliasOverride: '\(a)'")
-      if a.count > 0 { UserDefaults.standard.set(a, forKey: "alias") }
-      else            { UserDefaults.standard.removeObject(forKey: "alias") }
+      UserDefaults.standard.alias = a
     }
     UserDefaults.standard.removeObject(forKey: "lastErrorEmail")
     
