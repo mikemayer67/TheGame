@@ -11,10 +11,11 @@ import UIKit
 @IBDesignable class LoginTextField: UITextField, UITextFieldDelegate
 {
   @IBInspectable var allowPasswordCharacters : Bool = false
-  @IBOutlet var loginDelegate : LoginTextFieldDelegate?
   
   var validatedText: String?
   var dictationText: String?
+  
+  var changeCallback : (()->())?
 
   override init(frame: CGRect)
   {
@@ -90,14 +91,14 @@ import UIKit
       }
     }
     
-    if changed { loginDelegate?.loginTextFieldUpdated(self) }
+    if changed { changeCallback?() }
     
     return rval
   }
   
   func textFieldDidEndEditing(_ textField: UITextField)
   {
-    loginDelegate?.loginTextFieldUpdated(textField as! LoginTextField)
+    changeCallback?()
   }
   
   func validate(string:String) -> Bool
@@ -105,37 +106,5 @@ import UIKit
     var allowedCharacters = CharacterSet.alphanumerics
     if allowPasswordCharacters { allowedCharacters.insert(charactersIn: "-!:#$@.") }
     return string.rangeOfCharacter(from: allowedCharacters.inverted) == nil
-  }
-}
-
-
-class LoginTextFieldDelegate : NSObject
-{
-  typealias Callback = ()->()
-  
-  private var updateTimer : Timer?
-  private var callback    : ()->()
-  
-  init(_ callback : @escaping Callback)
-  {
-    self.callback = callback
-  }
-  
-  func loginTextFieldUpdated(_ sender:LoginTextField)
-  {
-    startUpdateTimer()
-  }
-//
-//  func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool
-//  {
-//    startUpdateTimer()
-//    return true
-//  }
-  
-  func startUpdateTimer()
-  {
-    updateTimer?.invalidate()
-    updateTimer = Timer.scheduledTimer(withTimeInterval: 0.3, repeats: false)
-    { _ in self.callback() }
   }
 }

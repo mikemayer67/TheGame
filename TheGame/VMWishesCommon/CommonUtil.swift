@@ -87,6 +87,28 @@ extension UIViewController
   }
 }
 
+class DelayedCallback
+{
+  typealias Callback = (_ sender:Any)->()
+    
+  private(set) var updateTimer : Timer?
+  private(set) var delay       : TimeInterval
+  private(set) var callback    : Callback
+  
+  init(delay : TimeInterval = 0.3, callback : @escaping Callback)
+  {
+    self.callback = callback
+    self.delay    = delay
+  }
+  
+  func start(_ sender:Any? = nil)
+  {
+    updateTimer?.invalidate()
+    updateTimer = Timer.scheduledTimer(withTimeInterval: delay, repeats: false)
+    { (_) in self.callback(sender ?? self)  }
+  }
+}
+
 func debug(_ args:Any...)
 {
   print("DEBUG::",args)

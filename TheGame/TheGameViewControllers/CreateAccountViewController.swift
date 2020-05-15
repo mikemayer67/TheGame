@@ -39,7 +39,7 @@ class CreateAccountViewController : ModalViewController
   
   // MARK:- View State
   
-  
+  private var updateTimer : Timer?
   
   init(loginVC:LoginViewController? = nil)
   {
@@ -54,17 +54,18 @@ class CreateAccountViewController : ModalViewController
   override func viewDidLoad()
   {
     super.viewDidLoad()
-    
-    let loginDelegate = LoginTextFieldDelegate( { self.checkAll() } )
-    
+        
     let usernameLabel = addHeader("Username", below: topMargin)
-    usernameTextField = addLoginEntry(below: usernameLabel, delegate: loginDelegate)
+    usernameTextField = addLoginEntry(below: usernameLabel)
+    usernameTextField.changeCallback = { self.startUpdateTimer() }
     usernameInfo = addInfoButton(to: usernameTextField, target: self)
     usernameError = addErrorLabel(to: usernameInfo)
     
     let passwordLabel = addHeader("Password", below: usernameTextField)
-    password1TextField = addLoginEntry(below: passwordLabel, password: true, delegate: loginDelegate)
-    password2TextField = addLoginEntry(below: password1TextField, placeholder: "retype to confirm", password: true, delegate: loginDelegate)
+    password1TextField = addLoginEntry(below: passwordLabel, password: true)
+    password1TextField.changeCallback = { self.startUpdateTimer() }
+    password2TextField = addLoginEntry(below: password1TextField, placeholder: "retype to confirm", password: true)
+    password2TextField.changeCallback = { self.startUpdateTimer() }
     passwordInfo = addInfoButton(to: password1TextField, target: self)
     passwordError = addErrorLabel(to: passwordInfo)
     
@@ -86,6 +87,9 @@ class CreateAccountViewController : ModalViewController
     createButton = addOkButton(title:"Connect")
     
     cancelButton.attachTop(to: emailTextField, offset: Style.contentGap)
+    
+    createButton.addTarget(self, action: #selector(create(_:)), for: .touchUpInside)
+    cancelButton.addTarget(self, action: #selector(cancel(_:)), for: .touchUpInside)
   }
   
   override func viewWillAppear(_ animated: Bool)
@@ -98,7 +102,7 @@ class CreateAccountViewController : ModalViewController
     displayNameTextField.text = cachedDisplayName ?? ""
     emailTextField.text       = cachedEmail ?? ""
     
-    checkAll()
+    checkAllAndUpdateState()
   }
   
   override func viewWillDisappear(_ animated: Bool)
@@ -108,46 +112,16 @@ class CreateAccountViewController : ModalViewController
     cachedEmail       = self.emailTextField.text
   }
   
-  // MARK:- IBActions
+  // MARK:- Button Actions
   
-  @IBAction func handleButton(_ sender: UIButton)
+  @objc func cancel(_ sender:UIButton)
   {
-    switch sender
-    {
-    case usernameInfo:
-      infoPopup(title: "Username", message: [
-        "Your username must contain at least 8 characters.",
-        "It may contain any combination of letters and numbers"
-      ] )
-      
-    case passwordInfo:
-      infoPopup(title: "Password", message: [
-        "Your password must contain at least 8 characters.",
-        "It may contain any combination of letters, numbers, or the following punctuation marks: - ! : # $ @ ."
-      ])
-      
-    case displayNameInfo:
-      infoPopup(title: "Display Name", message: [
-        "Specifying a display name is optional.",
-        "If provided, this is the name that will be displayed to other players in the game.",
-        "If you choose to specify a display name, it must be at least 6 characters long.",
-        "If you choose to not provide a display name, your username will be displayed to other players."
-      ])
-      
-    case emailInfo:
-      infoPopup(title:"Email", message: [
-        "Specifying your email is optional.",
-        "If provided, your email will only  be used to recover a lost username or password. It will not be used for any other purpose.",
-        "If you choose to not provide an email address, it won't be possible to recover your username or password if lost."
-      ])
-      
-    default: break
-    }
+    loginVC?.cancel(self)
   }
   
-  @IBAction func createAccount(_ sender:UIButton)
+  @objc func create(_ sender:UIButton)
   {
-    guard checkAll() else { return }
+    guard checkAllAndUpdateState() else { return }
     
     let email = emailTextField.text ?? ""
     
@@ -173,7 +147,7 @@ class CreateAccountViewController : ModalViewController
   // MARK:- Input State
 
   @discardableResult
-  func checkAll() -> Bool
+  func checkAllAndUpdateState() -> Bool
   {
     var allOK = true
     if !checkUsername()    { allOK = false }
@@ -254,7 +228,6 @@ class CreateAccountViewController : ModalViewController
     emailError.isHidden = ok
     return ok
   }
-
   
   func requestNewAccount()
   {
@@ -336,13 +309,24 @@ class CreateAccountViewController : ModalViewController
 
 extension CreateAccountViewController : UITextFieldDelegate
 {
-  func textFieldDidEndEditing(_ textField: UITextField, reason: UITextField.DidEndEditingReason) {
-    self.checkAll()
+  func textFieldDidEndEditing(_ textField: UITextField, reason: UITextField.DidEndEditingReason)
+  {
+    startUpdateTimer()
   }
   
-  func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
-    self.checkAll()
+  func textField(_ textField: UITextField,
+                 shouldChangeCharactersIn range: NSRange,
+                 replacementString string: String) -> Bool
+  {
+    startUpdateTimer()
     return true
+  }
+  
+  func startUpdateTimer()
+  {
+    updateTimer?.invalidate()
+    updateTimer = Timer.scheduledTimer(withTimeInterval: 0.3, repeats: false)
+    { _ in self.checkAllAndUpdateState() }
   }
 }
 
@@ -352,10 +336,32 @@ extension CreateAccountViewController : InfoButtonDelegate
   {
     switch sender
     {
-    case usernameInfo: debug("show username info")
-    case passwordInfo: debug("show password info")
-    case displayNameInfo: debug("show alias info")
-    case emailInfo: debug("show email info")
+    case usernameInfo:
+      infoPopup(title: "Username", message: [
+        "Your username must contain at least 6 characters.",
+        "It may contain any combination of letters and numbers"
+      ] )
+      
+    case passwordInfo:
+      infoPopup(title: "Password", message: [
+        "Your password must contain at least 8 characters.",
+        "It may contain any combination of letters, numbers, or the following punctuation marks: - ! : # $ @ ."
+      ])
+      
+    case displayNameInfo:
+      infoPopup(title: "Display Name", message: [
+        "Specifying a display name is optional.",
+        "If provided, this is the name that will be displayed to other players in the game.",
+        "If you choose to specify a display name, it must be at least 6 characters long.",
+        "If you choose to not provide a display name, your username will be displayed to other players."
+      ])
+      
+    case emailInfo:
+      infoPopup(title:"Email", message: [
+        "Specifying your email is optional.",
+        "If provided, your email will only  be used to recover a lost username or password. It will not be used for any other purpose.",
+        "If you choose to not provide an email address, it won't be possible to recover your username or password if lost."
+      ])
     default: break
     }
   }

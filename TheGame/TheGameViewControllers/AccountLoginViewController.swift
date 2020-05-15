@@ -17,6 +17,7 @@ class AccountLoginViewController: ModalViewController
   // MARK:- Subviews
   
   var username     : LoginTextField!
+  var usernameInfo : UIButton!
   var password     : LoginTextField!
   var passwordInfo : UIButton!
   
@@ -24,6 +25,8 @@ class AccountLoginViewController: ModalViewController
   var cancelButton : UIButton!
   
   // MARK:- View State
+  
+  private var updateTimer : Timer?
   
   init(loginVC:LoginViewController? = nil)
   {
@@ -39,16 +42,16 @@ class AccountLoginViewController: ModalViewController
   override func viewDidLoad()
   {
     super.viewDidLoad()
-    
-    let loginDelegate = LoginTextFieldDelegate( { self.update() } )
-    
+            
     let usernameLabel = addHeader("Username", below: topMargin)
-    username = addLoginEntry(below: usernameLabel, delegate: loginDelegate)
+    username = addLoginEntry(below: usernameLabel)
+    username.changeCallback = { self.startUpdateTimer() }
+    usernameInfo = addInfoButton(to: username, target: self)
     
     let passwordLabel = addHeader("Password", below: username)
-    password = addLoginEntry(below: passwordLabel, password: true, delegate: loginDelegate)
+    password = addLoginEntry(below: passwordLabel, password: true)
+    password.changeCallback = { self.startUpdateTimer() }
     passwordInfo = addInfoButton(to: password, target: self)
-
     
     let oops = UIButton(type: .system)
     managedView.addSubview(oops)
@@ -61,11 +64,11 @@ class AccountLoginViewController: ModalViewController
     cancelButton = addCancelButton()
     loginButton  = addOkButton(title: "Connect")
     
+    cancelButton.attachTop(to: oops,offset: Style.contentGap)
+    
     oops.addTarget(self, action: #selector(sendLoginInfo(_:)), for: .touchUpInside)
     loginButton.addTarget(self, action: #selector(login(_:)), for: .touchUpInside)
     cancelButton.addTarget(self, action: #selector(cancel(_:)), for: .touchUpInside)
-    
-    cancelButton.attachTop(to: oops,offset: Style.contentGap)
   }
   
   override func viewWillAppear(_ animated: Bool)
@@ -75,7 +78,7 @@ class AccountLoginViewController: ModalViewController
     username.text = UserDefaults.standard.username ?? cachedUsername ?? ""
     password.text = ""
 
-    update()
+    checkAllAndUpdateState()
   }
   
   override func viewWillDisappear(_ animated: Bool)
@@ -101,12 +104,21 @@ class AccountLoginViewController: ModalViewController
     container?.present(ModalControllerID.RetrieveLogin)
   }
   
+  // MARK:- Input State
+  
   @discardableResult
-  func update() -> Bool
+  func checkAllAndUpdateState() -> Bool
   {
     let ok = (username.text?.count ?? 0) >= 6 && (password.text?.count ?? 0) >= 8
     loginButton.isEnabled = ok
     return ok
+  }
+  
+  func startUpdateTimer()
+  {
+    updateTimer?.invalidate()
+    updateTimer = Timer.scheduledTimer(withTimeInterval: 0.3, repeats: false)
+    { _ in self.checkAllAndUpdateState() }
   }
 }
 
@@ -114,11 +126,21 @@ extension AccountLoginViewController : InfoButtonDelegate
 {
   func showInfo(_ sender: UIButton)
   {
-    guard sender == passwordInfo else { return }
-    
-    self.infoPopup(title: "Password Rules", message: [
-      "Must bea at least 8 characters long",
-      "May only contain letters, numbers, or any of the following: - ! : # $ @ ."
-    ])
+    switch sender
+    {
+    case usernameInfo:
+      infoPopup(title: "Username Hints", message: [
+        "Must be at least 6 characters long.",
+        "May contain any combination of letters and numbers"
+      ] )
+      
+    case passwordInfo:
+      self.infoPopup(title: "Password Hints", message: [
+        "Must be at least 8 characters long",
+        "May only contain letters, numbers, or any of the following: - ! : # $ @ ."
+      ])
+      
+    default: break
+    }
   }
 }

@@ -134,14 +134,12 @@ extension ModalViewController
   
   func addLoginEntry(below refVeiw:UIView,
                      placeholder:String? = nil,
-                     password:Bool = false,
-                     delegate:LoginTextFieldDelegate? = nil) -> LoginTextField
+                     password:Bool = false) -> LoginTextField
   {
     let entry = LoginTextField()
     configure(entry:entry, refView: refVeiw)
     entry.placeholder = placeholder ?? "required"
     entry.allowPasswordCharacters = password
-    entry.loginDelegate = delegate
     entry.textContentType = (password ? .password : .username )
     entry.isSecureTextEntry = password
     entry.keyboardType = .asciiCapable
