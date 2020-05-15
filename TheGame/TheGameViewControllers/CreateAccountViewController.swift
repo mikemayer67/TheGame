@@ -60,21 +60,27 @@ class CreateAccountViewController : ModalViewController
     let usernameLabel = addHeader("Username", below: topMargin)
     usernameTextField = addLoginEntry(below: usernameLabel, delegate: loginDelegate)
     usernameInfo = addInfoButton(to: usernameTextField, target: self)
+    usernameError = addErrorLabel(to: usernameInfo)
     
     let passwordLabel = addHeader("Password", below: usernameTextField)
     password1TextField = addLoginEntry(below: passwordLabel, password: true, delegate: loginDelegate)
     password2TextField = addLoginEntry(below: password1TextField, placeholder: "retype to confirm", password: true, delegate: loginDelegate)
     passwordInfo = addInfoButton(to: password1TextField, target: self)
+    passwordError = addErrorLabel(to: passwordInfo)
     
     let gap = addGap(below:password2TextField)
     
     let displayNameLabel = addHeader("Display Name", below:gap)
     displayNameTextField = addTextEntry(below: displayNameLabel)
+    displayNameTextField.delegate = self
     displayNameInfo = addInfoButton(to:displayNameTextField, target:self)
+    displayNameError = addErrorLabel(to: displayNameInfo)
     
     let emailLabel = addHeader("Email", below:displayNameTextField)
     emailTextField = addTextEntry(below: emailLabel, email: true)
+    emailTextField.delegate = self
     emailInfo = addInfoButton(to: emailTextField, target: self)
+    emailError = addErrorLabel(to: emailInfo)
     
     cancelButton = addCancelButton()
     createButton = addOkButton(title:"Connect")
@@ -188,8 +194,8 @@ class CreateAccountViewController : ModalViewController
     else if t.count < 6 { err = "too short"  }
     
     let ok = ( err == nil )
-//    usernameError.text = err
-//    usernameError.isHidden = ok
+    usernameError.text = err
+    usernameError.isHidden = ok
     return ok
   }
   
@@ -208,8 +214,8 @@ class CreateAccountViewController : ModalViewController
     else if t1 != t2              { err = "passwords don't match" }
     
     let ok = ( err == nil )
-//    passwordError.text = err
-//    passwordError.isHidden = ok
+    passwordError.text = err
+    passwordError.isHidden = ok
     return ok
   }
   
@@ -222,8 +228,8 @@ class CreateAccountViewController : ModalViewController
     if t.count > 0, t.count<6 { err = "too short" }
     
     let ok = ( err == nil )
-//    displayNameError.text = err
-//    displayNameError.isHidden = ok
+    displayNameError.text = err
+    displayNameError.isHidden = ok
     return ok
   }
   
@@ -244,8 +250,8 @@ class CreateAccountViewController : ModalViewController
     }
     
     let ok = ( err == nil )
-//    emailError.text = err
-//    emailError.isHidden = ok
+    emailError.text = err
+    emailError.isHidden = ok
     return ok
   }
 
@@ -325,6 +331,18 @@ class CreateAccountViewController : ModalViewController
         self.internalError( message, file:#file, function:#function )
       }
     }
+  }
+}
+
+extension CreateAccountViewController : UITextFieldDelegate
+{
+  func textFieldDidEndEditing(_ textField: UITextField, reason: UITextField.DidEndEditingReason) {
+    self.checkAll()
+  }
+  
+  func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+    self.checkAll()
+    return true
   }
 }
 

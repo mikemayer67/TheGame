@@ -53,6 +53,9 @@ class ModalViewController: UIViewController, ManagedViewController
     static let entryFont        = UIFont.systemFont(ofSize: 14)
     static let cancelFont       = UIFont.systemFont(ofSize: 15)
     static let okFont           = UIFont.systemFont(ofSize: 15, weight: .bold)
+    static let errorFont        = UIFont.systemFont(ofSize: 11)
+    
+    static let errorColor       = UIColor(named: "dieRed") ?? UIColor.systemRed
   }
   
   var container: MultiModalViewController?
@@ -210,6 +213,27 @@ extension ModalViewController
     button.attachBottom(to: entry,offset: Style.infoButtonGap)
     button.addTarget(target, action: #selector(InfoButtonDelegate.showInfo(_:)), for: .touchUpInside)
     return button
+  }
+  
+  func addErrorLabel(to refView:UIView) -> UILabel
+  {
+    let label = UILabel()
+    managedView.addSubview(label)
+    label.translatesAutoresizingMaskIntoConstraints = false
+    label.text = nil
+    label.font = Style.errorFont
+    label.textColor = Style.errorColor
+    if let entry = refView as? UITextField
+    {
+      label.alignRight(to: entry)
+      label.attachBottom(to: entry)
+    }
+    else
+    {
+      label.attachRight(to: refView, offset:5.0)
+      label.alignCenterY(to: refView)
+    }
+    return label
   }
   
   func addGap(below refView: UIView, gap height:CGFloat = Style.defaultGapHeight) -> UIView
