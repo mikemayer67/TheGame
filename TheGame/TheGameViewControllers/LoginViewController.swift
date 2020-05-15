@@ -39,10 +39,12 @@ class LoginViewController: ChildViewController
     showConnectionPopup(.AccountLogin)
   }
   
-  private func showConnectionPopup(_ id:ViewControllerID)
-  {
-    guard let mmvc = instantiate(.MultiModal) as? MultiModalViewController
-      else { fatalError("Storyboard is missing MultiModalViewController") }
+  private func showConnectionPopup(_ id:ModalControllerID)
+  {    
+    let mmvc = MultiModalViewController()
+    let gradient = GradientView(frame: mmvc.view.frame, colors: #colorLiteral(red: 0.3333333433, green: 0.3333333433, blue: 0.3333333433, alpha: 1),#colorLiteral(red: 0.6666666865, green: 0.6666666865, blue: 0.6666666865, alpha: 1),#colorLiteral(red: 0.3333333433, green: 0.3333333433, blue: 0.3333333433, alpha: 1))
+    gradient.alpha = 0.5
+    mmvc.view.addSubview(gradient)
     
     mmvc.delegate = self
     mmvc.modalPresentationStyle = .overCurrentContext
@@ -56,7 +58,13 @@ extension LoginViewController : MultiModalDelegate
 {
   func viewController(_ identifier: String, for container: MultiModalViewController) -> ManagedViewController?
   {
-    return nil // read all modal view controllers from storyboard
+    guard let identifier = ModalControllerID(rawValue: identifier) else { return nil }
+    switch identifier
+    {
+    case .AccountLogin:  return AccountLoginViewController(loginVC:self)
+    case .CreateAccount: return CreateAccountViewController(loginVC:self)
+    default: return nil
+    }
   }
   
   func configure(_ vc: ManagedViewController, for container: MultiModalViewController)

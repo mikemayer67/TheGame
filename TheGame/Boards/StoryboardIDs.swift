@@ -15,10 +15,6 @@ enum ViewControllerID : String
   case SplashScreen   = "splashVC"
   case GameScreen     = "gameVC"
   case ConnectScreen  = "loginVC"
-  case MultiModal     = "multiModalVC"
-  case CreateAccount  = "createAccountVC"
-  case AccountLogin   = "accountLoginVC"
-  case RetrieveLogin  = "retrieveLoginVC"
 }
 
 extension UIViewController

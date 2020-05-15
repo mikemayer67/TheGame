@@ -12,55 +12,87 @@ fileprivate var cachedUsername    : String?
 fileprivate var cachedDisplayName : String?
 fileprivate var cachedEmail       : String?
 
-class CreateAccountViewController : LoginModalViewController
+class CreateAccountViewController : ModalViewController
 {
-  //MARK:- Outlets
+  var loginVC : LoginViewController?
   
-  @IBOutlet weak var usernameTextField    : LoginTextField!
-  @IBOutlet weak var password1TextField   : LoginTextField!
-  @IBOutlet weak var password2TextField   : LoginTextField!
-  @IBOutlet weak var displayNameTextField : UITextField!
-  @IBOutlet weak var emailTextField       : UITextField!
+  //MARK:- Subviews
   
-  @IBOutlet weak var usernameInfo         : UIButton!
-  @IBOutlet weak var passwordInfo         : UIButton!
-  @IBOutlet weak var displayNameInfo      : UIButton!
-  @IBOutlet weak var emailInfo            : UIButton!
+  var usernameTextField    : LoginTextField!
+  var password1TextField   : LoginTextField!
+  var password2TextField   : LoginTextField!
+  var displayNameTextField : UITextField!
+  var emailTextField       : UITextField!
   
-  @IBOutlet weak var usernameError        : UILabel!
-  @IBOutlet weak var passwordError        : UILabel!
-  @IBOutlet weak var displayNameError     : UILabel!
-  @IBOutlet weak var emailError           : UILabel!
+  var usernameInfo         : UIButton!
+  var passwordInfo         : UIButton!
+  var displayNameInfo      : UIButton!
+  var emailInfo            : UIButton!
   
-  @IBOutlet weak var createButton         : UIButton!
-  @IBOutlet weak var cancelButton         : UIButton!
+  var usernameError        : UILabel!
+  var passwordError        : UILabel!
+  var displayNameError     : UILabel!
+  var emailError           : UILabel!
+  
+  var createButton         : UIButton!
+  var cancelButton         : UIButton!
   
   // MARK:- View State
+  
+  
+  
+  init(loginVC:LoginViewController? = nil)
+  {
+    self.loginVC = loginVC
+    super.init(title: "Create New Account")
+  }
+  
+  required init?(coder: NSCoder) {
+    fatalError("init(coder:) has not been implemented")
+  }
   
   override func viewDidLoad()
   {
     super.viewDidLoad()
     
-    managedView.layer.cornerRadius = 10
-    managedView.layer.masksToBounds = true
-    managedView.layer.borderColor = UIColor.gray.cgColor
-    managedView.layer.borderWidth = 1.0
+    let loginDelegate = LoginTextFieldDelegate( { self.checkAll() } )
+    
+    let usernameLabel = addHeader("Username", below: topMargin)
+    usernameTextField = addLoginEntry(below: usernameLabel, delegate: loginDelegate)
+    usernameInfo = addInfoButton(to: usernameTextField, target: self)
+    
+    let passwordLabel = addHeader("Password", below: usernameTextField)
+    password1TextField = addLoginEntry(below: passwordLabel, password: true, delegate: loginDelegate)
+    password2TextField = addLoginEntry(below: password1TextField, placeholder: "retype to confirm", password: true, delegate: loginDelegate)
+    passwordInfo = addInfoButton(to: password1TextField, target: self)
+    
+    let gap = addGap(below:password2TextField)
+    
+    let displayNameLabel = addHeader("Display Name", below:gap)
+    displayNameTextField = addTextEntry(below: displayNameLabel)
+    displayNameInfo = addInfoButton(to:displayNameTextField, target:self)
+    
+    let emailLabel = addHeader("Email", below:displayNameTextField)
+    emailTextField = addTextEntry(below: emailLabel, email: true)
+    emailInfo = addInfoButton(to: emailTextField, target: self)
+    
+    cancelButton = addCancelButton()
+    createButton = addOkButton(title:"Connect")
+    
+    cancelButton.attachTop(to: emailTextField, offset: Style.contentGap)
   }
   
   override func viewWillAppear(_ animated: Bool)
   {
     super.viewWillAppear(animated)
     
-    self.usernameTextField.text    = cachedUsername ?? ""
-    self.password1TextField.text   = ""
-    self.password2TextField.text   = ""
-    self.displayNameTextField.text = cachedDisplayName ?? ""
-    self.emailTextField.text       = cachedEmail ?? ""
+    usernameTextField.text    = cachedUsername ?? ""
+    password1TextField.text   = ""
+    password2TextField.text   = ""
+    displayNameTextField.text = cachedDisplayName ?? ""
+    emailTextField.text       = cachedEmail ?? ""
     
-    self.loginTextFieldUpdated(usernameTextField)
-    self.loginTextFieldUpdated(password1TextField)
-    
-    navigationController?.setNavigationBarHidden(false,animated:animated)
+    checkAll()
   }
   
   override func viewWillDisappear(_ animated: Bool)
@@ -135,7 +167,7 @@ class CreateAccountViewController : LoginModalViewController
   // MARK:- Input State
 
   @discardableResult
-  override func checkAll() -> Bool
+  func checkAll() -> Bool
   {
     var allOK = true
     if !checkUsername()    { allOK = false }
@@ -156,8 +188,8 @@ class CreateAccountViewController : LoginModalViewController
     else if t.count < 6 { err = "too short"  }
     
     let ok = ( err == nil )
-    usernameError.text = err
-    usernameError.isHidden = ok
+//    usernameError.text = err
+//    usernameError.isHidden = ok
     return ok
   }
   
@@ -176,8 +208,8 @@ class CreateAccountViewController : LoginModalViewController
     else if t1 != t2              { err = "passwords don't match" }
     
     let ok = ( err == nil )
-    passwordError.text = err
-    passwordError.isHidden = ok
+//    passwordError.text = err
+//    passwordError.isHidden = ok
     return ok
   }
   
@@ -190,8 +222,8 @@ class CreateAccountViewController : LoginModalViewController
     if t.count > 0, t.count<6 { err = "too short" }
     
     let ok = ( err == nil )
-    displayNameError.text = err
-    displayNameError.isHidden = ok
+//    displayNameError.text = err
+//    displayNameError.isHidden = ok
     return ok
   }
   
@@ -212,8 +244,8 @@ class CreateAccountViewController : LoginModalViewController
     }
     
     let ok = ( err == nil )
-    emailError.text = err
-    emailError.isHidden = ok
+//    emailError.text = err
+//    emailError.isHidden = ok
     return ok
   }
 
@@ -277,7 +309,7 @@ class CreateAccountViewController : LoginModalViewController
           if swithToLogin
           {
             UserDefaults.standard.username = self.usernameTextField.text!
-            self.container?.present(ViewControllerID.AccountLogin.rawValue)
+            self.container?.present(ModalControllerID.AccountLogin.rawValue)
           }
           else
           {
@@ -292,6 +324,21 @@ class CreateAccountViewController : LoginModalViewController
         else                     { message = "Missing Response Code"                     }
         self.internalError( message, file:#file, function:#function )
       }
+    }
+  }
+}
+
+extension CreateAccountViewController : InfoButtonDelegate
+{
+  func showInfo(_ sender: UIButton)
+  {
+    switch sender
+    {
+    case usernameInfo: debug("show username info")
+    case passwordInfo: debug("show password info")
+    case displayNameInfo: debug("show alias info")
+    case emailInfo: debug("show email info")
+    default: break
     }
   }
 }
