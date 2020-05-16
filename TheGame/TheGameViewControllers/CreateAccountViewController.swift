@@ -14,7 +14,9 @@ fileprivate var cachedEmail       : String?
 
 class CreateAccountViewController : ModalViewController
 {
-  var loginVC : LoginViewController?
+  var loginVC : LoginViewController
+  
+  private var updateTimer : Timer?
   
   //MARK:- Subviews
   
@@ -38,10 +40,8 @@ class CreateAccountViewController : ModalViewController
   var cancelButton         : UIButton!
   
   // MARK:- View State
-  
-  private var updateTimer : Timer?
-  
-  init(loginVC:LoginViewController? = nil)
+    
+  init(loginVC:LoginViewController)
   {
     self.loginVC = loginVC
     super.init(title: "Create New Account")
@@ -55,7 +55,7 @@ class CreateAccountViewController : ModalViewController
   {
     super.viewDidLoad()
         
-    let usernameLabel = addHeader("Username", below: topMargin)
+    let usernameLabel = addHeader("Username", below: titleRule, gap:Style.contentGap)
     usernameTextField = addLoginEntry(below: usernameLabel)
     usernameTextField.changeCallback = { self.startUpdateTimer() }
     usernameInfo = addInfoButton(to: usernameTextField, target: self)
@@ -112,38 +112,6 @@ class CreateAccountViewController : ModalViewController
     cachedEmail       = self.emailTextField.text
   }
   
-  // MARK:- Button Actions
-  
-  @objc func cancel(_ sender:UIButton)
-  {
-    loginVC?.cancel(self)
-  }
-  
-  @objc func create(_ sender:UIButton)
-  {
-    guard checkAllAndUpdateState() else { return }
-    
-    let email = emailTextField.text ?? ""
-    
-    if email.isEmpty
-    {
-      confirmationPopup(
-        title:"Proceed without Email",
-        message: [
-          "Creating an account without an email address is acceptable.",
-          "But if you choose to proceed without one, it might not be possible to recover your username or password if lost"
-        ],
-        ok:"Proceed")
-      {
-        (proceed) in if proceed { self.requestNewAccount() }
-      }
-    }
-    else
-    {
-      requestNewAccount()
-    }
-  }
-
   // MARK:- Input State
 
   @discardableResult
@@ -229,83 +197,77 @@ class CreateAccountViewController : ModalViewController
     return ok
   }
   
-  func requestNewAccount()
+  // MARK:- Button Actions
+  
+  @objc func cancel(_ sender:UIButton)
   {
+    loginVC.cancel(self)
+  }
+  
+  @objc func create(_ sender:UIButton) { create(checkEmail:true) }
+  
+  func create(checkEmail:Bool)
+  {
+    guard checkAllAndUpdateState() else { return }
     guard let username = usernameTextField.text  else { return }
     guard let password = password1TextField.text else { return }
     
-    // if all checks are working correctly, should always get here
+    let alias = displayNameTextField.text
+    let email = emailTextField.text
     
-    let alias = displayNameTextField.text ?? ""
-    let email = emailTextField.text ?? ""
+    if checkEmail, (email ?? "").isEmpty
+    {
+      let message = [
+        "Creating an account without an email address is acceptable.",
+        "But if you choose to proceed without one, it might not be possible to recover your username or password if lost"
+      ]
+      
+      confirmationPopup( title:"Proceed without Email", message:message, ok:"Proceed") { (proceed) in
+        if proceed { self.create(checkEmail: false) }
+      }
+      
+      return
+    }
     
-    var args : GameQueryArgs = [.Username:username, .Password:password]
-    
-    if alias.count > 0 { args[.Alias] = alias }
-    if email.count > 0 { args[.Email] = email }
-    
-    TheGame.server.query(.User, action: .Create, gameArgs: args) {
-      (response) in
-            
-      switch ( response.status, response.returnCode )
-      {
-      case (.FailedToConnect,_):
-        if let lvc = self.loginVC { lvc.cancel(self, updateRoot: true) }
-        else                      { self.dismiss(animated: true) }
+    TheGame.server.requestNewAccount(
+      username: username,
+      password: password,
+      alias: alias,
+      email: email,
+      
+      failConnect: {
+        self.loginVC.cancel(self, updateRoot: true) },
+      
+      error: {
+        (message:String, file:String, function:String) in
+        self.internalError(message, file:#file, function: function) },
+      
+      success: {
+        var message = ["Username: \(username)"]
+        if let alias = alias, alias.count > 0 { message.append("Alias: \(alias)") }
+        if let email = email, email.count > 0 { message.append("Check your email for instructions on validating your email address") }
         
-      case (.InvalidURI,_), (.MissingCode,_):
-        self.internalError(response.status.rawValue, file: #file, function: #function)
-        
-      case (.Success,.Success):
-        
-        if let userkey = response.userkey
-        {
-          var message = ["Username: \(username)"]
-          if alias.count > 0 { message.append("Alias: \(alias)") }
-          if email.count > 0 { message.append("Check your email for instructions on validating your email address") }
-          
-          UserDefaults.standard.userkey = userkey
-          UserDefaults.standard.username = username
-          UserDefaults.standard.alias = alias
-          
-          let me = LocalPlayer(userkey, username: username, alias: alias, gameData: response.data)
-          TheGame.shared.me = me
-          
-          self.infoPopup(title: "User Created", message: message)
-          {
-            if let lvc = self.loginVC { lvc.completed(self) }
-            else                      { self.dismiss(animated: true) }
-          }
-        }
-
-      case (.Success,.UserExists):
-        
-        self.confirmationPopup(
-          title: "User Exists",
-          message: "Would you like to log in as \(self.usernameTextField.text!)?",
-          ok: "Yes", cancel: "No", animated: true
-        ) { (swithToLogin) in
-          if swithToLogin
-          {
+        self.infoPopup(title: "User Created", message: message) {
+          self.loginVC.completed(self)
+        } },
+      
+      exists: {
+        let message = "Would you like to log in as \(username)?"
+        self.confirmationPopup( title: "User Exists", message:message, ok: "Yes", cancel: "No", animated: true )
+        { (swithToLogin) in
+          if swithToLogin  {
             UserDefaults.standard.username = self.usernameTextField.text!
-            self.container?.present(ModalControllerID.AccountLogin.rawValue)
-          }
-          else
-          {
+            self.container?.present(.AccountLogin)
+          } else {
             self.usernameTextField.selectAll(self)
           }
-        }
-        
-      default:
-        
-        var message : String
-        if let  rc = response.rc { message = "Unexpected Game Server Return Code: \(rc)" }
-        else                     { message = "Missing Response Code"                     }
-        self.internalError( message, file:#file, function:#function )
-      }
-    }
+        }}
+    )
   }
+  
 }
+
+// MARK:- Text Field Delegate
 
 extension CreateAccountViewController : UITextFieldDelegate
 {
@@ -329,6 +291,8 @@ extension CreateAccountViewController : UITextFieldDelegate
     { _ in self.checkAllAndUpdateState() }
   }
 }
+
+// MARK:- Info Button Delegate
 
 extension CreateAccountViewController : InfoButtonDelegate
 {

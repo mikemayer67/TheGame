@@ -26,7 +26,6 @@ class ModalViewController: UIViewController, ManagedViewController
   private(set) var managedView: UIView!
   private(set) var titleView:   UILabel!
   private(set) var titleRule:   UIView!
-  private(set) var topMargin:   UIView!
   
   enum Style
   {
@@ -34,14 +33,15 @@ class ModalViewController: UIViewController, ManagedViewController
     static let topMargin        = CGFloat(10.0)
     static let bottomMargin     = CGFloat(10.0)
     
-    static let titleGap         = CGFloat(5.0)  // vertical gap below a horizontal seperator line
+    static let hruleGap         = CGFloat(5.0)  // vertical gap below a horizontal seperator line
     static let contentGap       = CGFloat(10.0)
-    
-    static let headerGap        = CGFloat(5.0)  // vertical gap between a header label and its associated entry fields
+    static let fieldGap         = CGFloat(10.0) // vertical gap between entry fields and next header label
+
     static let entryIndent      = CGFloat(5.0)  // horizontal indent from header label to its associated entry fields
     static let entryGap         = CGFloat(5.0)  // veritcal gap between associated entry fields
-    static let fieldGap         = CGFloat(10.0) // vertical gap between entry fields and next header label
     static let infoButtonGap    = CGFloat(2.0)  // vertical gap between info button and associated entry field
+    static let textGap          = CGFloat(8.0)  // vertical gap between info text labels
+    static let actionGap        = CGFloat(3.0)  // vertical gap between action button and surrounding HRules
     
     static let defaultGapHeight = CGFloat(10.0) // extra vertical gap
   
@@ -50,9 +50,11 @@ class ModalViewController: UIViewController, ManagedViewController
     
     static let titleFont        = UIFont.systemFont(ofSize: 19, weight: .heavy)
     static let headerFont       = UIFont.systemFont(ofSize: 14, weight: .semibold)
+    static let infoFont         = UIFont.italicSystemFont(ofSize: 12)
     static let entryFont        = UIFont.systemFont(ofSize: 14)
     static let cancelFont       = UIFont.systemFont(ofSize: 15)
     static let okFont           = UIFont.systemFont(ofSize: 15, weight: .bold)
+    static let actionFont       = UIFont.systemFont(ofSize: 16, weight: .semibold)
     static let errorFont        = UIFont.systemFont(ofSize: 11)
     
     static let errorColor       = UIColor(named: "dieRed") ?? UIColor.systemRed
@@ -99,15 +101,7 @@ class ModalViewController: UIViewController, ManagedViewController
     titleView.packTop(Style.topMargin)
     titleView.alignCenterX(to: managedView)
     
-    titleRule = UIView()
-    managedView.addSubview(titleRule)
-    titleRule.translatesAutoresizingMaskIntoConstraints = false
-    titleRule.backgroundColor = .systemGray
-    titleRule.constrainHeight(1.0)
-    titleRule.fillX(view: managedView)
-    titleRule.attachTop(to: titleView,offset: Style.topMargin)
-    
-    topMargin = addGap(below: titleRule, gap: Style.contentGap)
+    titleRule = addHRule(below:titleView, gap:Style.topMargin)
   }
 }
 
@@ -120,15 +114,48 @@ class ModalViewController: UIViewController, ManagedViewController
 
 extension ModalViewController
 {
-  func addHeader(_ text:String, below refView:UIView ) -> UILabel
+  func addHRule(below refView:UIView, gap:CGFloat = Style.hruleGap) -> UIView
+  {
+    let hrule = UIView()
+    managedView.addSubview(hrule)
+    hrule.translatesAutoresizingMaskIntoConstraints = false
+    hrule.backgroundColor = .systemGray
+    hrule.constrainHeight(1.0)
+    hrule.fillX(view: managedView)
+    hrule.attachTop(to: refView, offset:gap)
+    return hrule
+  }
+  
+  func addHeader(_ text:String,
+                 below refView:UIView,
+                 gap:CGFloat = Style.fieldGap,
+                 indent:CGFloat = 0.0 ) -> UILabel
   {
     let label = UILabel()
     managedView.addSubview(label)
     label.translatesAutoresizingMaskIntoConstraints = false
     label.text = text
     label.font = Style.headerFont
-    label.packLeft(Style.edgeMargin)
-    label.attachTop(to: refView,offset: Style.fieldGap)
+    label.packLeft(Style.edgeMargin + indent)
+    label.attachTop(to: refView,offset: gap)
+    return label
+  }
+  
+  func addInfoText(_ text:String,
+                   below refView:UIView,
+                   gap:CGFloat = Style.textGap,
+                   indent:CGFloat = 0.0) -> UILabel
+  {
+    let label = UILabel()
+    managedView.addSubview(label)
+    label.translatesAutoresizingMaskIntoConstraints = false
+    label.text = text
+    label.font = Style.infoFont
+    label.numberOfLines = 0
+    label.lineBreakMode = .byWordWrapping
+    label.packLeft(Style.edgeMargin + indent)
+    label.packRight(Style.edgeMargin)
+    label.attachTop(to: refView, offset: gap)
     return label
   }
   
@@ -155,7 +182,7 @@ extension ModalViewController
     configure(entry:entry, refView: refVeiw)
     entry.placeholder = placeholder ?? "optional"
     entry.textContentType = (email ? .emailAddress : .none)
-    entry.keyboardType = (email ? .emailAddress : .default )
+    entry.keyboardType = (email ? .emailAddress : .asciiCapable )
     return entry
   }
   
@@ -164,6 +191,7 @@ extension ModalViewController
     managedView.addSubview(entry)
     entry.translatesAutoresizingMaskIntoConstraints = false
     entry.font = Style.entryFont
+    entry.autocapitalizationType = .none
     entry.borderStyle = .roundedRect
     entry.clearButtonMode = .always
     entry.minimumFontSize = 17.0
@@ -210,6 +238,18 @@ extension ModalViewController
     button.alignRight(to: entry)
     button.attachBottom(to: entry,offset: Style.infoButtonGap)
     button.addTarget(target, action: #selector(InfoButtonDelegate.showInfo(_:)), for: .touchUpInside)
+    return button
+  }
+  
+  func addActionButton(title:String, below refView:UIView, gap:CGFloat = Style.actionGap) -> UIButton
+  {
+    let button = UIButton(type:.system)
+    managedView.addSubview(button)
+    button.translatesAutoresizingMaskIntoConstraints = false
+    button.setTitle(title, for: .normal)
+    button.titleLabel?.font = Style.actionFont
+    button.fillX(view: managedView)
+    button.attachTop(to: refView, offset: gap)
     return button
   }
   

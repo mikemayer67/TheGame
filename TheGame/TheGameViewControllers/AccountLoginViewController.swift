@@ -12,7 +12,9 @@ fileprivate var cachedUsername : String?
 
 class AccountLoginViewController: ModalViewController
 {
-  var loginVC : LoginViewController?
+  var loginVC : LoginViewController
+  
+  private var updateTimer : Timer?
 
   // MARK:- Subviews
   
@@ -26,9 +28,7 @@ class AccountLoginViewController: ModalViewController
   
   // MARK:- View State
   
-  private var updateTimer : Timer?
-  
-  init(loginVC:LoginViewController? = nil)
+  init(loginVC:LoginViewController)
   {
     self.loginVC = loginVC
     super.init(title: "Login")
@@ -43,7 +43,7 @@ class AccountLoginViewController: ModalViewController
   {
     super.viewDidLoad()
             
-    let usernameLabel = addHeader("Username", below: topMargin)
+    let usernameLabel = addHeader("Username", below: titleRule, gap: Style.contentGap)
     username = addLoginEntry(below: usernameLabel)
     username.changeCallback = { self.startUpdateTimer() }
     usernameInfo = addInfoButton(to: username, target: self)
@@ -87,23 +87,6 @@ class AccountLoginViewController: ModalViewController
     cachedUsername = username.text
   }
   
-  // MARK:- Button Actions
-  
-  @objc func cancel(_ sender:UIButton)
-  {
-    loginVC?.cancel(self)
-  }
-  
-  @objc func login(_ sender:UIButton)
-  {
-    debug("login")
-  }
-  
-  @objc func sendLoginInfo(_ sender:UIButton)
-  {
-    container?.present(ModalControllerID.RetrieveLogin)
-  }
-  
   // MARK:- Input State
   
   @discardableResult
@@ -120,7 +103,26 @@ class AccountLoginViewController: ModalViewController
     updateTimer = Timer.scheduledTimer(withTimeInterval: 0.3, repeats: false)
     { _ in self.checkAllAndUpdateState() }
   }
+  
+  // MARK:- Button Actions
+  
+  @objc func cancel(_ sender:UIButton)
+  {
+    loginVC.cancel(self)
+  }
+  
+  @objc func login(_ sender:UIButton)
+  {
+    debug("login")
+  }
+  
+  @objc func sendLoginInfo(_ sender:UIButton)
+  {
+    container?.present(.RetrieveLogin)
+  }
 }
+
+// MARK:- Info Button Delegate
 
 extension AccountLoginViewController : InfoButtonDelegate
 {
