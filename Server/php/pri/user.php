@@ -3,20 +3,7 @@ namespace user;
 
 require_once(__DIR__.'/db.php');
 require_once(__DIR__.'/notify.php');
-
-const USERID      = 'userid';
-const FBID        = 'fbid';
-const USERKEY     = 'userkey';
-const USERNAME    = 'username';
-const PASSWORD    = 'password';
-const ALIAS       = 'alias';
-const EMAIL       = 'email';
-const EMAIL_VAL   = 'email_validation';
-const LASTLOSS    = 'last_loss';
-const VALIDATED   = 'Y';
-const UPDATED     = 'updated';
-const SCOPE       = 'scope';
-const NOTIFY      = 'notify';
+require_once(__DIR__.'/const.php');
 
 #################################################################################
 # Facebook account connection
@@ -121,6 +108,8 @@ function validate()
   }
 
   if( isset($info[LASTLOSS]) ) { $reply[LASTLOSS] = (int)$info[LASTLOSS]; }
+
+  db_drop_password_reset($info[USERID]);
 
   send_success($reply);
 }
@@ -304,60 +293,63 @@ function update()
   send_success( array(UPDATED => $updated) );
 }
 
+function pwreset()
+{
+  $username  = get_required_arg(USERNAME);
+  $password  = get_required_arg(PASSWORD);
+  $reset_key = get_required_arg(RESET_KEY);
+  fail_on_extra_args();
+
+  $info = db_find_user_by_username($username);
+  if( empty($info) ) send_failure(\RC::INVALID_USERNAME);
+
+  $userid = $info[USERID];
+
+  if( db_reset_user_password($userid,$password,$reset_key) )
+  {
+    send_success( array(USERKEY => $info[USERKEY]) );
+  }
+  else
+  {
+    send_failure(\RC::FAILED_TO_UPDATE_USER);
+  }
+}
+
 
 #################################################################################
 # User Info
 #################################################################################
 
-function info()
+function lookup()
 {
-  $userkey = get_required_arg(USERKEY);
+  $key = get_exclusive_arg(USERKEY,EMAIL);
   fail_on_extra_args();
 
-  $info = db_find_user_by_userkey($userkey);
-  if( empty($info) ) { send_failure(\RC::INVALID_USERKEY); }
-
   $reply = array();
-  if( isset($info[USERNAME]) ) { $reply[USERNAME] = 1; }
-  if( isset($info[FBID])     ) { $reply[FBID]     = 1; }
 
-  if( isset($info[EMAIL]) )
+  if($key[0] == 1)
   {
-    $reply[EMAIL] = (int)($info[EMAIL_VAL] == VALIDATED);
+    $userkey = $key[1];
+
+    $info = db_find_user_by_userkey($userkey);
+    if( empty($info) ) { send_failure(\RC::INVALID_USERKEY); }
+
+    $reply = array();
+    if( isset($info[USERNAME]) ) { $reply[USERNAME] = 1; }
+    if( isset($info[FBID])     ) { $reply[FBID]     = 1; }
+
+    if( isset($info[EMAIL]) )
+    {
+      $reply[EMAIL] = (int)($info[EMAIL_VAL] == VALIDATED);
+    }
+  }
+  elseif($key[0] == 2)
+  {
+    $email = $key[1];
+
+    $info = db_find_user_by_email($email);
+    if( empty($info) ) { send_failure(\RC::INVALID_EMAIL); }
   }
 
   send_success( $reply );
 }
-
-#################################################################################
-# Send Email
-#################################################################################
-
-function email()
-{
-  $id = get_exclusive_arg(USERKEY,USERNAME);
-  fail_on_extra_args();
-
-  if( $id[0] == 1 )
-  {
-    $info = db_find_user_by_userkey($id[1]);
-    if( empty($info) ) { send_failure(\RC::INVALID_USERKEY); }
-  }
-  else
-  {
-    $info = db_find_user_by_username($id[1]);
-    if( empty($info) ) { send_failure(\RC::INVALID_USERNAME); }
-  }
-
-  if( empty($info[EMAIL]) ) { send_failure(\RC::NO_VALIDATED_EMAIL); }
-
-  if( $info[EMAIL_VAL] != VALIDATED )
-  {
-    send_failure(\RC::NO_VALIDATED_EMAIL, array(EMAIL => 0) );
-  }
-  
-  error_log('@@@ Need to add username/password email');
-
-  send_success();
-}
-

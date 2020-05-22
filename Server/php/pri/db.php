@@ -1,5 +1,23 @@
 <?php
 
+class DB
+{
+  const USERID      = 'userid';
+  const FBID        = 'fbid';
+  const USERKEY     = 'userkey';
+  const USERNAME    = 'username';
+  const PASSWORD    = 'password';
+  const ALIAS       = 'alias';
+  const EMAIL       = 'email';
+  const EMAIL_VAL   = 'email_validation';
+  const LASTLOSS    = 'last_loss';
+  const VALIDATED   = 'Y';
+  const UPDATED     = 'updated';
+  const SCOPE       = 'scope';
+  const NOTIFY      = 'notify';
+}
+
+
 class TGDB {
   public  $db = null;
 
@@ -111,6 +129,24 @@ function db_find_user_by_userid($userid)
   return $data;
 }
 
+function db_find_user_by_email($email)
+{
+  $db = new TGDB;
+ 
+  $sql = "select * from tg_users where email='$email' and email_validation='Y'";
+  $result = $db->query($sql);
+  $data = array();
+  if( $result )
+  {
+    while( $row = $result->fetch_assoc() )
+    {
+      $data[] = $row;
+    }
+  }
+
+  return $data;
+}
+
 function db_create_user_with_username($username,$password,$alias,$email)
 {
   $db = new TGDB;
@@ -163,6 +199,17 @@ function db_update_user_password($userid,$password)
   $sql = "update tg_users set password='$hashed_password' where userid=$userid";
   $result = $db->query($sql);
   return $result;
+}
+
+function db_reset_user_password($userid,$password,$reset_key)
+{
+  $cur_key = db_get_password_reset($userid);
+  if( ! isset($cur_key) ) return null;
+  if( $reset_key != $cur_key) return null;
+
+  db_drop_password_reset($userid);
+
+  return db_update_user_password($userid,$password);
 }
 
 function db_update_user_alias($userid,$alias)
@@ -266,19 +313,51 @@ function db_drop_facebook($userid)
 function db_confirm_email($key)
 {
   $db = new TGDB;
-  $sql = "select userid from tg_uses where email_validation='$key'";
+  $sql = "select userid,username from tg_users where email_validation='$key'";
   $result = $db->query($sql);
 
   $n = $result->num_rows;
   if($n>1) { throw new Exception("Multiple pending email with same validation key",500); }
-  if($n<1) return null;
 
-  $data = $result->fetch_assoc();
-  $userid = $data['userid'];
+  if( $n == 1 )
+  {
+    $data = $result->fetch_assoc();
+    $userid = $data['userid'];
+    $username = $data['username'];
 
-  $sql = "update tg_users set email_validation='Y' where userid=$userid";
+    $sql = "update tg_users set email_validation='Y' where userid=$userid";
+    $result = $db->query($sql);
+
+    return $username;
+  }
+
+  return null;
+}
+
+// Password
+
+function db_set_password_reset($userid,$reset_key)
+{
+  $db = new TGDB;
+  $sql = "replace into tg_password_reset values ($userid,$reset_key)";
   $result = $db->query($sql);
+  return $result;
+}
 
+function db_get_password_reset($userid)
+{
+  $db = new TGDB;
+  $sql = "select reset_key from tg_password_reset where userid=$userid";
+  $result = $db->query($sql);
+  $row = $result->fetch_array();
+  return $row[0];
+}
+
+function db_drop_password_reset($userid)
+{
+  $db = new TGDB;
+  $sql = "delete from tg_password_reset where userid=$userid";
+  $result = $db->query($sql);
   return $result;
 }
 
@@ -286,56 +365,37 @@ function db_confirm_email($key)
 
 function db_gen_email_validation_key()
 {
-  $db = new TGDB;
-
-  $max_attempts = 256;
-  for($attempt=0; $attempt<$max_attempts; ++$attempt)
-  {
-    $key = db_gen_key(24);
-
-    $result = $db->query("select email_validation from tg_users where email_validation='$key'");
-    $n = $result->num_rows;
-    $result->close();
-
-    if( $n==0 ) { return $key; }
-  }
-
-  throw new Exception("Failed to generate a unique ID in $max_attempts attempts", 500);
+  return db_gen_key(24,'tg_users','email_validation');
 }
 
 function db_gen_userkey()
 {
-  $db = new TGDB;
-
-  $max_attempts = 256;
-  for($attempt=0; $attempt<$max_attempts; ++$attempt)
-  {
-    $key = db_gen_key(32);
-
-    $result = $db->query("select userkey from tg_users where userkey='$key'");
-    $n = $result->num_rows;
-    $result->close();
-
-    if( $n==0 ) { return $key; }
-  }
-
-  throw new Exception("Failed to generate a unique ID in $max_attempts attempts", 500);
+  return db_gen_key(32,'tg_users','userkey');
 }
 
-function db_gen_key($n)
+function db_gen_key($length,$table,$column)
 {
+  $db = new TGDB;
+
   $pool = '123456789123456789ABCDEFGHIJKLMNPQRSTUVWXYZ';
   $npool = strlen($pool);
 
   $max_attempts = 256;
-
-  $key = '';
-  for( $i=0; $i<$n; $i++)
+  for( $attempt=0; $attempt<$max_attempts; $j++)
   {
-    $key .= substr($pool,rand(0,$npool-1),1);
-  }
+    $key = '';
+    for( $i=0; $i<$length; $i++)
+    {
+      $key .= substr($pool,rand(0,$npool-1),1);
+    }
+    $sql = "select $column from $table where $column='$key'";
+    $result = $db->query($sql);
+    $n = $result->num_rows;
+    $result->close();
 
-  return $key;
+    if( $n == 0 ) { return $key; }
+  }
+  throw new Exception("Failed to generate a unique key in $max_attempts attempts", 500);
 }
 
 // Miscellaneous

@@ -53,4 +53,30 @@ extension GameServer
       }
     }
   }
+  
+  func checkFor(email:String,
+                failConnect:(()->())? = nil,
+                error:((_ message:String,_ file:String,_ function:String)->())? = nil,
+                completion:@escaping ((Bool)->()) )
+  {
+    let args : GameQueryArgs = [ .Email : email ]
+    
+    query(.User, action: .Lookup, gameArgs: args) { (response) in
+      switch response.status
+      {
+      case .FailedToConnect: failConnect?()
+      case .InvalidURI, .MissingCode: error?(response.status.rawValue, #file, #function)
+        
+      case .Success:
+        switch response.returnCode
+        {
+        case .InvalidEmail: completion(false)
+        case .Success:      completion(true)
+        default:
+          if let  rc = response.rc { error?("Unexpected Game Server Return Code: \(rc)", #file, #function) }
+          else                     { error?("Missing Response Code", #file, #function)                     }
+        }
+      }
+    }
+  }
 }

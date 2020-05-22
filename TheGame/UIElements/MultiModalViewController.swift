@@ -26,7 +26,7 @@ protocol ManagedViewController : UIViewController
   /// The *MultiModalViewController* that is presenting the view
   ///
   /// This property is set by the presenting *MultiModalViewController*.  You should not set or modify this value.
-  var container   : MultiModalViewController? { get set }
+  var mmvc : MultiModalViewController? { get set }
 }
 
 /**
@@ -43,7 +43,7 @@ protocol MultiModalDelegate
    
    If this method returns nil, the *MultiModalViewController* will attempt to load the view controller from storyboard
    */
-  func viewController(_ identifier:String, for container:MultiModalViewController) -> ManagedViewController?
+  func viewController(_ identifier:String, for mmvc:MultiModalViewController) -> ManagedViewController?
   
   /**
    Invoked after a *ManagedViewController* is added to the *MultiModalViewController*.
@@ -52,7 +52,7 @@ protocol MultiModalDelegate
    
    It could, for example, be used to add a delegate to the managed view controller to handle user interaction.
    */
-  func configure(_ vc:ManagedViewController, for container:MultiModalViewController)
+  func configure(_ vc:ManagedViewController, for mmvc:MultiModalViewController)
 }
 
 /**
@@ -84,6 +84,9 @@ class MultiModalViewController : UIViewController
   /// Currently presented managed view controller
   private(set) var current  : ManagedViewController?
   
+  /// Used to adjust bottom when keyboard appears/disappears
+  private(set) var bottomConstraint : NSLayoutConstraint?
+  
   /// Initializer for programatically creating a *MultiModalViewController*
   ///
   /// Optinally sets the background color and alpha.  If not specified, these
@@ -92,6 +95,18 @@ class MultiModalViewController : UIViewController
   {
     super.init(nibName: nil, bundle: nil)
     view.backgroundColor = color.withAlphaComponent(alpha)
+    
+    let nc = NotificationCenter.default
+    
+    nc.addObserver(self,
+                   selector: #selector(updateBottomConstraint(_:)),
+                   name: UIWindow.keyboardWillShowNotification,
+                   object: nil)
+    
+    nc.addObserver(self,
+                   selector: #selector(updateBottomConstraint(_:)),
+                   name: UIWindow.keyboardWillHideNotification,
+                   object: nil)
   }
   
   required init?(coder: NSCoder)
@@ -110,13 +125,18 @@ class MultiModalViewController : UIViewController
   /// If the currently displayed view controller is being replaced, it will be
   /// replaced and presented immediately.  Otherwise, currently displayed view
   /// controller will not be changed.
-  func add(_ vc:ManagedViewController, for key:String)
+  func add(_ vc:ManagedViewController, for key:String, presentImmediately:Bool = false)
   {
+    var presentImmediately = presentImmediately
+    
+    if let oldVC = managedViewControllers[key], let curVC = current, oldVC == curVC
+    { presentImmediately = true }
+    
     managedViewControllers[key] = vc
-    vc.container = self
+    vc.mmvc = self
     vc.view.backgroundColor = UIColor.clear
     
-    if let oldVC = current, oldVC == vc { present(vc) }
+    if presentImmediately { present(vc) }
   }
   
   /// Return the managed view controller with the specified identifier
@@ -132,7 +152,7 @@ class MultiModalViewController : UIViewController
   /// 3. Loat it from the Main storyboard
   ///
   /// If successful, the root view of the loaded view controller is set to clear,
-  /// the loaded view controller's *container* property is set to the current
+  /// the loaded view controller's *mmvc* property is set to the current
   /// *MultiModalViewController*, and the delegate's configure::for: method is
   /// called to allow the delegate to add any additional initial setup of the
   /// managed view.
@@ -147,7 +167,7 @@ class MultiModalViewController : UIViewController
     
     vc.view.backgroundColor = UIColor.clear
     
-    vc.container = self
+    vc.mmvc = self
     delegate?.configure(vc, for: self)
     
     managedViewControllers[key] = vc
@@ -188,10 +208,11 @@ class MultiModalViewController : UIViewController
       
       newVC.view.translatesAutoresizingMaskIntoConstraints = false
       newVC.view.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
-      newVC.view.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
       newVC.view.leftAnchor.constraint(equalTo: view.leftAnchor).isActive = true
       newVC.view.rightAnchor.constraint(equalTo: view.rightAnchor).isActive = true
-      
+      bottomConstraint = newVC.view.bottomAnchor.constraint(equalTo: view.bottomAnchor)
+      bottomConstraint?.isActive = true
+            
       guard let oldView = oldVC.managedView else { assertionFailure("oldVC missing managed view"); return  }
       guard let newView = newVC.managedView else { assertionFailure("newVC missing managed view"); return  }
          
@@ -250,13 +271,41 @@ class MultiModalViewController : UIViewController
       
       newVC.view.translatesAutoresizingMaskIntoConstraints = false
       newVC.view.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
-      newVC.view.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
       newVC.view.leftAnchor.constraint(equalTo: view.leftAnchor).isActive = true
       newVC.view.rightAnchor.constraint(equalTo: view.rightAnchor).isActive = true
+      bottomConstraint = newVC.view.bottomAnchor.constraint(equalTo: view.bottomAnchor)
+      bottomConstraint?.isActive = true
     }
     current = newVC
   }
-  
+    
+  /// Animates the bottom constraint so as to recenter the managed view
+  @objc func updateBottomConstraint(_ notification:Notification)
+  {
+
+    if let userInfo = notification.userInfo,
+      let duration = userInfo[UIResponder.keyboardAnimationDurationUserInfoKey] as? NSNumber,
+      let curve = userInfo[UIResponder.keyboardAnimationCurveUserInfoKey] as? NSNumber
+    {
+      var offset : CGFloat = 0.0
+      if notification.name == UIWindow.keyboardWillShowNotification,
+        let frameValue = userInfo[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue
+      {
+        offset = -frameValue.cgRectValue.size.height
+      }
+      
+      let options = UIView.AnimationOptions(rawValue: curve.uintValue)
+               
+      UIView.animate(
+        withDuration: TimeInterval(duration.doubleValue),
+        delay: 0,
+        options: options,
+        animations: {
+          self.bottomConstraint?.constant = offset
+          self.view.layoutIfNeeded() }
+      )
+    }
+  }
 }
 
 extension CATransform3D

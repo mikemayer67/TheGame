@@ -60,7 +60,7 @@ class ModalViewController: UIViewController, ManagedViewController
     static let errorColor       = UIColor(named: "dieRed") ?? UIColor.systemRed
   }
   
-  var container: MultiModalViewController?
+  var mmvc: MultiModalViewController?
   
   private var updateTimer : Timer?
   
@@ -170,6 +170,7 @@ extension ModalViewController
     entry.textContentType = (password ? .password : .username )
     entry.isSecureTextEntry = password
     entry.keyboardType = .asciiCapable
+    entry.autocorrectionType = .no
 
     return entry
   }
@@ -183,6 +184,7 @@ extension ModalViewController
     entry.placeholder = placeholder ?? "optional"
     entry.textContentType = (email ? .emailAddress : .none)
     entry.keyboardType = (email ? .emailAddress : .asciiCapable )
+    entry.autocorrectionType = .no
     return entry
   }
   

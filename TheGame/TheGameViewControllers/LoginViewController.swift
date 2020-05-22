@@ -56,7 +56,7 @@ class LoginViewController: ChildViewController
 
 extension LoginViewController : MultiModalDelegate
 {
-  func viewController(_ identifier: String, for container: MultiModalViewController) -> ManagedViewController?
+  func viewController(_ identifier: String, for mmvc: MultiModalViewController) -> ManagedViewController?
   {
     debug("launch vc(\(identifier))")
     guard let identifier = ModalControllerID(rawValue: identifier) else { return nil }
@@ -68,7 +68,7 @@ extension LoginViewController : MultiModalDelegate
     }
   }
   
-  func configure(_ vc: ManagedViewController, for container: MultiModalViewController)
+  func configure(_ vc: ManagedViewController, for mmvc: MultiModalViewController)
   {
     if let vc = vc as? CreateAccountViewController
     {

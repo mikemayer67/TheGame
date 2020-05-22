@@ -26,7 +26,6 @@ class ForgotLoginViewController: ModalViewController
   
   override func viewDidLoad()
   {
-    debug("viewDidLoad")
     super.viewDidLoad()
     
     let header = addHeader("Don't Worry.", below: titleRule)
@@ -59,12 +58,12 @@ class ForgotLoginViewController: ModalViewController
   
   @objc func cancel(_ sender:UIButton)
   {
-    container?.present(.AccountLogin)
+    mmvc?.present(.AccountLogin)
   }
   
   @objc func createNewAccount(_ sender:UIButton)
   {
-    container?.present(.CreateAccount)
+    mmvc?.present(.CreateAccount)
   }
   
   @objc func retrieveUsername(_ sender:UIButton)

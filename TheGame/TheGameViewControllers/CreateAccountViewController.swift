@@ -204,9 +204,73 @@ class CreateAccountViewController : ModalViewController
     loginVC.cancel(self)
   }
   
-  @objc func create(_ sender:UIButton) { create(checkEmail:true) }
+  @objc func create(_ sender:UIButton)
+  {
+    guard checkAllAndUpdateState(),
+      usernameTextField.text != nil,
+      password1TextField.text != nil
+    else { return }
+    
+    if let email = emailTextField.text, !email.isEmpty
+    {
+      checkForExisting(email:email)
+    }
+    else
+    {
+      confirmNoEmail()
+    }
+  }
   
-  func create(checkEmail:Bool)
+  func checkForExisting(email:String)
+  {
+    TheGame.server.checkFor(
+      email: email,
+      
+      failConnect: {
+        self.loginVC.cancel(self, updateRoot: true) },
+      
+      error: {
+        (message:String, file:String, function:String) in
+        self.internalError(message, file:#file, function: function) }
+    ) {
+      (exists) in
+      if !exists { self.createAccount() }
+      else
+      {
+        let alert = UIAlertController(
+          title: "Email Exists",
+          message: "An account already exists with the email address \(email)",
+          preferredStyle: .actionSheet)
+        
+        alert.addAction(UIAlertAction(title: "Login to existing account", style: .default, handler: { _ in
+          debug("switch to login")
+        }))
+        alert.addAction(UIAlertAction(title: "Email me username", style: .default, handler: { _ in
+          debug("request login info")
+        }))
+        alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: {_ in
+          debug("cancel")
+        }))
+        
+        self.present(alert,animated: true)
+      }
+    }
+  }
+  
+  func confirmNoEmail()
+  {
+    let message = [
+      "Creating an account without an email address is acceptable.",
+      "But if you choose to proceed without one, it might not be possible to recover your username or password if lost"
+    ]
+    
+    confirmationPopup( title:"Proceed without Email", message:message, ok:"Proceed")
+    { (proceed) in
+      if proceed { self.createAccount() }
+    }
+  }
+  
+  func createAccount()
   {
     guard checkAllAndUpdateState() else { return }
     guard let username = usernameTextField.text  else { return }
@@ -214,20 +278,6 @@ class CreateAccountViewController : ModalViewController
     
     let alias = displayNameTextField.text
     let email = emailTextField.text
-    
-    if checkEmail, (email ?? "").isEmpty
-    {
-      let message = [
-        "Creating an account without an email address is acceptable.",
-        "But if you choose to proceed without one, it might not be possible to recover your username or password if lost"
-      ]
-      
-      confirmationPopup( title:"Proceed without Email", message:message, ok:"Proceed") { (proceed) in
-        if proceed { self.create(checkEmail: false) }
-      }
-      
-      return
-    }
     
     TheGame.server.requestNewAccount(
       username: username,
@@ -257,7 +307,7 @@ class CreateAccountViewController : ModalViewController
         { (swithToLogin) in
           if swithToLogin  {
             UserDefaults.standard.username = self.usernameTextField.text!
-            self.container?.present(.AccountLogin)
+            self.mmvc?.present(.AccountLogin)
           } else {
             self.usernameTextField.selectAll(self)
           }

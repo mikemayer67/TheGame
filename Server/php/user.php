@@ -11,10 +11,10 @@ try
   elseif ( $action == 'connect'  ) { user\connect();  }
   elseif ( $action == 'add'      ) { user\add();      }
   elseif ( $action == 'update'   ) { user\update();   }
-  elseif ( $action == 'info'     ) { user\info();     }
+  elseif ( $action == 'lookup'   ) { user\lookup();   }
   elseif ( $action == 'validate' ) { user\validate(); }
   elseif ( $action == 'drop'     ) { user\drop();     }
-  elseif ( $action == 'email'    ) { user\email();    }
+  elseif ( $action == 'pwreset'  ) { user\pwreset();  }
   else
   {
     api_error('Unknown action: ' . $action);

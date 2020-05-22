@@ -89,6 +89,6 @@
 	<key>AliasOverride</key>
 	<string>Mikey M</string>
 	<key>ServerHost</key>
-	<string>https://localhost/thegame</string>
+	<string>https://eaglenest.local/thegame</string>
 </dict>
 </plist>

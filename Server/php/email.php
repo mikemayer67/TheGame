@@ -1,28 +1,19 @@
 <?php
 
 require_once(__DIR__.'/pri/util.php');
-require_once(__DIR__.'/pri/db.php');
+require_once(__DIR__.'/pri/email.php');
 
-try
+try 
 {
-  $key = get_required_arg('confirm');
+  $action = get_required_arg('action');
+
+  if     ( $action == 'confirm'  ) { email\confirm();  }
+  elseif ( $action == 'username' ) { email\username(); }
+  elseif ( $action == 'password' ) { email\password(); }
   
-  if( db_confirm_email($key) )
-  {
-?>
-<html>
-  <head>
-    <title>Email Confirmed</title>
-  </head>
-  <body>
-    Thank you.  Your email address has been confirmed.
-  </body>
-</html>
-<?php
-  }
   else
   {
-    send_http_code(404);
+    api_error('Unknown action: ' . $action);
   }
 }
 catch (Exception $e)
@@ -36,3 +27,4 @@ catch (Exception $e)
   send_http_code(500);
 }
 
+?>

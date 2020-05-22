@@ -52,6 +52,7 @@ extension GameServer
     case Validate = "validate"
     case Connect  = "connect"
     case Create   = "create"
+    case Lookup   = "lookup"
   }
   
   var time : Int? { query(.Time).time }
@@ -111,6 +112,7 @@ extension QueryResponse
     case FailedToCreateUser    =  8
     case FailedToUpdateUser    =  9
     case NoValidatedEmail      = 10
+    case InvalidEmail          = 11
     
     init(_ rc:Int?)
     {
