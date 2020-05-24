@@ -24,13 +24,6 @@ class QueryResponse
   let status : Status
   let data   : HashData?
   
-  init()
-  {
-    self.rc = nil
-    self.data = nil
-    self.status = .FailedToConnect
-  }
-  
   init(_ status : Status = .FailedToConnect )
   {
     self.rc     = nil
@@ -128,6 +121,43 @@ class GameServer
     
     self.connected = true
     return QueryResponse(data)
+  }
+  
+  func post(_ page:String, args:QueryArgs, completion: @escaping QueryCompletion)
+  {
+    currentTask?.cancel()
+    
+    guard let url = self.url(page) else { fatalError("Invalid URL") }
+    let request = NSMutableURLRequest(url:url)
+    request.httpMethod = "POST"
+    
+    guard let data = try? JSONSerialization.data(withJSONObject: args, options: .prettyPrinted)
+      else { completion(QueryResponse(.InvalidURI)); return  }
+    
+    request.setValue("application/json; charset=utf-8", forHTTPHeaderField: "Content-Type")
+    request.setValue("\(data.count)", forHTTPHeaderField: "Content-Length")
+    request.httpBody = data
+    
+    currentTask = session.dataTask(with: request as URLRequest) { (data, response, err) in
+      defer { self.currentTask = nil }
+      
+      var queryResponse : QueryResponse!
+      
+      if err == nil, let response = response as? HTTPURLResponse
+      {
+        self.connected = true
+        if response.statusCode == 200, let data = data { queryResponse = QueryResponse(data)        }
+        else                                           { queryResponse = QueryResponse(.InvalidURI) }
+      }
+      else
+      {
+        self.connected = false
+        queryResponse = QueryResponse(.FailedToConnect)
+      }
+      
+      DispatchQueue.main.async { completion(queryResponse) }
+    }
+    currentTask!.resume()
   }
   
   func url(_ page:String, args:QueryArgs? = nil) -> URL?

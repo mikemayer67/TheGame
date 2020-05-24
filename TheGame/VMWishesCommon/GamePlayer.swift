@@ -41,7 +41,7 @@ class GamePlayer
     self.gameData   = gameData
     self.icon       = createIcon(for:name)
     
-    debug("Add logic to load FB image")
+    debug("@@@Add logic to load FB image")
   }
   
   func createIcon(for name:String) -> UIImage

@@ -12,7 +12,7 @@ extension GameServer
 {
   func requestNewAccount( username:String, password:String, alias:String? = nil, email:String? = nil,
                           failConnect:(()->())? = nil,
-                          error:((_ message:String,_ file:String,_ function:String)->())? = nil,
+                          error:((_ message:String)->())? = nil,
                           success:(()->())? = nil,
                           exists:(()->())? = nil )
   {
@@ -26,8 +26,8 @@ extension GameServer
       switch ( response.status, response.returnCode )
       {
       case (.FailedToConnect,_):   failConnect?()
-      case (.InvalidURI,_):        error?(response.status.rawValue, #file, #function)
-      case (.MissingCode,_):       error?(response.status.rawValue, #file, #function)
+      case (.InvalidURI,_):        error?(response.status.rawValue)
+      case (.MissingCode,_):       error?(response.status.rawValue)
       case (.Success,.UserExists): exists?()
         
       case (.Success,.Success):
@@ -44,19 +44,19 @@ extension GameServer
         }
         else
         {
-          error?("no userkey returned", #file, #function)
+          error?("no userkey returned")
         }
         
       default:
-        if let  rc = response.rc { error?("Unexpected Game Server Return Code: \(rc)", #file, #function) }
-        else                     { error?("Missing Response Code", #file, #function)                     }
+        if let  rc = response.rc { error?("Unexpected Game Server Return Code: \(rc)") }
+        else                     { error?("Missing Response Code")                     }
       }
     }
   }
   
   func checkFor(email:String,
                 failConnect:(()->())? = nil,
-                error:((_ message:String,_ file:String,_ function:String)->())? = nil,
+                error:((_ message:String)->())? = nil,
                 completion:@escaping ((Bool)->()) )
   {
     let args : GameQueryArgs = [ .Email : email ]
@@ -65,7 +65,7 @@ extension GameServer
       switch response.status
       {
       case .FailedToConnect: failConnect?()
-      case .InvalidURI, .MissingCode: error?(response.status.rawValue, #file, #function)
+      case .InvalidURI, .MissingCode: error?(response.status.rawValue)
         
       case .Success:
         switch response.returnCode
@@ -73,8 +73,34 @@ extension GameServer
         case .InvalidEmail: completion(false)
         case .Success:      completion(true)
         default:
-          if let  rc = response.rc { error?("Unexpected Game Server Return Code: \(rc)", #file, #function) }
-          else                     { error?("Missing Response Code", #file, #function)                     }
+          if let  rc = response.rc { error?("Unexpected Game Server Return Code: \(rc)") }
+          else                     { error?("Missing Response Code")                     }
+        }
+      }
+    }
+  }
+  
+  func sendUsernameEmail(email:String,
+                         failConnect:(()->())? = nil,
+                         error:((_ message:String)->())? = nil,
+                         completion:@escaping ((Bool)->()) )
+  {
+    let args : GameQueryArgs = [ .Email : email, .Salt : String(UserDefaults.standard.resetSalt) ]
+    
+    query(.Email, action: .RetieveUsername, gameArgs: args) { (response) in
+      switch response.status
+      {
+      case .FailedToConnect: failConnect?()
+      case .InvalidURI, .MissingCode: error?(response.status.rawValue)
+        
+      case .Success:
+        switch response.returnCode
+        {
+        case .InvalidEmail: completion(false)
+        case .Success:      completion(true)
+        default:
+          if let  rc = response.rc { error?("Unexpected Game Server Return Code: \(rc)") }
+          else                     { error?("Missing Response Code")                     }
         }
       }
     }

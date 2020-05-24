@@ -72,7 +72,7 @@ class LocalPlayer : GamePlayer
     
     request.start {
       (_, result, error) in
-      debug("FB callback")
+      debug("@@@FB callback")
             
       if error == nil,
         let fbResult = result as? NSDictionary,

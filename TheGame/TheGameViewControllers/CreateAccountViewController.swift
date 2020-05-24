@@ -229,28 +229,28 @@ class CreateAccountViewController : ModalViewController
       failConnect: {
         self.loginVC.cancel(self, updateRoot: true) },
       
-      error: {
-        (message:String, file:String, function:String) in
-        self.internalError(message, file:#file, function: function) }
+      error: { (message:String) in
+        self.internalError(message, file:#file, function: #function) }
     ) {
       (exists) in
       if !exists { self.createAccount() }
       else
       {
         let alert = UIAlertController(
-          title: "Email Exists",
-          message: "An account already exists with the email address \(email)",
-          preferredStyle: .actionSheet)
+          title: "What do you want to do?",
+          message: "The email address \(email) is already associated with an account",
+          preferredStyle: .alert)
         
-        alert.addAction(UIAlertAction(title: "Login to existing account", style: .default, handler: { _ in
-          debug("switch to login")
+        alert.addAction(UIAlertAction(title: "login to that sccount", style: .default, handler: { _ in
+          self.mmvc?.present(.AccountLogin)
         }))
-        alert.addAction(UIAlertAction(title: "Email me username", style: .default, handler: { _ in
-          debug("request login info")
+        alert.addAction(UIAlertAction(title: "request login info", style: .default, handler: { _ in
+          self.mmvc?.present(.RetrieveLogin)
         }))
-        alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: {_ in
-          debug("cancel")
+        alert.addAction(UIAlertAction(title: "create new account anyway", style: .default, handler: { _ in
+          self.createAccount()
         }))
+        alert.addAction(UIAlertAction(title: "use a different email", style: .cancel))
         
         self.present(alert,animated: true)
       }
@@ -288,9 +288,8 @@ class CreateAccountViewController : ModalViewController
       failConnect: {
         self.loginVC.cancel(self, updateRoot: true) },
       
-      error: {
-        (message:String, file:String, function:String) in
-        self.internalError(message, file:#file, function: function) },
+      error: { (message:String) in
+        self.internalError(message, file:#file, function: #function) },
       
       success: {
         var message = ["Username: \(username)"]

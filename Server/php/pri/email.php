@@ -96,12 +96,42 @@ function gen_pw_reset_code($userid,$salt)
 
   $code = implode(' ',$code);
 
-  error_log("salt:$salt user:$user_code reset:$reset_key code:$code");
-
   db_set_password_reset($userid,$reset_key);
 
   return $code;
 }
+
+function error()
+{
+  $json = file_get_contents('php://input');
+  $data = json_decode($json);
+
+  error_log(print_r($data,true));
+
+  $email = \Admin::email;
+  $email = 'mikemayer67@vmwishes.com';
+
+  $headers = "MIME-Version: 1.0\r\n";
+  $headers .= "Content-type:text;charset=UTF-8\r\n";
+  $headers .= "From: <$email>\r\n";
+
+  $subject = "TheGame - InternalError Report";
+  $message = $data->{'details'};
+
+  error_log("email: $email\nsubject: $subject\nheaders:$headers\nbody:\n$message");
+
+  if( mail($email,$subject,$message,$headers) )
+  {
+    error_log("$subject email sent to $email");
+    send_success();
+  }
+  else
+  {
+    error_log("Failed to send $subject email to $email");
+    send_failure(\RC::EMAIL_FAILURE);
+  }
+}
+
 
 function send_email($email, $subject,$message)
 {
@@ -109,10 +139,11 @@ function send_email($email, $subject,$message)
   $headers .= "Content-type:text/html;charset=UTF-8\r\n";
 
   // More headers
-  $headers .= "From: <".\Admin::email.">\r\n";
-
   $admin_email = \Admin::email;
   $admin_name  = \Admin::name;
+
+  $headers .= "From: <$admin_email>\r\n";
+
   $br = '%0d%0a%0d%0a';
 
   $mailto = "mailto:$admin_email?subject=TheGame - Email Removal Request&body=Please remove all references to the email address %27$email%27 from TheGame databasees.${br}I understand that this means I will no longer be able to request username reminders or password resets.";

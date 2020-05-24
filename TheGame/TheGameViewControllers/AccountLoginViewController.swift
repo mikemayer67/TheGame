@@ -113,7 +113,7 @@ class AccountLoginViewController: ModalViewController
   
   @objc func login(_ sender:UIButton)
   {
-    debug("login")
+    debug("@@@ login")
   }
   
   @objc func sendLoginInfo(_ sender:UIButton)

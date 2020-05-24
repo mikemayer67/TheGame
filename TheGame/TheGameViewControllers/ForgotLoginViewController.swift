@@ -1,5 +1,5 @@
 //
-//  ForgotLogin.swift
+//  ForgotLoginViewController.swift
 //  TheGame
 //
 //  Created by Mike Mayer on 5/12/20.
@@ -58,7 +58,7 @@ class ForgotLoginViewController: ModalViewController
   
   @objc func cancel(_ sender:UIButton)
   {
-    mmvc?.present(.AccountLogin)
+    mmvc?.rollback()
   }
   
   @objc func createNewAccount(_ sender:UIButton)
@@ -68,7 +68,26 @@ class ForgotLoginViewController: ModalViewController
   
   @objc func retrieveUsername(_ sender:UIButton)
   {
-    debug("retrieve username")
+    let popup = UIAlertController(
+      title: "Retrieve Username",
+      message: "Enter your email address.  " +
+      "If there is an account associated with this address, your username and" +
+      " password reset instructions will be emailed to you.",
+      preferredStyle: .alert)
+    
+    popup.addTextField { (textField) in
+      textField.placeholder = "email"
+      textField.clearButtonMode = .whileEditing
+    }
+    
+    popup.addAction(UIAlertAction(title: "OK", style: .default, handler: { (_) in
+      debug("@@@ ADD EMAIL QUERY")
+    }))
+    popup.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: { (_) in
+       debug("@@@ ADD CANCEL")
+     }))
+    
+    self.present(popup,animated: true)
   }
   
   @objc func retrievePassword(_ sender:UIButton)

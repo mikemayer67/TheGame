@@ -58,7 +58,6 @@ extension LoginViewController : MultiModalDelegate
 {
   func viewController(_ identifier: String, for mmvc: MultiModalViewController) -> ManagedViewController?
   {
-    debug("launch vc(\(identifier))")
     guard let identifier = ModalControllerID(rawValue: identifier) else { return nil }
     switch identifier
     {

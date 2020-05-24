@@ -27,6 +27,7 @@ enum GameQueryKey : String
   case Updated   = "updated"
   case Scope     = "scope"
   case Notify    = "notify"
+  case Salt      = "salt"
 }
 
 enum EmailStatus
@@ -43,8 +44,10 @@ extension GameServer
 {
   enum Page : String
   {
-    case Time = "time"
-    case User = "user"
+    case Time  = "time"
+    case User  = "user"
+    case Email = "email"
+    case Error = "error"
   }
   
   enum Action : String
@@ -53,6 +56,9 @@ extension GameServer
     case Connect  = "connect"
     case Create   = "create"
     case Lookup   = "lookup"
+    
+    case RetieveUsername = "username"
+    case ResetPassword   = "password"
   }
   
   var time : Int? { query(.Time).time }
@@ -68,7 +74,7 @@ extension GameServer
     let serverArgs = convertArgs(from:gameArgs, action:action)
     return query(page.rawValue, args: serverArgs)
   }
-
+  
   func convertArgs(from gameArgs:GameQueryArgs?, action:Action?) -> QueryArgs?
   {
     guard ( gameArgs != nil || action != nil ) else { return nil }
@@ -87,11 +93,14 @@ extension GameServer
     return serverArgs
   }
   
-  func sendErrorReport(_ message:[String]) { sendErrorReport(message.joined(separator: "\n")) }
+  func sendErrorReport(_ message:[String])
+  {
+    sendErrorReport(message.joined(separator: "\n"))
+  }
   
   func sendErrorReport(_ message:String)
   {
-    debug("@@@ Send Error Report: \(message)")
+    post("error", args: ["details":message] ) { _ in }
   }
 }
 

@@ -84,6 +84,9 @@ class MultiModalViewController : UIViewController
   /// Currently presented managed view controller
   private(set) var current  : ManagedViewController?
   
+  /// Presentation history (not including current)
+  private(set) var history = [ManagedViewController]()
+  
   /// Used to adjust bottom when keyboard appears/disappears
   private(set) var bottomConstraint : NSLayoutConstraint?
   
@@ -120,23 +123,21 @@ class MultiModalViewController : UIViewController
     if current == nil { self.dismiss(animated: true); return }
   }
   
-  /// Adds or replaces the managed view controller with the specified identifier
+  /// Adds a new managed view controller with the specified identifier
   ///
-  /// If the currently displayed view controller is being replaced, it will be
-  /// replaced and presented immediately.  Otherwise, currently displayed view
-  /// controller will not be changed.
+  /// It must not be attached to a key already in use
   func add(_ vc:ManagedViewController, for key:String, presentImmediately:Bool = false)
   {
-    var presentImmediately = presentImmediately
-    
-    if let oldVC = managedViewControllers[key], let curVC = current, oldVC == curVC
-    { presentImmediately = true }
-    
+    guard managedViewControllers[key] == nil else { fatalError("Cannot reuse the same key" ) }
+        
     managedViewControllers[key] = vc
     vc.mmvc = self
     vc.view.backgroundColor = UIColor.clear
     
-    if presentImmediately { present(vc) }
+    if presentImmediately
+    {
+      present(vc)
+    }
   }
   
   /// Return the managed view controller with the specified identifier
@@ -197,25 +198,32 @@ class MultiModalViewController : UIViewController
   /// morphing animation
   func present(_ newVC:ManagedViewController)
   {
+    guard let newView = newVC.managedView else { fatalError("newVC missing managed view")  }
+
+    if let oldVC = current, newVC == oldVC { return }
+    
+    // Add new view controller / view
+    
+    addChild(newVC)
+    newVC.view.frame = self.view.frame
+    self.view.addSubview(newVC.view)
+    newVC.didMove(toParent: self)
+    
+    newVC.view.translatesAutoresizingMaskIntoConstraints = false
+    newVC.view.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
+    newVC.view.leftAnchor.constraint(equalTo: view.leftAnchor).isActive = true
+    newVC.view.rightAnchor.constraint(equalTo: view.rightAnchor).isActive = true
+    bottomConstraint = newVC.view.bottomAnchor.constraint(equalTo: view.bottomAnchor)
+    bottomConstraint?.isActive = true
+    
+    // transition from old view if applicable
+    
     if let oldVC = current
     {
-      if newVC == oldVC { return }
-      
-      addChild(newVC)
-      newVC.view.frame = self.view.frame
-      self.view.addSubview(newVC.view)
-      newVC.didMove(toParent: self)
-      
-      newVC.view.translatesAutoresizingMaskIntoConstraints = false
-      newVC.view.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
-      newVC.view.leftAnchor.constraint(equalTo: view.leftAnchor).isActive = true
-      newVC.view.rightAnchor.constraint(equalTo: view.rightAnchor).isActive = true
-      bottomConstraint = newVC.view.bottomAnchor.constraint(equalTo: view.bottomAnchor)
-      bottomConstraint?.isActive = true
-            
-      guard let oldView = oldVC.managedView else { assertionFailure("oldVC missing managed view"); return  }
-      guard let newView = newVC.managedView else { assertionFailure("newVC missing managed view"); return  }
-         
+      guard let oldView = oldVC.managedView else { fatalError("oldVC missing managed view") }
+               
+      history.append(oldVC)
+
       newVC.view.setNeedsLayout()
       newVC.view.layoutIfNeeded()
                 
@@ -240,43 +248,27 @@ class MultiModalViewController : UIViewController
         oldView.alpha = 0.0
         newView.layer.transform = CATransform3DIdentity
         newView.alpha = 1.0
-      }) { (finished) in
-        if finished
-        {
-          oldVC.willMove(toParent: nil)
-          oldVC.view.removeFromSuperview()
-          oldVC.removeFromParent()
-          
-          oldView.layer.transform = CATransform3DIdentity
-          oldView.alpha = 1.0
-        }
-        else
-        {
-          newVC.willMove(toParent: nil)
-          newVC.view.removeFromSuperview()
-          newVC.removeFromParent()
-          
-          newView.layer.transform = CATransform3DIdentity
-          newView.alpha = 1.0
-        }
+      }) { _ in
+        oldVC.willMove(toParent: nil)
+        oldVC.view.removeFromSuperview()
+        oldVC.removeFromParent()
+        
+        oldView.layer.transform = CATransform3DIdentity
+        oldView.alpha = 1.0
       }
-      
     }
-    else
-    {
-      addChild(newVC)
-      newVC.view.frame = self.view.frame
-      self.view.addSubview(newVC.view)
-      newVC.didMove(toParent: self)
-      
-      newVC.view.translatesAutoresizingMaskIntoConstraints = false
-      newVC.view.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
-      newVC.view.leftAnchor.constraint(equalTo: view.leftAnchor).isActive = true
-      newVC.view.rightAnchor.constraint(equalTo: view.rightAnchor).isActive = true
-      bottomConstraint = newVC.view.bottomAnchor.constraint(equalTo: view.bottomAnchor)
-      bottomConstraint?.isActive = true
-    }
+    
     current = newVC
+  }
+  
+  func rollback()
+  {
+    guard let vc = history.last else { return }
+    present(vc)
+    
+    // update history to reflect view rollback
+    _ = history.popLast() // removes vc we just left from history
+    _ = history.popLast() // removes vc we just presented from history (it's now current)
   }
     
   /// Animates the bottom constraint so as to recenter the managed view

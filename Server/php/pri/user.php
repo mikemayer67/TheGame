@@ -325,6 +325,8 @@ function lookup()
   $key = get_exclusive_arg(USERKEY,EMAIL);
   fail_on_extra_args();
 
+  send_failure(\RC::INVALID_USERNAME);
+
   $reply = array();
 
   if($key[0] == 1)
