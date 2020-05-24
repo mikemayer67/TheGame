@@ -223,40 +223,26 @@ class CreateAccountViewController : ModalViewController
   
   func checkForExisting(email:String)
   {
-    TheGame.server.checkFor(
-      email: email,
-      
-      failConnect: {
-        self.loginVC.cancel(self, updateRoot: true) },
-      
-      error: { (message:String) in
-        self.internalError(message, file:#file, function: #function) }
-    ) {
-      (exists) in
-      if !exists { self.createAccount() }
-      else
+    TheGame.server.checkFor(email: email) { (response, error) in
+      if let error = error
       {
-        let alert = UIAlertController(
-          title: "What do you want to do?",
-          message: "The email address \(email) is already associated with an account",
-          preferredStyle: .alert)
-        
-        alert.addAction(UIAlertAction(title: "login to that sccount", style: .default, handler: { _ in
-          self.mmvc?.present(.AccountLogin)
-        }))
-        alert.addAction(UIAlertAction(title: "request login info", style: .default, handler: { _ in
-          self.mmvc?.present(.RetrieveLogin)
-        }))
-        alert.addAction(UIAlertAction(title: "create new account anyway", style: .default, handler: { _ in
-          self.createAccount()
-        }))
-        alert.addAction(UIAlertAction(title: "use a different email", style: .cancel))
-        
-        self.present(alert,animated: true)
+        self.internalError(error, file: #file, function: #function)
+        return
+      }
+      switch response
+      {
+      case .FailedToConnect:
+        self.loginVC.cancel(self, updateRoot: true)
+      case .QueryFailure(QueryResponse.InvalidEmail, _):
+        self.createAccount()
+      case .Success:
+        self.confirmDuplicateEmail(email)
+      default:
+        self.internalError(response.failure, file: #file, function: #function)
       }
     }
   }
-  
+
   func confirmNoEmail()
   {
     let message = [
@@ -268,6 +254,27 @@ class CreateAccountViewController : ModalViewController
     { (proceed) in
       if proceed { self.createAccount() }
     }
+  }
+  
+  func confirmDuplicateEmail(_ email:String)
+  {
+    let alert = UIAlertController(
+      title: "What do you want to do?",
+      message: "The email address \(email) is already associated with an account",
+      preferredStyle: .alert)
+    
+    alert.addAction(UIAlertAction(title: "login to that sccount", style: .default, handler: { _ in
+      self.mmvc?.present(.AccountLogin)
+    }))
+    alert.addAction(UIAlertAction(title: "request login info", style: .default, handler: { _ in
+      self.mmvc?.present(.RetrieveLogin)
+    }))
+    alert.addAction(UIAlertAction(title: "create new account anyway", style: .default, handler: { _ in
+      self.createAccount()
+    }))
+    alert.addAction(UIAlertAction(title: "use a different email", style: .cancel))
+    
+    self.present(alert,animated: true)
   }
   
   func createAccount()
@@ -283,35 +290,50 @@ class CreateAccountViewController : ModalViewController
       username: username,
       password: password,
       alias: alias,
-      email: email,
-      
-      failConnect: {
-        self.loginVC.cancel(self, updateRoot: true) },
-      
-      error: { (message:String) in
-        self.internalError(message, file:#file, function: #function) },
-      
-      success: {
-        var message = ["Username: \(username)"]
-        if let alias = alias, alias.count > 0 { message.append("Alias: \(alias)") }
-        if let email = email, email.count > 0 { message.append("Check your email for instructions on validating your email address") }
+      email: email ) { (response, error) in
         
-        self.infoPopup(title: "User Created", message: message) {
-          self.loginVC.completed(self)
-        } },
-      
-      exists: {
-        let message = "Would you like to log in as \(username)?"
-        self.confirmationPopup( title: "User Exists", message:message, ok: "Yes", cancel: "No", animated: true )
-        { (swithToLogin) in
-          if swithToLogin  {
-            UserDefaults.standard.username = self.usernameTextField.text!
-            self.mmvc?.present(.AccountLogin)
-          } else {
-            self.usernameTextField.selectAll(self)
+        if let error = error
+        {
+          self.loginVC.internalError(error, file: #file, function: #function)
+          return
+        }
+        switch response
+        {
+        case .FailedToConnect:
+          self.loginVC.cancel(self, updateRoot: true)
+          
+        case .Success:
+          var message = ["Username: \(username)"]
+          if let alias = alias, alias.count > 0 {
+            message.append("Alias: \(alias)")
           }
-        }}
-    )
+          if let email = email, email.count > 0 {
+            message.append("Check your email for instructions on validating your email address")
+          }
+          self.infoPopup(title: "User Created", message: message)
+          {
+            self.loginVC.completed(self)
+          }
+          
+        case .QueryFailure(QueryResponse.UserExists, _):
+          let message = "Would you like to log in as \(username)?"
+          self.confirmationPopup(
+            title: "User Exists",
+            message:message,
+            ok: "Yes", cancel: "No",
+            animated: true ) { (swithToLogin) in
+              if swithToLogin  {
+                UserDefaults.standard.username = self.usernameTextField.text!
+                self.mmvc?.present(.AccountLogin)
+              } else {
+                self.usernameTextField.selectAll(self)
+              }
+          }
+          
+        default:
+          self.internalError(response.failure, file: #file, function: #function)
+        }
+    }
   }
   
 }

@@ -49,13 +49,13 @@ class LocalPlayer : GamePlayer
     let args : GameQueryArgs = [.Userkey:userkey]
     TheGame.server.query(.User, action: .Validate, gameArgs: args)
     {
-      (response) in
-      if response.success
+      (response,url) in
+      if case .Success(let data) = response
       {
         let me = LocalPlayer(userkey,
                              username: UserDefaults.standard.username,
                              alias: UserDefaults.standard.alias,
-                             gameData: response.data)
+                             gameData: data)
         completion(me)
       }
       else
@@ -73,35 +73,31 @@ class LocalPlayer : GamePlayer
     request.start {
       (_, result, error) in
       debug("@@@FB callback")
-            
-      if error == nil,
+                  
+      guard error == nil,
         let fbResult = result as? NSDictionary,
         let fbid     = fbResult["id"]   as? String,
         let name     = fbResult["name"] as? String
-      {
-        var args : GameQueryArgs = [.FBID:fbid]
-        if userkey != nil { args[.Userkey] = userkey! }
+        else { completion(nil); return }
+      
+      var args : GameQueryArgs = [.FBID:fbid]
+      if userkey != nil { args[.Userkey] = userkey! }
         
-        TheGame.server.query(.User, action: .Connect, gameArgs: args)
-        {
-          (response) in
-          
-          if let userkey = userkey ?? ( fbResult["userkey"] as? String )
-          {
-            let fb = FacebookInfo(id: fbid, name: name, picture: nil)
-            let me = LocalPlayer(userkey, facebook:fb, gameData: response.data)
-            completion(me)
-          }
-          else
-          {
-            completion(nil)
-          }
-        }
-      }
-      else
+      TheGame.server.query(.User, action: .Connect, gameArgs: args)
       {
-        completion(nil)
+        (response,url) in
+        
+        guard case .Success(let data) = response else { completion(nil); return }
+        
+        guard let userkey = userkey ?? ( fbResult["userkey"] as? String )
+          else { completion(nil); return }
+        
+        let fb = FacebookInfo(id: fbid, name: name, picture: nil)
+        let me = LocalPlayer(userkey, facebook:fb, gameData: data)
+        
+        completion(me)
       }
     }
   }
+  
 }

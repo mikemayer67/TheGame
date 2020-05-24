@@ -40,6 +40,52 @@ enum EmailStatus
 
 typealias GameQueryArgs = [GameQueryKey:String]
 
+extension QueryResponse
+{
+  static let UserExists            =  1
+  static let InvalidUserkey        =  2
+  static let InvalidUsername       =  3
+  static let InvalidUserkeyFBID    =  4
+  static let IncorrectUsername     =  5
+  static let IncorrectPassword     =  6
+  static let FailedToCreateFBID    =  7
+  static let FailedToCreateUser    =  8
+  static let FailedToUpdateUser    =  9
+  static let NoValidatedEmail      = 10
+  static let InvalidEmail          = 11
+  
+  static let strings : [Int:String] =
+  [
+    MissingCode        : "No Return Code",
+    InvalidCode        : "Invalid Code",
+    Success            : "Success",
+    UserExists         : "User Exists",
+    InvalidUserkey     : "Invalid Userkey",
+    InvalidUsername    : "Invalid Username",
+    InvalidUserkeyFBID : "Invalid Userkey FBID",
+    IncorrectUsername  : "Incorrect Username",
+    IncorrectPassword  : "Incorrect Password",
+    FailedToCreateFBID : "Failed To Create FBID",
+    FailedToCreateUser : "Failed To Create User",
+    FailedToUpdateUser : "Failed To Update User",
+    NoValidatedEmail   : "NoValidated Email",
+    InvalidEmail       : "Invalid Email"
+  ]
+  
+  var failure : String
+  {
+    switch self
+    {
+    case .Success(_):           return "Success"
+    case .FailedToConnect:      return "Failed to Connect"
+    case .InvalidURI(let url):  return "Invalid URI: \(url.absoluteString)"
+      
+    case .ServerFailure(let rc), .QueryFailure(let rc, _):
+      return QueryResponse.strings[rc] ?? "Invalid Code"
+    }
+  }
+}
+
 extension GameServer
 {
   enum Page : String
@@ -61,7 +107,12 @@ extension GameServer
     case ResetPassword   = "password"
   }
   
-  var time : Int? { query(.Time).time }
+  var time : Int?
+  {
+    let response = query(.Time)
+    guard case .Success(let data) = response else { return nil }
+    return data?.time
+  }
   
   func query(_ page:Page, action:Action? = nil, gameArgs:GameQueryArgs? = nil, completion: @escaping QueryCompletion)
   {
@@ -100,49 +151,23 @@ extension GameServer
   
   func sendErrorReport(_ message:String)
   {
-    post("error", args: ["details":message] ) { _ in }
+    post("error", args: ["details":message] ) { (_,_) in }
   }
 }
 
-extension QueryResponse
+extension HashData
 {
-  enum ReturnCode : Int
-  {
-    case MissingCode           = -2
-    case InvalidCode           = -1
-    case Success               =  0
-    case UserExists            =  1
-    case InvalidUserkey        =  2
-    case InvalidUsername       =  3
-    case InvalidUserkeyFBID    =  4
-    case IncorrectUsername     =  5
-    case IncorrectPassword     =  6
-    case FailedToCreateFBID    =  7
-    case FailedToCreateUser    =  8
-    case FailedToUpdateUser    =  9
-    case NoValidatedEmail      = 10
-    case InvalidEmail          = 11
-    
-    init(_ rc:Int?)
-    {
-      if let rc = rc { self = ReturnCode(rawValue: rc) ?? .InvalidCode }
-      else           { self = .MissingCode                             }
-    }
-  }
-  
-  func getInt   (_ key:GameQueryKey) -> Int?    { data?[key.rawValue] as? Int    }
-  func getDouble(_ key:GameQueryKey) -> Double? { data?[key.rawValue] as? Double }
-  func getString(_ key:GameQueryKey) -> String? { data?[key.rawValue] as? String }
-  func getAny   (_ key:GameQueryKey) -> Any?    { data?[key.rawValue]            }
+  func getInt   (_ key:GameQueryKey) -> Int?    { self[key.rawValue] as? Int    }
+  func getDouble(_ key:GameQueryKey) -> Double? { self[key.rawValue] as? Double }
+  func getString(_ key:GameQueryKey) -> String? { self[key.rawValue] as? String }
+  func getAny   (_ key:GameQueryKey) -> Any?    { self[key.rawValue]            }
   
   func getBool  (_ key:GameQueryKey) -> Bool?
   {
     guard let v = getInt(key) else { return nil }
     return ( v != 0 )
   }
-  
-  var returnCode : ReturnCode { ReturnCode(rc) }
-  
+    
   var time        : Int?    { getInt(.Time) }
   var userkey     : String? { getString(.Userkey) }
   var alias       : String? { getString(.Alias) }

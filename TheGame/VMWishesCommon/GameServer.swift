@@ -10,52 +10,65 @@ import Foundation
 
 // MARK:- Support Structures
 
-class QueryResponse
+enum QueryResponse
 {
-  enum Status : String
-  {
-    case Success          = "Success"
-    case FailedToConnect  = "Failed To Connect"
-    case InvalidURI       = "Invalid URI"
-    case MissingCode      = "Missing Return Code"
-  }
+  case FailedToConnect
+  case InvalidURI(URL)
+  case Success(HashData?)
+  case ServerFailure(Int)
+  case QueryFailure(Int,HashData?)
   
-  let rc     : Int?
-  let status : Status
-  let data   : HashData?
+  static let MissingCode           = -2
+  static let InvalidCode           = -1
+  static let Success               =  0
   
-  init(_ status : Status = .FailedToConnect )
+  init(_ rc:Int)
   {
-    self.rc     = nil
-    self.data   = nil
-    self.status = status
+    switch rc
+    {
+    case 0:     self = .Success(nil)
+    case 1...:  self = .ServerFailure(rc)
+    default:    self = .QueryFailure(rc,nil)
+    }
   }
   
   init(_ rawData:Data )
   {
-    let json =
-      try? JSONSerialization.jsonObject(with: rawData, options: .allowFragments)
-      
-    self.data = json as? HashData
-    if let rc = data?["rc"] as? Int
+    let json = try? JSONSerialization.jsonObject(with: rawData, options: .allowFragments)
+    let data = json as? HashData
+    
+    if let rc   = data?["rc"] as? Int
     {
-      self.status = .Success
-      self.rc     = rc
+      switch rc
+      {
+      case 0:     self = .Success(data)
+      case 1...:  self = .QueryFailure(rc,data)
+      default:    self = .ServerFailure(rc)
+      }
     }
     else
     {
-      self.status = .MissingCode
-      self.rc     = nil
+      self = .ServerFailure(QueryResponse.MissingCode)
     }
   }
   
-  var success       : Bool { (rc ?? -1) == 0 }
-  var serverFailure : Bool { (rc ?? -1)  < 0 }
-  var queryFailure  : Bool { (rc ?? -1)  > 0 }
+  var rc : Int?
+  {
+    switch self
+    {
+    case .FailedToConnect:         return nil
+    case .InvalidURI:              return nil
+    case .Success:                 return QueryResponse.Success
+    case .ServerFailure(let rc):   return rc
+    case .QueryFailure(let rc, _): return rc
+    }
+  }
+  
+  var success : Bool { switch self { case .Success: return true; default: return false } }
 }
 
 typealias QueryArgs       = [String:String]
-typealias QueryCompletion = (QueryResponse)->()
+typealias QueryCompletion = (QueryResponse,URL)->()
 
 // Mark :- Server
 
@@ -95,16 +108,21 @@ class GameServer
       if err == nil, let response = response as? HTTPURLResponse
       {
         self.connected = true
-        if response.statusCode == 200, let data = data { queryResponse = QueryResponse(data)        }
-        else                                           { queryResponse = QueryResponse(.InvalidURI) }
+        if response.statusCode == 200, let data = data {
+          queryResponse = QueryResponse(data)
+        }
+        else
+        {
+          queryResponse = .InvalidURI(url)
+        }
       }
       else
       {
         self.connected = false
-        queryResponse = QueryResponse(.FailedToConnect)
+        queryResponse = .FailedToConnect
       }
  
-      DispatchQueue.main.async { completion(queryResponse) }
+      DispatchQueue.main.async { completion(queryResponse,url) }
     }
     currentTask!.resume()
   }
@@ -116,7 +134,7 @@ class GameServer
     guard let data = try? Data(contentsOf: url) else
     {
       self.connected = false
-      return QueryResponse(.FailedToConnect)
+      return .FailedToConnect
     }
     
     self.connected = true
@@ -132,7 +150,7 @@ class GameServer
     request.httpMethod = "POST"
     
     guard let data = try? JSONSerialization.data(withJSONObject: args, options: .prettyPrinted)
-      else { completion(QueryResponse(.InvalidURI)); return  }
+      else { completion(.InvalidURI(url),url); return  }
     
     request.setValue("application/json; charset=utf-8", forHTTPHeaderField: "Content-Type")
     request.setValue("\(data.count)", forHTTPHeaderField: "Content-Length")
@@ -146,16 +164,22 @@ class GameServer
       if err == nil, let response = response as? HTTPURLResponse
       {
         self.connected = true
-        if response.statusCode == 200, let data = data { queryResponse = QueryResponse(data)        }
-        else                                           { queryResponse = QueryResponse(.InvalidURI) }
+        if response.statusCode == 200, let data = data
+        {
+          queryResponse = QueryResponse(data)
+        }
+        else
+        {
+          queryResponse = .InvalidURI(url)
+        }
       }
       else
       {
         self.connected = false
-        queryResponse = QueryResponse(.FailedToConnect)
+        queryResponse = .FailedToConnect
       }
       
-      DispatchQueue.main.async { completion(queryResponse) }
+      DispatchQueue.main.async { completion(queryResponse,url) }
     }
     currentTask!.resume()
   }
@@ -183,9 +207,7 @@ class GameServer
   
   func testConnection( completion: @escaping (Bool)->())
   {
-    query("test") { response in
-      completion( response.success )
-    }
+    query("test") { (response,url) in completion( response.success ) }
   }
 }
 
