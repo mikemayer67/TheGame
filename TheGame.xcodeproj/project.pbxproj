@@ -19,6 +19,7 @@
 		27300C4024448A3300E8310C /* CommonUtil.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27EA805923EE43C000C937EE /* CommonUtil.swift */; };
 		2737963F24786BA000BD3786 /* UIViewController_internalError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2737963E24786BA000BD3786 /* UIViewController_internalError.swift */; };
 		273F5C33246F9DBF000BE662 /* TheGameQueries.swift in Sources */ = {isa = PBXBuildFile; fileRef = 273F5C32246F9DBF000BE662 /* TheGameQueries.swift */; };
+		27421337247B178E00A71D96 /* GameQuery.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27421336247B178E00A71D96 /* GameQuery.swift */; };
 		275711B0246B99680034DB61 /* ForgotLoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 275711AF246B99680034DB61 /* ForgotLoginViewController.swift */; };
 		275711B2246B9C4F0034DB61 /* ModalViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 275711B1246B9C4F0034DB61 /* ModalViewController.swift */; };
 		275711B4246C68170034DB61 /* UIViewConstraints.swift in Sources */ = {isa = PBXBuildFile; fileRef = 275711B3246C68170034DB61 /* UIViewConstraints.swift */; };
@@ -59,6 +60,7 @@
 		27300C3E2444027500E8310C /* RootViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootViewController.swift; sourceTree = "<group>"; };
 		2737963E24786BA000BD3786 /* UIViewController_internalError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIViewController_internalError.swift; sourceTree = "<group>"; };
 		273F5C32246F9DBF000BE662 /* TheGameQueries.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TheGameQueries.swift; sourceTree = "<group>"; };
+		27421336247B178E00A71D96 /* GameQuery.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameQuery.swift; sourceTree = "<group>"; };
 		275711AF246B99680034DB61 /* ForgotLoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForgotLoginViewController.swift; sourceTree = "<group>"; };
 		275711B1246B9C4F0034DB61 /* ModalViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModalViewController.swift; sourceTree = "<group>"; };
 		275711B3246C68170034DB61 /* UIViewConstraints.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIViewConstraints.swift; sourceTree = "<group>"; };
@@ -133,6 +135,7 @@
 				275711B3246C68170034DB61 /* UIViewConstraints.swift */,
 				27300C3E2444027500E8310C /* RootViewController.swift */,
 				277CC4B52466DDC6001C5404 /* MultiModalViewController.swift */,
+				27421336247B178E00A71D96 /* GameQuery.swift */,
 				272FB2B12455BFFA00F70E1A /* GameServer.swift */,
 				27F9198C23E691DA00FA0E18 /* GamePlayer.swift */,
 				272FB2B72456743A00F70E1A /* LocalPlayer.swift */,
@@ -369,6 +372,7 @@
 				2770C062246EDA8C00745AB4 /* InfoButton.swift in Sources */,
 				27EA805123EBEB3900C937EE /* GameModel.swift in Sources */,
 				27D5413523E5E46800CB5065 /* GameViewController.swift in Sources */,
+				27421337247B178E00A71D96 /* GameQuery.swift in Sources */,
 				273F5C33246F9DBF000BE662 /* TheGameQueries.swift in Sources */,
 				27D5413123E5E46800CB5065 /* AppDelegate.swift in Sources */,
 				27CA19BD243A941B005C53FC /* TheGame.swift in Sources */,

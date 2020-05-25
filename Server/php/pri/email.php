@@ -106,8 +106,6 @@ function error()
   $json = file_get_contents('php://input');
   $data = json_decode($json);
 
-  error_log(print_r($data,true));
-
   $email = \Admin::email;
   $email = 'mikemayer67@vmwishes.com';
 
@@ -117,8 +115,6 @@ function error()
 
   $subject = "TheGame - InternalError Report";
   $message = $data->{'details'};
-
-  error_log("email: $email\nsubject: $subject\nheaders:$headers\nbody:\n$message");
 
   if( mail($email,$subject,$message,$headers) )
   {

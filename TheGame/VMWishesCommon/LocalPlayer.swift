@@ -26,6 +26,10 @@ class LocalPlayer : GamePlayer
     }
     else
     {
+      UserDefaults.standard.userkey  = key
+      UserDefaults.standard.username = username
+      UserDefaults.standard.alias    = alias
+      
       var name = UIDevice.current.name
       if let username = username, username.count > 0 { name = username }
       if let alias = alias, alias.count > 0          { name = alias }
@@ -46,23 +50,23 @@ class LocalPlayer : GamePlayer
   
   static func connect(userkey:String, completion: @escaping ConnectCallback)
   {
-    let args : GameQueryArgs = [.Userkey:userkey]
-    TheGame.server.query(.User, action: .Validate, gameArgs: args)
-    {
-      (response,url) in
-      if case .Success(let data) = response
+    let args : GameQuery.Args = [QueryKey.Userkey:userkey]
+    TheGame.server.query(.User, action: .Validate, args: args).execute() {
+      (query) in
+      
+      var me : LocalPlayer? = nil
+      switch query.status
       {
-        let me = LocalPlayer(userkey,
-                             username: UserDefaults.standard.username,
-                             alias: UserDefaults.standard.alias,
-                             gameData: data)
-        completion(me)
-      }
-      else
-      {
+      case .Success(let data):
+        me = LocalPlayer(userkey,
+                         username: UserDefaults.standard.username,
+                         alias:    UserDefaults.standard.alias,
+                         gameData: data)
+      default:
         UserDefaults.standard.userkey = nil
-        completion(nil)
       }
+      
+      completion(me)
     }
   }
   
@@ -80,20 +84,20 @@ class LocalPlayer : GamePlayer
         let name     = fbResult["name"] as? String
         else { completion(nil); return }
       
-      var args : GameQueryArgs = [.FBID:fbid]
-      if userkey != nil { args[.Userkey] = userkey! }
+      var args : GameQuery.Args = [QueryKey.FBID:fbid]
+      if userkey != nil { args[QueryKey.Userkey] = userkey! }
         
-      TheGame.server.query(.User, action: .Connect, gameArgs: args)
-      {
-        (response,url) in
+      TheGame.server.query(.User, action: .Connect, args: args).execute() {
+        (query) in
         
-        guard case .Success(let data) = response else { completion(nil); return }
+        var me : LocalPlayer? = nil
         
-        guard let userkey = userkey ?? ( fbResult["userkey"] as? String )
-          else { completion(nil); return }
-        
-        let fb = FacebookInfo(id: fbid, name: name, picture: nil)
-        let me = LocalPlayer(userkey, facebook:fb, gameData: data)
+        if case .Success(let data) = query.status,
+          let userkey = userkey ?? fbResult["userkey"] as? String
+        {
+          let fb = FacebookInfo(id: fbid, name: name, picture: nil)
+          me = LocalPlayer(userkey, facebook:fb, gameData: data)
+        }
         
         completion(me)
       }
