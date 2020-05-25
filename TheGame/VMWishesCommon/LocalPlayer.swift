@@ -42,18 +42,25 @@ class LocalPlayer : GamePlayer
   static func connect( completion: @escaping ConnectCallback )
   {
     let userkey  = UserDefaults.standard.userkey
-
-    if AccessToken.current != nil { connectFacebook(userkey:userkey, completion:completion)  }
-    else if let userkey = userkey { connect(userkey:userkey, completion:completion)          }
-    else                          { completion(nil) }
+    
+    if AccessToken.current != nil {
+      connectFacebook(userkey:userkey, completion:completion)
+    }
+    else if let userkey = userkey {
+      connect(userkey:userkey, completion:completion)
+    }
+    else {
+      completion(nil)
+    }
   }
   
   static func connect(userkey:String, completion: @escaping ConnectCallback)
   {
     let args : GameQuery.Args = [QueryKey.Userkey:userkey]
+
     TheGame.server.query(.User, action: .Validate, args: args).execute() {
       (query) in
-      
+            
       var me : LocalPlayer? = nil
       switch query.status
       {

@@ -103,14 +103,51 @@ extension GameQuery.Status
     case .Success(_):           return "Success"
     case .QueryError(let err):  return err
     case .FailedToConnect:      return "Failed to Connect"
-    case .InvalidURL(let url):  return "Invalid URI: \(url.absoluteString)"
+    case .InvalidURL(let url):  return "Invalid URL: \(url.absoluteString)"
       
     case .ServerFailure(let rc), .QueryFailure(let rc, _):
       return GameQuery.Status.strings[rc] ?? "Invalid Code"
     }
   }
 }
-
+  
+extension GameQuery
+{
+  var internalError : String?
+  {
+    var error = ""
+    switch status
+    {
+    case .Success(_):
+      return nil
+    case .none:
+      error = "Query results evaluated before executing it."
+    case .FailedToConnect:
+      error = "Failed to connect to server."
+    case .InvalidURL(_):
+      error = "Invalid URL"
+    case .ServerFailure(let rc):
+      let rcs = GameQuery.Status.strings[rc] ?? "Unknown code \(rc)"
+      error = "Server was unable to process URL (\(rcs))"
+    case .QueryFailure(let rc, _):
+      let rcs = GameQuery.Status.strings[rc] ?? "Unknown code \(rc)"
+      error = "Unexpected result returned from server (\(rcs))"
+    case .QueryError(let err):
+      error = err
+    }
+    
+    error += "\n"
+    
+    if let server = server { error += "\nServer: \(server.host)" }
+    if let args   = args   { error += "\nArgs: \(args)"   }
+    if let url    = url    { error += "\nURL: \(url)"    }
+    if let status = status { error += "\nStatus: \(status)" }
+    
+    error += "\n"
+    
+    return error
+  }
+}
 
 extension GameServer
 {
@@ -157,6 +194,7 @@ extension GameServer
     
     query(.User, action: .Lookup, args: args).execute() {
       (query) in
+      debug("status: \(query.status)")
       switch query.status
       {
       case .none:
@@ -169,7 +207,8 @@ extension GameServer
         query.setQueryError("Unexpected Game Server Return Code: \(query.status!.failure)")
       default: break
       }
-      
+     
+      debug("exists: \(exists)")
       completion(exists,query)
     }
   }

@@ -39,22 +39,25 @@ class GameServer
              completion: @escaping (GameQuery.Status) -> Void )
   {
     currentTask?.cancel()
-    
+        
     currentTask = session.dataTask(with: request )
     {
       (data, response, err) in
       self.currentTask = nil
       
-      var status = GameQuery.Status.FailedToConnect
-      
+      var status : GameQuery.Status!
       if err == nil, let response = response as? HTTPURLResponse
       {
-        self.connected = false
         if response.statusCode == 200, let data = data {
           status = GameQuery.Status(data)
         } else {
           status = GameQuery.Status.InvalidURL(request.url!)
         }
+      }
+      else
+      {
+        self.connected = false
+        status = GameQuery.Status.FailedToConnect
       }
       completion(status)
     }

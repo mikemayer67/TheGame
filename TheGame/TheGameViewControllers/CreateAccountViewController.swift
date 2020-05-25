@@ -236,12 +236,10 @@ class CreateAccountViewController : ModalViewController
         {
         case .FailedToConnect:
           self.loginVC.cancel(self, updateRoot: true)
-        case .QueryError(let error):
-          self.loginVC.internalError(error, file: #file, function: #function)
-        case .InvalidURL, .ServerFailure, .QueryFailure:
-          self.loginVC.internalError(query.status!.failure, file:#file, function:#function)
-        default:
-          break; // none (coding error) or Success (handled above)
+          
+        default: // includes .none (coding error) or Success (handled above)
+          let err =  query.internalError ?? "Unknown Error"
+          self.internalError(err , file:#file, function:#function)
         }
       }
     }
@@ -267,7 +265,7 @@ class CreateAccountViewController : ModalViewController
       message: "The email address \(email) is already associated with an account",
       preferredStyle: .alert)
     
-    alert.addAction(UIAlertAction(title: "login to that sccount", style: .default, handler: { _ in
+    alert.addAction(UIAlertAction(title: "login to that account", style: .default, handler: { _ in
       self.mmvc?.present(.AccountLogin)
     }))
     alert.addAction(UIAlertAction(title: "request login info", style: .default, handler: { _ in
@@ -302,12 +300,9 @@ class CreateAccountViewController : ModalViewController
           self.handleExistingUser(username:username)
         case .FailedToConnect:
           self.loginVC.cancel(self, updateRoot: true)
-        case .InvalidURL, .ServerFailure, .QueryFailure:
-          self.loginVC.internalError(query.status!.failure, file:#file, function:#function)
-        case .QueryError(let error):
-          self.loginVC.internalError(error, file:#file, function:#function)
-        default:
-          break  // includes none
+        default: // includes nil status
+          let err =  query.internalError ?? "Unknown Error"
+          self.internalError(err , file:#file, function:#function)
         }
     }
   }
