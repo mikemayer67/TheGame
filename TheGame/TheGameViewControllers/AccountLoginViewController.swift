@@ -92,7 +92,7 @@ class AccountLoginViewController: ModalViewController
   @discardableResult
   func checkAllAndUpdateState() -> Bool
   {
-    let ok = (username.text?.count ?? 0) >= 6 && (password.text?.count ?? 0) >= 8
+    let ok = (username.text?.count ?? 0) >= K.MinUsernameLength && (password.text?.count ?? 0) >= K.MinPasswordLength
     loginButton.isEnabled = ok
     return ok
   }
@@ -132,13 +132,13 @@ extension AccountLoginViewController : InfoButtonDelegate
     {
     case usernameInfo:
       infoPopup(title: "Username Hints", message: [
-        "Must be at least 6 characters long.",
+        "Must be at least \(K.MinUsernameLength) characters long.",
         "May contain any combination of letters and numbers"
       ] )
       
     case passwordInfo:
       self.infoPopup(title: "Password Hints", message: [
-        "Must be at least 8 characters long",
+        "Must be at least \(K.MinPasswordLength) characters long",
         "May only contain letters, numbers, or any of the following: - ! : # $ @ ."
       ])
       

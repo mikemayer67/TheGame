@@ -70,7 +70,7 @@ function password()
   $email     = $result[EMAIL];
   $email_val = $result[EMAIL_VAL];
 
-  if( ! isset($email)  )       { send_failure(\RC::INVALID_EMAIL); }
+  if( empty($email)  )         { send_failure(\RC::INVALID_EMAIL); }
   if( $email_val != VALIDATED) { send_failure(\RC::INVALID_EMAIL); }
 
   $code = gen_pw_reset_code($userid,$salt);

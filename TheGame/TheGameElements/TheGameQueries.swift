@@ -194,7 +194,6 @@ extension GameServer
     
     query(.User, action: .Lookup, args: args).execute() {
       (query) in
-      debug("status: \(query.status)")
       switch query.status
       {
       case .none:
@@ -208,7 +207,6 @@ extension GameServer
       default: break
       }
      
-      debug("exists: \(exists)")
       completion(exists,query)
     }
   }
@@ -237,6 +235,34 @@ extension GameServer
       
       completion(query)
     }
+  }
+  
+  func sendPasswordResetEmail(username:String, completion:@escaping (GameQuery)->())
+  {
+    let args : GameQuery.Args = [
+      QueryKey.Username : username,
+      QueryKey.Salt  : String(UserDefaults.standard.resetSalt)
+    ]
+    
+    query(.Email, action: .ResetPassword, args: args).execute() {
+      (query) in
+      
+      switch query.status
+      {
+      case .none:
+        query.setQueryError("No status set by execute")
+      case .QueryFailure(GameQuery.Status.InvalidEmail,_),
+           .QueryFailure(GameQuery.Status.InvalidUsername, _):
+        break
+      case .QueryFailure:
+        query.setQueryError("Unexpected Game Server Return Code: \(query.status!.failure)")
+      default:
+        break
+      }
+      
+      completion(query)
+    }
+    
   }
   
 }

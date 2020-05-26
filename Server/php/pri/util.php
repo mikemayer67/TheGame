@@ -23,6 +23,7 @@ class RC
   const FAILED_TO_UPDATE_USER    =  9;
   const NO_EMAIL                 = 10; 
   const INVALID_EMAIL            = 11;
+  const EMAIL_FAILURE            = 12;
 }
 
 if( $tg_delog > 0 )

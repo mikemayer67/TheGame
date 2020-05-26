@@ -132,8 +132,8 @@ class CreateAccountViewController : ModalViewController
     
     var err : String?
     
-    if      t.isEmpty   { err = "(required)" }
-    else if t.count < 6 { err = "too short"  }
+    if      t.isEmpty                     { err = "(required)" }
+    else if t.count < K.MinUsernameLength { err = "too short"  }
     
     let ok = ( err == nil )
     usernameError.text = err
@@ -148,12 +148,12 @@ class CreateAccountViewController : ModalViewController
     
     var err : String?
     
-    if      t1.isEmpty            { err = "(required)" }
-    else if t1.count < 8          { err = "too short"  }
-    else if t2.isEmpty            { err = "confirmation missing" }
+    if      t1.isEmpty                     { err = "(required)" }
+    else if t1.count < K.MinPasswordLength { err = "too short"  }
+    else if t2.isEmpty                     { err = "confirmation missing" }
     else if t2.count < t1.count,
-      t2 == t1.prefix(t2.count)   { err = "confirmation incomplete" }
-    else if t1 != t2              { err = "passwords don't match" }
+      t2 == t1.prefix(t2.count)            { err = "confirmation incomplete" }
+    else if t1 != t2                       { err = "passwords don't match" }
     
     let ok = ( err == nil )
     passwordError.text = err
@@ -167,7 +167,7 @@ class CreateAccountViewController : ModalViewController
     
     var err : String?
     
-    if t.count > 0, t.count<6 { err = "too short" }
+    if t.count > 0, t.count < K.MinUsernameLength { err = "too short" }
     
     let ok = ( err == nil )
     displayNameError.text = err
@@ -179,14 +179,9 @@ class CreateAccountViewController : ModalViewController
   {
     let t = (emailTextField.text ?? "").trimmingCharacters(in: .whitespaces)
     
-    // From http://emailregex.com
-    let emailRegex = #"""
-      (?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*|"(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21\x23-\x5b\x5d-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])*")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\[(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?|[a-z0-9-]*[a-z0-9]:(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21-\x5a\x53-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])+)\])
-      """#
-    
     var err : String?
     
-    if !t.isEmpty,  t.range(of:emailRegex, options: .regularExpression) == nil
+    if !t.isEmpty,  t.range(of:K.emailRegex, options: .regularExpression) == nil
     {
       err = "invalid address"
     }
@@ -383,13 +378,13 @@ extension CreateAccountViewController : InfoButtonDelegate
     {
     case usernameInfo:
       infoPopup(title: "Username", message: [
-        "Your username must contain at least 6 characters.",
+        "Your username must contain at least \(K.MinUsernameLength) characters.",
         "It may contain any combination of letters and numbers"
       ] )
       
     case passwordInfo:
       infoPopup(title: "Password", message: [
-        "Your password must contain at least 8 characters.",
+        "Your password must contain at least \(K.MinPasswordLength) characters.",
         "It may contain any combination of letters, numbers, or the following punctuation marks: - ! : # $ @ ."
       ])
       
@@ -397,7 +392,7 @@ extension CreateAccountViewController : InfoButtonDelegate
       infoPopup(title: "Display Name", message: [
         "Specifying a display name is optional.",
         "If provided, this is the name that will be displayed to other players in the game.",
-        "If you choose to specify a display name, it must be at least 6 characters long.",
+        "If you choose to specify a display name, it must be at least \(K.MinAliasLength) characters long.",
         "If you choose to not provide a display name, your username will be displayed to other players."
       ])
       
