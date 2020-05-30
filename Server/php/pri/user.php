@@ -4,6 +4,7 @@ namespace user;
 require_once(__DIR__.'/db.php');
 require_once(__DIR__.'/notify.php');
 require_once(__DIR__.'/const.php');
+require_once(__DIR__.'/email.php');
 
 #################################################################################
 # Facebook account connection
@@ -83,10 +84,7 @@ function validate()
       if( empty($keyinfo) ) { send_failure(\RC::INVALID_USERKEY); }
 
       if( $info[USERKEY] != $userkey ) { 
-        if( isset($keyinfo[EMAIL]) )
-        {
-          $reply[EMAIL] = (int)($keyinfo[EMAIL_VAL] == VALIDATED);
-        }
+        if( isset($keyinfo[EMAIL]) ) { $reply[EMAIL] = $keyinfo[EMAIL]; }
         send_failure(\RC::INCORRECT_USERNAME,$reply); 
       }
     }
@@ -132,17 +130,19 @@ function create()
   if( isset($info) )
   { 
     $reply = array();
-    if( isset($info[EMAIL]) )
-    {
-      $reply[EMAIL] = (int)( $info[EMAIL_VAL] == VALIDATED );
-    }
+    if( isset($info[EMAIL]) ) { $reply[EMAIL] = $info[EMAIL]; }
     send_failure(\RC::USER_EXISTS, $reply);
   }
 
-  $userkey = db_create_user_with_username($username,$password,$alias,$email);
+  list ($userid,$userkey) = db_create_user_with_username($username,$password,$alias,$email);
   if( empty($userkey) )
   {
     send_failure(\RC::FAILED_TO_CREATE_USER);
+  }
+
+  if( ! empty($email) ) {
+    $intro = "The user account $username was created for TheGame using this email address.";
+    email_validation_request($intro,$userid);
   }
 
   send_success( array(USERKEY => $userkey) );
@@ -251,6 +251,12 @@ function add()
         send_failure(\RC::FAILED_TO_UPDATE_USER);
       }
     }
+
+    if( ! empty($email) )
+    {
+      $intro = "This email address was added to the user account $username for TheGame";
+      email_validation_request($intro,$userid);
+    }
   }
 
   send_success();
@@ -287,7 +293,14 @@ function update()
 
   if( isset($email) ) 
   { 
-    if( db_update_user_email($userid,$email) ) { $updated[] = EMAIL; }
+    if( db_update_user_email($userid,$email) ) 
+    {
+      $updated[] = EMAIL; 
+
+      $username = $info[USERNAME];
+      $intro = "This email address was added to the user account $username for TheGame.";
+      email_validation_request($intro,$userid);
+    }
   }
 
   send_success( array(UPDATED => $updated) );
@@ -338,11 +351,7 @@ function lookup()
     $reply = array();
     if( isset($info[USERNAME]) ) { $reply[USERNAME] = 1; }
     if( isset($info[FBID])     ) { $reply[FBID]     = 1; }
-
-    if( isset($info[EMAIL]) )
-    {
-      $reply[EMAIL] = (int)($info[EMAIL_VAL] == VALIDATED);
-    }
+    if( isset($info[EMAIL])    ) { $reply[EMAIL]    = 1; }
   }
   elseif($key[0] == 2)
   {
@@ -353,4 +362,24 @@ function lookup()
   }
 
   send_success( $reply );
+}
+
+################################################################################
+# Email Validation
+################################################################################
+
+function email_validation_request($intro,$userid)
+{
+  list ($email,$key) = db_email_validation_key($userid);
+  
+  $url = 'https://' . $_SERVER['SERVER_NAME'] . "/thegame/email?action=confirm&key=$key";
+
+  $message = "
+    <div><b>$intro</b></div>
+    <br>
+    <div style='margin-left:1em;'>
+    Please click <a href='$url'>here</a> to confirm your email address.
+    </div>";
+
+  \email\send_email($email, "TheGame email confirmation", $message);
 }

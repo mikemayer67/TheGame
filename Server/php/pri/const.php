@@ -7,7 +7,6 @@ const USERNAME    = 'username';
 const PASSWORD    = 'password';
 const ALIAS       = 'alias';
 const EMAIL       = 'email';
-const EMAIL_VAL   = 'email_validation';
 const LASTLOSS    = 'last_loss';
 const VALIDATED   = 'Y';
 const UPDATED     = 'updated';

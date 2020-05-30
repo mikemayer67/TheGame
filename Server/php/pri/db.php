@@ -48,6 +48,11 @@ class TGDB {
     return $result;
   }
 
+  public function last_insert_id()
+  {
+    return $this->db->insert_id;
+  }
+
   public function escape($value)
   {
     return $this->db->real_escape_string($value);
@@ -62,7 +67,7 @@ function db_find_user_by_username($username)
 {
   $db = new TGDB;
 
-  $sql = "select * from tg_users where username='$username'";
+  $sql = "select * from tg_user_info where username='$username'";
   $result = $db->query($sql);
   $n = $result->num_rows;
 
@@ -76,7 +81,7 @@ function db_find_user_by_userkey($userkey)
 {
   $db = new TGDB;
 
-  $sql = "select * from tg_users where userkey='$userkey'";
+  $sql = "select * from tg_user_info where userkey='$userkey'";
   $result = $db->query($sql);
   $n = $result->num_rows;
 
@@ -90,7 +95,7 @@ function db_find_user_by_facebook_id($fbid)
 {
   $db = new TGDB;
 
-  $sql = "select * from tg_users where fbid='$fbid'";
+  $sql = "select * from tg_user_info where fbid='$fbid'";
   $result = $db->query($sql);
   $n = $result->num_rows;
   if($n>1) { throw new Exception("Multiple players with facebookd ID $fbid",500); }
@@ -103,7 +108,7 @@ function db_find_user_by_userid($userid)
 {
   $db = new TGDB;
 
-  $result = $db->query("select * from tg_users where userid=$userid");
+  $result = $db->query("select * from tg_user_info where userid=$userid");
   $n = $result->num_rows;
   if($n>1) { throw new Exception("Multiple players with userid $userid",500); }
 
@@ -115,7 +120,7 @@ function db_find_user_by_email($email)
 {
   $db = new TGDB;
  
-  $sql = "select * from tg_users where email='$email' and email_validation='Y'";
+  $sql = "select * from tg_user_info where email='$email'";
   $result = $db->query($sql);
   $data = array();
   if( $result )
@@ -145,19 +150,23 @@ function db_create_user_with_username($username,$password,$alias,$email)
     $values  .= ",'$alias'";
   }
 
+  $sql = "insert into tg_users ($columns) values ($values)";
+  if( ! $db->query($sql) ) { return null; }
+
+  $userid = $db->last_insert_id();
+
   if( !empty($email) )
   {
     $key = db_gen_email_validation_key();
 
-    $columns .= ',email,email_validation';
-    $values  .= ",'$email','$key'";
+    $columns = "userid,email,validation";
+    $values  = "$userid, '$email', '$key'";
+    $sql = "insert into tg_email ($columns) values ($values)";
+
+    $db->query($sql);
   }
 
-  $sql = "insert into tg_users ($columns) values ($values)";
-
-  if( $db->query($sql) ) { return $userkey; }
-
-  return null;
+  return array($userid,$userkey);
 }
 
 function db_create_user_with_facebook_id($fbid)
@@ -210,12 +219,14 @@ function db_update_user_email($userid,$email)
 
   if( empty($email) ) 
   { 
-    $sql = "update tg_users set email=NULL, email_validation=NULL where userid=$userid";
+    $sql = "delete from tg_email where userid=$userid";
   }
   else 
   { 
     $key = db_gen_email_validation_key();
-    $sql = "update tg_users set email='$email', email_validation='$key' where userid=$userid";
+    $columns = "userid,email,validation";
+    $values  = "$userid, '$email', '$key'";
+    $sql = "replace into tg_email ($colunns) values ($values)";
   }
   $result = $db->query($sql);
   return $result;
@@ -239,25 +250,17 @@ function db_add_username($userid,$username,$password,$alias,$email)
 
   $sql = "update tg_users set username='$username', password='$hashed_pw' where userid=$userid";
 
-  if( $db->query($sql) )
+  if( ! $db->query($sql) ) { return null; }
+
+  if( ! empty($alias) )
   {
-    if( ! empty($alias) )
-    {
-      $sql = "update tg_users set alias = '$alias' where userid=$userid";
-      $db->query($sql);
-    }
-
-    if( ! empty($email) )
-    {
-      $key = db_gen_email_validation_key();
-      $sql = "update tg_users set email='$email', email_validation='$key' where userid=$userid";
-      $db->query($sql);
-    }
-
-    $result = $userkey;
+    $sql = "update tg_users set alias = '$alias' where userid=$userid";
+    $db->query($sql);
   }
 
-  return $result;
+  db_update_user_email($userid,$email);
+
+  return $userkey;
 }
 
 
@@ -272,10 +275,17 @@ function db_drop_user($userid)
 function db_drop_username($userid)
 {
   $db = new TGDB;
-  $sql = "update tg_users set username=NULL, password=NULL, alias=NULL, email=NULL, email_validation=NULL where userid=$userid";
+  $sql = "update tg_users set username=NULL, password=NULL, alias=NULL where userid=$userid";
   $result = $db->query($sql);
 
-  db_cleanup();
+  if( $result )
+  {
+    $sql = "delete from tg_email where userid = $userid";
+    $db->query($sql);
+
+    $sql = "delete from tg_users where username is NULL and fbid is NULL";
+    $db->query($sql);
+  }
 
   return $result;
 }
@@ -287,15 +297,21 @@ function db_drop_facebook($userid)
   $sql = "update tg_users set fbid=NULL where userid=$userid";
   $result = $db->query($sql);
 
-  return db_cleanup();
+  if( $result )
+  {
+    $sql = "delete from tg_users where username is NULL and fbid is NULL";
+    $db->query($sql);
+  }
 
   return $result;
 }
 
+// Email Validation
+
 function db_confirm_email($key)
 {
   $db = new TGDB;
-  $sql = "select userid,username from tg_users where email_validation='$key'";
+  $sql = "select userid,username from tg_unvalidated_email where validation='$key'";
   $result = $db->query($sql);
 
   $n = $result->num_rows;
@@ -307,13 +323,29 @@ function db_confirm_email($key)
     $userid = $data['userid'];
     $username = $data['username'];
 
-    $sql = "update tg_users set email_validation='Y' where userid=$userid";
+    $sql = "update tg_email set validation=NULL where userid=$userid";
     $result = $db->query($sql);
 
     return $username;
   }
 
   return null;
+}
+
+function db_email_validation_key($userid)
+{
+  $db = new TGDB;
+  $sql = "select email,validation from tg_unvalidated_email where userid=$userid";
+  $result = $db->query($sql);
+
+  $n = $result->num_rows;
+  if($n>1) { throw new Exception("Multiple pending email for userid=$userid",500); }
+
+  if( $n == 1 )
+  {
+    $data = $result->fetch_assoc();
+    return array($data['email'], $data['validation']);
+  }
 }
 
 // Password
@@ -347,7 +379,7 @@ function db_drop_password_reset($userid)
 
 function db_gen_email_validation_key()
 {
-  return db_gen_key(24,'tg_users','email_validation');
+  return db_gen_key(24,'tg_email','validation');
 }
 
 function db_gen_userkey()
@@ -378,17 +410,6 @@ function db_gen_key($length,$table,$column)
     if( $n == 0 ) { return $key; }
   }
   throw new Exception("Failed to generate a unique key in $max_attempts attempts", 500);
-}
-
-// Miscellaneous
-
-function db_cleanup()
-{
-  $db = new TGDB;
-
-  $sql = "delete from tg_users where username is NULL and fbid is NULL";
-  $result = $db->query($sql);
-  return $result;
 }
 
 ?>

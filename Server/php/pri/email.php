@@ -62,7 +62,14 @@ function username()
       the option to reset your password.
       </div";
 
-  send_email($email, "Username Reminder - TheGame", $message);
+  if( send_email($email, "Username Reminder - TheGame", $message) )
+  {
+    send_success();
+  }
+  else
+  {
+    send_failure(\RC::EMAIL_FAILURE);
+  }
 }
 
 function pwreset()
@@ -75,10 +82,8 @@ function pwreset()
 
   $userid    = $result[USERID];
   $email     = $result[EMAIL];
-  $email_val = $result[EMAIL_VAL];
 
-  if( empty($email)  )         { send_failure(\RC::INVALID_EMAIL); }
-  if( $email_val != VALIDATED) { send_failure(\RC::INVALID_EMAIL); }
+  if( empty($email) ) { send_failure(\RC::INVALID_EMAIL); }
 
   $code = gen_pw_reset_code($userid,$salt);
 
@@ -95,7 +100,14 @@ function pwreset()
       reset your password.
       </div";
 
-  send_email($email, "Password Reset - TheGame", $message);
+  if( send_email($email, "Password Reset - TheGame", $message) )
+  {
+    send_success();
+  }
+  else
+  {
+    send_failure(\RC::EMAIL_FAILURE);
+  }
 }
 
 function gen_pw_reset_code($userid,$salt)
@@ -141,8 +153,7 @@ function error()
   }
 }
 
-
-function send_email($email, $subject,$message)
+function send_email($email, $subject, $message)
 {
   $headers = "MIME-Version: 1.0\r\n";
   $headers .= "Content-type:text/html;charset=UTF-8\r\n";
@@ -173,12 +184,12 @@ function send_email($email, $subject,$message)
   if( mail($email,$subject,$message,$headers) )
   {
     error_log("$subject email sent to $email");
-    send_success();
+    return true;
   }
   else
   {
     error_log("Failed to send $subject email to $email");
-    send_failure(\RC::EMAIL_FAILURE);
+    return null;
   }
 }
 
