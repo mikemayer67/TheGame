@@ -13,6 +13,7 @@ enum K
   static let MinUsernameLength = 6
   static let MinAliasLength    = 6
   static let MinPasswordLength = 8
+  static let ResetCodeLength   = 6
   
   // From http://emailregex.com
   static let emailRegex = #"""
@@ -22,9 +23,14 @@ enum K
 
 class TheGame
 {
-  static let shared = TheGame()
-  static let server = GameServer()
+  static let shared   = TheGame()
+  static let server   = GameServer()
   
   var me        : LocalPlayer? = nil
+  {
+    didSet {
+      if me != nil { Defaults.hasResetSalt = false }
+    }
+  }
   var opponents = [Opponent]()
 }

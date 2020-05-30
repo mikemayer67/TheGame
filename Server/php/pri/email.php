@@ -53,12 +53,19 @@ function username()
     $message .= "<td>&nbsp;-&nbsp;</td>";
     $message .= "<td>$code</td>";
   }
-  $message .= "</table>";
+  $message .= "
+      </table>
+      <br>
+      <div>
+      The password reset code will only work on the device from which you requested the
+      username reminder.  The next time you bring up the user login, you will be given
+      the option to reset your password.
+      </div";
 
   send_email($email, "Username Reminder - TheGame", $message);
 }
 
-function password()
+function pwreset()
 {
   $username  = get_required_arg('username');
   $salt      = get_required_arg('salt');
@@ -80,7 +87,13 @@ function password()
       <div><br></div>
       <div style='margin-left:1em;'>
       You requested code is: <b>$code</b>
-      </div>";
+      </div>
+      <br>
+      <div>
+      This code will only work on the device from which you requested the password reset.
+      The next time you bring up the user login, you will be given the option to 
+      reset your password.
+      </div";
 
   send_email($email, "Password Reset - TheGame", $message);
 }

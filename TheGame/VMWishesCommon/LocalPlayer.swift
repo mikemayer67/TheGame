@@ -26,9 +26,9 @@ class LocalPlayer : GamePlayer
     }
     else
     {
-      UserDefaults.standard.userkey  = key
-      UserDefaults.standard.username = username
-      UserDefaults.standard.alias    = alias
+      Defaults.userkey  = key
+      Defaults.username = username
+      Defaults.alias    = alias
       
       var name = UIDevice.current.name
       if let username = username, username.count > 0 { name = username }
@@ -41,7 +41,7 @@ class LocalPlayer : GamePlayer
   
   static func connect( completion: @escaping ConnectCallback )
   {
-    let userkey  = UserDefaults.standard.userkey
+    let userkey  = Defaults.userkey
     
     if AccessToken.current != nil {
       connectFacebook(userkey:userkey, completion:completion)
@@ -66,11 +66,11 @@ class LocalPlayer : GamePlayer
       {
       case .Success(let data):
         me = LocalPlayer(userkey,
-                         username: UserDefaults.standard.username,
-                         alias:    UserDefaults.standard.alias,
+                         username: Defaults.username,
+                         alias:    Defaults.alias,
                          gameData: data)
       default:
-        UserDefaults.standard.userkey = nil
+        Defaults.userkey = nil
       }
       
       completion(me)
@@ -83,7 +83,7 @@ class LocalPlayer : GamePlayer
     
     request.start {
       (_, result, error) in
-      debug("@@@FB callback")
+      track("@@@FB callback")
                   
       guard error == nil,
         let fbResult = result as? NSDictionary,

@@ -92,7 +92,7 @@ function validate()
     }
     else
     {
-      $reply[USERKEY] = $userkey;
+      $reply[USERKEY] = $info[USERKEY];
     }
 
     if( isset($info[ALIAS]) ) { $reply[ALIAS] = $info[ALIAS]; }
@@ -301,6 +301,7 @@ function pwreset()
   fail_on_extra_args();
 
   $info = db_find_user_by_username($username);
+  
   if( empty($info) ) send_failure(\RC::INVALID_USERNAME);
 
   $userid = $info[USERID];

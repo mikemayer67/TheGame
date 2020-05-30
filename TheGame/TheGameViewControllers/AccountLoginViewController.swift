@@ -42,14 +42,14 @@ class AccountLoginViewController: ModalViewController
   override func viewDidLoad()
   {
     super.viewDidLoad()
-            
+                
     let usernameLabel = addHeader("Username", below: titleRule, gap: Style.contentGap)
     username = addLoginEntry(below: usernameLabel)
     username.changeCallback = { self.startUpdateTimer() }
     usernameInfo = addInfoButton(to: username, target: self)
     
     let passwordLabel = addHeader("Password", below: username)
-    password = addLoginEntry(below: passwordLabel, password: true)
+    password = addLoginEntry(below: passwordLabel, type:.Password)
     password.changeCallback = { self.startUpdateTimer() }
     passwordInfo = addInfoButton(to: password, target: self)
     
@@ -61,10 +61,24 @@ class AccountLoginViewController: ModalViewController
     oops.alignCenterX(to: managedView)
     oops.attachTop(to: password,offset: Style.fieldGap)
     
+    var resetpw : UIButton?
+    if Defaults.hasResetSalt
+    {
+      let button = UIButton(type: .system)
+      managedView.addSubview(button)
+      button.translatesAutoresizingMaskIntoConstraints = false
+      button.setTitle("Reset Password", for: .normal)
+      button.titleLabel?.font = UIFont.italicSystemFont(ofSize: 14)
+      button.alignCenterX(to: managedView)
+      button.attachTop(to: oops,offset: Style.actionGap)
+      button.addTarget(self, action: #selector(sendPasswordReset(_:)), for: .touchUpInside)
+      resetpw = button
+    }
+    
     cancelButton = addCancelButton()
     loginButton  = addOkButton(title: "Connect")
     
-    cancelButton.attachTop(to: oops,offset: Style.contentGap)
+    cancelButton.attachTop(to: resetpw ?? oops,offset: Style.contentGap)
     
     oops.addTarget(self, action: #selector(sendLoginInfo(_:)), for: .touchUpInside)
     loginButton.addTarget(self, action: #selector(login(_:)), for: .touchUpInside)
@@ -75,7 +89,7 @@ class AccountLoginViewController: ModalViewController
   {
     super.viewWillAppear(animated)
     
-    username.text = UserDefaults.standard.username ?? cachedUsername ?? ""
+    username.text = Defaults.username ?? cachedUsername ?? ""
     password.text = ""
 
     checkAllAndUpdateState()
@@ -113,12 +127,41 @@ class AccountLoginViewController: ModalViewController
   
   @objc func login(_ sender:UIButton)
   {
-    debug("@@@ login")
+    if let username = self.username.text, let password = self.password.text
+    {
+      LocalPlayer.connect(username: username, password: password) {
+        (query, me) in
+        if me != nil
+        {
+          TheGame.shared.me  = me
+          self.loginVC.completed(self)
+        }
+        else
+        {
+          switch query.status
+          {
+          case .FailedToConnect:
+            self.loginVC.cancel(self,updateRoot: true)
+          case .QueryFailure:
+            self.infoPopup(title: "Failed to Login", message: "Incorrect username or password")
+            self.password.text = ""
+          default:
+            let err =  query.internalError ?? "Unknown Error"
+            self.internalError(err , file:#file, function:#function)
+          }
+        }
+      }
+    }
   }
   
   @objc func sendLoginInfo(_ sender:UIButton)
   {
     mmvc?.present(.RetrieveLogin)
+  }
+  
+  @objc func sendPasswordReset(_ sender:UIButton)
+  {
+    mmvc?.present(.ResetPassword)
   }
 }
 

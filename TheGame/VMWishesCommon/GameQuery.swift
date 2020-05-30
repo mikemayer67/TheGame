@@ -82,6 +82,15 @@ class GameQuery
     status = .QueryError(error)
   }
   
+  func addQueryError(_ error:String)
+  {
+    if case .QueryError(let curError) = status {
+      status = .QueryError(curError + ", " + error)
+    } else {
+      status = .QueryError(error)
+    }
+  }
+  
   func execute(server:GameServer? = nil, completion:@escaping Completion)
   {
     guard let server = server ?? self.server else { fatalError("no server set") }

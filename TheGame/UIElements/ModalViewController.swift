@@ -13,6 +13,7 @@ enum ModalControllerID : String
   case CreateAccount  = "createAccountVC"
   case AccountLogin   = "accountLoginVC"
   case RetrieveLogin  = "retrieveLoginVC"
+  case ResetPassword  = "resetPasswordVC"
 }
 
 extension MultiModalViewController
@@ -161,15 +162,25 @@ extension ModalViewController
   
   func addLoginEntry(below refVeiw:UIView,
                      placeholder:String? = nil,
-                     password:Bool = false) -> LoginTextField
+                     type:LoginTextField.LoginType = .Username) -> LoginTextField
   {
     let entry = LoginTextField()
     configure(entry:entry, refView: refVeiw)
     entry.placeholder = placeholder ?? "required"
-    entry.allowPasswordCharacters = password
-    entry.textContentType = (password ? .password : .username )
-    entry.isSecureTextEntry = password
-    entry.keyboardType = .asciiCapable
+    entry.type = type
+    switch type
+    {
+    case .Username:
+      entry.textContentType   = .username
+      entry.keyboardType      = .asciiCapable
+    case .Password:
+      entry.textContentType   = .password
+      entry.keyboardType      = .asciiCapable
+      entry.isSecureTextEntry = true
+    case .ResetCode:
+      entry.textContentType   = .username
+      entry.keyboardType      = .numberPad
+    }
     entry.autocorrectionType = .no
 
     return entry

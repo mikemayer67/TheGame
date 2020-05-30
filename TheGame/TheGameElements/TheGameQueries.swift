@@ -26,6 +26,7 @@ enum QueryKey
   static let Scope     = "scope"
   static let Notify    = "notify"
   static let Salt      = "salt"
+  static let ResetCode = "reset"
 }
 
 enum EmailStatus
@@ -151,6 +152,60 @@ extension GameQuery
 
 extension GameServer
 {
+  func execute( page : Page,
+                action : Action,
+                args : GameQuery.Args,
+                requiredResponses : [String] = [],
+                recognizedReturnCodes : [Int] = [],
+                completion: @escaping (GameQuery)->() )
+  {
+    query(page, action:action, args: args).execute() {
+      (query) in
+      
+      if query.status == nil
+      {
+        query.setQueryError("No status set by execute")
+      }
+      else if case .Success(let data) = query.status
+      {
+        for key in requiredResponses {
+          if data?[key] == nil { query.addQueryError("Missing " + key + " in response") }
+        }
+      }
+      else if case .QueryFailure(let rc,_) = query.status
+      {
+        if recognizedReturnCodes.contains(rc) == false
+        {
+          query.setQueryError("Unexpected Game Server Return Code: \(query.status!.failure)")
+        }
+      }
+      
+      completion(query)
+    }
+  }
+  
+  func login( username:String,
+              password:String,
+              completion:@escaping (GameQuery)->())
+  {
+    execute(
+      page: .User,
+      action: .Validate,
+      args : [
+        QueryKey.Username: username,
+        QueryKey.Password: password
+      ],
+      requiredResponses: [
+        QueryKey.Userkey
+      ],
+      recognizedReturnCodes: [
+        GameQuery.Status.InvalidUsername,
+        GameQuery.Status.IncorrectPassword
+      ],
+      completion: completion
+    )
+  }
+  
   func requestNewAccount( username:String,
                           password:String,
                           alias:String? = nil,
@@ -164,26 +219,19 @@ extension GameServer
     
     if let alias = alias, alias.count > 0 { args[QueryKey.Alias] = alias }
     if let email = email, email.count > 0 { args[QueryKey.Email] = email }
-        
-    query(.User, action:.Create, args:args).execute() {
-      (query) in
-      
-      switch query.status
-      {
-      case .none:
-        query.setQueryError("No status set by execute")
-      case .Success(let data):
-        if data?.userkey == nil { query.setQueryError("No userkey returned") }
-      case .QueryFailure(GameQuery.Status.UserExists, _):
-        break
-      case .QueryFailure:
-        query.setQueryError("Unexpected Game Server Return Code: \(query.status!.failure)")
-      default:
-        break
-      }
-      
-      completion(query)
-    }
+    
+    execute(
+      page: .User,
+      action: .Create,
+      args : args,
+      requiredResponses: [
+        QueryKey.Userkey
+      ],
+      recognizedReturnCodes: [
+        GameQuery.Status.UserExists
+      ],
+      completion: completion
+    )
   }
   
   func checkFor(email:String, completion:@escaping (Bool?,GameQuery)->())
@@ -213,56 +261,54 @@ extension GameServer
   
   func sendUsernameEmail(email:String, completion:@escaping (GameQuery)->())
   {
-    let args : GameQuery.Args = [
-      QueryKey.Email : email,
-      QueryKey.Salt  : String(UserDefaults.standard.resetSalt)
-    ]
-    
-    query(.Email, action: .RetieveUsername, args: args).execute() {
-      (query) in
-      
-      switch query.status
-      {
-      case .none:
-        query.setQueryError("No status set by execute")
-      case .QueryFailure(GameQuery.Status.InvalidEmail,_):
-        break
-      case .QueryFailure:
-        query.setQueryError("Unexpected Game Server Return Code: \(query.status!.failure)")
-      default:
-        break
-      }
-      
-      completion(query)
-    }
+    execute(
+      page: .Email,
+      action: .RetieveUsername,
+      args : [
+        QueryKey.Email: email,
+        QueryKey.Salt: String(Defaults.resetSalt)
+      ],
+      recognizedReturnCodes: [
+        GameQuery.Status.InvalidEmail
+      ],
+      completion: completion
+    )
   }
   
   func sendPasswordResetEmail(username:String, completion:@escaping (GameQuery)->())
   {
-    let args : GameQuery.Args = [
-      QueryKey.Username : username,
-      QueryKey.Salt  : String(UserDefaults.standard.resetSalt)
-    ]
-    
-    query(.Email, action: .ResetPassword, args: args).execute() {
-      (query) in
-      
-      switch query.status
-      {
-      case .none:
-        query.setQueryError("No status set by execute")
-      case .QueryFailure(GameQuery.Status.InvalidEmail,_),
-           .QueryFailure(GameQuery.Status.InvalidUsername, _):
-        break
-      case .QueryFailure:
-        query.setQueryError("Unexpected Game Server Return Code: \(query.status!.failure)")
-      default:
-        break
-      }
-      
-      completion(query)
-    }
-    
+    execute(
+      page: .Email,
+      action: .ResetPassword,
+      args : [
+        QueryKey.Username: username,
+        QueryKey.Salt: String(Defaults.resetSalt)
+      ],
+      recognizedReturnCodes: [
+        GameQuery.Status.InvalidUsername,
+        GameQuery.Status.InvalidEmail
+      ],
+      completion: completion
+    )
+  }
+  
+  func resetPassword(username:String, password:String, resetCode:Int,
+                     completion:@escaping (GameQuery)->())
+  {
+    execute(
+      page: .User,
+      action: .ResetPassword,
+      args: [
+        QueryKey.Username  : username,
+        QueryKey.Password  : password,
+        QueryKey.ResetCode : String(resetCode)
+      ],
+      recognizedReturnCodes: [
+        GameQuery.Status.InvalidUsername,
+        GameQuery.Status.FailedToUpdateUser
+      ],
+      completion: completion
+    )
   }
   
 }

@@ -64,6 +64,7 @@ extension LoginViewController : MultiModalDelegate
     case .AccountLogin:  return AccountLoginViewController(loginVC:self)
     case .CreateAccount: return CreateAccountViewController(loginVC:self)
     case .RetrieveLogin: return ForgotLoginViewController(loginVC: self)
+    case .ResetPassword: return ResetPasswordViewController(loginVC: self)
     }
   }
   

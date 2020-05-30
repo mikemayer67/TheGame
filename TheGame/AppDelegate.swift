@@ -23,20 +23,20 @@ class AppDelegate: UIResponder, UIApplicationDelegate
     // @@@ REMOVE AFTER TESTING
     if let uk = Bundle.main.object(forInfoDictionaryKey: "UserkeyOverride") as? String
     {
-      debug("UserKeyOverride: '\(uk)'")
-      UserDefaults.standard.userkey = uk
+      track("UserKeyOverride: '\(uk)'")
+      Defaults.userkey = uk
     }
     if let u = Bundle.main.object(forInfoDictionaryKey: "UsernameOverride") as? String
     {
-      debug("UserNameOverride: '\(u)'")
-      UserDefaults.standard.username = u
+      track("UserNameOverride: '\(u)'")
+      Defaults.username = u
     }
     if let a = Bundle.main.object(forInfoDictionaryKey: "AliasOverride") as? String
     {
-      debug("AliasOverride: '\(a)'")
-      UserDefaults.standard.alias = a
+      track("AliasOverride: '\(a)'")
+      Defaults.alias = a
     }
-    UserDefaults.standard.removeObject(forKey: "lastErrorEmail")
+    Defaults.removeObject(forKey: "lastErrorEmail")
     
     // Facebook
     ApplicationDelegate.shared.application(application, didFinishLaunchingWithOptions: launchOptions)
@@ -45,7 +45,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate
     GADMobileAds.sharedInstance().start(completionHandler: nil)
     GADMobileAds.sharedInstance().requestConfiguration.testDeviceIdentifiers = [(kGADSimulatorID as! String)];
     
-    debug("NSHomeDirectory:",NSHomeDirectory())
+    track("NSHomeDirectory:",NSHomeDirectory())
     
     return true
   }

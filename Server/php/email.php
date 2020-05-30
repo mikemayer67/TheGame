@@ -9,7 +9,7 @@ try
 
   if     ( $action == 'confirm'  ) { email\confirm();  }
   elseif ( $action == 'username' ) { email\username(); }
-  elseif ( $action == 'password' ) { email\password(); }
+  elseif ( $action == 'pwreset'  ) { email\pwreset(); }
   
   else
   {

@@ -8,6 +8,8 @@
 
 import UIKit
 
+let Defaults = UserDefaults.standard
+
 extension Array
 {
   public subscript(safe index: Index) -> Iterator.Element? {
@@ -44,6 +46,11 @@ extension HashData
 func debug(_ args:Any...)
 {
   print("DEBUG::",args)
+}
+
+func track(_ args:Any...)
+{
+  print("DEBUG::TRACK - ",args)
 }
 
 

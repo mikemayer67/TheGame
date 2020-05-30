@@ -22,7 +22,7 @@ extension UIViewController
     if let function = function { details.append("\nFunc: \(function)") }
     
     let now = GameTime()
-    let lastErrorEmail = GameTime(networktime: UserDefaults.standard.lastErrorEmail)
+    let lastErrorEmail = GameTime(networktime: Defaults.lastErrorEmail)
     let nextErrorEmail = lastErrorEmail.offset(by: 3600.0)
         
     if now < nextErrorEmail  // only send one email per hour
@@ -36,7 +36,7 @@ extension UIViewController
                              ok: "Submit", cancel: "Not Now") { (submit) in
                               if submit {
                                 TheGame.server.sendErrorReport(details)
-                                UserDefaults.standard.lastErrorEmail = now.localtime
+                                Defaults.lastErrorEmail = now.localtime
                               } }
     }
   }

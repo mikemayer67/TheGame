@@ -62,9 +62,9 @@ class CreateAccountViewController : ModalViewController
     usernameError = addErrorLabel(to: usernameInfo)
     
     let passwordLabel = addHeader("Password", below: usernameTextField)
-    password1TextField = addLoginEntry(below: passwordLabel, password: true)
+    password1TextField = addLoginEntry(below: passwordLabel, type:.Password)
     password1TextField.changeCallback = { self.startUpdateTimer() }
-    password2TextField = addLoginEntry(below: password1TextField, placeholder: "retype to confirm", password: true)
+    password2TextField = addLoginEntry(below: password1TextField, placeholder: "retype to confirm", type:.Password)
     password2TextField.changeCallback = { self.startUpdateTimer() }
     passwordInfo = addInfoButton(to: password1TextField, target: self)
     passwordError = addErrorLabel(to: passwordInfo)
@@ -333,7 +333,7 @@ class CreateAccountViewController : ModalViewController
       animated: true )
     { (swithToLogin) in
       if swithToLogin  {
-        UserDefaults.standard.username = self.usernameTextField.text!
+        Defaults.username = self.usernameTextField.text!
         self.mmvc?.present(.AccountLogin)
       } else {
         self.usernameTextField.selectAll(self)

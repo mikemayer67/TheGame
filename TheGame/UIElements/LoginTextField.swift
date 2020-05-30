@@ -10,14 +10,35 @@ import UIKit
 
 @IBDesignable class LoginTextField: UITextField, UITextFieldDelegate
 {
-  @IBInspectable var allowPasswordCharacters : Bool = false
+  @IBInspectable var fieldType : Int = 0
+  
+  enum LoginType : Int
+  {
+    case Username = 0
+    case Password = 1
+    case ResetCode = 2
+  }
+  
+  var type : LoginType = .Username
   
   var validatedText: String?
   var dictationText: String?
   
   var changeCallback : (()->())?
+  
+  init(frame: CGRect, type:LoginType)
+  {
+    self.type = type
+    super.init(frame: frame)
+    delegate = self
+  }
+  
+  convenience init(type:LoginType)
+  {
+    self.init(frame:CGRect.null, type:type)
+  }
 
-  override init(frame: CGRect)
+  override required init(frame: CGRect)
   {
     super.init(frame: frame)
     delegate = self
@@ -25,6 +46,7 @@ import UIKit
 
   required init?(coder: NSCoder)
   {
+    self.type = .Username
     super.init(coder: coder)
     delegate = self
   }
@@ -103,8 +125,20 @@ import UIKit
   
   func validate(string:String) -> Bool
   {
-    var allowedCharacters = CharacterSet.alphanumerics
-    if allowPasswordCharacters { allowedCharacters.insert(charactersIn: "-!:#$@.") }
+    var allowedCharacters : CharacterSet
+    
+    switch type
+    {
+    case .Username:
+      allowedCharacters = CharacterSet.alphanumerics
+    case .Password:
+      allowedCharacters = CharacterSet.alphanumerics
+      allowedCharacters.insert(charactersIn: "-!:#$@.")
+    case .ResetCode:
+      allowedCharacters = CharacterSet()
+      allowedCharacters.insert(charactersIn: "0123456789 ")
+    }
+        
     return string.rangeOfCharacter(from: allowedCharacters.inverted) == nil
   }
 }

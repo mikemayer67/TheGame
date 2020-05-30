@@ -47,7 +47,7 @@ class GameViewController: ChildViewController
   
   @IBAction func addOpponent(_ sender: UIButton)
   {
-    debug("add opponent")
+    track("@@@ add opponent")
   }
   
   @IBAction func handleLostButton(_ sender: UIButton)
@@ -167,34 +167,34 @@ extension GameViewController : GADBannerViewDelegate
   
   /// Tells the delegate an ad request loaded an ad.
   func adViewDidReceiveAd(_ bannerView: GADBannerView) {
-    debug("adViewDidReceiveAd")
+    track("adViewDidReceiveAd")
   }
 
   /// Tells the delegate an ad request failed.
   func adView(_ bannerView: GADBannerView,
       didFailToReceiveAdWithError error: GADRequestError) {
-    debug("adView:didFailToReceiveAdWithError: \(error.localizedDescription)")
+    track("adView:didFailToReceiveAdWithError: \(error.localizedDescription)")
   }
 
   /// Tells the delegate that a full-screen view will be presented in response
   /// to the user clicking on an ad.
   func adViewWillPresentScreen(_ bannerView: GADBannerView) {
-    debug("adViewWillPresentScreen")
+    track("adViewWillPresentScreen")
   }
 
   /// Tells the delegate that the full-screen view will be dismissed.
   func adViewWillDismissScreen(_ bannerView: GADBannerView) {
-    debug("adViewWillDismissScreen")
+    track("adViewWillDismissScreen")
   }
 
   /// Tells the delegate that the full-screen view has been dismissed.
   func adViewDidDismissScreen(_ bannerView: GADBannerView) {
-    debug("adViewDidDismissScreen")
+    track("adViewDidDismissScreen")
   }
 
   /// Tells the delegate that a user click will open another app (such as
   /// the App Store), backgrounding the current app.
   func adViewWillLeaveApplication(_ bannerView: GADBannerView) {
-    debug("adViewWillLeaveApplication")
+    track("adViewWillLeaveApplication")
   }
 }

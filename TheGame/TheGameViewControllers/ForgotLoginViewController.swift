@@ -100,14 +100,17 @@ class ForgotLoginViewController: ModalViewController
               alert.addAction(UIAlertAction(title: "OK", style: .default, handler: {
                 (_) in self.loginVC.cancel(self) } ) )
               self.present(alert,animated: true)
+              
             case .FailedToConnect:
               self.loginVC.cancel(self,updateRoot: true)
+              
             case .QueryFailure(GameQuery.Status.InvalidEmail, _):
               let alert = UIAlertController(
                 title: "Invalid Email",
                 message: "The email address \(email) is not currently associated with a user account", preferredStyle: .alert)
               alert.addAction(UIAlertAction(title: "OK", style: .default))
               self.present(alert,animated: true)
+              
             default: // includes nil status
               let err =  query.internalError ?? "Unknown Error"
               self.internalError(err , file:#file, function:#function)
@@ -165,14 +168,17 @@ class ForgotLoginViewController: ModalViewController
               alert.addAction(UIAlertAction(title: "OK", style: .default, handler: {
                 (_) in self.loginVC.cancel(self) } ) )
               self.present(alert,animated: true)
+              
             case .FailedToConnect:
               self.loginVC.cancel(self,updateRoot: true)
+              
             case .QueryFailure(GameQuery.Status.InvalidUsername, _):
               let alert = UIAlertController(
                 title: "Invalid Username",
                 message: "The username \(username) is not currently associated with a user account", preferredStyle: .alert)
               alert.addAction(UIAlertAction(title: "OK", style: .default))
               self.present(alert,animated: true)
+              
             case .QueryFailure(GameQuery.Status.InvalidEmail, _):
                 let alert = UIAlertController(
                   title: "No Email Address",

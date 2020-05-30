@@ -23,6 +23,8 @@
 		275711B0246B99680034DB61 /* ForgotLoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 275711AF246B99680034DB61 /* ForgotLoginViewController.swift */; };
 		275711B2246B9C4F0034DB61 /* ModalViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 275711B1246B9C4F0034DB61 /* ModalViewController.swift */; };
 		275711B4246C68170034DB61 /* UIViewConstraints.swift in Sources */ = {isa = PBXBuildFile; fileRef = 275711B3246C68170034DB61 /* UIViewConstraints.swift */; };
+		2769DD63247EDCBA00DB8D42 /* ResetPasswordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2769DD62247EDCBA00DB8D42 /* ResetPasswordViewController.swift */; };
+		2769DD652481515500DB8D42 /* LocalPlayer_TheGame.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2769DD642481515500DB8D42 /* LocalPlayer_TheGame.swift */; };
 		276FE7F5247868DF00F851D3 /* UIviewController_Popup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 276FE7F4247868DF00F851D3 /* UIviewController_Popup.swift */; };
 		2770C062246EDA8C00745AB4 /* InfoButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2770C061246EDA8C00745AB4 /* InfoButton.swift */; };
 		277CC4B62466DDC7001C5404 /* MultiModalViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 277CC4B52466DDC6001C5404 /* MultiModalViewController.swift */; };
@@ -64,6 +66,8 @@
 		275711AF246B99680034DB61 /* ForgotLoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForgotLoginViewController.swift; sourceTree = "<group>"; };
 		275711B1246B9C4F0034DB61 /* ModalViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModalViewController.swift; sourceTree = "<group>"; };
 		275711B3246C68170034DB61 /* UIViewConstraints.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIViewConstraints.swift; sourceTree = "<group>"; };
+		2769DD62247EDCBA00DB8D42 /* ResetPasswordViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResetPasswordViewController.swift; sourceTree = "<group>"; };
+		2769DD642481515500DB8D42 /* LocalPlayer_TheGame.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalPlayer_TheGame.swift; sourceTree = "<group>"; };
 		276FE7F4247868DF00F851D3 /* UIviewController_Popup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIviewController_Popup.swift; sourceTree = "<group>"; };
 		2770C061246EDA8C00745AB4 /* InfoButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InfoButton.swift; sourceTree = "<group>"; };
 		277CC4B52466DDC6001C5404 /* MultiModalViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MultiModalViewController.swift; sourceTree = "<group>"; };
@@ -186,6 +190,7 @@
 				27E82FB6240D38B1004DEC8C /* CreateAccountViewController.swift */,
 				27E82FBD240D3C63004DEC8C /* AccountLoginViewController.swift */,
 				275711AF246B99680034DB61 /* ForgotLoginViewController.swift */,
+				2769DD62247EDCBA00DB8D42 /* ResetPasswordViewController.swift */,
 				27D5413423E5E46800CB5065 /* GameViewController.swift */,
 			);
 			path = TheGameViewControllers;
@@ -211,6 +216,7 @@
 				272FB2B52456276500F70E1A /* TheGamePlayer.swift */,
 				27F3EDE223E7E4800057248B /* GameClock.swift */,
 				27EA805023EBEB3900C937EE /* GameModel.swift */,
+				2769DD642481515500DB8D42 /* LocalPlayer_TheGame.swift */,
 			);
 			path = TheGameElements;
 			sourceTree = "<group>";
@@ -352,6 +358,8 @@
 				277CC4BA246726AD001C5404 /* GradientView.swift in Sources */,
 				277CC4B62466DDC7001C5404 /* MultiModalViewController.swift in Sources */,
 				27F3EDE323E7E4800057248B /* GameClock.swift in Sources */,
+				2769DD652481515500DB8D42 /* LocalPlayer_TheGame.swift in Sources */,
+				2769DD63247EDCBA00DB8D42 /* ResetPasswordViewController.swift in Sources */,
 				271D007D24147048003B15A1 /* LoginTextField.swift in Sources */,
 				27E82FBE240D3C63004DEC8C /* AccountLoginViewController.swift in Sources */,
 				272FB2B22455BFFA00F70E1A /* GameServer.swift in Sources */,
