@@ -54,6 +54,9 @@
                                                 <state key="normal" title="Connect with Facebook">
                                                     <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 </state>
+                                                <connections>
+                                                    <action selector="connectFacebook:" destination="ISV-GM-3yy" eventType="touchUpInside" id="doB-R1-501"/>
+                                                </connections>
                                             </button>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="U5C-D9-8sk" customClass="LoginButton" customModule="TheGame" customModuleProvider="target">
                                                 <rect key="frame" x="0.0" y="83" width="300" height="50"/>
@@ -309,6 +312,13 @@
                                     <action selector="opponentLost:" destination="WDJ-Qp-Kwo" eventType="touchUpInside" id="8u3-Zp-2zs"/>
                                 </connections>
                             </button>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="person.fill" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="SnE-yU-oRF">
+                                <rect key="frame" x="20" y="399.5" width="32" height="29"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="32" id="aJW-bj-aEi"/>
+                                    <constraint firstAttribute="height" constant="32" id="nFd-8D-OiW"/>
+                                </constraints>
+                            </imageView>
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <color key="tintColor" systemColor="systemIndigoColor" red="0.34509803919999998" green="0.33725490200000002" blue="0.83921568629999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -321,11 +331,13 @@
                             <constraint firstItem="9Rz-bg-2yg" firstAttribute="top" secondItem="tLU-FE-EwV" secondAttribute="bottom" id="6aH-y1-7L4"/>
                             <constraint firstItem="B6z-g7-djW" firstAttribute="width" secondItem="9Rz-bg-2yg" secondAttribute="width" id="9UL-rr-G5t"/>
                             <constraint firstItem="3of-en-5bS" firstAttribute="bottom" secondItem="cBi-Tb-NhW" secondAttribute="bottom" id="BDn-dK-Bbp"/>
+                            <constraint firstItem="SnE-yU-oRF" firstAttribute="leading" secondItem="tLU-FE-EwV" secondAttribute="leading" id="CgU-u8-Vbb"/>
                             <constraint firstItem="tLU-FE-EwV" firstAttribute="top" secondItem="ox4-ag-Vz5" secondAttribute="bottom" constant="8" id="EZL-QN-2Az"/>
                             <constraint firstItem="cBi-Tb-NhW" firstAttribute="trailing" secondItem="7OE-cD-3ew" secondAttribute="trailing" constant="20" id="L9n-ft-MfU"/>
                             <constraint firstItem="tLU-FE-EwV" firstAttribute="leading" secondItem="cBi-Tb-NhW" secondAttribute="leading" constant="20" id="Mrw-CI-E0b"/>
                             <constraint firstItem="cBi-Tb-NhW" firstAttribute="trailing" secondItem="tLU-FE-EwV" secondAttribute="trailing" constant="20" id="N7b-Js-YYh"/>
                             <constraint firstItem="3of-en-5bS" firstAttribute="top" secondItem="7OE-cD-3ew" secondAttribute="bottom" constant="8" id="Q0c-ky-wMw"/>
+                            <constraint firstItem="SnE-yU-oRF" firstAttribute="centerY" secondItem="FDz-gI-m8F" secondAttribute="centerY" id="Saw-fR-0KR"/>
                             <constraint firstItem="7OE-cD-3ew" firstAttribute="leading" secondItem="cBi-Tb-NhW" secondAttribute="leading" constant="20" id="TA1-hN-KYh"/>
                             <constraint firstItem="lXc-Qy-AQ8" firstAttribute="centerY" secondItem="gSY-DS-bSB" secondAttribute="centerY" id="Vbj-gy-kfM"/>
                             <constraint firstItem="lXc-Qy-AQ8" firstAttribute="top" secondItem="fqv-4q-diE" secondAttribute="bottom" constant="8" id="W6s-qE-vVF"/>
@@ -355,6 +367,7 @@
                         <outlet property="game" destination="WDJ-Qp-Kwo" id="FVA-kS-AAg"/>
                         <outlet property="lastLossLabel" destination="7OE-cD-3ew" id="Xop-EI-TMq"/>
                         <outlet property="lostButton" destination="FDz-gI-m8F" id="RUg-pD-7YC"/>
+                        <outlet property="meIcon" destination="SnE-yU-oRF" id="cdG-Gy-g79"/>
                         <outlet property="oppenentTable" destination="tLU-FE-EwV" id="9JS-bY-fEy"/>
                     </connections>
                 </viewController>
@@ -457,6 +470,7 @@
         <image name="button_12_gray" width="344" height="200"/>
         <image name="dice_splash" width="837" height="681"/>
         <image name="icons8-add_user_group" width="32" height="32"/>
+        <image name="person.fill" catalog="system" width="128" height="120"/>
         <namedColor name="dieRed">
             <color red="0.80500000715255737" green="0.15099999308586121" blue="0.11500000208616257" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>

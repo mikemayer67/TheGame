@@ -7,6 +7,8 @@
 //
 
 import UIKit
+import FBSDKCoreKit
+import FBSDKLoginKit
 
 class LoginViewController: ChildViewController
 {
@@ -14,11 +16,6 @@ class LoginViewController: ChildViewController
   @IBOutlet weak var newAccountButton : UIButton!
   @IBOutlet weak var loginButton : UIButton!
   @IBOutlet weak var whyConnect : UIButton!
-    
-  override func awakeFromNib()
-  {
-    super.awakeFromNib()
-  }
   
   @IBAction func whyFacebook(_ sender : UIButton)
   {
@@ -37,6 +34,29 @@ class LoginViewController: ChildViewController
   @IBAction func showAccountLogin(_ sender: UIButton)
   {
     showConnectionPopup(.AccountLogin)
+  }
+  
+  @IBAction func connectFacebook(_ sender: UIButton)
+  {
+    let login = LoginManager()
+    
+    login.logIn(permissions: ["public_profile","user_friends"], from: self) {
+      (response, err) in
+            
+      if err == nil,
+        let response = response,
+        response.isCancelled == false
+      {
+        LocalPlayer.connectFacebook(userkey: nil) { (localPlayer) in
+          TheGame.shared.me = localPlayer
+          self.rootViewController.update()
+        }
+      }
+      else
+      {
+        self.rootViewController.update()
+      }
+    }
   }
   
   private func showConnectionPopup(_ id:ModalControllerID)

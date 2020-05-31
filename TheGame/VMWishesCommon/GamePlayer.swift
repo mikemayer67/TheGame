@@ -9,11 +9,16 @@
 import UIKit
 import FacebookLogin
 
+fileprivate let iconSize     : CGFloat = 32.0
+fileprivate let iconFontSize : CGFloat = 20.0
+
+
 struct FacebookInfo
 {
-  let id      : String
-  let name    : String
-  let picture : String?
+  let id             : String
+  let name           : String
+  let picture        : String? // URL of FB picture
+  let friendsGranted : Bool
 }
 
 class GamePlayer
@@ -30,7 +35,9 @@ class GamePlayer
     self.key        = key
     self.name       = name
     self.gameData   = gameData
-    self.icon       = createIcon(for: name)
+    
+    self.icon =
+      createIcon(for: name)
   }
   
   init(key:String, facebook:FacebookInfo, gameData:HashData? = nil)
@@ -39,9 +46,9 @@ class GamePlayer
     self.name       = facebook.name
     self.fb         = facebook
     self.gameData   = gameData
-    self.icon       = createIcon(for:name)
     
-    track("@@@Add logic to load FB image")
+    self.icon =
+      createIcon(with: facebook.picture) ?? createIcon(for: name)
   }
   
   func createIcon(for name:String) -> UIImage
@@ -53,10 +60,10 @@ class GamePlayer
       let bg = UIColor(named:"playerIconBackgroud") ?? UIColor.black
       let fg = UIColor(named:"playerIconForeground") ?? UIColor.white
       
-      let box = CGRect(x: 0.0, y: 0.0, width: 32, height: 32)
+      let box = CGRect(x: 0.0, y: 0.0, width: iconSize, height: iconSize)
       let attr : Dictionary<NSAttributedString.Key,Any> = [
         .foregroundColor: fg ,
-        .font: UIFont.systemFont(ofSize: 20.0, weight: .black)
+        .font: UIFont.systemFont(ofSize: iconFontSize, weight: .black)
       ]
       
       bg.setFill()
@@ -71,4 +78,22 @@ class GamePlayer
     }
     return image
   }
+  
+  func createIcon(with url:String?) -> UIImage?
+  {
+    if let url = url,
+      let imageURL = URL(string:url),
+      let imageData = try? Data(contentsOf: imageURL),
+      let image = UIImage(data: imageData)
+    {
+      let size = CGSize(width: iconSize, height: iconSize)
+      let renderer = UIGraphicsImageRenderer(size: size)
+      let icon = renderer.image { (_) in
+        image.draw(in: CGRect.init(origin: CGPoint.zero, size: size))
+      }
+      return icon
+    }
+    return nil
+  }
+
 }

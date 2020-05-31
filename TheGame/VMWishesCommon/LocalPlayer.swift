@@ -15,26 +15,33 @@ class LocalPlayer : GamePlayer
   let username    : String?
   let alias       : String?
   
-  init(_ key:String, username:String? = nil, alias:String? = nil, facebook:FacebookInfo? = nil, gameData:HashData? = nil)
+  init(_ key:String, username:String?, alias:String? = nil, gameData:HashData? = nil)
   {
     self.username  = username
     self.alias     = alias
+    
+    Defaults.userkey  = key
+    Defaults.username = username
+    Defaults.alias    = alias
+    
+    let name = (
+      (alias ?? "").count > 0 ? alias!
+        : (username ?? "").count > 0 ? username!
+        : UIDevice.current.name )
+    
+    super.init(key:key, name:name, gameData:gameData)
+  }
+  
+  init(_ key:String, facebook:FacebookInfo, gameData:HashData? = nil)
+  {
+    self.username  = nil
+    self.alias     = nil
+    
+    track("LocalPlayer FB:\(facebook)")
+    
+    Defaults.userkey  = key
 
-    if let fb = facebook
-    {
-      super.init(key:key, facebook:fb, gameData:gameData)
-    }
-    else
-    {
-      Defaults.userkey  = key
-      Defaults.username = username
-      Defaults.alias    = alias
-      
-      var name = UIDevice.current.name
-      if let username = username, username.count > 0 { name = username }
-      if let alias = alias, alias.count > 0          { name = alias }
-      super.init(key:key, name:name, gameData:gameData)
-    }
+    super.init(key:key, facebook:facebook, gameData:gameData)
   }
   
   typealias ConnectCallback = (LocalPlayer?)->()
@@ -77,32 +84,54 @@ class LocalPlayer : GamePlayer
     }
   }
   
-  static func connectFacebook(userkey:String?, completion: @escaping ConnectCallback)
+  static func connectFacebook(userkey:String? = nil, completion: @escaping ConnectCallback)
   {
-    let request = GraphRequest(graphPath: "me", parameters: ["fields":"id,name,picture"])
+    let request = GraphRequest(graphPath: "me", parameters: ["fields":"id,name,picture,permissions"])
     
     request.start {
       (_, result, error) in
-      track("@@@FB callback")
                   
       guard error == nil,
         let fbResult = result as? NSDictionary,
         let fbid     = fbResult["id"]   as? String,
         let name     = fbResult["name"] as? String
         else { completion(nil); return }
-      
+                  
       var args : GameQuery.Args = [QueryKey.FBID:fbid]
       if userkey != nil { args[QueryKey.Userkey] = userkey! }
+      
+      var friends = false
+      
+      if let permissions = fbResult["permissions"] as? NSDictionary,
+        let permissionData = permissions["data"] as? [NSDictionary]
+      {
+        for perm in permissionData
+        {
+          if let key = perm["permission"] as? String,
+           let status = perm["status"] as? String,
+            key == "user_friends", status == "granted"
+          {
+            friends = true
+          }
+        }
+      }
         
       TheGame.server.query(.User, action: .Connect, args: args).execute() {
         (query) in
-        
+                
         var me : LocalPlayer? = nil
         
         if case .Success(let data) = query.status,
-          let userkey = userkey ?? fbResult["userkey"] as? String
+          let userkey = userkey ?? data?["userkey"] as? String
         {
-          let fb = FacebookInfo(id: fbid, name: name, picture: nil)
+          var picture : String?
+          if let fbPicture = fbResult["picture"] as? NSDictionary,
+            let data = fbPicture["data"] as? NSDictionary,
+            let url = data["url"] as? String
+          {
+            picture = url
+          }
+          let fb = FacebookInfo(id: fbid, name: name, picture:picture, friendsGranted:friends)
           me = LocalPlayer(userkey, facebook:fb, gameData: data)
         }
         

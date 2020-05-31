@@ -30,18 +30,14 @@ function connect()
     if( isset($fb_info) )  # both FBID and userkey exist, verify they match
     {
       if( $fb_info[USERID] != $userid )   { send_failure(\RC::INVALID_USERKEY_FBID); }
-
-      if( isset($user_info[USERNAME]) ) { $reply[USERNAME] = 1; }
-      if( isset($user_info[LASTLOSS]) ) { $reply[LASTLOSS] = (int)$user_info[LASTLOSS]; }
     }
     else # new FBID, existing userkey
     {
       if( isset($user_info[FBID] ) )        { send_failure(\RC::INVALID_USERKEY_FBID);  } 
       if( !db_add_facebook($userid,$fbid) ) { send_failure(\RC::FAILED_TO_CREATE_FBID); }
-
-      if( isset($user_info[USERNAME]) ) { $reply[USERNAME] = 1; }
-      if( isset($user_info[LASTLOSS]) ) { $reply[LASTLOSS] = (int)$user_info[LASTLOSS]; }
     }
+    if( isset($user_info[USERNAME]) ) { $reply[USERNAME] = 1; }
+    if( isset($user_info[LASTLOSS]) ) { $reply[LASTLOSS] = (int)$user_info[LASTLOSS]; }
   }
   else if(isset($fb_info) ) # existing FBID
   {
@@ -75,8 +71,8 @@ function validate()
     fail_on_extra_args();
 
     $info = db_find_user_by_username($username);
-    if( empty($info) )                                  { send_failure(\RC::INVALID_USERNAME);   }
-    if( ! password_verify($password, $info[PASSWORD]) ) { send_failure(\RC::INCORRECT_PASSWORD); }
+    if( empty($info) )                              { send_failure(\RC::INVALID_USERNAME);   }
+    if( ! db_verify_password($username,$password) ) { send_failure(\RC::INCORRECT_PASSWORD); }
 
     if( isset($userkey) )
     {

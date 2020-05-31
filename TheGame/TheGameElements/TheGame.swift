@@ -26,7 +26,7 @@ class TheGame
   static let shared   = TheGame()
   static let server   = GameServer()
   
-  var me        : LocalPlayer? = nil
+  var me : LocalPlayer? = nil
   {
     didSet {
       if me != nil { Defaults.hasResetSalt = false }

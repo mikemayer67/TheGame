@@ -18,6 +18,8 @@ class GameViewController: ChildViewController
   @IBOutlet weak var bannerView: GADBannerView!
   @IBOutlet weak var lastLossLabel: UILabel!
   
+  @IBOutlet weak var meIcon: UIImageView!
+  
   @IBOutlet weak var game: GameModel!
     
   private var buttonIsEnabled = true
@@ -37,12 +39,18 @@ class GameViewController: ChildViewController
   override func viewDidLoad() {
     super.viewDidLoad()
     
-    // Do any additional setup after loading the view.
-    
+    meIcon.layer.masksToBounds = true
+    meIcon.layer.cornerRadius = 12
+        
     initilizeBannerAd()
     
     update(animated:false)
     game.viewController = self
+    
+    if let icon = TheGame.shared.me?.icon
+    {
+      meIcon.image = icon
+    }
   }
   
   @IBAction func addOpponent(_ sender: UIButton)

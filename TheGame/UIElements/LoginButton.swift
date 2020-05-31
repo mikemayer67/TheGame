@@ -13,7 +13,11 @@ import UIKit
   override func draw(_ rect: CGRect) {
     layer.borderWidth = ( isEnabled ? 1.0 : 0.0 )
     layer.borderColor = UIColor.black.cgColor
-    layer.backgroundColor = ( isEnabled ? tintColor.cgColor : UIColor.lightGray.cgColor )
+    layer.backgroundColor = self.isEnabled ? tintColor.cgColor : UIColor.lightGray.cgColor
     layer.cornerRadius = 10.0
+  }
+  
+  override func tintColorDidChange() {
+    layer.backgroundColor = self.isEnabled ? tintColor.cgColor : UIColor.lightGray.cgColor
   }
 }

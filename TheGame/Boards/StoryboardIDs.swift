@@ -40,7 +40,7 @@ extension RootViewController
     ( TheGame.server.connected == false ? .SplashScreen
       : TheGame.shared.me      == nil   ? .ConnectScreen
       : .GameScreen )
-    
+        
     self.transition(to: id)
   }
 }

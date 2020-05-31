@@ -350,6 +350,22 @@ function db_email_validation_key($userid)
 
 // Password
 
+function db_verify_password($username,$password)
+{
+  $db = new TGDB;
+  $sql = "select password from tg_users where username='$username'";
+  $result = $db->query($sql);
+
+  $n = $result->num_rows;
+  if($n>1) { throw new Exception("Multiple entries for userid=$userid",500); }
+
+  if( $n != 1 ) { return false; }
+
+  $data = $result->fetch_assoc();
+  $hashed_password = $data['password'];
+  return password_verify($password,$hashed_password);
+}
+
 function db_set_password_reset($userid,$reset_key)
 {
   $db = new TGDB;
