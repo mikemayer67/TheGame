@@ -2,37 +2,52 @@
 //  TheGamePlayer.swift
 //  TheGame
 //
-//  Created by Mike Mayer on 4/26/20.
+//  Created by Mike Mayer on 2/2/20.
 //  Copyright © 2020 VMWishes. All rights reserved.
 //
 
-import Foundation
+import UIKit
+import FacebookLogin
 
-class TheGamePlayer : GamePlayer
+fileprivate let iconSize     : CGFloat = 32.0
+fileprivate let iconFontSize : CGFloat = 20.0
+
+struct FacebookInfo
 {
-  override init(key: String, name: String, gameData: HashData? = nil) {
-    super.init(key: key, name: name, gameData: gameData ?? HashData())
+  let id             : String
+  let name           : String
+  let picture        : String? // URL of FB picture
+  let friendsGranted : Bool
+}
+
+class TheGamePlayer
+{
+  let name : String
+  let fb   : FacebookInfo?
+  let icon : UIImage?
+  
+  var lastLoss : GameTime?
+                 
+  init(name:String, lastLoss : GameTime? = nil)
+  {
+    self.name = name
+    self.fb   = nil
+    self.lastLoss = lastLoss
+    self.icon = TheGamePlayer.createIcon(for: name)
   }
   
-  override init(key: String, facebook: FacebookInfo, gameData: HashData? = nil) {
-    super.init(key: key, facebook: facebook, gameData: gameData ?? HashData() )
-  }
-  
-  var lastLoss : GameTime? {
-    get {
-      var rval : GameTime?
-      if let t = gameData!.getDouble("last_loss") { rval = GameTime(networktime: t) }
-      return rval
-    }
-    set {
-      gameData!.set(value: newValue?.networktime, for:"last_loss")
-    }
+  init(facebook:FacebookInfo, lastLoss : GameTime? = nil)
+  {
+    self.name = facebook.name
+    self.fb   = facebook
+    self.lastLoss = lastLoss
+    self.icon = TheGamePlayer.createIcon(for: name, with: facebook.picture)
   }
   
   var lastLossString : String
   {
-    if let s = lastLoss?.string { return "Last Loss: \(s)" }
-    else                        { return "No loss yet"     }
+    if let t = lastLoss?.string { return t }
+    else                        { return "No loss yet" }
   }
   
   func lost(after time:GameTime?) -> Bool
@@ -46,43 +61,50 @@ class TheGamePlayer : GamePlayer
   {
     return lost(after:other.lastLoss)
   }
-}
-
-class Opponent : TheGamePlayer, Comparable
-{
-  var matchStart : GameTime?
   
-  static func < (lhs: Opponent, rhs: Opponent) -> Bool
+  static func createIcon(for name:String) -> UIImage
   {
-    return rhs.lost(after: lhs.lastLoss)
+    let renderer = UIGraphicsImageRenderer(size:CGSize(width:32,height:32));
+    let image = renderer.image {
+      c in
+      
+      let bg = UIColor(named:"playerIconBackgroud") ?? UIColor.black
+      let fg = UIColor(named:"playerIconForeground") ?? UIColor.white
+      
+      let box = CGRect(x: 0.0, y: 0.0, width: iconSize, height: iconSize)
+      let attr : Dictionary<NSAttributedString.Key,Any> = [
+        .foregroundColor: fg ,
+        .font: UIFont.systemFont(ofSize: iconFontSize, weight: .black)
+      ]
+      
+      bg.setFill()
+      UIBezierPath(ovalIn: box).fill()
+      
+      let initial = NSString(string:name).substring(to: 1)
+      let x = NSAttributedString(string:initial, attributes:attr)
+      var q = x.boundingRect(with: box.size, options: [], context: nil)
+      q = q.offsetBy(dx: 0.5*(box.size.width - q.size.width),
+                     dy: 0.5*(box.size.height - q.size.height)-q.origin.y)
+      x.draw(in:q)
+    }
+    return image
   }
   
-  static func == (lhs: Opponent, rhs: Opponent) -> Bool
+  static func createIcon(for name:String, with url:String?) -> UIImage
   {
-    if lhs.lost(after:rhs) { return false }
-    if rhs.lost(after:lhs) { return false }
-    return true
+    if let url = url,
+      let imageURL = URL(string:url),
+      let imageData = try? Data(contentsOf: imageURL),
+      let image = UIImage(data: imageData)
+    {
+      let size = CGSize(width: iconSize, height: iconSize)
+      let renderer = UIGraphicsImageRenderer(size: size)
+      let icon = renderer.image { (_) in
+        image.draw(in: CGRect.init(origin: CGPoint.zero, size: size))
+      }
+      return icon
+    }
+    return createIcon(for: name)
   }
-}
 
-class DebugOpponent : Opponent  // @@@ REMOVE
-{
-  static var nextID : Int = 1
-  
-  let lossFrequency : Double
-  
-  init(_ name:String, gameAge:Double /*days*/, lossFrequency:TimeInterval, lost:TimeInterval? = nil)
-  {
-    DebugOpponent.nextID = DebugOpponent.nextID + 1
-
-    self.lossFrequency = lossFrequency
-
-    super.init(key: "DebugOpponent-\(DebugOpponent.nextID)", name: name)
-    
-    let now = GameTime()
-
-    if let lost = lost { self.lastLoss = now.offset(by: -1.0 * lost) }
-    
-    self.matchStart = now.offset(by: -86400.0 * gameAge)
-  }
 }

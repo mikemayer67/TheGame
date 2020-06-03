@@ -316,7 +316,7 @@ class CreateAccountViewController : ModalViewController
     }
     
     TheGame.shared.me =
-      LocalPlayer(userkey, username: username, alias: alias, gameData: data)
+      LocalPlayer(userkey, username: username, alias: alias, data: data)
     
     self.infoPopup(title: "User Created", message: message) {
       self.loginVC.completed(self)

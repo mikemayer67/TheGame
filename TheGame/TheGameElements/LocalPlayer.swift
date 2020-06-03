@@ -10,13 +10,15 @@ import UIKit
 import FBSDKCoreKit
 import FBSDKLoginKit
 
-class LocalPlayer : GamePlayer
+class LocalPlayer : TheGamePlayer
 {
+  let userkey     : String
   let username    : String?
   let alias       : String?
   
-  init(_ key:String, username:String?, alias:String? = nil, gameData:HashData? = nil)
+  init(_ key:String, username:String?, alias:String? = nil, data:HashData? = nil)
   {
+    self.userkey   = key
     self.username  = username
     self.alias     = alias
     
@@ -29,19 +31,30 @@ class LocalPlayer : GamePlayer
         : (username ?? "").count > 0 ? username!
         : UIDevice.current.name )
     
-    super.init(key:key, name:name, gameData:gameData)
+    super.init(name:name)
+    
+    if let t = data?.time { self.lastLoss = GameTime(networktime: TimeInterval(t)) }
+
   }
   
-  init(_ key:String, facebook:FacebookInfo, gameData:HashData? = nil)
+  init(_ key:String, facebook:FacebookInfo, data:HashData? = nil)
   {
+    self.userkey   = key
     self.username  = nil
     self.alias     = nil
-    
-    track("LocalPlayer FB:\(facebook)")
-    
+        
     Defaults.userkey  = key
+    
+    super.init(facebook:facebook)
 
-    super.init(key:key, facebook:facebook, gameData:gameData)
+    if let t = data?.time { self.lastLoss = GameTime(networktime: TimeInterval(t)) }
+  }
+  
+  override var lastLoss : GameTime?
+  {
+    didSet {
+      Defaults.lastLoss = lastLoss?.networktime
+    }
   }
   
   typealias ConnectCallback = (LocalPlayer?)->()
@@ -75,7 +88,7 @@ class LocalPlayer : GamePlayer
         me = LocalPlayer(userkey,
                          username: Defaults.username,
                          alias:    Defaults.alias,
-                         gameData: data)
+                         data:     data)
       default:
         Defaults.userkey = nil
       }
@@ -126,13 +139,13 @@ class LocalPlayer : GamePlayer
         {
           var picture : String?
           if let fbPicture = fbResult["picture"] as? NSDictionary,
-            let data = fbPicture["data"] as? NSDictionary,
-            let url = data["url"] as? String
+            let fbPictureData = fbPicture["data"] as? NSDictionary,
+            let url = fbPictureData["url"] as? String
           {
             picture = url
           }
           let fb = FacebookInfo(id: fbid, name: name, picture:picture, friendsGranted:friends)
-          me = LocalPlayer(userkey, facebook:fb, gameData: data)
+          me = LocalPlayer(userkey, facebook:fb, data: data)
         }
         
         completion(me)

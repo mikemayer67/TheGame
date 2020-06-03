@@ -30,10 +30,10 @@ class GameViewController: ChildViewController
   {
     super.awakeFromNib()
     
-    //@@@ REMOVE
-    game.add(DebugOpponent("Tom Smith",  gameAge:  5, lossFrequency: 3600.0             ))
-    game.add(DebugOpponent("Gus LeChat", gameAge:  3, lossFrequency: 1800.0, lost: 600.0))
-    game.add(DebugOpponent("Miss Marple",gameAge: 10, lossFrequency: 5400.0, lost:  10.0))
+    for opponent in TheGame.shared.opponents
+    {
+      game.add(opponent)
+    }
   }
   
   override func viewDidLoad() {
@@ -68,7 +68,7 @@ class GameViewController: ChildViewController
   func update(animated:Bool = true) -> Void
   {
     var text = "Go ahead, push the button..."
-    if let t = game.lastLoss?.string { text = "Last Loss: \(t)" }
+    if let t = game.lastLoss?.string { text = t }
     lastLossLabel.text = text
       
     oppenentTable.reloadData()

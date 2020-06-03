@@ -29,7 +29,6 @@ class SplashViewController: ChildViewController
     connectionAttempt = connectionAttempt + 1
 
     TheGame.server.testConnection { (connected) in
-
       if connected {
         LocalPlayer.connect { (localPlayer) in
           TheGame.shared.me = localPlayer

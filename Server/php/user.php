@@ -15,6 +15,7 @@ try
   elseif ( $action == 'validate' ) { user\validate(); }
   elseif ( $action == 'drop'     ) { user\drop();     }
   elseif ( $action == 'pwreset'  ) { user\pwreset();  }
+  elseif ( $action == 'matches'  ) { user\matches();  }
   else
   {
     api_error('Unknown action: ' . $action);

@@ -23,7 +23,7 @@ extension LocalPlayer
         me = LocalPlayer(userkey,
                          username: username,
                          alias:    data?.alias,
-                         gameData: data)
+                         data: data)
       }
       
       completion(query,me)

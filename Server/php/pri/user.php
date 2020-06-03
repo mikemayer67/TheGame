@@ -360,6 +360,22 @@ function lookup()
   send_success( $reply );
 }
 
+
+function matches()
+{
+  $userkey = get_required_arg(USERKEY);
+  fail_on_extra_args();
+
+  $info = db_find_user_by_userkey($userkey);
+  if( empty($info) ) { send_failure(\RC::INVALID_USERKEY); }
+
+  $userid = $info[USERID];
+
+  $matches = db_find_matches($userid);
+
+  send_success( array( 'matches' => $matches ) );
+}
+
 ################################################################################
 # Email Validation
 ################################################################################

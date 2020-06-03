@@ -29,8 +29,40 @@ class TheGame
   var me : LocalPlayer? = nil
   {
     didSet {
-      if me != nil { Defaults.hasResetSalt = false }
+      opponents.removeAll()
+      if me != nil {
+        Defaults.hasResetSalt = false
+        loadOpponents()
+      }
     }
   }
+  
   var opponents = [Opponent]()
+  
+  func loadOpponents()
+  {
+    opponents.removeAll()
+    guard let me = me else { return }
+        
+    TheGame.server.lookupOpponents(userkey: me.userkey) { (query) in
+      switch query.status
+      {
+      case .FailedToConnect:
+        track("delgate connection faliure")
+        
+      case .Success(let data):
+        if let matches = data?["matches"] as? [NSDictionary]
+        {
+          for matchData in matches
+          {
+            if let opponent = Opponent(matchData) { self.opponents.append(opponent) }
+          }
+        }
+        
+      default:
+        track("delegate opponent query failure")
+      }
+    }
+  }
+  
 }

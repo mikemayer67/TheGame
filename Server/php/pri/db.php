@@ -306,6 +306,52 @@ function db_drop_facebook($userid)
   return $result;
 }
 
+function db_find_matches($userid)
+{
+  $db = new TGDB;
+
+  $sql = "select * from tg_user_opponents where userid=$userid";
+  $result = $db->query($sql);
+
+  $data = array();
+  if( $result )
+  {
+    while( $row = $result->fetch_assoc() )
+    {
+      $last_loss   = $row['last_loss'];
+      $match_id    = $row['match_id'];
+      $match_start = $row['match_start'];
+      $fbid        = $row['fbid'];
+      $username    = $row['username'];
+      $alias       = $row['alias'];
+      if( isset($last_loss) && isset($match_start) && isset($match_id) )
+      {
+        $match = array(
+          'match_id' => $match_id, 
+          'last_loss' => $last_loss, 
+          'match_start' => $match_start 
+        );
+
+        if( isset($fbid) ) { 
+          $match['fpid'] = $fbid;
+          $data[] = $match;
+        }
+        elseif( isset($alias) )
+        {
+          $match['name'] = $alias;
+          $data[] = $match;
+        }
+        elseif( isset($username) )
+        {
+          $match['name'] = $username;
+          $data[] = $match;
+        }
+      }
+    }
+  }
+  return $data;
+}
+
 // Email Validation
 
 function db_confirm_email($key)

@@ -24,6 +24,7 @@ extension GameServer
     case Connect  = "connect"
     case Create   = "create"
     case Lookup   = "lookup"
+    case Matches  = "matches"
     
     case RetieveUsername = "username"
     case ResetPassword   = "pwreset"

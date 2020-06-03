@@ -27,6 +27,7 @@ enum QueryKey
   static let Notify    = "notify"
   static let Salt      = "salt"
   static let ResetCode = "reset"
+  static let Matches   = "matches"
 }
 
 enum EmailStatus
@@ -306,6 +307,24 @@ extension GameServer
       recognizedReturnCodes: [
         GameQuery.Status.InvalidUsername,
         GameQuery.Status.FailedToUpdateUser
+      ],
+      completion: completion
+    )
+  }
+  
+  func lookupOpponents(userkey:String, completion:@escaping (GameQuery)->())
+  {
+    execute(
+      page: .User,
+      action: .Matches,
+      args: [
+        QueryKey.Userkey : userkey
+      ],
+      requiredResponses: [
+        QueryKey.Matches
+      ],
+      recognizedReturnCodes: [
+        GameQuery.Status.InvalidUserkey
       ],
       completion: completion
     )

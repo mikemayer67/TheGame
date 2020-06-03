@@ -43,7 +43,6 @@ class GameModel : NSObject
   func iLostTheGame() -> Void
   {
     lastLoss = GameTime()
-    Defaults.lastLoss = lastLoss?.networktime
     viewController?.update()
   }
 }
@@ -52,13 +51,15 @@ extension GameModel // @@@ REMOVE
 {
   @IBAction func RESET(_ sender: UIButton)  // @@@ REMOVE
   {
-    Defaults.lastLoss = nil
     lastLoss = nil
   }
   
   @IBAction func opponentLost(_ sender: UIButton)
   {
-    opponents[sender.tag].lastLoss = GameTime()
+    if let opponent = TheGame.shared.opponents[safe:sender.tag]
+    {
+      opponent.lastLoss = GameTime()
+    }
     updateNextAllowableLoss()
     viewController?.update()
   }
