@@ -10,25 +10,18 @@ import Foundation
 
 class Opponent : TheGamePlayer, Comparable
 {
-  var matchStart : GameTime? = nil
+  var matchStart : GameTime
   
-  init?(_ data:NSDictionary)
+  init(name:String, matchStart:GameTime, lastLoss:GameTime? = nil)
   {
-    if let name = data["name"] as? String
-    {
-      super.init(name: name)
-    }
-    else if let fbid = data["fbid"] as? String
-    {
-      super.init(facebook: fb)
-    }
-    else
-    {
-      return nil
-    }
-    
-    if let t = data["match_start"] as? TimeInterval { self.matchStart = GameTime(networktime: t) }
-    if let t = data["last_loss"]   as? TimeInterval { self.lastLoss   = GameTime(networktime: t) }
+    self.matchStart = matchStart
+    super.init(name:name, lastLoss:lastLoss)
+  }
+  
+  init(facebook:FacebookInfo, matchStart:GameTime, lastLoss:GameTime? = nil)
+  {
+    self.matchStart = matchStart
+    super.init(facebook:facebook, lastLoss:lastLoss)
   }
     
   static func < (lhs: Opponent, rhs: Opponent) -> Bool

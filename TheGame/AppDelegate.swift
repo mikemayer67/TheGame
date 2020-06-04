@@ -21,22 +21,17 @@ class AppDelegate: UIResponder, UIApplicationDelegate
                    didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]? ) -> Bool
   {
     // @@@ REMOVE AFTER TESTING
-    if let uk = Bundle.main.object(forInfoDictionaryKey: "UserkeyOverride") as? String
+    if let dev = Bundle.main.object(forInfoDictionaryKey: "DevTesting") as? Bool, dev
     {
-      track("UserKeyOverride: '\(uk)'")
-      Defaults.userkey = uk
+      Defaults.dev = true
+      Defaults.username = "mikemayer67"
+      Defaults.alias   = "Mikey M"
+      Defaults.removeObject(forKey: "lastErrorEmail")
     }
-    if let u = Bundle.main.object(forInfoDictionaryKey: "UsernameOverride") as? String
+    else
     {
-      track("UserNameOverride: '\(u)'")
-      Defaults.username = u
+      Defaults.dev = false
     }
-    if let a = Bundle.main.object(forInfoDictionaryKey: "AliasOverride") as? String
-    {
-      track("AliasOverride: '\(a)'")
-      Defaults.alias = a
-    }
-    Defaults.removeObject(forKey: "lastErrorEmail")
     
     // Facebook
     ApplicationDelegate.shared.application(application, didFinishLaunchingWithOptions: launchOptions)

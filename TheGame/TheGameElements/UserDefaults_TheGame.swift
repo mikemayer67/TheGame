@@ -85,4 +85,10 @@ extension UserDefaults
     set { if !newValue { self.removeObject(forKey: ResetSalt) } }
   }
   
+  var dev : Bool
+  {
+    get { self.object(forKey: "DevTesting") as? Bool ?? false }
+    set { self.set(newValue, forKey: "DevTesting") }
+  }
+  
 }

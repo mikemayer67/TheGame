@@ -18,6 +18,14 @@ struct FacebookInfo
   let name           : String
   let picture        : String? // URL of FB picture
   let friendsGranted : Bool
+  
+  init(id:String, name:String, picture:String?, friendsGranted:Bool = false)
+  {
+    self.id = id
+    self.name = name
+    self.picture = picture
+    self.friendsGranted = friendsGranted
+  }
 }
 
 class TheGamePlayer
@@ -99,12 +107,19 @@ class TheGamePlayer
     {
       let size = CGSize(width: iconSize, height: iconSize)
       let renderer = UIGraphicsImageRenderer(size: size)
-      let icon = renderer.image { (_) in
+      let icon = renderer.image { (context) in
+        let rect = CGRect.init(origin: CGPoint.zero, size: size)
         image.draw(in: CGRect.init(origin: CGPoint.zero, size: size))
+        UIColor.black.setStroke()
+        context.cgContext.setLineWidth(1.0)
+        context.stroke(rect)
       }
       return icon
     }
-    return createIcon(for: name)
+    else
+    {
+      return createIcon(for: name)
+    }
   }
 
 }

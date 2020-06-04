@@ -6,7 +6,7 @@
 //  Copyright © 2020 VMWishes. All rights reserved.
 //
 
-import UIKit
+import Foundation
 import FBSDKCoreKit
 import FBSDKLoginKit
 
@@ -101,8 +101,7 @@ class LocalPlayer : TheGamePlayer
   {
     let request = GraphRequest(graphPath: "me", parameters: ["fields":"id,name,picture,permissions"])
     
-    request.start {
-      (_, result, error) in
+    request.start { (_, result, error) in
                   
       guard error == nil,
         let fbResult = result as? NSDictionary,
@@ -137,14 +136,14 @@ class LocalPlayer : TheGamePlayer
         if case .Success(let data) = query.status,
           let userkey = userkey ?? data?["userkey"] as? String
         {
-          var picture : String?
+          var pictureURL : String?
           if let fbPicture = fbResult["picture"] as? NSDictionary,
             let fbPictureData = fbPicture["data"] as? NSDictionary,
             let url = fbPictureData["url"] as? String
           {
-            picture = url
+            pictureURL = url
           }
-          let fb = FacebookInfo(id: fbid, name: name, picture:picture, friendsGranted:friends)
+          let fb = FacebookInfo(id: fbid, name: name, picture:pictureURL, friendsGranted:friends)
           me = LocalPlayer(userkey, facebook:fb, data: data)
         }
         

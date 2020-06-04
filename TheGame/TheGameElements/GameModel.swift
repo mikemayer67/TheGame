@@ -10,9 +10,6 @@ import UIKit
 
 class GameModel : NSObject
 {
-  let unchallangedLossInterval = 15.0 // may lose every hour
-  let challengedLossInterval   = 5.0   // may lose one minute after opponent loses
-  
   weak var viewController : GameViewController?
   
   private(set) var opponents = [Opponent]()
@@ -76,10 +73,10 @@ private extension GameModel
     }
     else
     {
-      var nextLossDelay = unchallangedLossInterval
+      var nextLossDelay = K.unchallangedLossInterval
       for opponent in opponents {
         if opponent.lost(after: lastLoss) {
-          nextLossDelay = challengedLossInterval
+          nextLossDelay = K.challengedLossInterval
           break
         }
       }

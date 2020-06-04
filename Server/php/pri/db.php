@@ -333,7 +333,7 @@ function db_find_matches($userid)
         );
 
         if( isset($fbid) ) { 
-          $match['fpid'] = $fbid;
+          $match['fbid'] = $fbid;
           $data[] = $match;
         }
         elseif( isset($alias) )

@@ -82,13 +82,9 @@
 		<string>UIInterfaceOrientationLandscapeLeft</string>
 		<string>UIInterfaceOrientationLandscapeRight</string>
 	</array>
-	<key>UserkeyOverride</key>
-	<string></string>
-	<key>UsernameOverride</key>
-	<string>mikemayer67</string>
-	<key>AliasOverride</key>
-	<string>Mikey M</string>
 	<key>ServerHost</key>
 	<string>https://eaglenest.local/thegame</string>
+	<key>DevTesting</key>
+	<true/>
 </dict>
 </plist>

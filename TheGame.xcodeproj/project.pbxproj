@@ -208,13 +208,13 @@
 			isa = PBXGroup;
 			children = (
 				27E8D23F245869610061DEF2 /* UserDefaults_TheGame.swift */,
+				27F3EDE223E7E4800057248B /* GameClock.swift */,
 				27CA19BC243A941B005C53FC /* TheGame.swift */,
 				27E82FAD240BEA45004DEC8C /* TheGameServer.swift */,
 				273F5C32246F9DBF000BE662 /* TheGameQueries.swift */,
 				27F9198C23E691DA00FA0E18 /* TheGamePlayer.swift */,
 				272FB2B72456743A00F70E1A /* LocalPlayer.swift */,
 				2769DD6624868DDB00DB8D42 /* Opponent.swift */,
-				27F3EDE223E7E4800057248B /* GameClock.swift */,
 				27EA805023EBEB3900C937EE /* GameModel.swift */,
 				2769DD642481515500DB8D42 /* LocalPlayer_TheGame.swift */,
 			);
