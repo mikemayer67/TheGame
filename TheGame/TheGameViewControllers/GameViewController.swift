@@ -17,23 +17,24 @@ class GameViewController: ChildViewController
   @IBOutlet weak var lostButton: UIButton!
   @IBOutlet weak var bannerView: GADBannerView!
   @IBOutlet weak var lastLossLabel: UILabel!
-    
-  @IBOutlet weak var game: GameModel!  // @@@ REMOVE
-    
+        
   private var buttonIsEnabled = true
   
   private let feedback = UISelectionFeedbackGenerator()
   
+  var theGame : TheGame { TheGame.shared }
+  
   override func viewDidLoad() {
     super.viewDidLoad()
     
-    TheGame.shared.errorDelegate  = self
-    TheGame.shared.updateDelegate = self
+    oppenentTable.delegate   = theGame
+    oppenentTable.dataSource = theGame
+    theGame.errorDelegate    = self
+    theGame.delegate         = self
         
     initilizeBannerAd()
     
     update(animated:false)
-    game.viewController = self
   }
   
   @IBAction func addOpponent(_ sender: UIButton)
@@ -51,21 +52,36 @@ class GameViewController: ChildViewController
   {
     feedback.selectionChanged()
     hideLostButton(animated: true)
-    game.iLostTheGame()
+    theGame.iLost()
   }
   
   func update(animated:Bool = true) -> Void
   {
-    var text = "Go ahead, push the button..."
-    if let t = game.lastLoss?.string { text = t }
-    lastLossLabel.text = text
+    lastLossLabel.text = {
+      guard let t = theGame.lastLoss?.string else {
+        return "Go ahead, push the button..." }
+      return t
+    } ()
       
     oppenentTable.reloadData()
     
-    if game.allowedToLose { showLostButton(animated:animated) }
-    else                  { hideLostButton(animated:animated) }
+    if theGame.allowedToLose { showLostButton(animated:animated) }
+    else                     { hideLostButton(animated:animated) }
+  }
+}
+
+/// @@@ REMOVE
+extension GameViewController
+{
+  @IBAction func RESET(_ sender:UIButton)
+  {
+    theGame.reset_REMOVE()
   }
   
+  @IBAction func opponentLost(_ sender: UIButton)
+  {
+    theGame.opponentLost_REMOVE(sender.tag)
+  }
 }
 
 private extension GameViewController
@@ -149,7 +165,7 @@ private extension GameViewController
   }
 }
 
-extension GameViewController : TheGameErrorHandler, TheGameUpdateDelegate
+extension GameViewController : TheGameErrorHandler, TheGameDelegate
 {
   func failedConnection(_ theGame: TheGame)
   {
@@ -161,8 +177,7 @@ extension GameViewController : TheGameErrorHandler, TheGameUpdateDelegate
     internalError(error, file:file, function:function)
   }
   
-  func opponentsUpdated(_ theGame: TheGame)
-  {
+  func handleUpdates(_ theGame: TheGame) {
     self.update(animated: true)
   }
 }

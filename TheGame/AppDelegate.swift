@@ -21,16 +21,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate
                    didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]? ) -> Bool
   {
     // @@@ REMOVE AFTER TESTING
-    if let dev = Bundle.main.object(forInfoDictionaryKey: "DevTesting") as? Bool, dev
+    if Bundle.main.object(forInfoDictionaryKey: "DevUser") as? Bool ?? false
     {
-      Defaults.dev = true
       Defaults.username = "mikemayer67"
       Defaults.alias   = "Mikey M"
       Defaults.removeObject(forKey: "lastErrorEmail")
-    }
-    else
-    {
-      Defaults.dev = false
     }
         
     // Facebook

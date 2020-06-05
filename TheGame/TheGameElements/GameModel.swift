@@ -6,156 +6,31 @@
 //  Copyright © 2020 VMWishes. All rights reserved.
 //
 
-import UIKit
-
-class GameModel : NSObject
-{
-  weak var viewController : GameViewController?
-    
-  override func awakeFromNib()
-  {
-    if let t = Defaults.lastLoss
-    {
-      lastLoss = GameTime(networktime: t)
-    }
-  }
-    
-  private(set) var nextLossTimer : Timer?
-
-  private(set) var lastLoss : GameTime?
-  { didSet { updateNextAllowableLoss() } }
-  
-  private(set) var nextAllowableLoss : GameTime = GameTime()
-  { didSet { updateLossTimer() } }
-
-  var allowedToLose : Bool { GameTime() > nextAllowableLoss }
-  
-  func iLostTheGame() -> Void
-  {
-    lastLoss = GameTime()
-    viewController?.update()
-  }
-}
-
-extension GameModel // @@@ REMOVE
-{
-  @IBAction func RESET(_ sender: UIButton)  // @@@ REMOVE
-  {
-    lastLoss = nil
-  }
-  
-  @IBAction func opponentLost(_ sender: UIButton)
-  {
-    if let opponent = TheGame.shared.opponents[safe:sender.tag]
-    {
-      opponent.lastLoss = GameTime()
-    }
-    updateNextAllowableLoss()
-    viewController?.update()
-  }
-}
+//import UIKit
+//
+//class GameModel : NSObject
+//
+//extension GameModel // @@@ REMOVE
+//{
+//  @IBAction func RESET(_ sender: UIButton)  // @@@ REMOVE
+//  {
+//    lastLoss = nil
+//  }
+//
+//  @IBAction func opponentLost(_ sender: UIButton)
+//  {
+//    if let opponent = TheGame.shared.opponents[safe:sender.tag]
+//    {
+//      opponent.lastLoss = GameTime()
+//    }
+//    updateNextAllowableLoss()
+//    viewController?.update()
+//  }
+//}
+//
+//
+//private extension GameModel
+//{
+//}
 
 
-private extension GameModel
-{
-  func updateNextAllowableLoss() -> Void
-  {
-    if lastLoss == nil
-    {
-      nextAllowableLoss = GameTime() // never loss before, can lose immediately
-    }
-    else
-    {
-      var nextLossDelay = K.unchallangedLossInterval
-      for opponent in TheGame.shared.opponents {
-        if opponent.lost(after: lastLoss) {
-          nextLossDelay = K.challengedLossInterval
-          break
-        }
-      }
-      nextAllowableLoss = lastLoss!.offset(by: nextLossDelay)
-    }
-  }
-  
-  func updateLossTimer() -> Void
-  {
-    if let t = nextLossTimer {
-      t.invalidate()
-      nextLossTimer = nil
-    }
-    
-    if let vc = viewController
-    {
-      let delay = nextAllowableLoss - GameTime()
-      
-      if delay > 0.0 {
-        nextLossTimer = Timer.scheduledTimer(withTimeInterval: delay, repeats: false)
-        { _ in
-          vc.update()
-          self.nextLossTimer = nil
-        }
-      }
-      else
-      {
-        vc.update()
-      }
-    }
-  }
-}
-
-extension GameModel : UITableViewDelegate, UITableViewDataSource
-{
-  func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int
-  {
-    return TheGame.shared.opponents.count
-  }
-  
-  func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell
-  {
-    let cell = tableView.dequeueReusableCell(withIdentifier: "opponentCell", for: indexPath)
-    
-    cell.backgroundColor=UIColor.systemBackground
-        
-    if let opponent = TheGame.shared.opponents[safe:indexPath.row]
-    {
-      cell.textLabel?.text = opponent.name
-      cell.detailTextLabel?.text = opponent.lastLossString
-      cell.imageView?.image = opponent.icon
-      
-      let layer = cell.contentView.layer
-      layer.cornerRadius = 15.0
-      layer.borderColor = UIColor.black.cgColor
-      layer.borderWidth = 1.0
-      
-      cell.contentView.backgroundColor =
-        ( opponent.lost(after: lastLoss) ? UIColor(named: "losingColor") : UIColor(named:"winningColor") )
-    }
-    else
-    {
-      cell.textLabel?.text = "Coding Error"
-      cell.detailTextLabel?.text = "oops"
-      cell.imageView?.image = UIImage(named: "bug")
-    }
-    return cell
-  }
-  
-  func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration?
-  {
-    let unfriend = UIContextualAction(style: .normal, title: "Unfriend") { (action, view, completion) in
-      track("unfriend opponent at row: \(indexPath)")
-    }
-    unfriend.image = #imageLiteral(resourceName: "icons8-unfriend")
-    unfriend.backgroundColor = UIColor.systemBackground
-    return UISwipeActionsConfiguration(actions: [unfriend])
-  }
-  
-  func tableView(_ tableView: UITableView, leadingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration?
-  {
-    let poke = UIContextualAction(style: .normal, title: "Poke") { (action, view, completion) in
-      track("poke opponent at row: \(indexPath)")
-    }
-    poke.image = #imageLiteral(resourceName: "icons8-poke_friend")
-    poke.backgroundColor = UIColor.systemBackground
-    return UISwipeActionsConfiguration(actions: [poke])
-  }
-}

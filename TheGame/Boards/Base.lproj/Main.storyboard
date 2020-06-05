@@ -252,10 +252,6 @@
                                         </tableViewCellContentView>
                                     </tableViewCell>
                                 </prototypes>
-                                <connections>
-                                    <outlet property="dataSource" destination="WDJ-Qp-Kwo" id="keq-Pv-WTe"/>
-                                    <outlet property="delegate" destination="WDJ-Qp-Kwo" id="4qz-2c-BAS"/>
-                                </connections>
                             </tableView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7OE-cD-3ew">
                                 <rect key="frame" x="20" y="488" width="280" height="22"/>
@@ -275,28 +271,28 @@
                                     <color key="titleColor" systemColor="systemRedColor" red="1" green="0.23137254900000001" blue="0.18823529410000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 </state>
                                 <connections>
-                                    <action selector="RESET:" destination="WDJ-Qp-Kwo" eventType="touchUpInside" id="Erv-fi-9Md"/>
+                                    <action selector="RESET:" destination="rCI-oy-28V" eventType="touchUpInside" id="aK7-W7-kTl"/>
                                 </connections>
                             </button>
                             <button opaque="NO" tag="1" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fqv-4q-diE">
                                 <rect key="frame" x="270" y="418" width="30" height="30"/>
                                 <state key="normal" title="2"/>
                                 <connections>
-                                    <action selector="opponentLost:" destination="WDJ-Qp-Kwo" eventType="touchUpInside" id="RDh-VG-WDW"/>
+                                    <action selector="opponentLost:" destination="rCI-oy-28V" eventType="touchUpInside" id="5f2-W3-QBj"/>
                                 </connections>
                             </button>
                             <button opaque="NO" tag="2" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="lXc-Qy-AQ8">
                                 <rect key="frame" x="270" y="456" width="30" height="30"/>
                                 <state key="normal" title="3"/>
                                 <connections>
-                                    <action selector="opponentLost:" destination="WDJ-Qp-Kwo" eventType="touchUpInside" id="mrZ-vk-zux"/>
+                                    <action selector="opponentLost:" destination="rCI-oy-28V" eventType="touchUpInside" id="Ihc-Ml-CwE"/>
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="o7G-1R-M0X">
                                 <rect key="frame" x="270" y="380" width="30" height="30"/>
                                 <state key="normal" title="1"/>
                                 <connections>
-                                    <action selector="opponentLost:" destination="WDJ-Qp-Kwo" eventType="touchUpInside" id="8u3-Zp-2zs"/>
+                                    <action selector="opponentLost:" destination="rCI-oy-28V" eventType="touchUpInside" id="S4W-3G-FE1"/>
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Mt5-bU-OMo">
@@ -353,7 +349,6 @@
                     <connections>
                         <outlet property="bannerView" destination="9PA-5u-yaY" id="Ca4-S1-f64"/>
                         <outlet property="buttonView" destination="9Rz-bg-2yg" id="qAO-te-oZ0"/>
-                        <outlet property="game" destination="WDJ-Qp-Kwo" id="FVA-kS-AAg"/>
                         <outlet property="lastLossLabel" destination="7OE-cD-3ew" id="Xop-EI-TMq"/>
                         <outlet property="lostButton" destination="FDz-gI-m8F" id="RUg-pD-7YC"/>
                         <outlet property="oppenentTable" destination="tLU-FE-EwV" id="9JS-bY-fEy"/>

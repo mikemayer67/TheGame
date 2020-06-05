@@ -52,7 +52,7 @@ class LocalPlayer : TheGamePlayer
   override var lastLoss : GameTime?
   {
     didSet {
-      Defaults.lastLoss = lastLoss?.networktime
+      track("@@@ Add query to update loss to \(lastLoss?.networktime ?? 0)")
     }
   }
   

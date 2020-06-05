@@ -48,15 +48,6 @@ extension UserDefaults
     }
   }
   
-  var lastLoss : TimeInterval?
-  {
-    get { self.object(forKey: LastLoss) as? TimeInterval }
-    set {
-      if let t = newValue { self.set(t,       forKey: LastLoss) }
-      else                { self.removeObject(forKey: LastLoss) }
-    }
-  }
-  
   var lastErrorEmail : TimeInterval
   {
     get { self.object(forKey: LastErrorEmail) as? TimeInterval ?? 0.0 }
@@ -82,11 +73,4 @@ extension UserDefaults
     get { object(forKey: ResetSalt) != nil }
     set { if !newValue { self.removeObject(forKey: ResetSalt) } }
   }
-  
-  var dev : Bool
-  {
-    get { self.object(forKey: "DevTesting") as? Bool ?? false }
-    set { self.set(newValue, forKey: "DevTesting") }
-  }
-  
 }

@@ -10,6 +10,8 @@ import Foundation
 import FBSDKCoreKit
 import FBSDKLoginKit
 
+let devTiming = Bundle.main.object(forInfoDictionaryKey: "DevTiming") as? Bool ?? false
+
 enum K
 {
   static let MinUsernameLength = 6
@@ -17,8 +19,8 @@ enum K
   static let MinPasswordLength = 8
   static let ResetCodeLength   = 6
   
-  static let unchallangedLossInterval = (Defaults.dev ? 15.0 : 3600.0) // may lose every hour
-  static let challengedLossInterval   = (Defaults.dev ?  5.0 :   60.0) // may lose one minute after opponent loses
+  static let unchallangedLossInterval = (devTiming ? 15.0 : 3600.0) // may lose every hour
+  static let challengedLossInterval   = (devTiming ?  5.0 :   60.0) // may lose one minute after opponent loses
   
   // From http://emailregex.com
   static let emailRegex = #"""
@@ -32,19 +34,19 @@ protocol TheGameErrorHandler
   func internalError(_ theGame:TheGame, error:String, file:String, function:String)
 }
 
-protocol TheGameUpdateDelegate
+protocol TheGameDelegate
 {
-  func opponentsUpdated(_ theGame:TheGame)
+  func handleUpdates(_ theGame:TheGame)
 }
 
-class TheGame
+class TheGame : NSObject
 {
   static let shared   = TheGame()
   static let server   = GameServer()
   
   var errorDelegate  : TheGameErrorHandler?
-  var updateDelegate : TheGameUpdateDelegate?
-  
+  var delegate       : TheGameDelegate?
+    
   var me : LocalPlayer? = nil
   {
     didSet {
@@ -56,7 +58,9 @@ class TheGame
     }
   }
   
-  var opponents = [Opponent]()
+  private(set) var opponents = [Opponent]()
+  
+  private(set) var nextLossTimer : Timer?
 }
 
 // MARK:- Opponents
@@ -73,7 +77,7 @@ extension TheGame
       if case .Success(let data) = query.status,
         let matchData = data?[QueryKey.Matches] as? [NSDictionary]
       {
-        self.loadOpponent(matchData)
+        self.loadOpponents(matchData)
       }
       
       else if case .FailedToConnect = query.status {
@@ -89,7 +93,7 @@ extension TheGame
     }
   }
   
-  func loadOpponent(_ matchData:[NSDictionary])
+  func loadOpponents(_ matchData:[NSDictionary])
   {
     for match in matchData
     {
@@ -128,7 +132,7 @@ extension TheGame
       }
     }
     
-    updateDelegate?.opponentsUpdated(self)
+    delegate?.handleUpdates(self)
   }
   
   func loadOpponent(_ fbid:String, matchStart:GameTime, lastLoss:GameTime?)
@@ -155,7 +159,144 @@ extension TheGame
         Opponent(facebook: fbInfo, matchStart: matchStart, lastLoss: lastLoss)
       )
       
-      self.updateDelegate?.opponentsUpdated(self)
+      self.delegate?.handleUpdates(self)
+    }
+  }
+}
+
+// MARK:- Last Loss
+
+extension TheGame
+{
+  var lastLoss : GameTime? { me?.lastLoss }
+  var allowedToLose : Bool { GameTime() > nextAllowableLoss }
+   
+  func iLost() -> Void
+  {
+    let now = GameTime()
+    me?.lastLoss = now
+    updateLossTimer()
+    delegate?.handleUpdates(self)
+  }
+  
+  var nextAllowableLoss : GameTime
+  {
+    if let localPlayer = me, let lastLoss = localPlayer.lastLoss
+    {
+      for opponent in opponents
+      {
+        if opponent.lost(after:lastLoss) {
+          return lastLoss.offset(by: K.challengedLossInterval)
+        }
+      }
+      return lastLoss.offset(by: K.unchallangedLossInterval)
+    }
+    return GameTime(networktime: 0.0)
+  }
+  
+  func updateLossTimer() -> Void
+  {
+    if let t = nextLossTimer {
+      t.invalidate()
+      nextLossTimer = nil
+    }
+    
+    guard let delegate = delegate else { return }
+    
+    let now = GameTime()
+    let nextLoss = nextAllowableLoss
+    if nextLoss > now {
+      nextLossTimer = Timer.scheduledTimer(withTimeInterval: nextLoss - now, repeats: false) { _ in
+        delegate.handleUpdates(self)
+        self.nextLossTimer = nil
+      }
+    }
+    else
+    {
+      delegate.handleUpdates(self)
+    }
+  }
+  
+}
+
+// MARK:- TableView Delegates
+
+extension TheGame : UITableViewDelegate, UITableViewDataSource
+{
+  func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int
+  {
+    return opponents.count
+  }
+  
+  func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell
+  {
+    let cell = tableView.dequeueReusableCell(withIdentifier: "opponentCell", for: indexPath)
+    
+    let lastLoss = me?.lastLoss
+    
+    cell.backgroundColor=UIColor.systemBackground
+        
+    if let opponent = opponents[safe:indexPath.row]
+    {
+      cell.textLabel?.text = opponent.name
+      cell.detailTextLabel?.text = opponent.lastLossString
+      cell.imageView?.image = opponent.icon
+      
+      let layer = cell.contentView.layer
+      layer.cornerRadius = 15.0
+      layer.borderColor = UIColor.black.cgColor
+      layer.borderWidth = 1.0
+      
+      cell.contentView.backgroundColor =
+        ( opponent.lost(after: lastLoss) ? UIColor(named: "losingColor") : UIColor(named:"winningColor") )
+    }
+    else
+    {
+      cell.textLabel?.text = "Coding Error"
+      cell.detailTextLabel?.text = "oops"
+      cell.imageView?.image = UIImage(named: "bug")
+    }
+    return cell
+  }
+  
+  func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration?
+  {
+    let unfriend = UIContextualAction(style: .normal, title: "Unfriend") { (action, view, completion) in
+      track("unfriend opponent at row: \(indexPath)")
+    }
+    unfriend.image = #imageLiteral(resourceName: "icons8-unfriend")
+    unfriend.backgroundColor = UIColor.systemBackground
+    return UISwipeActionsConfiguration(actions: [unfriend])
+  }
+  
+  func tableView(_ tableView: UITableView, leadingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration?
+  {
+    let poke = UIContextualAction(style: .normal, title: "Poke") { (action, view, completion) in
+      track("poke opponent at row: \(indexPath)")
+    }
+    poke.image = #imageLiteral(resourceName: "icons8-poke_friend")
+    poke.backgroundColor = UIColor.systemBackground
+    return UISwipeActionsConfiguration(actions: [poke])
+  }
+}
+
+// MARK:- REMOVE
+extension TheGame
+{
+  func reset_REMOVE()
+  {
+    me?.lastLoss = nil
+    updateLossTimer()
+    delegate?.handleUpdates(self)
+  }
+  
+  func opponentLost_REMOVE(_ tag:Int)
+  {
+    if let opponent = opponents[safe:tag]
+    {
+      opponent.lastLoss = GameTime()
+      updateLossTimer()
+      delegate?.handleUpdates(self)
     }
   }
 }
