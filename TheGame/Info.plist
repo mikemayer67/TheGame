@@ -85,6 +85,6 @@
 	<key>ServerHost</key>
 	<string>https://eaglenest.local/thegame</string>
 	<key>DevTesting</key>
-	<true/>
+	<false/>
 </dict>
 </plist>

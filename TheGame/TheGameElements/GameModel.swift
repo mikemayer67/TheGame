@@ -11,9 +11,7 @@ import UIKit
 class GameModel : NSObject
 {
   weak var viewController : GameViewController?
-  
-  private(set) var opponents = [Opponent]()
-  
+    
   override func awakeFromNib()
   {
     if let t = Defaults.lastLoss
@@ -31,11 +29,6 @@ class GameModel : NSObject
   { didSet { updateLossTimer() } }
 
   var allowedToLose : Bool { GameTime() > nextAllowableLoss }
-   
-  func add(_ opponent:Opponent) -> Void
-  {
-    opponents.append(opponent)
-  }
   
   func iLostTheGame() -> Void
   {
@@ -74,7 +67,7 @@ private extension GameModel
     else
     {
       var nextLossDelay = K.unchallangedLossInterval
-      for opponent in opponents {
+      for opponent in TheGame.shared.opponents {
         if opponent.lost(after: lastLoss) {
           nextLossDelay = K.challengedLossInterval
           break
@@ -114,7 +107,7 @@ extension GameModel : UITableViewDelegate, UITableViewDataSource
 {
   func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int
   {
-    return opponents.count
+    return TheGame.shared.opponents.count
   }
   
   func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell
@@ -122,8 +115,8 @@ extension GameModel : UITableViewDelegate, UITableViewDataSource
     let cell = tableView.dequeueReusableCell(withIdentifier: "opponentCell", for: indexPath)
     
     cell.backgroundColor=UIColor.systemBackground
-    
-    if let opponent = opponents[safe:indexPath.row]
+        
+    if let opponent = TheGame.shared.opponents[safe:indexPath.row]
     {
       cell.textLabel?.text = opponent.name
       cell.detailTextLabel?.text = opponent.lastLossString
@@ -144,5 +137,25 @@ extension GameModel : UITableViewDelegate, UITableViewDataSource
       cell.imageView?.image = UIImage(named: "bug")
     }
     return cell
+  }
+  
+  func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration?
+  {
+    let unfriend = UIContextualAction(style: .normal, title: "Unfriend") { (action, view, completion) in
+      track("unfriend opponent at row: \(indexPath)")
+    }
+    unfriend.image = #imageLiteral(resourceName: "icons8-unfriend")
+    unfriend.backgroundColor = UIColor.systemBackground
+    return UISwipeActionsConfiguration(actions: [unfriend])
+  }
+  
+  func tableView(_ tableView: UITableView, leadingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration?
+  {
+    let poke = UIContextualAction(style: .normal, title: "Poke") { (action, view, completion) in
+      track("poke opponent at row: \(indexPath)")
+    }
+    poke.image = #imageLiteral(resourceName: "icons8-poke_friend")
+    poke.backgroundColor = UIColor.systemBackground
+    return UISwipeActionsConfiguration(actions: [poke])
   }
 }

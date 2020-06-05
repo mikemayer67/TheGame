@@ -32,10 +32,8 @@ extension UserDefaults
   {
     get { self.string(forKey: Userkey) }
     set {
-      if let uk = newValue, uk.count > 0
-      { self.set(uk, forKey: Userkey) }
-      else
-      { self.removeObject(forKey: Userkey) }
+      if let uk = newValue, uk.count > 0 { self.set(uk, forKey: Userkey)      }
+      else                               { self.removeObject(forKey: Userkey) }
     }
   }
   

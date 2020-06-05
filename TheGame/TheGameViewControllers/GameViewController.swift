@@ -17,48 +17,33 @@ class GameViewController: ChildViewController
   @IBOutlet weak var lostButton: UIButton!
   @IBOutlet weak var bannerView: GADBannerView!
   @IBOutlet weak var lastLossLabel: UILabel!
-  
-  @IBOutlet weak var meIcon: UIImageView!
-  
+    
   @IBOutlet weak var game: GameModel!  // @@@ REMOVE
     
   private var buttonIsEnabled = true
   
   private let feedback = UISelectionFeedbackGenerator()
   
-  override func awakeFromNib()
-  {
-    super.awakeFromNib()
-        
-    for opponent in TheGame.shared.opponents
-    {
-      game.add(opponent)
-    }
-  }
-  
   override func viewDidLoad() {
     super.viewDidLoad()
     
     TheGame.shared.errorDelegate  = self
     TheGame.shared.updateDelegate = self
-    
-    meIcon.layer.masksToBounds = true
-    meIcon.layer.cornerRadius = 12
         
     initilizeBannerAd()
     
     update(animated:false)
     game.viewController = self
-    
-    if let icon = TheGame.shared.me?.icon
-    {
-      meIcon.image = icon
-    }
   }
   
   @IBAction func addOpponent(_ sender: UIButton)
   {
     track("@@@ add opponent")
+  }
+  
+  @IBAction func handleSettings(_ sender: UIButton)
+  {
+    track("@@@ handle settings")
   }
   
   @IBAction func handleLostButton(_ sender: UIButton)
@@ -177,7 +162,7 @@ extension GameViewController : TheGameErrorHandler, TheGameUpdateDelegate
   
   func opponentsUpdated(_ theGame: TheGame)
   {
-    track("TheGame updated opponent list")
+    self.update(animated: true)
   }
 }
 

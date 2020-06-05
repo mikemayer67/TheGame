@@ -34,7 +34,6 @@ class LocalPlayer : TheGamePlayer
     super.init(name:name)
     
     if let t = data?.time { self.lastLoss = GameTime(networktime: TimeInterval(t)) }
-
   }
   
   init(_ key:String, facebook:FacebookInfo, data:HashData? = nil)
@@ -64,7 +63,11 @@ class LocalPlayer : TheGamePlayer
     let userkey  = Defaults.userkey
     
     if AccessToken.current != nil {
-      connectFacebook(userkey:userkey, completion:completion)
+      connectFacebook(userkey: userkey) { (localPlayer) in
+        if let me = localPlayer { completion(me) }
+        else if userkey == nil  { completion(nil) }
+        else                    { connect(userkey: userkey!, completion: completion) }
+      }
     }
     else if let userkey = userkey {
       connect(userkey:userkey, completion:completion)
@@ -77,7 +80,7 @@ class LocalPlayer : TheGamePlayer
   static func connect(userkey:String, completion: @escaping ConnectCallback)
   {
     let args : GameQuery.Args = [QueryKey.Userkey:userkey]
-
+    
     TheGame.server.query(.User, action: .Validate, args: args).execute() {
       (query) in
             
@@ -85,10 +88,7 @@ class LocalPlayer : TheGamePlayer
       switch query.status
       {
       case .Success(let data):
-        me = LocalPlayer(userkey,
-                         username: Defaults.username,
-                         alias:    Defaults.alias,
-                         data:     data)
+        me = LocalPlayer(userkey, username: Defaults.username, alias: Defaults.alias, data: data)
       default:
         Defaults.userkey = nil
       }
@@ -102,7 +102,7 @@ class LocalPlayer : TheGamePlayer
     let request = GraphRequest(graphPath: "me", parameters: ["fields":"id,name,picture,permissions"])
     
     request.start { (_, result, error) in
-                  
+                        
       guard error == nil,
         let fbResult = result as? NSDictionary,
         let fbid     = fbResult["id"]   as? String,
@@ -130,7 +130,7 @@ class LocalPlayer : TheGamePlayer
         
       TheGame.server.query(.User, action: .Connect, args: args).execute() {
         (query) in
-                
+                        
         var me : LocalPlayer? = nil
         
         if case .Success(let data) = query.status,

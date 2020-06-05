@@ -32,7 +32,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate
     {
       Defaults.dev = false
     }
-    
+        
     // Facebook
     ApplicationDelegate.shared.application(application, didFinishLaunchingWithOptions: launchOptions)
         

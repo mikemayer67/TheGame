@@ -20,10 +20,7 @@ extension LocalPlayer
       if case .Success(let data) = query.status,
         let userkey = data?.userkey // should never fail (login query checks this)
       {
-        me = LocalPlayer(userkey,
-                         username: username,
-                         alias:    data?.alias,
-                         data: data)
+        me = LocalPlayer(userkey, username: username, alias: data?.alias, data: data)
       }
       
       completion(query,me)

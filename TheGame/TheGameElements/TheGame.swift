@@ -63,7 +63,7 @@ class TheGame
 
 extension TheGame
 {
-  func loadOpponents()
+  private func loadOpponents()
   {
     opponents.removeAll()
     guard let me = me else { return }
