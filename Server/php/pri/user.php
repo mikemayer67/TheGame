@@ -325,6 +325,21 @@ function pwreset()
   }
 }
 
+function lost()
+{
+  $userkey = get_required_arg(USERKEY);
+  fail_on_extra_args();
+
+  if( db_user_lost($userkey) )
+  {
+    send_success();
+  }
+  else
+  {
+    send_failure(\RC::FAILED_TO_UPDATE_USER);
+  }
+}
+
 
 #################################################################################
 # User Info

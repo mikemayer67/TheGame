@@ -232,6 +232,15 @@ function db_update_user_email($userid,$email)
   return $result;
 }
 
+function db_user_lost($userkey)
+{
+  $db = new TGDB;
+
+  $now = time();
+  $sql = "update tg_users set last_loss=$now where userkey='$userkey'";
+  return $db->query($sql);
+}
+
 function db_add_facebook($userid,$fbid)
 {
   $db = new TGDB;

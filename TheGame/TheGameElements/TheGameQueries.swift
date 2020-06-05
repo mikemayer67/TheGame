@@ -333,4 +333,19 @@ extension GameServer
     )
   }
   
+  func updateLastLoss(userkey:String, completion:@escaping (GameQuery)->())
+  {
+    execute(
+      page: .User,
+      action: .LastLoss,
+      args: [
+        QueryKey.Userkey : userkey
+      ],
+      recognizedReturnCodes: [
+        GameQuery.Status.FailedToUpdateUser
+      ],
+      completion: completion
+    )
+  }
+  
 }

@@ -33,7 +33,7 @@ class LocalPlayer : TheGamePlayer
     
     super.init(name:name)
     
-    if let t = data?.time { self.lastLoss = GameTime(networktime: TimeInterval(t)) }
+    if let t = data?.lastLoss { self.lastLoss = GameTime(networktime: TimeInterval(t)) }
   }
   
   init(_ key:String, facebook:FacebookInfo, data:HashData? = nil)
@@ -52,7 +52,15 @@ class LocalPlayer : TheGamePlayer
   override var lastLoss : GameTime?
   {
     didSet {
-      track("@@@ Add query to update loss to \(lastLoss?.networktime ?? 0)")
+      TheGame.server.updateLastLoss(userkey: userkey) { (query) in
+        switch query.status
+        {
+        case .FailedToConnect:
+          track("@@@ use of Notification Center to handle connection failure")
+        default:
+          break
+        }
+      }
     }
   }
   

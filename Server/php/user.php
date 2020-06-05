@@ -16,6 +16,7 @@ try
   elseif ( $action == 'drop'     ) { user\drop();     }
   elseif ( $action == 'pwreset'  ) { user\pwreset();  }
   elseif ( $action == 'matches'  ) { user\matches();  }
+  elseif ( $action == 'lost'     ) { user\lost();     }
   else
   {
     api_error('Unknown action: ' . $action);

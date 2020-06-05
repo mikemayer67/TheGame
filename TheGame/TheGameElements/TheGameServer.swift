@@ -28,6 +28,7 @@ extension GameServer
     
     case RetieveUsername = "username"
     case ResetPassword   = "pwreset"
+    case LastLoss        = "lost"
   }
   
   func query(_ page:Page, action:Action, args:GameQuery.Args? = nil) -> GameQuery
