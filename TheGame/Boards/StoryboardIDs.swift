@@ -17,6 +17,11 @@ enum ViewControllerID : String
   case ConnectScreen  = "loginVC"
 }
 
+enum SegueID : String
+{
+  case Settings = "showSettings"
+}
+
 extension UIViewController
 {
   func instantiate(_ id:ViewControllerID) -> UIViewController

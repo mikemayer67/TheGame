@@ -44,6 +44,7 @@ class GameViewController: ChildViewController
   @IBAction func handleSettings(_ sender: UIButton)
   {
     track("@@@ handle settings")
+    performSegue(withIdentifier: SegueID.Settings.rawValue, sender: self)
   }
   
   @IBAction func handleLostButton(_ sender: UIButton)
