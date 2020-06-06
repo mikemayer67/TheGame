@@ -334,7 +334,7 @@ extension GameServer
   }
   
   func updateLastLoss(userkey:String, completion:@escaping (GameQuery)->())
-  {
+  {    
     execute(
       page: .User,
       action: .LastLoss,

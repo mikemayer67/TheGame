@@ -55,10 +55,8 @@ class LocalPlayer : TheGamePlayer
       TheGame.server.updateLastLoss(userkey: userkey) { (query) in
         switch query.status
         {
-        case .FailedToConnect:
-          track("@@@ use of Notification Center to handle connection failure")
-        default:
-          break
+        case .FailedToConnect: failedToConnectToServer()
+        default: break
         }
       }
     }
@@ -69,7 +67,7 @@ class LocalPlayer : TheGamePlayer
   static func connect( completion: @escaping ConnectCallback )
   {
     let userkey  = Defaults.userkey
-    
+        
     if AccessToken.current != nil {
       connectFacebook(userkey: userkey) { (localPlayer) in
         if let me = localPlayer { completion(me) }
@@ -157,6 +155,23 @@ class LocalPlayer : TheGamePlayer
         
         completion(me)
       }
+    }
+  }
+  
+  static func connect(username:String, password:String, completion: @escaping (GameQuery,LocalPlayer?)->())
+  {
+    TheGame.server.login(username: username, password: password) {
+      (query) in
+      
+      var me : LocalPlayer? = nil
+            
+      if case .Success(let data) = query.status,
+        let userkey = data?.userkey // should never fail (login query checks this)
+      {
+        me = LocalPlayer(userkey, username: username, alias: data?.alias, data: data)
+      }
+      
+      completion(query,me)
     }
   }
   

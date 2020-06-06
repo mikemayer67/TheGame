@@ -26,6 +26,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate
       Defaults.username = "mikemayer67"
       Defaults.alias   = "Mikey M"
       Defaults.removeObject(forKey: "lastErrorEmail")
+      Defaults.userkey = nil
     }
         
     // Facebook
@@ -35,11 +36,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate
     GADMobileAds.sharedInstance().start(completionHandler: nil)
     GADMobileAds.sharedInstance().requestConfiguration.testDeviceIdentifiers = [(kGADSimulatorID as! String)];
     
+    if let rvc = window?.rootViewController as? RootViewController
+    {
+      rvc.setupFailureNotification()
+    }
+    
     track("NSHomeDirectory:",NSHomeDirectory())
     
     return true
   }
-  
         
   func application(_ app: UIApplication,
                    open url: URL,
@@ -58,6 +63,5 @@ class AppDelegate: UIResponder, UIApplicationDelegate
   {
     UIApplication.shared.delegate as! AppDelegate
   }
-  
 }
 

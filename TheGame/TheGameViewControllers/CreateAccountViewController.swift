@@ -230,7 +230,7 @@ class CreateAccountViewController : ModalViewController
         switch query.status
         {
         case .FailedToConnect:
-          self.loginVC.cancel(self, updateRoot: true)
+          failedToConnectToServer()
           
         default: // includes .none (coding error) or Success (handled above)
           let err =  query.internalError ?? "Unknown Error"
@@ -289,12 +289,12 @@ class CreateAccountViewController : ModalViewController
       alias: alias,
       email: email ) {  (query) in
         switch query.status {
+        case .FailedToConnect:
+          failedToConnectToServer()
         case .Success(let data):
           self.createAccount(username:username,alias:alias,email:email,data:data!)
         case .QueryFailure(GameQuery.Status.UserExists, _):
           self.handleExistingUser(username:username)
-        case .FailedToConnect:
-          self.loginVC.cancel(self, updateRoot: true)
         default: // includes nil status
           let err =  query.internalError ?? "Unknown Error"
           self.internalError(err , file:#file, function:#function)

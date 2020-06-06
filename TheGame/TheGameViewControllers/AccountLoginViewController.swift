@@ -141,7 +141,7 @@ class AccountLoginViewController: ModalViewController
           switch query.status
           {
           case .FailedToConnect:
-            self.loginVC.cancel(self,updateRoot: true)
+            failedToConnectToServer()
           case .QueryFailure:
             self.infoPopup(title: "Failed to Login", message: "Incorrect username or password")
             self.password.text = ""

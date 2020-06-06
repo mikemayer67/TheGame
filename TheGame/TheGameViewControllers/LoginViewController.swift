@@ -100,12 +100,9 @@ extension LoginViewController : MultiModalDelegate
     }
   }
   
-  func cancel(_ vc:ManagedViewController, updateRoot:Bool = false)
+  func cancel(_ vc:ManagedViewController)
   {
     dismiss(animated: true)
-    {
-      if updateRoot { self.rootViewController.update() }
-    }
   }
   
   func completed(_ vc:ManagedViewController)

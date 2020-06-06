@@ -8,9 +8,19 @@
 
 import UIKit
 
+extension Notification.Name
+{
+  static let failedToConnectToServer = Notification.Name("failedToConnectToServer")
+}
+
 class ChildViewController : UIViewController
 {
   var rootViewController : RootViewController!
+}
+
+func failedToConnectToServer()
+{
+  NotificationCenter.default.post(name: .failedToConnectToServer, object: nil, userInfo: nil)
 }
 
 @IBDesignable
@@ -67,6 +77,18 @@ class RootViewController: UIViewController
       self.currentVC!.removeFromParent()
       vc.didMove(toParent: self)
       self.currentVC = vc
+    }
+  }
+  
+  func setupFailureNotification()
+  {
+    NotificationCenter.default.addObserver(
+      forName: .failedToConnectToServer,
+      object: nil,
+      queue: OperationQueue.main
+    ) { (notification) in
+      debug("Connection failure notification: \(notification)")
+      self.update()
     }
   }
 }

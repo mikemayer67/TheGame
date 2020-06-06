@@ -102,7 +102,7 @@ class ForgotLoginViewController: ModalViewController
               self.present(alert,animated: true)
               
             case .FailedToConnect:
-              self.loginVC.cancel(self,updateRoot: true)
+              failedToConnectToServer()
               
             case .QueryFailure(GameQuery.Status.InvalidEmail, _):
               let alert = UIAlertController(
@@ -170,7 +170,7 @@ class ForgotLoginViewController: ModalViewController
               self.present(alert,animated: true)
               
             case .FailedToConnect:
-              self.loginVC.cancel(self,updateRoot: true)
+              failedToConnectToServer()
               
             case .QueryFailure(GameQuery.Status.InvalidUsername, _):
               let alert = UIAlertController(

@@ -74,17 +74,17 @@ extension TheGame
         
     TheGame.server.lookupOpponents(userkey: me.userkey) { (query) in
       
-      if case .Success(let data) = query.status,
-        let matchData = data?[QueryKey.Matches] as? [NSDictionary]
+      switch query.status!
       {
-        self.loadOpponents(matchData)
-      }
-      
-      else if case .FailedToConnect = query.status {
-        self.errorDelegate?.failedConnection(self)
-      }
-      else
-      {
+      case .FailedToConnect:
+        failedToConnectToServer()
+      case .Success(let data):
+        if let matchData = data?[QueryKey.Matches] as? [NSDictionary] {
+          self.loadOpponents(matchData)
+        } else {
+          self.errorDelegate?.internalError(self, error: "Missing match data", file: #file, function: #function)
+        }
+      default:
         self.errorDelegate?.internalError( self,
           error: query.internalError ?? "Unknown Error",
           file: #file, function: #function

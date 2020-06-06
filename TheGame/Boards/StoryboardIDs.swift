@@ -34,11 +34,6 @@ extension UIViewController
 
 extension RootViewController
 {
-  func transition(to vcid:ViewControllerID)
-  {
-    present(viewControllerID: vcid.rawValue)
-  }
-  
   func update()
   {
     let id : ViewControllerID =
@@ -46,6 +41,6 @@ extension RootViewController
       : TheGame.shared.me      == nil   ? .ConnectScreen
       : .GameScreen )
         
-    self.transition(to: id)
+    self.present(viewControllerID: id.rawValue)
   }
 }

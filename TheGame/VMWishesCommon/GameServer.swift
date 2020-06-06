@@ -12,7 +12,6 @@ class GameServer
 {
   let host        : String
   var session     : URLSession
-  var currentTask : URLSessionDataTask?
   
   var connected = false
   
@@ -38,12 +37,9 @@ class GameServer
   func start(_ request:URLRequest,
              completion: @escaping (GameQuery.Status) -> Void )
   {
-    currentTask?.cancel()
-        
-    currentTask = session.dataTask(with: request )
+    let task = session.dataTask(with: request )
     {
       (data, response, err) in
-      self.currentTask = nil
       
       var status : GameQuery.Status!
       if err == nil, let response = response as? HTTPURLResponse
@@ -62,7 +58,7 @@ class GameServer
       completion(status)
     }
     
-    currentTask!.resume()
+    task.resume()
   }
   
   func testConnection() -> Bool
@@ -75,7 +71,8 @@ class GameServer
   {
     query("test").execute() {
       (query) in
-      completion( query.status?.success ?? false )
+      self.connected = query.status?.success ?? false
+      completion( self.connected )
     }
   }
 }

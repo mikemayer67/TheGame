@@ -198,17 +198,19 @@ class ResetPasswordViewController: ModalViewController
         switch query.status {
         case .Success(_):
           self.login(username:username,password:password)
+          
         case .QueryFailure(GameQuery.Status.InvalidUsername, _):
           self.infoPopup(title: "Failed to Reset Password",
                          message: "There is no account with username \(username)")
-          break
+          
         case .QueryFailure(GameQuery.Status.FailedToUpdateUser, _):
-        self.infoPopup(title: "Failed to Reset Password",
-                       message: ["Invalid password reset code.",
-                                 "Verify that you are using the most recently emailed value and that this is the same device from which you requested the password reset code"])
-          break
+          self.infoPopup(title: "Failed to Reset Password",
+                         message: ["Invalid password reset code.",
+                                   "Verify that you are using the most recently emailed value and that this is the same device from which you requested the password reset code"])
+          
         case .FailedToConnect:
-          self.loginVC.cancel(self, updateRoot: true)
+          failedToConnectToServer()
+          
         default:
           let err =  query.internalError ?? "Unknown Error"
           self.internalError(err , file:#file, function:#function)
@@ -230,7 +232,7 @@ class ResetPasswordViewController: ModalViewController
         switch query.status
         {
         case .FailedToConnect:
-          self.loginVC.cancel(self,updateRoot: true)
+          failedToConnectToServer()
         case .QueryFailure:
           let err =  "Reset password not being recognized by the server. (\(query.internalError ?? "Unknown Error"))"
           self.internalError(err , file:#file, function:#function)
