@@ -134,6 +134,7 @@ function db_find_user_by_email($email)
   return $data;
 }
 
+
 function db_create_user_with_username($username,$password,$alias,$email)
 {
   $db = new TGDB;
@@ -226,18 +227,22 @@ function db_update_user_email($userid,$email)
     $key = db_gen_email_validation_key();
     $columns = "userid,email,validation";
     $values  = "$userid, '$email', '$key'";
-    $sql = "replace into tg_email ($colunns) values ($values)";
+    $sql = "replace into tg_email ($columns) values ($values)";
   }
   $result = $db->query($sql);
   return $result;
 }
 
-function db_user_lost($userkey)
+function db_user_lost($userid)
 {
   $db = new TGDB;
 
   $now = time();
-  $sql = "update tg_users set last_loss=$now where userkey='$userkey'";
+
+  $sql = "insert into tg_loss_history (userid,loss_time) values ($userid,$now)";
+  $result = $db->query($sql);
+
+  $sql = "update tg_users set last_loss=$now where userid=$userid";
   return $db->query($sql);
 }
 
@@ -403,6 +408,23 @@ function db_email_validation_key($userid)
   }
 }
 
+function db_unvalidated_email($userid)
+{
+  $db = new TGDB;
+  $sql = "select email from tg_unvalidated_email where userid=$userid";
+
+  $result = $db->query($sql);
+
+  $n = $result->num_rows;
+  if($n>1) { throw new Exception("Multiple pending email for userid=$userid",500); }
+
+  if( $n == 1 )
+  {
+    $data = $result->fetch_assoc();
+    return $data['email'];
+  }
+}
+
 // Password
 
 function db_verify_password($username,$password)
@@ -444,6 +466,22 @@ function db_drop_password_reset($userid)
   $sql = "delete from tg_password_reset where userid=$userid";
   $result = $db->query($sql);
   return $result;
+}
+
+function db_gen_password_reset_code($userid,$salt)
+{
+  $user_code = rand(1,999999);
+  $reset_key = $user_code ^ $salt; 
+
+  $code = str_split($user_code);
+
+  while( count($code) < 6 ) { array_unshift($code,0); }
+
+  $code = implode(' ',$code);
+
+  db_set_password_reset($userid,$reset_key);
+
+  return $code;
 }
 
 // Keys

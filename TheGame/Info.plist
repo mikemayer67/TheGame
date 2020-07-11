@@ -85,7 +85,7 @@
 	<key>ServerHost</key>
 	<string>https://eaglenest.local/thegame</string>
 	<key>DevUser</key>
-	<true/>
+	<false/>
 	<key>DevTiming</key>
 	<true/>
 </dict>

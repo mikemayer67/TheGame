@@ -114,9 +114,6 @@ class LocalPlayer : TheGamePlayer
         let fbid     = fbResult["id"]   as? String,
         let name     = fbResult["name"] as? String
         else { completion(nil); return }
-                  
-      var args : GameQuery.Args = [QueryKey.FBID:fbid]
-      if userkey != nil { args[QueryKey.Userkey] = userkey! }
       
       var friends = false
       
@@ -134,6 +131,9 @@ class LocalPlayer : TheGamePlayer
         }
       }
         
+      var args : GameQuery.Args = [QueryKey.FBID:fbid]
+      if userkey != nil { args[QueryKey.Userkey] = userkey! }
+      
       TheGame.server.query(.User, action: .Connect, args: args).execute() {
         (query) in
                         

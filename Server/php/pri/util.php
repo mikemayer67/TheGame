@@ -6,30 +6,14 @@ define('TG_ROOT',realpath(__DIR__.'/..'));
 
 class Admin
 {
-  const name       = 'VMWishes Games';
-  const email      = 'games@vmwishes.com';
-}
-
-class RC
-{
-  const USER_EXISTS              =  1;
-  const INVALID_USERKEY          =  2;
-  const INVALID_USERNAME         =  3;
-  const INVALID_USERKEY_FBID     =  4;  
-  const INCORRECT_USERNAME       =  5;
-  const INCORRECT_PASSWORD       =  6;
-  const FAILED_TO_CREATE_FBID    =  7;
-  const FAILED_TO_CREATE_USER    =  8;
-  const FAILED_TO_UPDATE_USER    =  9;
-  const NO_EMAIL                 = 10; 
-  const INVALID_EMAIL            = 11;
-  const EMAIL_FAILURE            = 12;
+  const name  = 'VMWishes Games';
+  const email = 'thegame@vmwishes.com';
 }
 
 if( $tg_delog > 0 )
 {
   error_log('----------THE GAME-------------');
-  error_log(" URI: " . $_SERVER['REQUEST_URI']);
+  error_log(" URI: " . sanitize_uri($_SERVER['REQUEST_URI']));
   if( $tg_delog > 1 )
   {
     error_log("HOST: " . $_SERVER['SERVER_NAME']);
@@ -40,6 +24,12 @@ if( $tg_delog > 0 )
     error_log("HTTP HEADERS...");
     foreach (getallheaders() as $hkey => $hvalue) { error_log("$hkey: $hvalue"); }
   }
+}
+
+function sanitize_uri($uri)
+{
+  $uri = preg_replace('/password=[^&]+/','password=********',$uri);
+  return $uri;
 }
 
 function array_extract(array &$x,$key)

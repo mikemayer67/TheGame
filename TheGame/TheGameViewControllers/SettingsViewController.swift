@@ -23,7 +23,24 @@ class SettingsViewController: UIViewController
 
 extension SettingsViewController : UITableViewDelegate, UITableViewDataSource
 {
-  func numberOfSections(in tableView: UITableView) -> Int { return 3 }
+  func numberOfSections(in tableView: UITableView) -> Int
+  {
+    if let me = TheGame.shared.me
+    {
+    debug("Table update for Local Player:  " +
+      "userkey: \(me.userkey)  " +
+      "username: \(me.username ?? "-")  " +
+      "alias: \(me.alias ?? "-")  " +
+      "name: \(me.name)  " +
+      "fb id: \(me.fb?.id ?? "-")  " +
+      "fb name: \(me.fb?.name ?? "-")  " +
+      "fb picture: \(me.fb?.picture ?? "-")  " +
+      "fb friends: \(me.fb?.friendsGranted ?? false)"
+      )
+    }
+
+    return 3
+  }
   
   func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String?
   {
