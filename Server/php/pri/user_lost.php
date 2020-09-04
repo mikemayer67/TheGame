@@ -1,8 +1,10 @@
 <?php
 
-require_once(__DIR__.'/db.php');
 require_once(__DIR__.'/const.php');
 require_once(__DIR__.'/util.php');
+
+require_once(__DIR__.'/db.php');
+require_once(__DIR__.'/db_find_user.php');
 
 $userkey = get_required_arg(USERKEY);
 fail_on_extra_args();
@@ -12,7 +14,16 @@ if( empty($info) ) { send_failure(INVALID_USERKEY); }
 
 $userid = $info[USERID];
 
-if( db_user_lost($userid) )
+$db = new TGDB;
+$now = time();
+
+$sql = 'insert into tg_loss_history (userid,loss_time) values (?,?)';
+$db->get($sql,'ii',$userid,$now);
+
+$sql = 'update tg_users set last_loss=? where userid=?';
+$result = $db->get($sql,'ii',$now,$userid);
+
+if( $result )
 {
   send_success();
 }

@@ -1,5 +1,5 @@
 //
-//  LocalPlayer.swift
+//  Participants.swift
 //  TheGame
 //
 //  Created by Mike Mayer on 7/12/20.

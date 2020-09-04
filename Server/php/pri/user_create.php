@@ -1,15 +1,21 @@
 <?php
 
-require_once(__DIR__.'/db.php');
 require_once(__DIR__.'/const.php');
 require_once(__DIR__.'/email.php');
 require_once(__DIR__.'/util.php');
+
+require_once(__DIR__.'/db_find_user.php');
+require_once(__DIR__.'/db_keys.php');
+require_once(__DIR__.'/db_email_validation.php');
 
 $username = get_required_arg(USERNAME);
 $password = get_required_arg(PASSWORD);
 $alias    = get_optional_arg(ALIAS);
 $email    = get_optional_arg(EMAIL);
 fail_on_extra_args();
+
+# check if user already exists
+#   if so, return failure
 
 $info = db_find_user_by_username($username);
 
@@ -20,15 +26,40 @@ if( isset($info) )
   send_failure(USER_EXISTS, $reply);
 }
 
-list ($userid,$userkey) = db_create_user_with_username($username,$password,$alias,$email);
-if( empty($userkey) )
+# otherwise, add the new user to the database
+
+$db = new TGDB;
+
+$userkey   = db_gen_userkey();
+$hashed_pw = password_hash($password,PASSWORD_DEFAULT);
+
+if( empty($alias) )
 {
-  send_failure(FAILED_TO_CREATE_USER);
+  $sql = "insert into tg_users (userkey,username,password) values (?,?,?)";
+  $result = $db->get($sql,'sss',$userkey,$username,$hashed_pw);
+}
+else
+{
+  $sql = "insert into tg_users (userkey,username,password,alias) values (?,?,?,?)";
+  $result = $db->get($sql,'ssss',$userkey,$username,$hashed_pw,$alias);
 }
 
-if( ! empty($email) ) {
-  $intro = "The user account $username was created for TheGame using this email address.";
-  email_validation_request($intro,$userid);
+if( ! $result ) send_failure(FAILED_TO_CREATE_USER);
+
+$userid = $db->last_insert_id();
+
+# if email is specified, create an email validation key in the database
+
+if( !empty($email) )
+{
+  $key = db_gen_email_validation_key();
+
+  $sql = 'insert into tg_email (userid,email,validation) values (?,?,?)';
+  $db->get($sql,'iss',$userid,$email,$key);
+
+  email_validation_request(
+    "The user account $username was created for TheGame using this email address.",
+    $userid);
 }
 
 send_success( array(USERKEY => $userkey) );

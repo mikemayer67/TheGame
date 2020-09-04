@@ -1,7 +1,7 @@
 <?php
 
 require_once(__DIR__.'/util.php');
-require_once(__DIR__.'/db.php');
+require_once(__DIR__.'/db_email_validation.php');
 
 function email_validation_request($intro,$userid)
 {
@@ -45,7 +45,7 @@ function send_email($email, $subject, $message)
     $message
     <div><br></div>
     <div><i>If you did not make this request, please feel free to ignore this email.</i></div>
-    <div><i>If you with this email address be removed from TheGame database, send your request to 
+    <div><i>If you wish this email address be removed from TheGame database, send your request to 
     <a href='$mailto'>".\Admin::name."</a>.</i></div>
     </body>
     </html>";

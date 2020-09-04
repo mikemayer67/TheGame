@@ -1,8 +1,9 @@
 <?php
 
-require_once(__DIR__.'/db.php');
 require_once(__DIR__.'/const.php');
 require_once(__DIR__.'/util.php');
+
+require_once(__DIR__.'/db_find_user.php');
 
 $userkey = get_required_arg(USERKEY);
 $scope   = get_required_arg(SCOPE);
@@ -25,16 +26,32 @@ if( isset($notify) )
 
 $reply = array();
 
+$db = new TGDB;
+
 if( $dropF ) 
 {
-  db_drop_facebook($userid);
+  $sql = 'update tg_users set fbid=NULL where userid=?';
+  $db->get($sql,'i',$userid);
+
   if( isset($info[FBID]) ) { $reply[FBID] = 1; }
 }
+
 if( $dropU )
 {
-  db_drop_username($userid);
+  $sql = 'update tg_users set username=NULL, password=NULL, alias=NULL where userid=?';
+  $result = $db->get($sql,'i',$userid);
+
+  if( $result )
+  {
+    $sql = 'delete from tg_email where userid=?';
+    $db->get($sql,'i',$userid);
+  }
+
   if( isset($info[USERNAME]) ) { $reply[USERNAME] = 1; }
 }
+
+$sql = 'delete from tg_users where username is NULL and fbid is NULL';
+$db->get($sql);
 
 $t = db_find_user_by_userkey($userkey);
 if( empty($t) ) { $reply[USERKEY] = 1; }

@@ -7,7 +7,7 @@ define('TG_ROOT',realpath(__DIR__.'/..'));
 class Admin
 {
   const name  = 'VMWishes Games';
-  const email = 'thegame@vmwishes.com';
+  const email = 'mikemayer67@vmwishes.com'; // @@@ change to thegame@vmwishes.com
 }
 
 if( $tg_delog > 0 )

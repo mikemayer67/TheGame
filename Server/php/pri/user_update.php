@@ -1,9 +1,11 @@
 <?php
 
-require_once(__DIR__.'/db.php');
 require_once(__DIR__.'/const.php');
 require_once(__DIR__.'/email.php');
 require_once(__DIR__.'/util.php');
+
+require_once(__DIR__.'/db_find_user.php');
+require_once(__DIR__.'/db_update_user.php');
 
 $userkey  = get_required_arg(USERKEY);
 $password = get_optional_arg(PASSWORD);
@@ -13,6 +15,8 @@ fail_on_extra_args();
 
 $info = db_find_user_by_userkey($userkey);
 if( empty($info) ) send_failure(INVALID_USERKEY);
+
+# only want to apply these updates if the username is set
 
 $username = $info[USERNAME];
 if( empty($username) ) send_failure(FAILED_TO_UPDATE_USER);

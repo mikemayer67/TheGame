@@ -1,9 +1,11 @@
 <?php
 
-require_once(__DIR__.'/db.php');
 require_once(__DIR__.'/const.php');
 require_once(__DIR__.'/email.php');
 require_once(__DIR__.'/util.php');
+
+require_once(__DIR__.'/db_find_user.php');
+require_once(__DIR__.'/db_keys.php');
 
 $email = get_required_arg('email');
 $salt  = get_required_arg('salt');

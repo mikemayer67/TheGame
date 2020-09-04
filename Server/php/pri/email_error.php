@@ -7,7 +7,6 @@ $json = file_get_contents('php://input');
 $data = json_decode($json);
 
 $email = \Admin::email;
-$email = 'mikemayer67@vmwishes.com';
 
 $headers = "MIME-Version: 1.0\r\n";
 $headers .= "Content-type:text;charset=UTF-8\r\n";
