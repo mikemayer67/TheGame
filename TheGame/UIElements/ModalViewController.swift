@@ -8,20 +8,35 @@
 
 import UIKit
 
-enum ModalControllerID : String
-{
-  case CreateAccount  = "createAccountVC"
-  case AccountLogin   = "accountLoginVC"
-  case RetrieveLogin  = "retrieveLoginVC"
-  case ResetPassword  = "resetPasswordVC"
-}
-
-extension MultiModalViewController
-{
-  func present(_ key:ModalControllerID) { self.present(key.rawValue) }
-}
-
-
+/**
+ Subclass of UIViewContrller and ManagedViewController which serves as a base class
+ for building modal view controller views with a common look and feel and which
+ can be managed by the MultiModalViewController.
+ 
+ It defines layout size/offset distances, fonts, and colors, which if used properly
+ will provide the consistent look and feel between the modal views.
+ 
+ An unsubclassed ModalViewController contains only the title (at the top of the
+ modal view) and a horizontal rule just below the title.  Subclasses add elements
+ to these to complete the modal view.  They will probably need to reference *titleView*,
+ the view which contains the horiontal rule for laying out new elements.
+ 
+ It defines a number component builder functions which simplify the process of
+ building up the content of the modal view and ensure consistency of function for
+ similar elements.
+ - addHRule: creates a *UIView* that displays a horizontal line
+ - addHeader: creates a *UILabel* that displays header text
+ - addInfoText: creates a *UILabel* that displays information text
+ - addLoginEntry: creates a *LoginTextField*
+ - addTextEntry: creates a *UITextField*
+ - configure: provides the common look and feel to a *UITextField*
+ - addCancelButton: creates a *UIButton* to allow the user to cancel the current action
+ - addOkButton: creates a *UIButton* to allow the user to proceed with the current action
+ - addInfoButton: creates a *UIButton* which the user can click to get additional info
+ - addActionButton: creates a *UIButton* whose action must be defined in the modal view subclass
+ - addErrorLabel: creates UILabel that with formatting designed to identify a problem
+ - addGap: creates an empty *UIView* for the purpose of adding whitespace to the modal view
+ */
 class ModalViewController: UIViewController, ManagedViewController
 {  
   private(set) var managedView: UIView!
@@ -108,13 +123,23 @@ class ModalViewController: UIViewController, ManagedViewController
 
 // MARK:- Component Builders
 
+/**
+ Protocol which indicates the class supports the showInfo method.
+ This is needed to support info buttons constructed by the *ModalViewController::addInfoButton*
+ */
 @objc protocol InfoButtonDelegate
 {
   @objc func showInfo(_ sender:UIButton)
 }
 
+
 extension ModalViewController
 {
+  /**
+   Creates a *UIView* that displays a horizontal line that spans the with of the modal view.
+   - Parameter refView: *UIView* that the hrule should be displayed below
+   - Parameter gap: Distance between the refernce *UIView* and the rule.
+   */
   func addHRule(below refView:UIView, gap:CGFloat = Style.hruleGap) -> UIView
   {
     let hrule = UIView()
@@ -127,6 +152,13 @@ extension ModalViewController
     return hrule
   }
   
+  /**
+   Creates a *UILabel* that displays a header at the top of the modal view.
+   - Parameter text: text to dispaly in the header
+   - Parameter refView: *UIView* that the header should be displayed below
+   - Parameter gap: Distance between the refernce *UIView* and the header text.
+   - Parameter indent: Indentation of the header relative to the standard margin
+  */
   func addHeader(_ text:String,
                  below refView:UIView,
                  gap:CGFloat = Style.fieldGap,
@@ -142,6 +174,13 @@ extension ModalViewController
     return label
   }
   
+  /**
+   Creates a *UILabel* that displays information text
+   - Parameter text: informational text to dispaly
+   - Parameter refView: *UIView* that the header should be displayed below
+   - Parameter gap: Distance between the refernce *UIView* and the info text.
+   - Parameter indent: Indentation of the header relative to the standard margin
+   */
   func addInfoText(_ text:String,
                    below refView:UIView,
                    gap:CGFloat = Style.textGap,
@@ -160,6 +199,12 @@ extension ModalViewController
     return label
   }
   
+  /**
+   Creates a *LoginTextField*
+   - Parameter refView: *UIView* that the header should be displayed below
+   - Parameter placeholder: Text that should appear in the box when it is "empty"
+   - Parameter type: LogintTextField.LoginType (Username, Password, etc.)
+   */
   func addLoginEntry(below refVeiw:UIView,
                      placeholder:String? = nil,
                      type:LoginTextField.LoginType = .Username) -> LoginTextField
@@ -186,6 +231,15 @@ extension ModalViewController
     return entry
   }
   
+  /**
+   Creates a *UITextField*.
+   
+   The *configure* method will be invoked on the returned text field to
+   provide the common look and feel.
+   - Parameter refView: *UIView* that the header should be displayed below
+   - Parameter placeholder: Text that should appear in the box when it is "empty"
+   - Parameter email: Used to determine type of keyboard to display
+   */
   func addTextEntry(below refVeiw:UIView,
                      placeholder:String? = nil,
                      email:Bool = false) -> UITextField
@@ -199,6 +253,15 @@ extension ModalViewController
     return entry
   }
   
+  /**
+   Provides the common look and feel to a *UITextField*.
+   
+   This should be used for
+   any *UITextField* that was addded to the modal view by any means other than the
+   *addTextEntry* method.
+   - Parameter entry: *UITextField* to be configured
+   - Parameter refView: *UIView* that the header should be displayed below
+   */
   private func configure(entry:UITextField, refView:UIView)
   {
     managedView.addSubview(entry)
@@ -216,6 +279,16 @@ extension ModalViewController
     entry.packRight(Style.edgeMargin)
   }
   
+  /**
+   - Creates a *UIButton* to allow the user to cancel the current action.
+   
+   The button will be positioned in the lower left corner of the modal view.
+   
+   Note that the creation of the button does not provide any functionality.  That must be
+   handled by the modal view subclass after constructing the button.
+   
+   - Parameter title: text to display on the button
+   */
   func addCancelButton(title:String = "Cancel") -> UIButton
   {
     let button = UIButton(type: .system)
@@ -229,6 +302,16 @@ extension ModalViewController
     return button
   }
   
+  /**
+   Creates a *UIButton* to allow the user to proceed with the current action
+   
+   The button will be positioned in the lower right corner of the modal view.
+   
+   Note that the creation of the button does not provide any functionality.  That must be
+   handled by the modal view subclass after constructing the button.
+   
+   - Parameter title: text to display on the button
+   */
   func addOkButton(title:String = "OK") -> UIButton
   {
     let button = UIButton(type: .system)
@@ -241,6 +324,17 @@ extension ModalViewController
     return button
   }
   
+  /**
+   Creates a *UIButton* attachec to a *UITextField* which the user can click to get additional info
+   about the text field
+   
+   The button will display the *infoLight* icon.
+   
+   The button will appear just above and right aligned with the text field.
+   
+   - Parameter entry: the *UITextFiled* that the info button is attached to
+   - Parameter target: an object which will provide the info text.  Must conform to the *InfoButtonDelegate* protocol.
+   */
   func addInfoButton(to entry:UITextField, target:InfoButtonDelegate) -> UIButton
   {
     let button = UIButton(type: .infoLight)
@@ -254,6 +348,16 @@ extension ModalViewController
     return button
   }
   
+  /**
+   Creates a *UIButton* whose action must be defined in the modal view subclass
+   
+   Note that the creation of the button does not provide any functionality.  That must be
+   handled by the modal view subclass after constructing the button.
+   
+   - Parameter title: text to display on the button
+   - Parameter refView: *UIView* that the button should be displayed below
+   - Parameter gap: Distance between the refernce *UIView* and the info text
+   */
   func addActionButton(title:String, below refView:UIView, gap:CGFloat = Style.actionGap) -> UIButton
   {
     let button = UIButton(type:.system)
@@ -266,6 +370,15 @@ extension ModalViewController
     return button
   }
   
+  /**
+   Creates UILabel that with formatting designed to identify a problem
+   
+   If the reference view is a UITextView, the text will appear just above and right aligned
+   with the text field.  Otherwise, it will appear vertically aligned and to the right of
+   the reference view.
+   
+   - Parameter refView: *UIView* that the text should be attached to
+   */
   func addErrorLabel(to refView:UIView) -> UILabel
   {
     let label = UILabel()
@@ -287,6 +400,11 @@ extension ModalViewController
     return label
   }
   
+  /**
+   Creates an empty *UIView* for the purpose of adding whitespace to the modal view
+   - Parameter refView: *UIView* that the text should be attached to
+   - Parameter height: how big the gap should be
+   */
   func addGap(below refView: UIView, gap height:CGFloat = Style.defaultGapHeight) -> UIView
   {
     let gap = UIView()

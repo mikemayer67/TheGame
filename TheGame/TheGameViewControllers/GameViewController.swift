@@ -9,7 +9,11 @@
 import UIKit
 import GoogleMobileAds
 
-
+/**
+ The view controller responsible for playing the game.
+ 
+ It is ridiculous how simple this view controller is compared to the complexity of all the view controllers associated with creating and logging into a game account.
+ */
 class GameViewController: ChildViewController
 {  
   @IBOutlet weak var oppenentTable: UITableView!
@@ -70,7 +74,7 @@ class GameViewController: ChildViewController
   }
 }
 
-/// @@@ REMOVE
+// TODO: @@@ REMOVE
 extension GameViewController
 {
   @IBAction func RESET(_ sender:UIButton)
@@ -182,6 +186,7 @@ extension GameViewController : TheGameErrorHandler, TheGameDelegate
   }
 }
 
+// TODO: @@@ Flesh all these out
 
 extension GameViewController : GADBannerViewDelegate
 {

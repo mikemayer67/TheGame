@@ -11,7 +11,6 @@ import UIKit
 private let Username       = "username"
 private let Userkey        = "userkey"
 private let Alias          = "alias"
-private let LastLoss       = "lastLoss"
 private let LastErrorEmail = "lastErrorEmail"
 private let ResetSalt      = "resetSalt"
 
@@ -52,10 +51,6 @@ extension UserDefaults
   {
     get { self.object(forKey: LastErrorEmail) as? TimeInterval ?? 0.0 }
     set { self.set(newValue, forKey: LastErrorEmail) }
-  }
-  
-  var curResetSalt : Int? {
-    self.object(forKey: ResetSalt) as? Int
   }
   
   var resetSalt : Int

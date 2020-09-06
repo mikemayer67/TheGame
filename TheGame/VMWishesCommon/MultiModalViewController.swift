@@ -9,7 +9,7 @@
 import UIKit
 
 /**
-Protocol that must be implemented by any UIViewController that would be
+ManagedViewController protocol must be implemented by any UIViewController that would be
  managed by a **MultiModalViewController**
  
  When implementing a UIViewController that conforms to this protocol, you will need to add the content
@@ -21,7 +21,7 @@ Protocol that must be implemented by any UIViewController that would be
 protocol ManagedViewController : UIViewController
 {
   /// The view to be managed by *MultiModalViewController*
-  var managedView : UIView!                   { get }
+  var managedView : UIView! { get }
   
   /// The *MultiModalViewController* that is presenting the view
   ///
@@ -30,14 +30,14 @@ protocol ManagedViewController : UIViewController
 }
 
 /**
- Protocol that defines the methods that a *MultiModalViewController* delegate must implement
+ MultiModalDelegate protocol defines the methods that a *MultiModalViewController* delegate must implement
  
  This delegate provide methods for creating and configuring UIViewControllers that conform to the *ManagedViewController* protocol.
  */
 protocol MultiModalDelegate
 {
   /**
-   Creates a UIViewController that conforms to *ManagedViewController* for the specified identifier.
+   viewController creates a UIViewController that conforms to *ManagedViewController* for the specified identifier.
    
    This method is invoked if the *MultiModalViewController* is asked to present the *ManagedViewController* associated with the specified identifier that the *MultiModalViewController* does not current manage.
    
@@ -46,7 +46,7 @@ protocol MultiModalDelegate
   func viewController(_ identifier:String, for mmvc:MultiModalViewController) -> ManagedViewController?
   
   /**
-   Invoked after a *ManagedViewController* is added to the *MultiModalViewController*.
+   configure is invoked after a *ManagedViewController* is added to the *MultiModalViewController*.
    
    This method is useful for finalizing configuration of view controllers that were loaded from storyboard.
    
@@ -56,7 +56,7 @@ protocol MultiModalDelegate
 }
 
 /**
- Container view controller for presenting a modal view controller over the current view.
+ MultiModalViewController is a container view controller for presenting a modal view controller over the current view.
  
  It's primary purpose is providing smooth transitions between presented modal view controllers.
  

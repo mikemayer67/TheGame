@@ -363,7 +363,6 @@
         <!--Settings View Controller-->
         <scene sceneID="yxQ-Am-KNM">
             <objects>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="Xig-K4-EeI" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
                 <viewController id="4XT-IK-WMO" customClass="SettingsViewController" customModule="TheGame" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="CkS-yi-odk">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
@@ -444,6 +443,7 @@
                         <outlet property="settingsTable" destination="IiM-US-JAC" id="Haz-a6-N3c"/>
                     </connections>
                 </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Xig-K4-EeI" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="-1020" y="662.32394366197184"/>
         </scene>

@@ -10,6 +10,42 @@ import UIKit
 import FBSDKCoreKit
 import FBSDKLoginKit
 
+/**
+ The enum contains the list of IDs for the modal view contollers used in TheGame
+ ## Values
+ - CreateAccount
+ - AccountLogin
+ - RetreiveLogin
+ - ResetPassword
+ */
+enum ModalControllerID : String
+{
+  case CreateAccount  = "createAccountVC"
+  case AccountLogin   = "accountLoginVC"
+  case RetrieveLogin  = "retrieveLoginVC"
+  case ResetPassword  = "resetPasswordVC"
+}
+
+
+extension MultiModalViewController
+{
+  /**
+  Extends MultiModalViewController by adding a present method wrapper which
+  recognizes ModalControllerIDs. It simply conferts the enum to the associated
+  string value and passes that on to the "real" present method.
+  */
+  func present(_ key:ModalControllerID) { self.present(key.rawValue) }
+}
+
+/**
+ View controller displayed when there is a connection to the game server but
+ the local user has not yet been identified.
+ 
+ The view provides options (buttons) for:
+ - loging in with a username/password
+ - connecting using Facebook,
+ - creating a new username/password account
+*/
 class LoginViewController: ChildViewController
 {
   @IBOutlet weak var facebookButton : UIButton!
@@ -17,6 +53,7 @@ class LoginViewController: ChildViewController
   @IBOutlet weak var loginButton : UIButton!
   @IBOutlet weak var whyConnect : UIButton!
   
+  /// Raises popup explaining the benefits of connecting with Facebook
   @IBAction func whyFacebook(_ sender : UIButton)
   {
     self.infoPopup(title: "Connection", message:
@@ -26,16 +63,24 @@ class LoginViewController: ChildViewController
     )
   }
   
+  ///Raises the modal dialog for creaing a username/password account
   @IBAction func showCreateAccount(_ sender: UIButton)
   {
     showConnectionPopup(.CreateAccount)
   }
   
+  ///Raises the modal dialog for logging in with a username/password
   @IBAction func showAccountLogin(_ sender: UIButton)
   {
     showConnectionPopup(.AccountLogin)
   }
   
+  /**
+   Uses the FB API to connect using Facebook account
+   
+   On completion, the update method of *RootViewController* is invoked,
+   which will start the game view if connection was succesful.
+  */
   @IBAction func connectFacebook(_ sender: UIButton)
   {
     let login = LoginManager()
@@ -47,7 +92,7 @@ class LoginViewController: ChildViewController
         let response = response,
         response.isCancelled == false
       {
-        LocalPlayer.connectFacebook(userkey: nil) { (localPlayer) in
+        LocalPlayer.connectFacebook() { (localPlayer) in
           TheGame.shared.me = localPlayer
           self.rootViewController.update()
         }
@@ -59,6 +104,10 @@ class LoginViewController: ChildViewController
     }
   }
   
+  /**
+   Raises the specified modal view controller using MultiModalViewController
+   - Parameter id: modal view controller ID
+   */
   private func showConnectionPopup(_ id:ModalControllerID)
   {    
     let mmvc = MultiModalViewController()
@@ -72,6 +121,22 @@ class LoginViewController: ChildViewController
     mmvc.present(id.rawValue)
     self.present(mmvc, animated: true)
   }
+
+  /// Simply dismisses the current modal view
+  func cancel()
+  {
+    dismiss(animated: true)
+  }
+  
+  /// Dismisses the current modal view and invokes the update method on *RootViewController*
+  func completed()
+  {
+    dismiss(animated: true)
+    {
+      self.rootViewController.update()
+    }
+  }
+  
 }
 
 extension LoginViewController : MultiModalDelegate
@@ -99,18 +164,4 @@ extension LoginViewController : MultiModalDelegate
       vc.loginVC = self
     }
   }
-  
-  func cancel(_ vc:ManagedViewController)
-  {
-    dismiss(animated: true)
-  }
-  
-  func completed(_ vc:ManagedViewController)
-  {
-    dismiss(animated: true)
-    {
-      self.rootViewController.update()
-    }
-  }
-  
 }

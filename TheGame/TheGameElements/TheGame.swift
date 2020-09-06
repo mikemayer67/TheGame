@@ -153,7 +153,7 @@ extension TheGame
         pictureURL = url
       }
       
-      let fbInfo = FacebookInfo(id:fbid, name:name, picture: pictureURL)
+      let fbInfo = FacebookInfo(fbid:fbid, name:name, picture: pictureURL)
       
       self.opponents.append(
         Opponent(facebook: fbInfo, matchStart: matchStart, lastLoss: lastLoss)

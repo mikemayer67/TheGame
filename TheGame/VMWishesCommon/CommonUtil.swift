@@ -21,6 +21,9 @@ extension Array
 
 extension Date
 {
+  /**
+   Number of seconds since 01-Jan-1970 00:00:00
+   */
   var unixtime: Double { return self.timeIntervalSince1970  }
   
   static func -(lhs:Date,rhs:Date) -> TimeInterval

@@ -14,7 +14,6 @@
 		2727416F23E6144A00B2100B /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2727416E23E6144A00B2100B /* LoginViewController.swift */; };
 		2728DBE62489F6B3006D8685 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2728DBE52489F6B3006D8685 /* SettingsViewController.swift */; };
 		272FB2B22455BFFA00F70E1A /* GameServer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 272FB2B12455BFFA00F70E1A /* GameServer.swift */; };
-		272FB2B82456743A00F70E1A /* LocalPlayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 272FB2B72456743A00F70E1A /* LocalPlayer.swift */; };
 		27300C3F2444027500E8310C /* RootViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27300C3E2444027500E8310C /* RootViewController.swift */; };
 		27300C4024448A3300E8310C /* CommonUtil.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27EA805923EE43C000C937EE /* CommonUtil.swift */; };
 		2737963F24786BA000BD3786 /* UIViewController_internalError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2737963E24786BA000BD3786 /* UIViewController_internalError.swift */; };
@@ -26,17 +25,17 @@
 		2769DD63247EDCBA00DB8D42 /* ResetPasswordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2769DD62247EDCBA00DB8D42 /* ResetPasswordViewController.swift */; };
 		2769DD6724868DDB00DB8D42 /* Opponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2769DD6624868DDB00DB8D42 /* Opponent.swift */; };
 		276FE7F5247868DF00F851D3 /* UIviewController_Popup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 276FE7F4247868DF00F851D3 /* UIviewController_Popup.swift */; };
-		2770C062246EDA8C00745AB4 /* InfoButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2770C061246EDA8C00745AB4 /* InfoButton.swift */; };
 		277CC4B62466DDC7001C5404 /* MultiModalViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 277CC4B52466DDC6001C5404 /* MultiModalViewController.swift */; };
 		277CC4BA246726AD001C5404 /* GradientView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 277CC4B9246726AC001C5404 /* GradientView.swift */; };
 		27996EE9248A7D0F008F14E5 /* SettingsTableCells.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27996EE8248A7D0F008F14E5 /* SettingsTableCells.swift */; };
+		27A827E424BBBF330087B408 /* Participants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27A827E324BBBF330087B408 /* Participants.swift */; };
+		27A827E624BC0B0F0087B408 /* LocalPlayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27A827E524BC0B0F0087B408 /* LocalPlayer.swift */; };
 		27CA19BD243A941B005C53FC /* TheGame.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27CA19BC243A941B005C53FC /* TheGame.swift */; };
 		27D5413123E5E46800CB5065 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27D5413023E5E46800CB5065 /* AppDelegate.swift */; };
 		27D5413523E5E46800CB5065 /* GameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27D5413423E5E46800CB5065 /* GameViewController.swift */; };
 		27D5413823E5E46800CB5065 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 27D5413623E5E46800CB5065 /* Main.storyboard */; };
 		27D5413A23E5E46B00CB5065 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 27D5413923E5E46B00CB5065 /* Assets.xcassets */; };
 		27D5413D23E5E46B00CB5065 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 27D5413B23E5E46B00CB5065 /* LaunchScreen.storyboard */; };
-		27E82FAE240BEA45004DEC8C /* TheGameServer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27E82FAD240BEA45004DEC8C /* TheGameServer.swift */; };
 		27E82FB0240BF4FD004DEC8C /* LoginButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27E82FAF240BF4FD004DEC8C /* LoginButton.swift */; };
 		27E82FB3240C6631004DEC8C /* FacebookLogin in Frameworks */ = {isa = PBXBuildFile; productRef = 27E82FB2240C6631004DEC8C /* FacebookLogin */; };
 		27E82FB5240C6631004DEC8C /* FacebookCore in Frameworks */ = {isa = PBXBuildFile; productRef = 27E82FB4240C6631004DEC8C /* FacebookCore */; };
@@ -45,7 +44,6 @@
 		27E8D240245869610061DEF2 /* UserDefaults_TheGame.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27E8D23F245869610061DEF2 /* UserDefaults_TheGame.swift */; };
 		27EA805123EBEB3900C937EE /* GameModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27EA805023EBEB3900C937EE /* GameModel.swift */; };
 		27F3EDE323E7E4800057248B /* GameClock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27F3EDE223E7E4800057248B /* GameClock.swift */; };
-		27F9198D23E691DA00FA0E18 /* TheGamePlayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27F9198C23E691DA00FA0E18 /* TheGamePlayer.swift */; };
 		41F696B1DAD12E4164E4A83D /* Pods_TheGame.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 04608212D72D75D8391E90C8 /* Pods_TheGame.framework */; };
 /* End PBXBuildFile section */
 
@@ -59,7 +57,6 @@
 		2728DBE52489F6B3006D8685 /* SettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
 		272FB2B12455BFFA00F70E1A /* GameServer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameServer.swift; sourceTree = "<group>"; };
 		272FB2B32455FC6E00F70E1A /* DevelopmentNotes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DevelopmentNotes.swift; sourceTree = "<group>"; };
-		272FB2B72456743A00F70E1A /* LocalPlayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalPlayer.swift; sourceTree = "<group>"; };
 		27300C3E2444027500E8310C /* RootViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootViewController.swift; sourceTree = "<group>"; };
 		2737963E24786BA000BD3786 /* UIViewController_internalError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIViewController_internalError.swift; sourceTree = "<group>"; };
 		273F5C32246F9DBF000BE662 /* TheGameQueries.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TheGameQueries.swift; sourceTree = "<group>"; };
@@ -70,10 +67,11 @@
 		2769DD62247EDCBA00DB8D42 /* ResetPasswordViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResetPasswordViewController.swift; sourceTree = "<group>"; };
 		2769DD6624868DDB00DB8D42 /* Opponent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Opponent.swift; sourceTree = "<group>"; };
 		276FE7F4247868DF00F851D3 /* UIviewController_Popup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIviewController_Popup.swift; sourceTree = "<group>"; };
-		2770C061246EDA8C00745AB4 /* InfoButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InfoButton.swift; sourceTree = "<group>"; };
 		277CC4B52466DDC6001C5404 /* MultiModalViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MultiModalViewController.swift; sourceTree = "<group>"; };
 		277CC4B9246726AC001C5404 /* GradientView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GradientView.swift; sourceTree = "<group>"; };
 		27996EE8248A7D0F008F14E5 /* SettingsTableCells.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsTableCells.swift; sourceTree = "<group>"; };
+		27A827E324BBBF330087B408 /* Participants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Participants.swift; sourceTree = "<group>"; };
+		27A827E524BC0B0F0087B408 /* LocalPlayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalPlayer.swift; sourceTree = "<group>"; };
 		27CA19BC243A941B005C53FC /* TheGame.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TheGame.swift; sourceTree = "<group>"; };
 		27D5412D23E5E46800CB5065 /* TheGame.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TheGame.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		27D5413023E5E46800CB5065 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -82,7 +80,6 @@
 		27D5413923E5E46B00CB5065 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		27D5413C23E5E46B00CB5065 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		27D5413E23E5E46B00CB5065 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		27E82FAD240BEA45004DEC8C /* TheGameServer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TheGameServer.swift; sourceTree = "<group>"; };
 		27E82FAF240BF4FD004DEC8C /* LoginButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginButton.swift; sourceTree = "<group>"; };
 		27E82FB6240D38B1004DEC8C /* CreateAccountViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateAccountViewController.swift; sourceTree = "<group>"; };
 		27E82FBD240D3C63004DEC8C /* AccountLoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountLoginViewController.swift; sourceTree = "<group>"; };
@@ -91,7 +88,6 @@
 		27EA805423ECF3D100C937EE /* TheGame.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = TheGame.entitlements; sourceTree = "<group>"; };
 		27EA805923EE43C000C937EE /* CommonUtil.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommonUtil.swift; sourceTree = "<group>"; };
 		27F3EDE223E7E4800057248B /* GameClock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameClock.swift; sourceTree = "<group>"; };
-		27F9198C23E691DA00FA0E18 /* TheGamePlayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TheGamePlayer.swift; sourceTree = "<group>"; };
 		4451D3FFCB40324BCB3097DB /* Pods-TheGame.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TheGame.release.xcconfig"; path = "Target Support Files/Pods-TheGame/Pods-TheGame.release.xcconfig"; sourceTree = "<group>"; };
 		AFCD8377F35807C044F6ABA7 /* Pods-TheGame.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TheGame.debug.xcconfig"; path = "Target Support Files/Pods-TheGame/Pods-TheGame.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -127,7 +123,6 @@
 				277CC4B9246726AC001C5404 /* GradientView.swift */,
 				27E82FAF240BF4FD004DEC8C /* LoginButton.swift */,
 				271D007C24147048003B15A1 /* LoginTextField.swift */,
-				2770C061246EDA8C00745AB4 /* InfoButton.swift */,
 				276FE7F4247868DF00F851D3 /* UIviewController_Popup.swift */,
 				2737963E24786BA000BD3786 /* UIViewController_internalError.swift */,
 				27996EE8248A7D0F008F14E5 /* SettingsTableCells.swift */,
@@ -214,10 +209,9 @@
 				27E8D23F245869610061DEF2 /* UserDefaults_TheGame.swift */,
 				27F3EDE223E7E4800057248B /* GameClock.swift */,
 				27CA19BC243A941B005C53FC /* TheGame.swift */,
-				27E82FAD240BEA45004DEC8C /* TheGameServer.swift */,
 				273F5C32246F9DBF000BE662 /* TheGameQueries.swift */,
-				27F9198C23E691DA00FA0E18 /* TheGamePlayer.swift */,
-				272FB2B72456743A00F70E1A /* LocalPlayer.swift */,
+				27A827E324BBBF330087B408 /* Participants.swift */,
+				27A827E524BC0B0F0087B408 /* LocalPlayer.swift */,
 				2769DD6624868DDB00DB8D42 /* Opponent.swift */,
 				27EA805023EBEB3900C937EE /* GameModel.swift */,
 			);
@@ -358,8 +352,8 @@
 				27300C4024448A3300E8310C /* CommonUtil.swift in Sources */,
 				275711B4246C68170034DB61 /* UIViewConstraints.swift in Sources */,
 				2728DBE62489F6B3006D8685 /* SettingsViewController.swift in Sources */,
-				272FB2B82456743A00F70E1A /* LocalPlayer.swift in Sources */,
 				277CC4BA246726AD001C5404 /* GradientView.swift in Sources */,
+				27A827E624BC0B0F0087B408 /* LocalPlayer.swift in Sources */,
 				277CC4B62466DDC7001C5404 /* MultiModalViewController.swift in Sources */,
 				27F3EDE323E7E4800057248B /* GameClock.swift in Sources */,
 				2769DD63247EDCBA00DB8D42 /* ResetPasswordViewController.swift in Sources */,
@@ -372,15 +366,13 @@
 				27300C3F2444027500E8310C /* RootViewController.swift in Sources */,
 				27E82FB0240BF4FD004DEC8C /* LoginButton.swift in Sources */,
 				275711B0246B99680034DB61 /* ForgotLoginViewController.swift in Sources */,
-				27E82FAE240BEA45004DEC8C /* TheGameServer.swift in Sources */,
-				27F9198D23E691DA00FA0E18 /* TheGamePlayer.swift in Sources */,
 				276FE7F5247868DF00F851D3 /* UIviewController_Popup.swift in Sources */,
 				27996EE9248A7D0F008F14E5 /* SettingsTableCells.swift in Sources */,
 				27E82FB7240D38B2004DEC8C /* CreateAccountViewController.swift in Sources */,
 				272445D2242E576400700677 /* SplashViewController.swift in Sources */,
 				2737963F24786BA000BD3786 /* UIViewController_internalError.swift in Sources */,
 				2727416F23E6144A00B2100B /* LoginViewController.swift in Sources */,
-				2770C062246EDA8C00745AB4 /* InfoButton.swift in Sources */,
+				27A827E424BBBF330087B408 /* Participants.swift in Sources */,
 				27EA805123EBEB3900C937EE /* GameModel.swift in Sources */,
 				27D5413523E5E46800CB5065 /* GameViewController.swift in Sources */,
 				27421337247B178E00A71D96 /* GameQuery.swift in Sources */,

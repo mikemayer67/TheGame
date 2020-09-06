@@ -8,6 +8,16 @@
 
 import UIKit
 
+/**
+ View controller displayed while waiting for connection to the game server
+ 
+ As soon as this controller appear, it will begin polling the game server.
+ If no connection is made, it sets a retry timer and repeats until a connection is made.
+ 
+ Once the connection is made, it instantiates the local player and sends and update
+ message to the *RootViewController* to swap out the splash view controller for the
+ appropriate game or connection view.
+ */
 class SplashViewController: ChildViewController
 {
   @IBOutlet weak var failedLabel    : UILabel!

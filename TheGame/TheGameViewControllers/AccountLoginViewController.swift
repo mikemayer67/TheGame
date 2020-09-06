@@ -10,6 +10,9 @@ import UIKit
 
 fileprivate var cachedUsername : String?
 
+/**
+Subclass of *ModalViewController* which displays the modal view for logging into an existing username/password account
+*/
 class AccountLoginViewController: ModalViewController
 {
   var loginVC : LoginViewController
@@ -103,6 +106,13 @@ class AccountLoginViewController: ModalViewController
   
   // MARK:- Input State
   
+  /**
+   Runs checks on each of the input fields and updates.
+   
+   If any check fails, the login (OK) button is disabled.
+   
+   If all checks pass, the login button is enabled.
+   */
   @discardableResult
   func checkAllAndUpdateState() -> Bool
   {
@@ -119,12 +129,26 @@ class AccountLoginViewController: ModalViewController
   }
   
   // MARK:- Button Actions
-  
+
+  /// Simply dismisses the current modal view
   @objc func cancel(_ sender:UIButton)
   {
-    loginVC.cancel(self)
+    loginVC.cancel()
   }
   
+  /**
+   Proceeds to attempt to work with the game server to log into the user account.
+   
+   The actual attempt to log in is made through *LocalPlayer*'s connect() method which will return the *GameQuery* transaction with the game server and a *LocalPlayer* reference.
+   
+   If either the username or password is incorrect, the *LocalPlayer* reference will be nil.
+   
+   On success, the shared *TheGame* model is notified of the new *LocalPlayer* and the login view controller is dismissed.
+   
+   Note that it is possible for the game server request to fail:
+   - If there is no response at all, a *failedToConnect* notification is sent to the *NotificationCenter*
+   - If an invalid response was received, internalError() is invoked to ask user if they wish to report the issue
+   */
   @objc func login(_ sender:UIButton)
   {
     if let username = self.username.text, let password = self.password.text
@@ -134,7 +158,7 @@ class AccountLoginViewController: ModalViewController
         if me != nil
         {
           TheGame.shared.me  = me
-          self.loginVC.completed(self)
+          self.loginVC.completed()
         }
         else
         {
@@ -154,11 +178,29 @@ class AccountLoginViewController: ModalViewController
     }
   }
   
+  /**
+   Raises the modal popup for requesting the game server to send an email
+   to a given address with username info.
+   
+   The game server will ONLY send the email if there is an account (or
+   accounts) associated with that address.
+   
+   - Property sender: *UIButton* which triggered this action. [Ignored]
+   */
   @objc func sendLoginInfo(_ sender:UIButton)
   {
     mmvc?.present(.RetrieveLogin)
   }
   
+  /**
+   Raises the modal popup for requesting the game server to send an email
+   to a given address with instructions for resetting a forgottern password.
+   
+   The game server will ONLY send the email if there is an account (or
+   accounts) associated with that address.
+   
+   - Property sender: *UIButton* which triggered this action. [Ignored]
+   */
   @objc func sendPasswordReset(_ sender:UIButton)
   {
     mmvc?.present(.ResetPassword)
@@ -169,6 +211,11 @@ class AccountLoginViewController: ModalViewController
 
 extension AccountLoginViewController : InfoButtonDelegate
 {
+  /**
+   Displays an information popup based on which field's info button was pressed.
+   
+   - Parameter sender: refernce to the (info) *UIButton* that was pressed.
+   */
   func showInfo(_ sender: UIButton)
   {
     switch sender

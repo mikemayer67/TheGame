@@ -8,6 +8,12 @@
 
 import UIKit
 
+/**
+ Subclass of *ModalViewController* which displays the modal view for requesting an email with username or password reset information to a given email address.
+ 
+ The game server will ONLY send the email if there is an account (or
+ accounts) associated with that address.
+*/
 class ForgotLoginViewController: ModalViewController
 {
   var loginVC : LoginViewController
@@ -63,16 +69,35 @@ class ForgotLoginViewController: ModalViewController
 
   // MARK:- Button Actions
   
+  /// Simply dismisses the current modal view
   @objc func cancel(_ sender:UIButton)
   {
     mmvc?.rollback()
   }
   
+  /// Switches to modal view for creating a new account
   @objc func createNewAccount(_ sender:UIButton)
   {
     mmvc?.present(.CreateAccount)
   }
   
+  /**
+   Raises the popup dialog box requesting the address to which send the reminder email.
+   
+   There is a lot going on in the popup dialog box.
+   
+   - The email textfield content is validated using a *TextFieldValidator*. If the entry is not valid, the OK button is disabled.
+   
+   - The OK button is attached to an action which establishes the connection to the game server to request the email be sent.
+   
+   The game server can respond with either:
+   - Success: In this case a popup will let the user know that the email was sent.
+   - Invalid email: In this case, a popup will let the user know that there is no account associated with the requested email address.
+   
+   Note that it is possible for the game server request to fail:
+   - If there is no response at all, a *failedToConnect* notification is sent to the *NotificationCenter*
+   - If an invalid response was received, internalError() is invoked to ask user if they wish to report the issue
+   */
   @objc func retrieveUsername(_ sender:UIButton)
   {
     cachedUsername = nil
@@ -98,7 +123,7 @@ class ForgotLoginViewController: ModalViewController
                 title: "Email sent",
                 message: "A username reminder and password reset instructions were sent to \(email)", preferredStyle: .alert)
               alert.addAction(UIAlertAction(title: "OK", style: .default, handler: {
-                (_) in self.loginVC.cancel(self) } ) )
+                (_) in self.loginVC.cancel() } ) )
               self.present(alert,animated: true)
               
             case .FailedToConnect:
@@ -124,7 +149,7 @@ class ForgotLoginViewController: ModalViewController
       textField.placeholder = "email"
       textField.text = self.cachedEmail ?? ""
       self.validator = TextFieldValidator(
-        textfield: textField, action: self.okAction!, type: .password
+        textfield: textField, action: self.okAction!, type: .email
       )
       textField.delegate = self.validator
       textField.addTarget(
@@ -142,6 +167,23 @@ class ForgotLoginViewController: ModalViewController
     self.present(popup,animated: true)
   }
   
+  /**
+   Raises the popup dialog box requesting the username of the account to which send the password reset email.
+   
+   There is a lot going on in the popup dialog box.
+   
+   - The username textfield content is validated using a *TextFieldValidator*. If the entry is not valid, the OK button is disabled.
+   
+   - The OK button is attached to an action which establishes the connection to the game server to request the email be sent.
+   
+   The game server can respond with either:
+   - Success: In this case a popup will let the user know that the email was sent.
+   - Invalid email: In this case, a popup will let the user know that there is no account associated with the specified username.
+   
+   Note that it is possible for the game server request to fail:
+   - If there is no response at all, a *failedToConnect* notification is sent to the *NotificationCenter*
+   - If an invalid response was received, internalError() is invoked to ask user if they wish to report the issue
+   */
   @objc func resetPassword(_ sender:UIButton)
   {
     cachedEmail = nil
@@ -166,7 +208,7 @@ class ForgotLoginViewController: ModalViewController
                 title: "Email sent",
                 message: "Password reset instructions were sent to the email address associated with the username \(username)", preferredStyle: .alert)
               alert.addAction(UIAlertAction(title: "OK", style: .default, handler: {
-                (_) in self.loginVC.cancel(self) } ) )
+                (_) in self.loginVC.cancel() } ) )
               self.present(alert,animated: true)
               
             case .FailedToConnect:
@@ -219,10 +261,21 @@ class ForgotLoginViewController: ModalViewController
 
 extension ForgotLoginViewController
 {
+  /**
+   Implements a UITextFieldDelegate for the purpose of validating the
+   structure of the data in a *UITextField*.
+   
+   The text can be validated as either a username or as an email address.
+   
+   The *textFieldShouldReturn* and *textFiedValueChanged* methods are implmented in this delegate.
+   - Response to the return key is disabled unless the *UITextField* content is valid.
+   - Whenever the content of the *UITextField* changes, it is evaluated and the specified alert action is enabled/disabled accordingly.
+   
+   The concept for this class was derived from https://gist.github.com/ole/f76630731c9a0cda90bb6bae28e82927
+   */
   class TextFieldValidator : NSObject, UITextFieldDelegate
   {
-    // concepts taken from: https://gist.github.com/ole/f76630731c9a0cda90bb6bae28e82927
-    enum ValidationType { case username; case password }
+    enum ValidationType { case username; case email }
     
     let textField : UITextField
     let type      : ValidationType
@@ -257,7 +310,7 @@ extension ForgotLoginViewController
         
         return true
         
-      case .password:
+      case .email:
         if value.isEmpty { return false }
         
         if value.range(of:K.emailRegex, options:.regularExpression) == nil { return false }

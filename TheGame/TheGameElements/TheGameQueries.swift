@@ -16,7 +16,6 @@ enum QueryKey
   static let EmailVal   = "email_validation"
   static let FBID       = "fbid"
   static let LastLoss   = "last_loss"
-  static let Lastloss   = "last_loss"
   static let MatchStart = "match_start"
   static let Matches    = "matches"
   static let Name       = "name"
@@ -56,7 +55,7 @@ extension HashData
   var userkey     : String? { getString(QueryKey.Userkey) }
   var alias       : String? { getString(QueryKey.Alias) }
   var email       : String? { getString(QueryKey.Email) }
-  var lastLoss    : Int?    { getInt(QueryKey.Lastloss) }
+  var lastLoss    : Int?    { getInt(QueryKey.LastLoss) }
   
   var hasUserkey  : Bool?   { getBool(QueryKey.Userkey) }
   var hasUsername : Bool?   { getBool(QueryKey.Username) }
@@ -73,7 +72,7 @@ extension GameQuery.Status
   static let UserExists            =  1
   static let InvalidUserkey        =  2
   static let InvalidUsername       =  3
-  static let InvalidUserkeyFBID    =  4
+  static let InvalidFBID           =  4
   static let IncorrectUsername     =  5
   static let IncorrectPassword     =  6
   static let FailedToCreateFBID    =  7
@@ -91,7 +90,7 @@ extension GameQuery.Status
     UserExists         : "User Exists",
     InvalidUserkey     : "Invalid Userkey",
     InvalidUsername    : "Invalid Username",
-    InvalidUserkeyFBID : "Invalid Userkey FBID",
+    InvalidFBID        : "Invalid Facebook ID",
     IncorrectUsername  : "Incorrect Username",
     IncorrectPassword  : "Incorrect Password",
     FailedToCreateFBID : "Failed To Create FBID",
@@ -156,14 +155,52 @@ extension GameQuery
 
 extension GameServer
 {
-  func execute( page : Page,
-                action : Action,
+  enum Query : String
+  {
+    case UserConnect   = "uco"
+    case UserCreate    = "ucr"
+    case UserValidate  = "uvl"
+    case UserInfo      = "uin"
+    case DropUser      = "udr"
+    case UpdateUser    = "uup"
+    case ResetPassword = "pwr"
+    case GetMatches    = "mat"
+    case ILostTheGame  = "ilg"
+    case CheckForEmail = "eex"
+    case SendPassword  = "epw"
+    case SendUsername  = "eun"
+    case ReportError   = "err"
+    
+    var qArg : GameQuery.Args { return ["q" : self.rawValue] }
+  }
+  
+  var time : Int?
+  {
+    var rval : Int?
+    if case .Success(let data) = query(QueryKey.Time).execute().status {
+      debug("time value returned: \(data?.time ?? -2)")
+      rval = data?.time
+    }
+    debug("time function returning \(rval ?? -1)")
+    return rval
+  }
+  
+  func query(_ q:Query, args:GameQuery.Args? = nil) -> GameQuery
+  {
+    var gameArgs : GameQuery.Args = [ "q" : q.rawValue ]
+    if let args = args {
+      for (key,value) in args { gameArgs[key] = value }
+    }
+    return query("q", args:gameArgs)
+  }
+  
+  func execute( _ q : Query,
                 args : GameQuery.Args,
                 requiredResponses : [String] = [],
                 recognizedReturnCodes : [Int] = [],
                 completion: @escaping (GameQuery)->() )
   {
-    query(page, action:action, args: args).execute() {
+    query(q, args: args).execute() {
       (query) in
       
       if query.status == nil
@@ -193,8 +230,7 @@ extension GameServer
               completion:@escaping (GameQuery)->())
   {
     execute(
-      page: .User,
-      action: .Validate,
+      .UserValidate,
       args : [
         QueryKey.Username: username,
         QueryKey.Password: password
@@ -205,6 +241,36 @@ extension GameServer
       recognizedReturnCodes: [
         GameQuery.Status.InvalidUsername,
         GameQuery.Status.IncorrectPassword
+      ],
+      completion: completion
+    )
+  }
+  
+  func login( userkey:String,
+              completion:@escaping (GameQuery)->())
+  {
+    execute(
+      .UserValidate,
+      args : [
+        QueryKey.Userkey : userkey
+      ],
+      recognizedReturnCodes: [
+        GameQuery.Status.InvalidUserkey
+      ],
+      completion: completion
+    )
+  }
+   
+  func login( fbid:String,
+              completion:@escaping (GameQuery)->())
+  {
+    execute(
+      .UserValidate,
+      args : [
+        QueryKey.FBID : fbid
+      ],
+      recognizedReturnCodes: [
+        GameQuery.Status.InvalidFBID
       ],
       completion: completion
     )
@@ -225,8 +291,7 @@ extension GameServer
     if let email = email, email.count > 0 { args[QueryKey.Email] = email }
     
     execute(
-      page: .User,
-      action: .Create,
+      .UserCreate,
       args : args,
       requiredResponses: [
         QueryKey.Userkey
@@ -238,13 +303,95 @@ extension GameServer
     )
   }
   
+  func connectWithFacebook( _ fbid: String,
+                            completion:@escaping (GameQuery)->() )
+  {
+    execute(
+      .UserConnect,
+      args: [QueryKey.FBID : fbid ],
+      requiredResponses: [
+        QueryKey.Userkey
+      ],
+      recognizedReturnCodes: [
+        GameQuery.Status.FailedToCreateFBID
+      ],
+      completion: completion
+    )
+  }
+  
+  func dropUser( userkey:String,
+                 username: Bool = false,
+                 facebook: Bool = false,
+                 notify: Bool = true,
+                 completion: @escaping (GameQuery)->() )
+  {
+    guard username || facebook else { return }
+    
+    let scope = ( facebook ? ( username ? "FU" : "F" ) : "U" )
+    
+    var args: GameQuery.Args = [
+      QueryKey.Userkey : userkey,
+      QueryKey.Scope : scope
+      ]
+    
+    if notify { args[QueryKey.Notify] = "1" }
+    
+    execute(
+      .DropUser,
+      args: args,
+      recognizedReturnCodes: [
+        GameQuery.Status.InvalidUserkey
+      ],
+      completion: completion
+    )
+  }
+  
+  func userInfo( userkey:String,
+                 completion: @escaping (GameQuery)->() )
+  {
+    execute(
+      .UserInfo,
+      args: [ QueryKey.Userkey : userkey ],
+      recognizedReturnCodes: [
+        GameQuery.Status.InvalidUserkey
+      ],
+      completion: completion
+    )
+  }
+  
+  func updateAccountInfo( userkey:String,
+                          password:String? = nil,
+                          alias:String? = nil,
+                          email:String? = nil,
+                          completion:@escaping (GameQuery)->() )
+  {
+    var args : GameQuery.Args = [ QueryKey.Userkey: userkey ]
+    
+    if let password = password, !password.isEmpty { args[QueryKey.Password] = password }
+    if let alias    = alias,    !alias.isEmpty    { args[QueryKey.Alias]    = alias    }
+    if let email    = email,    !email.isEmpty    { args[QueryKey.Email]    = email    }
+    
+    execute(
+      .UpdateUser,
+      args : args,
+      requiredResponses: [
+        QueryKey.Updated
+      ],
+      recognizedReturnCodes: [
+        GameQuery.Status.InvalidUserkey,
+        GameQuery.Status.FailedToUpdateUser
+      ],
+      completion: completion
+    )
+  }
+  
   func checkFor(email:String, completion:@escaping (Bool?,GameQuery)->())
   {
     let args : GameQuery.Args = [ QueryKey.Email : email ]
     
     var exists : Bool?
     
-    query(.User, action: .Lookup, args: args).execute() {
+    query(.CheckForEmail, args: args).execute() {
       (query) in
       switch query.status
       {
@@ -266,8 +413,7 @@ extension GameServer
   func sendUsernameEmail(email:String, completion:@escaping (GameQuery)->())
   {
     execute(
-      page: .Email,
-      action: .RetieveUsername,
+      .SendUsername,
       args : [
         QueryKey.Email: email,
         QueryKey.Salt: String(Defaults.resetSalt)
@@ -282,8 +428,7 @@ extension GameServer
   func sendPasswordResetEmail(username:String, completion:@escaping (GameQuery)->())
   {
     execute(
-      page: .Email,
-      action: .ResetPassword,
+      .SendPassword,
       args : [
         QueryKey.Username: username,
         QueryKey.Salt: String(Defaults.resetSalt)
@@ -300,8 +445,7 @@ extension GameServer
                      completion:@escaping (GameQuery)->())
   {
     execute(
-      page: .User,
-      action: .ResetPassword,
+      .ResetPassword,
       args: [
         QueryKey.Username  : username,
         QueryKey.Password  : password,
@@ -318,8 +462,7 @@ extension GameServer
   func lookupOpponents(userkey:String, completion:@escaping (GameQuery)->())
   {
     execute(
-      page: .User,
-      action: .Matches,
+      .GetMatches,
       args: [
         QueryKey.Userkey : userkey
       ],
@@ -336,8 +479,7 @@ extension GameServer
   func updateLastLoss(userkey:String, completion:@escaping (GameQuery)->())
   {    
     execute(
-      page: .User,
-      action: .LastLoss,
+      .ILostTheGame,
       args: [
         QueryKey.Userkey : userkey
       ],
@@ -348,4 +490,13 @@ extension GameServer
     )
   }
   
+  func sendErrorReport(_ message:[String])
+  {
+    sendErrorReport( message.joined(separator: "\n") )
+  }
+  
+  func sendErrorReport(_ message:String)
+  {
+    query(Query.ReportError.rawValue, args:["details":message]).post { _ in }
+  }
 }

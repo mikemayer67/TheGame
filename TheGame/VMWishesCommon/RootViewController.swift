@@ -13,16 +13,32 @@ extension Notification.Name
   static let failedToConnectToServer = Notification.Name("failedToConnectToServer")
 }
 
+/**
+ Simple subclass of UIViewController that adds a single attribute *rootViewController*.
+ 
+ The intent is to subclass this view controller to add specific functionality.
+ */
 class ChildViewController : UIViewController
 {
   var rootViewController : RootViewController!
 }
 
+/**
+ Sends the FailedToConnectToServer notification on the default notification center
+ */
 func failedToConnectToServer()
 {
   NotificationCenter.default.post(name: .failedToConnectToServer, object: nil, userInfo: nil)
 }
 
+/**
+ A container view for handling the presentation of *ChildViewController* instances.
+ 
+ Both the root view controller and the presented child view controllers must be
+ defined in a storyboard.  More specifically, they must be defined in the same
+ storyboard.  The root view controller identifies the child view through use of the
+ storyboard ID field.
+ */
 @IBDesignable
 class RootViewController: UIViewController
 {
@@ -44,6 +60,12 @@ class RootViewController: UIViewController
     vc.didMove(toParent: self)
   }
   
+  /**
+   Retrieves the the *ChildViewController* from the storyboard with the specified ID
+   
+   - Parameter viewControllerID: storyboard ID of the controller to be presented
+   */
+  
   private func childView(withName viewControllerID:String) -> ChildViewController
   {
     guard let sb = storyboard
@@ -58,6 +80,16 @@ class RootViewController: UIViewController
     return vc
   }
   
+  /**
+   Replaces the current presented view controller with the child controller
+   (a *ChildViewController* instance) identifed by the specified controller string.
+   
+   If the specified ID happens to be the ID of the currently presented controller,
+   this method returns immediately without further action.  Otherwise, the *childView*
+   method is used to retrieve the desired view controller from the storyboard.
+   
+   - Parameter viewControllerID: storyboard ID of the controller to be presented
+   */
   func present(viewControllerID:String)
   {
     guard currentVC != nil    else { return }
@@ -80,6 +112,11 @@ class RootViewController: UIViewController
     }
   }
   
+  /**
+   Configures *RootViewController* instance to observe FailedToConnectToServer
+   notifcations.  In response to this notification, it invokes the update method,
+   which must be defined in an extesion to this class.
+   */
   func setupFailureNotification()
   {
     NotificationCenter.default.addObserver(

@@ -10,6 +10,11 @@ import UIKit
 
 fileprivate var cachedUsername : String?
 
+/**
+ Subclass of *ModalViewController* which displays the modal view for requesting a password reset.
+ 
+ This requires a password reset code that must have been sent by email using the methods in *ForgotLoingViewController*.
+*/
 class ResetPasswordViewController: ModalViewController
 {
   var loginVC : LoginViewController
@@ -97,6 +102,13 @@ class ResetPasswordViewController: ModalViewController
   
   // MARK:- Input State
 
+  /**
+   Runs checks on each of the input fields.
+   
+   If any check fails, the create (OK) button is disabled.
+   
+   If all checks pass, the create button is enabled.
+   */
   @discardableResult
   func checkAllAndUpdateState() -> Bool
   {
@@ -108,6 +120,15 @@ class ResetPasswordViewController: ModalViewController
     return allOK
   }
   
+  /**
+   Verifies that the entered username contains is not empty and has the required length.
+   
+   Username checks and corresponding error text:
+   - not empty (*required*)
+   - required minimum length (*too short*)
+   
+   - Returns: flag indicating if username check passed
+   */
   private func checkUsername() -> Bool
   {
     let t = usernameTextField.text ?? ""
@@ -123,6 +144,21 @@ class ResetPasswordViewController: ModalViewController
     return ok
   }
   
+  /**
+   Verifies that the new password meets all requirements and that it matches
+   the password confirmation field.
+   
+   Password checks and corresponding error text:
+   - not empty (*required*)
+   - required minimum length (*too short*)
+   
+   Confirmation checks and corresponding error text:
+   - not empty (*required*)
+   - same length as password (*incomplete* if shorter, but matches so far, *don't match* otherwise)
+   - matches password exactly (*don't match*)
+   
+   - Returns: flag indicating if password check passed
+   */
   private func checkPassword() -> Bool
   {
     let t1 = password1TextField.text ?? ""
@@ -143,6 +179,16 @@ class ResetPasswordViewController: ModalViewController
     return ok
   }
   
+  /**
+   Verifies that the entered reset code has the required length.
+   
+   Username checks and corresponding error text:
+   - not empty (*required*)
+   - not too short (*too short*)
+   - not too long (*too long*)
+   
+   - Returns: flag indicating if username check passed
+   */
   private func checkResetCode() -> Bool
   {
     let c = self.resetCode
@@ -159,6 +205,7 @@ class ResetPasswordViewController: ModalViewController
     return ok
   }
   
+  /// Retrieves the reset code and strips all whitespace from it
   private var resetCode : String
   {
     var code = resetCodeTextField.text ?? ""
@@ -166,6 +213,9 @@ class ResetPasswordViewController: ModalViewController
     return code
   }
   
+  /**
+   Converts the reset code into a validation code by combining it with the a salt value unique to this device.
+  */
   private var validationCode : Int
   {
     guard
@@ -178,11 +228,24 @@ class ResetPasswordViewController: ModalViewController
   
   // MARK:- Button Actions
   
+  /// Simply dismisses the current modal view
   @objc func cancel(_ sender:UIButton)
   {
     mmvc?.rollback()
   }
   
+  /**
+   Requests the game server to update the password associated with the specified username.
+   
+   The game server will respond with one of the following:
+   - Success:  In this case, the *login* method is invoked to connect using the specified username and new password
+   - Invalid username: In this case, a popup will be raised to notify the user that they entered an invalid username.
+   - Failed to update password: In this case, a popup will be raised to notify the user that password reset failed.
+   
+   Note that it is possible for the game server request to fail:
+   - If there is no response at all, a *failedToConnect* notification is sent to the *NotificationCenter*
+   - If an invalid response was received, internalError() is invoked to ask user if they wish to report the issue
+   */
   @objc func reset(_ sender:UIButton)
   {
     guard checkAllAndUpdateState(),
@@ -218,6 +281,17 @@ class ResetPasswordViewController: ModalViewController
     }
   }
   
+  /**
+   Proceeds to attempt to work with the game server to log into the user account.
+   
+   The actual attempt to log in is made through *LocalPlayer*'s connect() method which will return the *GameQuery* transaction with the game server and a *LocalPlayer* reference.
+   
+   On success, the shared *TheGame* model is notified of the new *LocalPlayer* and the login view controller is dismissed.
+   
+   Note that it is possible for the game server request to fail:
+   - If there is no response at all, a *failedToConnect* notification is sent to the *NotificationCenter*
+   - If an invalid response was received, internalError() is invoked to ask user if they wish to report the issue
+   */
   func login(username:String, password:String)
   {
     LocalPlayer.connect(username: username, password: password) {
@@ -225,7 +299,7 @@ class ResetPasswordViewController: ModalViewController
       if me != nil
       {
         TheGame.shared.me  = me
-        self.loginVC.completed(self)
+        self.loginVC.completed()
       }
       else
       {
@@ -274,6 +348,11 @@ extension ResetPasswordViewController : UITextFieldDelegate
 
 extension ResetPasswordViewController : InfoButtonDelegate
 {
+  /**
+   Displays an information popup based on which field's info button was pressed.
+   
+   - Parameter sender: refernce to the (info) *UIButton* that was pressed.
+   */
   func showInfo(_ sender: UIButton)
   {
     switch sender

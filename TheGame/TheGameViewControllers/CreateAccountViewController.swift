@@ -12,6 +12,10 @@ fileprivate var cachedUsername    : String?
 fileprivate var cachedDisplayName : String?
 fileprivate var cachedEmail       : String?
 
+/**
+ Subclass of *ModalViewController* which displays the modal view for creating
+ a new username/password account
+ */
 class CreateAccountViewController : ModalViewController
 {
   var loginVC : LoginViewController
@@ -114,6 +118,13 @@ class CreateAccountViewController : ModalViewController
   
   // MARK:- Input State
 
+  /**
+   Runs checks on each of the input fields.
+   
+   If any check fails, the create (OK) button is disabled.
+   
+   If all checks pass, the create button is enabled.
+   */
   @discardableResult
   func checkAllAndUpdateState() -> Bool
   {
@@ -126,6 +137,16 @@ class CreateAccountViewController : ModalViewController
     return allOK
   }
   
+  /**
+   Verifies that the entered username contains is not empty and has the required
+   length.
+   
+   Username checks and corresponding error text:
+   - not empty (*required*)
+   - required minimum length (*too short*)
+   
+   - Returns: flag indicating if username check passed
+   */
   private func checkUsername() -> Bool
   {
     let t = usernameTextField.text ?? ""
@@ -141,6 +162,21 @@ class CreateAccountViewController : ModalViewController
     return ok
   }
   
+  /**
+   Verifies that the entered password meets all requirements and that it matches
+   the password confirmation field.
+   
+   Password checks and corresponding error text:
+   - not empty (*required*)
+   - required minimum length (*too short*)
+   
+   Confirmation checks and corresponding error text:
+   - not empty (*required*)
+   - same length as password (*incomplete* if shorter, but matches so far, *don't match* otherwise)
+   - matches password exactly (*don't match*)
+   
+   - Returns: flag indicating if password check passed
+   */
   private func checkPassword() -> Bool
   {
     let t1 = password1TextField.text ?? ""
@@ -161,6 +197,16 @@ class CreateAccountViewController : ModalViewController
     return ok
   }
   
+  /**
+   Verifies that the entered display name (alias) meets all requirements.
+   
+   This field is allowed to be empty, but if not...
+   
+   Display name checks and corresponding error text:
+   - required minimum length (*too short*)
+   
+   - Returns: flag indicating if display name check passed
+   */
   private func checkDisplayName() -> Bool
   {
     let t = (displayNameTextField.text ?? "").trimmingCharacters(in: .whitespaces)
@@ -175,6 +221,16 @@ class CreateAccountViewController : ModalViewController
     return ok
   }
   
+  /**
+   Verifies that the entered email address meets all requirements.
+   
+   This field is allowed to be empty, but if not...
+   
+   Display name checks and corresponding error text:
+   - matches the email regex defined at http://emailregex.com
+   
+   - Returns: flag indicating if email check passed
+   */
   private func checkEmail() -> Bool
   {
     let t = (emailTextField.text ?? "").trimmingCharacters(in: .whitespaces)
@@ -194,11 +250,19 @@ class CreateAccountViewController : ModalViewController
   
   // MARK:- Button Actions
   
+  /// Simply dismisses the current modal view
   @objc func cancel(_ sender:UIButton)
   {
-    loginVC.cancel(self)
+    loginVC.cancel()
   }
   
+  /**
+   Proceeds to attempt to work with the game server to create the new account
+   
+   Depending on whether and email address was provided, it invokes either:
+   - checkForExisting(email)
+   - confirmNoEmail()
+   */
   @objc func create(_ sender:UIButton)
   {
     guard checkAllAndUpdateState(),
@@ -216,6 +280,19 @@ class CreateAccountViewController : ModalViewController
     }
   }
   
+  /**
+   Contacts the server to see if there is alredy an account with the requested
+   email address.
+   
+   If email address is already in use, confirmDuplicateEmail(email) is invoked to prompt
+   the user to confirm creating a second account with the same email address.
+   
+   If the email address is not currently in use, createAccount() is invoked.
+   
+   Note that it is possible for the game server request to fail:
+   - If there is no response at all, a *failedToConnect* notification is sent to the *NotificationCenter*
+   - If an invalid response was received, internalError() is invoked to ask user if they wish to report the issue
+   */
   private func checkForExisting(email:String)
   {
     TheGame.server.checkFor(email: email) { (exists,query) in
@@ -240,6 +317,14 @@ class CreateAccountViewController : ModalViewController
     }
   }
 
+  /**
+   Prompts the user to confirm that they wish to create an account without an associated
+   email address (and why they may want to reconsider).
+   
+   If the user confirms they don't want an associated email address, *createAccount()* is invoked.
+   
+   Otherwise, nothing happens and the create account modal simply stays in the forefront.
+   */
   private func confirmNoEmail()
   {
     let message = [
@@ -253,6 +338,16 @@ class CreateAccountViewController : ModalViewController
     }
   }
   
+  /**
+   Prompts the user to select a course of action if an account already exists with the
+   requested email address.
+   
+   The possible actions are:
+   - Attempt to connect using the account associated with that email address
+   - Request and email be sent to that email address with login information (username/password reset code)
+   - Proceed to create a new account that will have the same associated email address
+   - Go back to the create user modal popup to allow a different email address to be entered.
+   */
   private func confirmDuplicateEmail(_ email:String)
   {
     let alert = UIAlertController(
@@ -274,6 +369,17 @@ class CreateAccountViewController : ModalViewController
     self.present(alert,animated: true)
   }
   
+  /**
+   Requests the game server to create a new account based on the input.
+   
+   The game server will respond with either:
+   - Success:  In this case, the *accountCreated* method is invoked to complete game setup and transition to the game view
+   - User Exists: In this case, the *handleExistingUser* method is invoke to alert the user and give them the option to try to log into that account.
+   
+   Note that it is possible for the game server request to fail:
+   - If there is no response at all, a *failedToConnect* notification is sent to the *NotificationCenter*
+   - If an invalid response was received, internalError() is invoked to ask user if they wish to report the issue
+   */
   private func createAccount()
   {
     guard checkAllAndUpdateState() else { return }
@@ -292,7 +398,7 @@ class CreateAccountViewController : ModalViewController
         case .FailedToConnect:
           failedToConnectToServer()
         case .Success(let data):
-          self.createAccount(username:username,alias:alias,email:email,data:data!)
+          self.accountCreated(username:username,alias:alias,email:email,data:data!)
         case .QueryFailure(GameQuery.Status.UserExists, _):
           self.handleExistingUser(username:username)
         default: // includes nil status
@@ -302,7 +408,15 @@ class CreateAccountViewController : ModalViewController
     }
   }
   
-  private func createAccount(username:String, alias:String?, email:String?, data:HashData)
+  /**
+   Constructs the local player based on data returned from the game server and dismisses the login view controller
+   
+   - Parameter username: username associated with the new account
+   - Parameter alias: optional display name associated with the new account
+   - Parameter email: optional email address associated with the new account
+   - Parameter data: account data returned from the game server after creating the account
+   */
+  private func accountCreated(username:String, alias:String?, email:String?, data:HashData)
   {
     guard let userkey = data.userkey
       else { fatalError("query should have failed without userkey in the data") }
@@ -316,13 +430,18 @@ class CreateAccountViewController : ModalViewController
     }
     
     TheGame.shared.me =
-      LocalPlayer(userkey, username: username, alias: alias, data: data)
+      LocalPlayer(userkey, data:data)
     
     self.infoPopup(title: "User Created", message: message) {
-      self.loginVC.completed(self)
+      self.loginVC.completed()
     }
   }
   
+  /**
+   Raises a confirmation dialog to alert the user that the requested username is already in use and offers the opportunity to attempt to log in with that account.
+   
+   - Parameter username: requested/existing username
+   */
   private func handleExistingUser(username:String)
   {
     let message = "Would you like to log in as \(username)?"
@@ -372,6 +491,11 @@ extension CreateAccountViewController : UITextFieldDelegate
 
 extension CreateAccountViewController : InfoButtonDelegate
 {
+  /**
+   Displays an information popup based on which field's info button was pressed.
+   
+   - Parameter sender: refernce to the (info) *UIButton* that was pressed.
+   */
   func showInfo(_ sender: UIButton)
   {
     switch sender

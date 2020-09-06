@@ -10,8 +10,6 @@ import UIKit
 
 @IBDesignable class LoginTextField: UITextField, UITextFieldDelegate
 {
-  @IBInspectable var fieldType : Int = 0
-  
   enum LoginType : Int
   {
     case Username = 0

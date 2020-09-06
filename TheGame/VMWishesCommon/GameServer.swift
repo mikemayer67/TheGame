@@ -63,13 +63,13 @@ class GameServer
   
   func testConnection() -> Bool
   {
-    self.connected = query("test").execute().status?.success ?? false
+    self.connected = query(QueryKey.Time).execute().status?.success ?? false
     return self.connected
   }
   
   func testConnection( completion: @escaping (Bool)->())
   {
-    query("test").execute() {
+    query(QueryKey.Time).execute() {
       (query) in
       self.connected = query.status?.success ?? false
       completion( self.connected )

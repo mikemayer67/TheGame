@@ -27,16 +27,7 @@ extension SettingsViewController : UITableViewDelegate, UITableViewDataSource
   {
     if let me = TheGame.shared.me
     {
-    debug("Table update for Local Player:  " +
-      "userkey: \(me.userkey)  " +
-      "username: \(me.username ?? "-")  " +
-      "alias: \(me.alias ?? "-")  " +
-      "name: \(me.name)  " +
-      "fb id: \(me.fb?.id ?? "-")  " +
-      "fb name: \(me.fb?.name ?? "-")  " +
-      "fb picture: \(me.fb?.picture ?? "-")  " +
-      "fb friends: \(me.fb?.friendsGranted ?? false)"
-      )
+    debug("Table update for Local Player: userkey: \(me.userkey)" )
     }
 
     return 3
