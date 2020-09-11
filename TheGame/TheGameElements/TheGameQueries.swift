@@ -16,6 +16,7 @@ enum QueryKey
   static let EmailVal   = "email_validation"
   static let FBID       = "fbid"
   static let LastLoss   = "last_loss"
+  static let MatchID    = "match_id"
   static let MatchStart = "match_start"
   static let Matches    = "matches"
   static let Name       = "name"
@@ -29,7 +30,7 @@ enum QueryKey
   static let Userid     = "userid"
   static let Userkey    = "userkey"
   static let Username   = "username"
-  static let Validated  = "Y"
+  static let Validated  = "validated"
 }
 
 enum EmailStatus
@@ -57,10 +58,6 @@ extension HashData
   var email       : String? { getString(QueryKey.Email) }
   var lastLoss    : Int?    { getInt(QueryKey.LastLoss) }
   
-  var hasUserkey  : Bool?   { getBool(QueryKey.Userkey) }
-  var hasUsername : Bool?   { getBool(QueryKey.Username) }
-  var hasFacebook : Bool?   { getBool(QueryKey.FBID) }
-  
   var emailStatus : EmailStatus
   {
     return EmailStatus( getBool(QueryKey.Email) )
@@ -80,6 +77,7 @@ extension GameQuery.Status
   static let FailedToUpdateUser    =  9
   static let NoValidatedEmail      = 10
   static let InvalidEmail          = 11
+  static let EmailFailure          = 12
   
   static let strings : [Int:String] =
   [
@@ -97,7 +95,8 @@ extension GameQuery.Status
     FailedToCreateUser : "Failed To Create User",
     FailedToUpdateUser : "Failed To Update User",
     NoValidatedEmail   : "NoValidated Email",
-    InvalidEmail       : "Invalid Email"
+    InvalidEmail       : "Invalid Email",
+    EmailFailure       : "Game server failed to send email",
   ]
   
   var failure : String
@@ -157,7 +156,7 @@ extension GameServer
 {
   enum Query : String
   {
-    case UserConnect   = "uco"
+    case UserFBConnect = "ufb"
     case UserCreate    = "ucr"
     case UserValidate  = "uvl"
     case UserInfo      = "uin"
@@ -178,10 +177,8 @@ extension GameServer
   {
     var rval : Int?
     if case .Success(let data) = query(QueryKey.Time).execute().status {
-      debug("time value returned: \(data?.time ?? -2)")
       rval = data?.time
     }
-    debug("time function returning \(rval ?? -1)")
     return rval
   }
   
@@ -261,13 +258,29 @@ extension GameServer
     )
   }
    
+  /**
+   Validates that a user with the specified Facebook ID exists on the game server.
+   
+   Note that unlike the otehr login methods, this one has the side effect of updating
+   the database.  Specifically, it updates the Facebook username if it has changed
+   since the last time the id was used.
+   
+   - Parameer fbid: Facebook ID
+   - Parameter name: The name associated with fbid (*based on Facebook Graph API*)
+   - Parameter completion: completion handler invoked after query has completed
+   */
   func login( fbid:String,
+              name:String,
               completion:@escaping (GameQuery)->())
   {
     execute(
       .UserValidate,
       args : [
-        QueryKey.FBID : fbid
+        QueryKey.FBID : fbid,
+        QueryKey.Name : name
+      ],
+      requiredResponses: [
+        QueryKey.Userkey
       ],
       recognizedReturnCodes: [
         GameQuery.Status.InvalidFBID
@@ -303,16 +316,20 @@ extension GameServer
     )
   }
   
-  func connectWithFacebook( _ fbid: String,
+  func connectWithFacebook( fbid: String, name: String,
                             completion:@escaping (GameQuery)->() )
   {
     execute(
-      .UserConnect,
-      args: [QueryKey.FBID : fbid ],
+      .UserFBConnect,
+      args: [
+        QueryKey.FBID : fbid,
+        QueryKey.Name : name
+      ],
       requiredResponses: [
         QueryKey.Userkey
       ],
       recognizedReturnCodes: [
+        GameQuery.Status.FailedToCreateUser,
         GameQuery.Status.FailedToCreateFBID
       ],
       completion: completion
@@ -419,7 +436,8 @@ extension GameServer
         QueryKey.Salt: String(Defaults.resetSalt)
       ],
       recognizedReturnCodes: [
-        GameQuery.Status.InvalidEmail
+        GameQuery.Status.InvalidEmail,
+        GameQuery.Status.EmailFailure
       ],
       completion: completion
     )
@@ -435,7 +453,8 @@ extension GameServer
       ],
       recognizedReturnCodes: [
         GameQuery.Status.InvalidUsername,
-        GameQuery.Status.InvalidEmail
+        GameQuery.Status.InvalidEmail,
+        GameQuery.Status.EmailFailure
       ],
       completion: completion
     )
@@ -484,7 +503,8 @@ extension GameServer
         QueryKey.Userkey : userkey
       ],
       recognizedReturnCodes: [
-        GameQuery.Status.FailedToUpdateUser
+        GameQuery.Status.FailedToUpdateUser,
+        GameQuery.Status.InvalidUserkey
       ],
       completion: completion
     )

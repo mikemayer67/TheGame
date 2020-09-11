@@ -7,8 +7,8 @@ require_once(__DIR__.'/util.php');
 require_once(__DIR__.'/db_find_user.php');
 require_once(__DIR__.'/db_keys.php');
 
-$username  = get_required_arg('username');
-$salt      = get_required_arg('salt');
+$username  = get_required_arg(USERNAME);
+$salt      = get_required_arg(SALT);
 
 $result = db_find_user_by_username($username);
 if( ! isset($result) ) { send_failure(INVALID_USERNAME); }

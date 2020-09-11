@@ -1,18 +1,23 @@
 <?php
 
 // Query Keys
-const USERID      = 'userid';
-const FBID        = 'fbid';
-const USERKEY     = 'userkey';
-const USERNAME    = 'username';
-const PASSWORD    = 'password';
 const ALIAS       = 'alias';
 const EMAIL       = 'email';
+const FBID        = 'fbid';
+const FBNAME      = 'fb_name';
 const LASTLOSS    = 'last_loss';
-const UPDATED     = 'updated';
-const SCOPE       = 'scope';
+const NAME        = 'name';
+const MATCHID     = 'match_id';
+const MATCHSTART  = 'match_start';
 const NOTIFY      = 'notify';
+const PASSWORD    = 'password';
 const RESET_KEY   = 'reset';
+const SALT        = 'salt';
+const SCOPE       = 'scope';
+const UPDATED     = 'updated';
+const USERID      = 'userid';
+const USERKEY     = 'userkey';
+const USERNAME    = 'username';
 const VALIDATED   = 'validated';
 
 // Return Codes

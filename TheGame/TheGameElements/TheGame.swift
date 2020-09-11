@@ -97,8 +97,9 @@ extension TheGame
   {
     for match in matchData
     {
-      guard let t = (match[QueryKey.MatchStart] as? NSString)?.doubleValue else
-      {
+      guard let t = match[QueryKey.MatchStart] as? Double,
+        let matchID = match[QueryKey.MatchID] as? Int
+      else {
         errorDelegate?.internalError(
           self,
           error: "Missing match_data (\(match))",
@@ -108,19 +109,21 @@ extension TheGame
       let matchStart = GameTime(networktime: t)
       
       var lastLoss : GameTime?
-      if let t = (match[QueryKey.LastLoss] as? NSString)?.doubleValue
+      if let t = match[QueryKey.LastLoss] as? Double,
+        t > 0.0
       {
         lastLoss = GameTime(networktime: t)
       }
       
+      let name = match[QueryKey.Name] as? String
       if let fbid = match[QueryKey.FBID] as? String
       {
-        loadOpponent(fbid, matchStart:matchStart, lastLoss:lastLoss)
+        loadOpponent(fbid, matchID: matchID, matchStart:matchStart, lastLoss:lastLoss, name:name)
       }
-      else if let name = match[QueryKey.Name] as? String
+      else if let name = name
       {
         self.opponents.append(
-          Opponent(name: name, matchStart: matchStart, lastLoss: lastLoss)
+          Opponent(name: name, matchID: matchID, matchStart: matchStart, lastLoss: lastLoss)
         )
       }
       else
@@ -135,31 +138,40 @@ extension TheGame
     delegate?.handleUpdates(self)
   }
   
-  func loadOpponent(_ fbid:String, matchStart:GameTime, lastLoss:GameTime?)
+  func loadOpponent(_ fbid:String, matchID:Int, matchStart:GameTime, lastLoss:GameTime?, name:String?)
   {
     let request = GraphRequest(graphPath: fbid, parameters: ["fields":"name,picture"])
     
+    var opponent : Opponent? = nil
+    
     request.start { (_, result, error) in
-      guard error == nil,
+      if error == nil,
         let fbResult = result as? NSDictionary,
         let name     = fbResult["name"] as? String
-        else { return }
-      
-      var pictureURL : String?
-      if let picture = fbResult["picture"] as? NSDictionary,
-        let data = picture["data"] as? NSDictionary,
-        let url = data["url"] as? String
       {
-        pictureURL = url
+        var pictureURL : String?
+        if let picture = fbResult["picture"] as? NSDictionary,
+          let data = picture["data"] as? NSDictionary,
+          let url = data["url"] as? String
+        {
+          pictureURL = url
+        }
+                
+        opponent = Opponent(facebook: FacebookInfo(fbid:fbid, name:name, picture: pictureURL),
+                            matchID: matchID,
+                            matchStart: matchStart,
+                            lastLoss: lastLoss)
       }
-      
-      let fbInfo = FacebookInfo(fbid:fbid, name:name, picture: pictureURL)
-      
-      self.opponents.append(
-        Opponent(facebook: fbInfo, matchStart: matchStart, lastLoss: lastLoss)
-      )
-      
-      self.delegate?.handleUpdates(self)
+      else if let name = name
+      {
+        opponent = Opponent(name: name, matchID: matchID, matchStart: matchStart, lastLoss: lastLoss)
+      }
+           
+      if let opponent = opponent
+      {
+        self.opponents.append( opponent )
+        self.delegate?.handleUpdates(self)
+      }
     }
   }
 }

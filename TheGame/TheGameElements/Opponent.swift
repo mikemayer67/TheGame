@@ -33,22 +33,25 @@ class Opponent : Participant, Comparable
   let name : String
   let fb   : FacebookInfo?
   let icon : UIImage?
+  let matchID : Int
   var matchStart : GameTime
   
-  init(name:String, matchStart:GameTime, lastLoss:GameTime? = nil)
+  init(name:String, matchID:Int, matchStart:GameTime, lastLoss:GameTime? = nil)
   {
     self.name       = name
     self.fb         = nil
     self.icon       = createIcon(for:name)
+    self.matchID    = matchID
     self.matchStart = matchStart
     super.init(lastLoss:lastLoss)
   }
   
-  init(facebook:FacebookInfo, matchStart:GameTime, lastLoss:GameTime? = nil)
+  init(facebook:FacebookInfo, matchID:Int, matchStart:GameTime, lastLoss:GameTime? = nil)
   {
     self.name       = facebook.name
     self.fb         = facebook
     self.icon       = createIcon(for:name, with:facebook.picture)
+    self.matchID    = matchID
     self.matchStart = matchStart
     super.init(lastLoss:lastLoss)
   }

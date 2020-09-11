@@ -17,9 +17,6 @@ $userid = $info[USERID];
 $db = new TGDB;
 $now = time();
 
-$sql = 'insert into tg_loss_history (userid,loss_time) values (?,?)';
-$db->get($sql,'ii',$userid,$now);
-
 $sql = 'update tg_users set last_loss=? where userid=?';
 $result = $db->get($sql,'ii',$now,$userid);
 

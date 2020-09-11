@@ -33,20 +33,29 @@ $db = new TGDB;
 $userkey   = db_gen_userkey();
 $hashed_pw = password_hash($password,PASSWORD_DEFAULT);
 
-if( empty($alias) )
-{
-  $sql = "insert into tg_users (userkey,username,password) values (?,?,?)";
-  $result = $db->get($sql,'sss',$userkey,$username,$hashed_pw);
-}
-else
-{
-  $sql = "insert into tg_users (userkey,username,password,alias) values (?,?,?,?)";
-  $result = $db->get($sql,'ssss',$userkey,$username,$hashed_pw,$alias);
-}
+$sql = 'insert into tg_users (userkey) values (?)';
+$result = $db->get($sql,'s',$userkey);
 
 if( ! $result ) send_failure(FAILED_TO_CREATE_USER);
 
 $userid = $db->last_insert_id();
+
+if( empty($alias) )
+{
+  $sql = "insert into tg_username (userid,username,password) values (?,?,?)";
+  $result = $db->get($sql,'iss',$userid,$username,$hashed_pw);
+}
+else
+{
+  $sql = "insert into tg_username (userid,username,password,alias) values (?,?,?,?)";
+  $result = $db->get($sql,'isss',$userid,$username,$hashed_pw,$alias);
+}
+
+if( ! $result ) 
+{
+  $db->get('delete from tg_users where userid=?','i',$userid);
+  send_failure(FAILED_TO_CREATE_USER);
+}
 
 # if email is specified, create an email validation key in the database
 

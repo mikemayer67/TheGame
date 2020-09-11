@@ -74,20 +74,6 @@ class GameViewController: ChildViewController
   }
 }
 
-// TODO: @@@ REMOVE
-extension GameViewController
-{
-  @IBAction func RESET(_ sender:UIButton)
-  {
-    theGame.reset_REMOVE()
-  }
-  
-  @IBAction func opponentLost(_ sender: UIButton)
-  {
-    theGame.opponentLost_REMOVE(sender.tag)
-  }
-}
-
 private extension GameViewController
 {
   func showLostButton(animated:Bool)

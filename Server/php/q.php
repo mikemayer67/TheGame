@@ -14,7 +14,7 @@ try
   elseif ( $action == 'ilg' ) { require(__DIR__.'/pri/user_lost.php');       } 
   elseif ( $action == 'mat' ) { require(__DIR__.'/pri/user_matches.php');    } 
   elseif ( $action == 'pwr' ) { require(__DIR__.'/pri/user_pwreset.php');    } 
-  elseif ( $action == 'uco' ) { require(__DIR__.'/pri/user_fb_connect.php'); } 
+  elseif ( $action == 'ufb' ) { require(__DIR__.'/pri/user_fb_connect.php'); } 
   elseif ( $action == 'ucr' ) { require(__DIR__.'/pri/user_create.php');     }
   elseif ( $action == 'udr' ) { require(__DIR__.'/pri/user_drop.php');       } 
   elseif ( $action == 'uin' ) { require(__DIR__.'/pri/user_lookup.php');     } 

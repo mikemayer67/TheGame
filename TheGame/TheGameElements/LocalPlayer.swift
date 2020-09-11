@@ -21,7 +21,8 @@ class LocalPlayer : Participant
     Defaults.userkey  = key
     
     var lastLoss : GameTime?
-    if let t = data?.lastLoss {
+    if let t = data?.lastLoss, t > 0
+    {
       lastLoss = GameTime(networktime: TimeInterval(t))
     }
     
@@ -82,16 +83,17 @@ class LocalPlayer : Participant
   
   static func connectFacebook(completion: @escaping ConnectCallback)
   {
-    let request = GraphRequest(graphPath: "me", parameters: ["fields":"id"])
+    let request = GraphRequest(graphPath: "me", parameters: ["fields":"id,name"])
     
     request.start { (_, result, error) in
       
       guard error == nil,
         let fbResult = result as? NSDictionary,
-        let fbid     = fbResult["id"]   as? String
+        let fbid     = fbResult["id"]   as? String,
+        let name     = fbResult["name"] as? String
         else { completion(nil); return }
       
-      TheGame.server.login(fbid: fbid) {
+      TheGame.server.login(fbid: fbid, name:name) {
         (query) in
         
         var me : LocalPlayer? = nil

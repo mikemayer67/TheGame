@@ -23,32 +23,26 @@ if( $result )
 {
   while( $row = $result->fetch_assoc() )
   {
-    $last_loss   = $row['last_loss'];
-    $match_id    = $row['match_id'];
-    $match_start = $row['match_start'];
-    $fbid        = $row['fbid'];
-    $username    = $row['username'];
-    $alias       = $row['alias'];
+    $last_loss   = $row[LASTLOSS];
+    $match_id    = $row[MATCHID];
+    $match_start = $row[MATCHSTART];
+    $username    = $row[USERNAME];
+    $alias       = $row[ALIAS];
+    $fbid        = $row[FBID];
     if( isset($last_loss) && isset($match_start) && isset($match_id) )
     {
       $match = array(
-        'match_id' => $match_id, 
-        'last_loss' => $last_loss, 
-        'match_start' => $match_start 
+        MATCHID    => $match_id, 
+        LASTLOSS   => $last_loss, 
+        MATCHSTART => $match_start 
       );
 
-      if( isset($fbid) ) { 
-        $match['fbid'] = $fbid;
-        $matches[] = $match;
-      }
-      elseif( isset($alias) )
+      if( isset($fbid)     ) { $match[FBID] = $fbid;     }
+      if( isset($username) ) { $match[NAME] = $username; }
+      if( isset($alias)    ) { $match[NAME] = $alias;    }  // yep, intentional override
+
+      if( isset($match[FBID]) || isset($match[NAME]) )
       {
-        $match['name'] = $alias;
-        $matches[] = $match;
-      }
-      elseif( isset($username) )
-      {
-        $match['name'] = $username;
         $matches[] = $match;
       }
     }

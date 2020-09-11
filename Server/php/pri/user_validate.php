@@ -23,10 +23,12 @@ elseif( $id[0] == 2 ) // USERNAME
 
   $info = db_find_user_by_username($username);
   if( empty($info) ) { send_failure(INVALID_USERNAME);   }
+  
+  $userid = $info[USERID];
 
   $db = new TGDB;
-  $sql = 'select password from tg_users where username=?';
-  $result = $db->get($sql,'s',$username);
+  $sql = 'select password from tg_username where userid=?';
+  $result = $db->get($sql,'i',$userid);
 
   $n = $result->num_rows;
   if($n>1) { throw new Exception("Multiple entries for userid=$userid",500); }
@@ -45,11 +47,19 @@ elseif( $id[0] == 2 ) // USERNAME
 else // 3: FBID
 {
   $fbid = $id[1];
+  $name = get_optional_arg(NAME);
   fail_on_extra_args();
 
   $info = db_find_user_by_facebook_id($fbid);
 
   if( empty($info) ) { send_failure(INVALID_FBID); }
+
+  if( isset($name) && ( $name != $info[FBNAME] ) )
+  {
+    $db = new TGDB;
+    $sql = 'update tg_facebook set name=? where userid=?';
+    $db->get($sql,'si',$name,$info[USERID]);
+  }
 
   $reply[USERKEY] = $info[USERKEY];
 }

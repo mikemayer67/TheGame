@@ -10,7 +10,7 @@ function db_update_user_password($userid,$password)
 
   $hashed_password = password_hash($password,PASSWORD_DEFAULT);
 
-  $sql ='update tg_users set password=? where userid=?';
+  $sql ='update tg_username set password=? where userid=?';
   $result = $db->get($sql,'si',$hashed_password,$userid);
   return $result;
 }
@@ -21,12 +21,12 @@ function db_update_user_alias($userid,$alias)
 
   if( empty($alias) ) 
   { 
-    $sql = 'update tg_users set alias=NULL where userid=?'; 
+    $sql = 'update tg_username set alias=NULL where userid=?'; 
     $result = $db->get($sql,'i',$userid);
   }
   else 
   { 
-    $sql = 'update tg_users set alias=? where userid=?'; 
+    $sql = 'update tg_usernames set alias=? where userid=?'; 
     $result = $db->get($sql,'si',$alias,$userid);
   }
   return $result;
@@ -51,35 +51,35 @@ function db_update_user_email($userid,$email)
 }
 
 
-function db_add_facebook($userid,$fbid)
+function db_add_facebook($userid,$fbid,$name)
 {
   $db = new TGDB;
 
-  $sql = 'update tg_users set fbid=? where userid=?';
-  $result = $db->get($sql,'si',$fbid,$userid);
+  $sql = 'update tg_facebook set fbid=?, name=? where userid=?';
+  $result = $db->get($sql,'ssi',$fbid,$name,$userid);
   return $result;
 }
 
-function db_add_username($userid,$username,$password,$alias,$email)
-{
-  $db = new TGDB;
-
-  $userkey   = db_gen_userkey();
-  $hashed_pw = password_hash($password,PASSWORD_DEFAULT);
-
-  $sql = 'update tg_users set username=?, password=? where userid=?';
-  if( ! $db->get($sql,'ssi',$username,$hashed_pw,$userid) ) { return null; }
-
-  if( ! empty($alias) )
-  {
-    $sql = 'update tg_users set alias=? where userid=?';
-    $db->get($sql,'si',$alias,$userid);
-  }
-
-  db_update_user_email($userid,$email);
-
-  return $userkey;
-}
+//function db_add_username($userid,$username,$password,$alias,$email)
+//{
+//  $db = new TGDB;
+//
+//  $userkey   = db_gen_userkey();
+//  $hashed_pw = password_hash($password,PASSWORD_DEFAULT);
+//
+//  $sql = 'update tg_users set username=?, password=? where userid=?';
+//  if( ! $db->get($sql,'ssi',$username,$hashed_pw,$userid) ) { return null; }
+//
+//  if( ! empty($alias) )
+//  {
+//    $sql = 'update tg_users set alias=? where userid=?';
+//    $db->get($sql,'si',$alias,$userid);
+//  }
+//
+//  db_update_user_email($userid,$email);
+//
+//  return $userkey;
+//}
 
 
 function db_drop_user($userid)

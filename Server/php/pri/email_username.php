@@ -7,8 +7,8 @@ require_once(__DIR__.'/util.php');
 require_once(__DIR__.'/db_find_user.php');
 require_once(__DIR__.'/db_keys.php');
 
-$email = get_required_arg('email');
-$salt  = get_required_arg('salt');
+$email = get_required_arg(EMAIL);
+$salt  = get_required_arg(SALT);
 
 $result = db_find_user_by_email($email);
 $n = count($result);

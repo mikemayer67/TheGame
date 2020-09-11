@@ -28,29 +28,23 @@ $reply = array();
 
 $db = new TGDB;
 
-if( $dropF ) 
+if( $dropF and isset($info[FBID]) ) 
 {
-  $sql = 'update tg_users set fbid=NULL where userid=?';
-  $db->get($sql,'i',$userid);
-
-  if( isset($info[FBID]) ) { $reply[FBID] = 1; }
+  $db->get('delete from tg_facebook where userid=?','i',$userid);
+  $reply[FBID] = 1;
 }
 
-if( $dropU )
+if( $dropU and isset($info[USERNAME]) )
 {
-  $sql = 'update tg_users set username=NULL, password=NULL, alias=NULL where userid=?';
-  $result = $db->get($sql,'i',$userid);
+  $result = $db->get('delete from tg_username where userid=?','i',$userid);
+  $result = $db->get('delete from tg_email where userid=?','i',$userid);
 
-  if( $result )
-  {
-    $sql = 'delete from tg_email where userid=?';
-    $db->get($sql,'i',$userid);
-  }
-
-  if( isset($info[USERNAME]) ) { $reply[USERNAME] = 1; }
+  $reply[USERNAME] = 1;
 }
 
-$sql = 'delete from tg_users where username is NULL and fbid is NULL';
+$subsql = 'select userid from tg_user_info where username is null and fb_name is null';
+$sql = "delete from tg_users where userid in ( select userid from ($subsql) t )";
+
 $db->get($sql);
 
 $t = db_find_user_by_userkey($userkey);
