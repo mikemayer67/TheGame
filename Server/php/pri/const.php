@@ -2,6 +2,7 @@
 
 // Query Keys
 const ALIAS       = 'alias';
+const DEVCERT     = 'device_cert';
 const EMAIL       = 'email';
 const FBID        = 'fbid';
 const FBNAME      = 'fb_name';
@@ -10,6 +11,7 @@ const NAME        = 'name';
 const MATCHID     = 'match_id';
 const MATCHSTART  = 'match_start';
 const NOTIFY      = 'notify';
+const OPPONENT    = 'opponent';
 const PASSWORD    = 'password';
 const RESET_KEY   = 'reset';
 const SALT        = 'salt';
@@ -33,6 +35,8 @@ const FAILED_TO_UPDATE_USER    =  9;
 const NO_EMAIL                 = 10; 
 const INVALID_EMAIL            = 11;
 const EMAIL_FAILURE            = 12;
+const INVALID_OPPONENT         = 13;
+const NOTIFICATION_FAILURE     = 14;
 
 const NOT_YET_IMPLEMENTED      = 99;
 

@@ -42,7 +42,6 @@
 		27E82FB7240D38B2004DEC8C /* CreateAccountViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27E82FB6240D38B1004DEC8C /* CreateAccountViewController.swift */; };
 		27E82FBE240D3C63004DEC8C /* AccountLoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27E82FBD240D3C63004DEC8C /* AccountLoginViewController.swift */; };
 		27E8D240245869610061DEF2 /* UserDefaults_TheGame.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27E8D23F245869610061DEF2 /* UserDefaults_TheGame.swift */; };
-		27EA805123EBEB3900C937EE /* GameModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27EA805023EBEB3900C937EE /* GameModel.swift */; };
 		27F3EDE323E7E4800057248B /* GameClock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27F3EDE223E7E4800057248B /* GameClock.swift */; };
 		41F696B1DAD12E4164E4A83D /* Pods_TheGame.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 04608212D72D75D8391E90C8 /* Pods_TheGame.framework */; };
 /* End PBXBuildFile section */
@@ -84,7 +83,6 @@
 		27E82FB6240D38B1004DEC8C /* CreateAccountViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateAccountViewController.swift; sourceTree = "<group>"; };
 		27E82FBD240D3C63004DEC8C /* AccountLoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountLoginViewController.swift; sourceTree = "<group>"; };
 		27E8D23F245869610061DEF2 /* UserDefaults_TheGame.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaults_TheGame.swift; sourceTree = "<group>"; };
-		27EA805023EBEB3900C937EE /* GameModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameModel.swift; sourceTree = "<group>"; };
 		27EA805423ECF3D100C937EE /* TheGame.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = TheGame.entitlements; sourceTree = "<group>"; };
 		27EA805923EE43C000C937EE /* CommonUtil.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommonUtil.swift; sourceTree = "<group>"; };
 		27F3EDE223E7E4800057248B /* GameClock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameClock.swift; sourceTree = "<group>"; };
@@ -213,7 +211,6 @@
 				27A827E324BBBF330087B408 /* Participants.swift */,
 				27A827E524BC0B0F0087B408 /* LocalPlayer.swift */,
 				2769DD6624868DDB00DB8D42 /* Opponent.swift */,
-				27EA805023EBEB3900C937EE /* GameModel.swift */,
 			);
 			path = TheGameElements;
 			sourceTree = "<group>";
@@ -373,7 +370,6 @@
 				2737963F24786BA000BD3786 /* UIViewController_internalError.swift in Sources */,
 				2727416F23E6144A00B2100B /* LoginViewController.swift in Sources */,
 				27A827E424BBBF330087B408 /* Participants.swift in Sources */,
-				27EA805123EBEB3900C937EE /* GameModel.swift in Sources */,
 				27D5413523E5E46800CB5065 /* GameViewController.swift in Sources */,
 				27421337247B178E00A71D96 /* GameQuery.swift in Sources */,
 				2769DD6724868DDB00DB8D42 /* Opponent.swift in Sources */,

@@ -170,6 +170,11 @@ extension GameViewController : TheGameErrorHandler, TheGameDelegate
   func handleUpdates(_ theGame: TheGame) {
     self.update(animated: true)
   }
+  
+  func showInfo(_ title:String, _ info: String)
+  {
+    self.infoPopup(title: title, message: info)
+  }
 }
 
 // TODO: @@@ Flesh all these out

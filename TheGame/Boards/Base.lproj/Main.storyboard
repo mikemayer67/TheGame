@@ -313,7 +313,6 @@
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="pWO-7A-VYf" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
-                <customObject id="WDJ-Qp-Kwo" customClass="GameModel" customModule="TheGame" customModuleProvider="target"/>
             </objects>
             <point key="canvasLocation" x="-1873" y="662"/>
         </scene>

@@ -29,6 +29,7 @@ if( $result )
     $username    = $row[USERNAME];
     $alias       = $row[ALIAS];
     $fbid        = $row[FBID];
+    $fbname      = $row[FBNAME];
     if( isset($last_loss) && isset($match_start) && isset($match_id) )
     {
       $match = array(
@@ -37,9 +38,11 @@ if( $result )
         MATCHSTART => $match_start 
       );
 
-      if( isset($fbid)     ) { $match[FBID] = $fbid;     }
-      if( isset($username) ) { $match[NAME] = $username; }
-      if( isset($alias)    ) { $match[NAME] = $alias;    }  // yep, intentional override
+      if( isset($fbid) ) { $match[FBID] = $fbid; }
+
+      if( isset($fbid) && isset($fbname) ) { $match[NAME] = $fbname; }
+      elseif( isset($alias)    )           { $match[NAME] = $alias;    }
+      elseif( isset($username) )           { $match[NAME] = $username; }
 
       if( isset($match[FBID]) || isset($match[NAME]) )
       {

@@ -13,10 +13,11 @@ try
   elseif ( $action == 'eun' ) { require(__DIR__.'/pri/email_username.php');  } 
   elseif ( $action == 'ilg' ) { require(__DIR__.'/pri/user_lost.php');       } 
   elseif ( $action == 'mat' ) { require(__DIR__.'/pri/user_matches.php');    } 
+  elseif ( $action == 'pok' ) { require(__DIR__.'/pri/game_poke.php');       }
   elseif ( $action == 'pwr' ) { require(__DIR__.'/pri/user_pwreset.php');    } 
-  elseif ( $action == 'ufb' ) { require(__DIR__.'/pri/user_fb_connect.php'); } 
   elseif ( $action == 'ucr' ) { require(__DIR__.'/pri/user_create.php');     }
   elseif ( $action == 'udr' ) { require(__DIR__.'/pri/user_drop.php');       } 
+  elseif ( $action == 'ufb' ) { require(__DIR__.'/pri/user_fb_connect.php'); } 
   elseif ( $action == 'uin' ) { require(__DIR__.'/pri/user_lookup.php');     } 
   elseif ( $action == 'uup' ) { require(__DIR__.'/pri/user_update.php');     } 
   elseif ( $action == 'uvl' ) { require(__DIR__.'/pri/user_validate.php');   } 

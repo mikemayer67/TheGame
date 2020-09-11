@@ -78,6 +78,8 @@ extension GameQuery.Status
   static let NoValidatedEmail      = 10
   static let InvalidEmail          = 11
   static let EmailFailure          = 12
+  static let InvalidOpponent       = 13
+  static let NotificationFailure   = 14
   
   static let strings : [Int:String] =
   [
@@ -169,6 +171,7 @@ extension GameServer
     case SendPassword  = "epw"
     case SendUsername  = "eun"
     case ReportError   = "err"
+    case PokeOpponent  = "pok"
     
     var qArg : GameQuery.Args { return ["q" : self.rawValue] }
   }
@@ -506,6 +509,23 @@ extension GameServer
         GameQuery.Status.FailedToUpdateUser,
         GameQuery.Status.InvalidUserkey
       ],
+      completion: completion
+    )
+  }
+  
+  func pokeOpponent(userkey:String, matchID:Int, completion:@escaping (GameQuery)->())
+  {
+    execute(
+      .PokeOpponent,
+      args: [
+        QueryKey.Userkey : userkey,
+        QueryKey.MatchID : String(matchID)
+      ],
+      recognizedReturnCodes: [
+        GameQuery.Status.InvalidUserkey,
+        GameQuery.Status.InvalidOpponent,
+        GameQuery.Status.NotificationFailure
+        ],
       completion: completion
     )
   }

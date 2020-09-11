@@ -10,7 +10,7 @@ import UIKit
 import FacebookLogin
 
 fileprivate let iconSize     : CGFloat = 32.0
-fileprivate let iconFontSize : CGFloat = 20.0
+fileprivate let iconFontSize : CGFloat = 18.0
 
 struct FacebookInfo
 {
@@ -35,6 +35,7 @@ class Opponent : Participant, Comparable
   let icon : UIImage?
   let matchID : Int
   var matchStart : GameTime
+  var lastPoke : GameTime?
   
   init(name:String, matchID:Int, matchStart:GameTime, lastLoss:GameTime? = nil)
   {
@@ -43,6 +44,7 @@ class Opponent : Participant, Comparable
     self.icon       = createIcon(for:name)
     self.matchID    = matchID
     self.matchStart = matchStart
+    self.lastPoke   = nil
     super.init(lastLoss:lastLoss)
   }
   
@@ -85,9 +87,9 @@ fileprivate func createIcon(for name:String) -> UIImage
     ]
     
     bg.setFill()
-    UIBezierPath(ovalIn: box).fill()
+    UIBezierPath(rect: box).fill()
     
-    let initial = NSString(string:name).substring(to: 1)
+    let initial = String(name.capitalized.prefix(2))
     let x = NSAttributedString(string:initial, attributes:attr)
     var q = x.boundingRect(with: box.size, options: [], context: nil)
     q = q.offsetBy(dx: 0.5*(box.size.width - q.size.width),

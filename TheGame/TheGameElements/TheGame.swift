@@ -21,6 +21,7 @@ enum K
   
   static let unchallangedLossInterval = (devTiming ? 15.0 : 3600.0) // may lose every hour
   static let challengedLossInterval   = (devTiming ?  5.0 :   60.0) // may lose one minute after opponent loses
+  static let pokeInterval             = (devTiming ?  5.0 :   60.0) // may poke once per minute
   
   // From http://emailregex.com
   static let emailRegex = #"""
@@ -37,6 +38,7 @@ protocol TheGameErrorHandler
 protocol TheGameDelegate
 {
   func handleUpdates(_ theGame:TheGame)
+  func showInfo(_ title:String, _ info:String)
 }
 
 class TheGame : NSObject
@@ -186,9 +188,24 @@ extension TheGame
   func iLost() -> Void
   {
     let now = GameTime()
-    me?.lastLoss = now
-    updateLossTimer()
-    delegate?.handleUpdates(self)
+    me?.lastLoss = now   // me updates the game server
+    
+    if let t = nextLossTimer {
+      t.invalidate()
+      nextLossTimer = nil
+    }
+      
+    if let delegate = delegate
+    {
+      let nextLoss = nextAllowableLoss
+      if nextAllowableLoss > now {
+        nextLossTimer = Timer.scheduledTimer(withTimeInterval: nextLoss - now, repeats: false) { _ in
+          delegate.handleUpdates(self)
+          self.nextLossTimer = nil
+        }
+      }
+      delegate.handleUpdates(self)
+    }
   }
   
   var nextAllowableLoss : GameTime
@@ -205,30 +222,6 @@ extension TheGame
     }
     return GameTime(networktime: 0.0)
   }
-  
-  func updateLossTimer() -> Void
-  {
-    if let t = nextLossTimer {
-      t.invalidate()
-      nextLossTimer = nil
-    }
-    
-    guard let delegate = delegate else { return }
-    
-    let now = GameTime()
-    let nextLoss = nextAllowableLoss
-    if nextLoss > now {
-      nextLossTimer = Timer.scheduledTimer(withTimeInterval: nextLoss - now, repeats: false) { _ in
-        delegate.handleUpdates(self)
-        self.nextLossTimer = nil
-      }
-    }
-    else
-    {
-      delegate.handleUpdates(self)
-    }
-  }
-  
 }
 
 // MARK:- TableView Delegates
@@ -252,7 +245,14 @@ extension TheGame : UITableViewDelegate, UITableViewDataSource
     {
       cell.textLabel?.text = opponent.name
       cell.detailTextLabel?.text = opponent.lastLossString
-      cell.imageView?.image = opponent.icon
+      if let iv = cell.imageView
+      {
+        iv.image = opponent.icon
+        iv.layer.cornerRadius = 8.0
+        iv.layer.borderColor = UIColor.black.cgColor
+        iv.layer.borderWidth = 1.0
+        iv.layer.masksToBounds = true
+      }
       
       let layer = cell.contentView.layer
       layer.cornerRadius = 15.0
@@ -284,7 +284,8 @@ extension TheGame : UITableViewDelegate, UITableViewDataSource
   func tableView(_ tableView: UITableView, leadingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration?
   {
     let poke = UIContextualAction(style: .normal, title: "Poke") { (action, view, completion) in
-      track("poke opponent at row: \(indexPath)")
+      self.pokeOpponent(opponent: self.opponents[indexPath.row])
+      completion(true)
     }
     poke.image = #imageLiteral(resourceName: "icons8-poke_friend")
     poke.backgroundColor = UIColor.systemBackground
@@ -292,23 +293,44 @@ extension TheGame : UITableViewDelegate, UITableViewDataSource
   }
 }
 
-// MARK:- REMOVE
+// MARK:- Notifications
+
 extension TheGame
 {
-  func reset_REMOVE()
+  func pokeOpponent(opponent:Opponent)
   {
-    me?.lastLoss = nil
-    updateLossTimer()
-    delegate?.handleUpdates(self)
-  }
-  
-  func opponentLost_REMOVE(_ tag:Int)
-  {
-    if let opponent = opponents[safe:tag]
+    guard let me = me else { return }
+    
+    let now = GameTime()
+    if let lastPoke = opponent.lastPoke
     {
-      opponent.lastLoss = GameTime()
-      updateLossTimer()
-      delegate?.handleUpdates(self)
+      if now < lastPoke.offset(by: K.pokeInterval)
+      {
+        delegate?.showInfo("🛑 Woah There!", "Too soon to try to poke \(opponent.name) again")
+        return
+      }
+    }
+    opponent.lastPoke = now
+
+    TheGame.server.pokeOpponent(userkey: me.userkey, matchID: opponent.matchID)
+    {
+      (query) in
+      switch query.status!
+      {
+      case .FailedToConnect:
+        failedToConnectToServer()
+      case .Success:
+        self.delegate?.showInfo("👍 Nice","You have poked \(opponent.name)")
+      case .QueryFailure(GameQuery.Status.InvalidOpponent, _):
+        self.delegate?.showInfo("😢 Too Late", "\(opponent.name) is no longer an opponent")
+      case .QueryFailure(GameQuery.Status.NotificationFailure, _):
+        self.delegate?.showInfo("🙉 Nope", "\(opponent.name) has disabled notification")
+      default:
+        self.errorDelegate?.internalError( self,
+          error: query.internalError ?? "Unknown Error",
+          file: #file, function: #function
+        )
+      }
     }
   }
 }
