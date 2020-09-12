@@ -38,7 +38,6 @@ protocol TheGameErrorHandler
 protocol TheGameDelegate
 {
   func handleUpdates(_ theGame:TheGame)
-  func showInfo(_ title:String, _ info:String)
 }
 
 class TheGame : NSObject
@@ -48,6 +47,7 @@ class TheGame : NSObject
   
   var errorDelegate  : TheGameErrorHandler?
   var delegate       : TheGameDelegate?
+  var viewController : UIViewController?
     
   var me : LocalPlayer? = nil
   {
@@ -137,6 +137,7 @@ extension TheGame
       }
     }
     
+    opponents.sort()
     delegate?.handleUpdates(self)
   }
   
@@ -172,6 +173,7 @@ extension TheGame
       if let opponent = opponent
       {
         self.opponents.append( opponent )
+        self.opponents.sort()
         self.delegate?.handleUpdates(self)
       }
     }
@@ -271,19 +273,24 @@ extension TheGame : UITableViewDelegate, UITableViewDataSource
     return cell
   }
   
-  func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration?
+  func tableView(_ tableView: UITableView,
+                 trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration?
   {
-    let unfriend = UIContextualAction(style: .normal, title: "Unfriend") { (action, view, completion) in
-      track("unfriend opponent at row: \(indexPath)")
+    let drop = UIContextualAction(style: .normal, title: "Drop") {
+      (action, view, completion) in
+      self.dropOpponent(opponent: self.opponents[indexPath.row])
+      completion(true)
     }
-    unfriend.image = #imageLiteral(resourceName: "icons8-unfriend")
-    unfriend.backgroundColor = UIColor.systemBackground
-    return UISwipeActionsConfiguration(actions: [unfriend])
+    drop.image = #imageLiteral(resourceName: "icons8-unfriend")
+    drop.backgroundColor = UIColor.systemBackground
+    return UISwipeActionsConfiguration(actions: [drop])
   }
   
-  func tableView(_ tableView: UITableView, leadingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration?
+  func tableView(_ tableView: UITableView,
+                 leadingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration?
   {
-    let poke = UIContextualAction(style: .normal, title: "Poke") { (action, view, completion) in
+    let poke = UIContextualAction(style: .normal, title: "Poke") {
+      (action, view, completion) in
       self.pokeOpponent(opponent: self.opponents[indexPath.row])
       completion(true)
     }
@@ -306,7 +313,10 @@ extension TheGame
     {
       if now < lastPoke.offset(by: K.pokeInterval)
       {
-        delegate?.showInfo("🛑 Woah There!", "Too soon to try to poke \(opponent.name) again")
+        viewController?.infoPopup(
+          title:"🛑 Woah There!",
+          message:"Too soon to try to poke \(opponent.name) again"
+        )
         return
       }
     }
@@ -320,11 +330,20 @@ extension TheGame
       case .FailedToConnect:
         failedToConnectToServer()
       case .Success:
-        self.delegate?.showInfo("👍 Nice","You have poked \(opponent.name)")
+        self.viewController?.infoPopup(
+          title:"👍 Nice",
+          message:"You have poked \(opponent.name)"
+        )
       case .QueryFailure(GameQuery.Status.InvalidOpponent, _):
-        self.delegate?.showInfo("😢 Too Late", "\(opponent.name) is no longer an opponent")
+        self.viewController?.infoPopup(
+          title: "😢 Too Late",
+          message: "\(opponent.name) is no longer an opponent"
+        )
       case .QueryFailure(GameQuery.Status.NotificationFailure, _):
-        self.delegate?.showInfo("🙉 Nope", "\(opponent.name) has disabled notification")
+        self.viewController?.infoPopup(
+          title: "🙉 Nope",
+          message: "\(opponent.name) has disabled notification"
+        )
       default:
         self.errorDelegate?.internalError( self,
           error: query.internalError ?? "Unknown Error",
@@ -333,4 +352,80 @@ extension TheGame
       }
     }
   }
+  
+  func dropOpponent(opponent:Opponent)
+  {
+    guard let me = me             else { return }
+    guard let vc = viewController else { return }
+    
+    vc.confirmationPopup(
+      title: "⚠️ Are you sure?",
+      message: "This will end your competition with \(opponent.name)",
+      ok: "Yes",
+      cancel: "No",
+      animated: true) {
+        (response) in
+        if response
+        {
+          vc.confirmationPopup(
+            title: "💬 Let them know?",
+            message: "This will send a a notification to \(opponent.name) to let them know you have dropped them",
+            ok: "Yes",
+            cancel: "No",
+            animated: true) {
+              (notify) in
+              self.dropOpponent(userkey:me.userkey, opponent:opponent, notify:notify)
+          }
+        }
+    }
+  }
+  
+  private func dropOpponent(userkey:String, opponent:Opponent, notify:Bool)
+  {
+    TheGame.server.dropOpponent(userkey:userkey, matchID:opponent.matchID, notify:notify)
+    {
+      (query) in
+      switch query.status
+      {
+      case .FailedToConnect:
+        failedToConnectToServer()
+      case .Success(let data):
+        if notify
+        {
+          let notified = data?[QueryKey.Notify] as? Int ?? 0
+          if notified == 1
+          {
+            self.viewController?.infoPopup(
+              title: "👍 Done",
+              message: "\(opponent.name) has been notified that the competition is over."
+            )
+          }
+          else
+          {
+            self.viewController?.infoPopup(
+              title: "🙉 Oh Well...",
+              message: "\(opponent.name) has disabled notification and was therefore not notified you dropped them."
+            )
+          }
+        }
+        
+        self.opponents = self.opponents.filter { $0.matchID != opponent.matchID }
+        self.delegate?.handleUpdates(self)
+        
+      case .QueryFailure(GameQuery.Status.InvalidOpponent, _):
+        break
+      case .QueryFailure(GameQuery.Status.Failed, _):
+        self.viewController?.infoPopup(
+          title: "🤔 Interesting",
+          message: "For some reason, could not drop \(opponent.name)"
+        )
+      default:
+        self.errorDelegate?.internalError( self,
+                                           error: query.internalError ?? "Unknown Error",
+                                           file: #file, function: #function
+        )
+      }
+    }
+  }
+      
 }

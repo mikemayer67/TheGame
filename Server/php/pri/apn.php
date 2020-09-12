@@ -21,7 +21,7 @@ function send_apn_message($target_id, $message)
 
   if( empty($devcert) ) { return false; }
 
-  send_email('mikemayer67@vmwishes.com','Poke Test',
+  send_email('mikemayer67@vmwishes.com','APN Test',
     "<div><b>Need to implement APN code in apn.php.</b></div>\n\n".
     "<div style='margin-left:1em;'><b>Message:</b> $message</div>\n\n".
     "<div style='margin-left:1em;'><b>DeviceCert:</b> $devcert\n\n"

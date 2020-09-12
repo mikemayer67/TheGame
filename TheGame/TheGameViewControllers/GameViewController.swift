@@ -35,6 +35,7 @@ class GameViewController: ChildViewController
     oppenentTable.dataSource = theGame
     theGame.errorDelegate    = self
     theGame.delegate         = self
+    theGame.viewController   = self
         
     initilizeBannerAd()
     
@@ -169,11 +170,6 @@ extension GameViewController : TheGameErrorHandler, TheGameDelegate
   
   func handleUpdates(_ theGame: TheGame) {
     self.update(animated: true)
-  }
-  
-  func showInfo(_ title:String, _ info: String)
-  {
-    self.infoPopup(title: title, message: info)
   }
 }
 

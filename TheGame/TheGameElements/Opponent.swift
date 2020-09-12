@@ -60,7 +60,7 @@ class Opponent : Participant, Comparable
     
   static func < (lhs: Opponent, rhs: Opponent) -> Bool
   {
-    return rhs.lost(after: lhs.lastLoss)
+    return lhs.lost(after: rhs.lastLoss)
   }
   
   static func == (lhs: Opponent, rhs: Opponent) -> Bool

@@ -66,20 +66,21 @@ extension HashData
 
 extension GameQuery.Status
 {
-  static let UserExists            =  1
-  static let InvalidUserkey        =  2
-  static let InvalidUsername       =  3
-  static let InvalidFBID           =  4
-  static let IncorrectUsername     =  5
-  static let IncorrectPassword     =  6
-  static let FailedToCreateFBID    =  7
-  static let FailedToCreateUser    =  8
-  static let FailedToUpdateUser    =  9
-  static let NoValidatedEmail      = 10
-  static let InvalidEmail          = 11
-  static let EmailFailure          = 12
-  static let InvalidOpponent       = 13
-  static let NotificationFailure   = 14
+  static let Failed                =  1
+  static let UserExists            =  2
+  static let InvalidUserkey        =  3
+  static let InvalidUsername       =  4
+  static let InvalidFBID           =  5
+  static let IncorrectUsername     =  6
+  static let IncorrectPassword     =  7
+  static let FailedToCreateFBID    =  8
+  static let FailedToCreateUser    =  9
+  static let FailedToUpdateUser    = 10
+  static let NoValidatedEmail      = 11
+  static let InvalidEmail          = 12
+  static let EmailFailure          = 13
+  static let InvalidOpponent       = 14
+  static let NotificationFailure   = 15
   
   static let strings : [Int:String] =
   [
@@ -172,6 +173,7 @@ extension GameServer
     case SendUsername  = "eun"
     case ReportError   = "err"
     case PokeOpponent  = "pok"
+    case DropOpponent  = "gem"
     
     var qArg : GameQuery.Args { return ["q" : self.rawValue] }
   }
@@ -525,6 +527,24 @@ extension GameServer
         GameQuery.Status.InvalidUserkey,
         GameQuery.Status.InvalidOpponent,
         GameQuery.Status.NotificationFailure
+        ],
+      completion: completion
+    )
+  }
+  
+  func dropOpponent(userkey:String, matchID:Int, notify:Bool, completion:@escaping (GameQuery)->())
+  {
+    execute(
+      .DropOpponent,
+      args: [
+        QueryKey.Userkey : userkey,
+        QueryKey.MatchID : String(matchID),
+        QueryKey.Notify  : (notify ? "1" : "0")
+      ],
+      recognizedReturnCodes: [
+        GameQuery.Status.InvalidUserkey,
+        GameQuery.Status.InvalidOpponent,
+        GameQuery.Status.Failed
         ],
       completion: completion
     )
