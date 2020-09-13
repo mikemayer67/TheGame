@@ -11,6 +11,7 @@ import Foundation
 enum QueryKey
 {
   static let Alias      = "alias"
+  static let DevToken   = "dev_token"
   static let Dropped    = "dropped"
   static let Email      = "email"
   static let EmailVal   = "email_validation"
@@ -174,6 +175,7 @@ extension GameServer
     case ReportError   = "err"
     case PokeOpponent  = "pok"
     case DropOpponent  = "gem"
+    case SetDevToken   = "gdt"
     
     var qArg : GameQuery.Args { return ["q" : self.rawValue] }
   }
@@ -544,6 +546,27 @@ extension GameServer
       recognizedReturnCodes: [
         GameQuery.Status.InvalidUserkey,
         GameQuery.Status.InvalidOpponent,
+        GameQuery.Status.Failed
+        ],
+      completion: completion
+    )
+  }
+  
+  func clearDeviceToken(userkey:String, completion:@escaping (GameQuery)->())
+  {
+    setDeviceToken(userkey:userkey, deviceToken:nil, completion:completion)
+  }
+  
+  func setDeviceToken(userkey:String, deviceToken:String?, completion:@escaping (GameQuery)->())
+  {
+    var args : GameQuery.Args = [ QueryKey.Userkey : userkey ]
+    if deviceToken != nil { args[QueryKey.DevToken] = deviceToken }
+    
+    execute(
+      .SetDevToken,
+      args: args,
+      recognizedReturnCodes: [
+        GameQuery.Status.InvalidUserkey,
         GameQuery.Status.Failed
         ],
       completion: completion

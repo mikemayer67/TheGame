@@ -2,7 +2,7 @@
 
 // Query Keys
 const ALIAS       = 'alias';
-const DEVCERT     = 'device_cert';
+const DEVTOKEN    = 'dev_token';
 const EMAIL       = 'email';
 const FBID        = 'fbid';
 const FBNAME      = 'fb_name';

@@ -13,6 +13,7 @@ private let Userkey        = "userkey"
 private let Alias          = "alias"
 private let LastErrorEmail = "lastErrorEmail"
 private let ResetSalt      = "resetSalt"
+private let APNRequested   = "pushNotificationRequested"
 
 extension UserDefaults
 {
@@ -67,5 +68,11 @@ extension UserDefaults
   {
     get { object(forKey: ResetSalt) != nil }
     set { if !newValue { self.removeObject(forKey: ResetSalt) } }
+  }
+  
+  var pushNotificationRequested : Bool
+  {
+    get { self.object(forKey: APNRequested) as? Bool ?? false }
+    set { self.set(newValue, forKey: APNRequested) }
   }
 }

@@ -2,3 +2,4 @@ DerivedData
 Pods
 Server/php/old
 *.xcbkptlist
+reset.php

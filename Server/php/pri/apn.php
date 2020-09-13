@@ -16,15 +16,15 @@ function send_apn_message($target_id, $message)
   if( $n < 1 ) { api_error("Invalid target ID ($target_id) sent to send_apn_message"); }
   if( $n > 1 ) { api_error("Multiple entries for userid ($target_id) in tg_users"); }
 
-  $target = $result->fetch_assoc();
-  $devcert = $target[DEVCERT];
+  $target   = $result->fetch_assoc();
+  $devtoken = $target[DEVTOKEN];
 
-  if( empty($devcert) ) { return false; }
+  if( empty($devtoken) ) { return false; }
 
   send_email('mikemayer67@vmwishes.com','APN Test',
     "<div><b>Need to implement APN code in apn.php.</b></div>\n\n".
     "<div style='margin-left:1em;'><b>Message:</b> $message</div>\n\n".
-    "<div style='margin-left:1em;'><b>DeviceCert:</b> $devcert\n\n"
+    "<div style='margin-left:1em;'><b>DeviceCert:</b> $devtoken\n\n"
   );
 
   return true;

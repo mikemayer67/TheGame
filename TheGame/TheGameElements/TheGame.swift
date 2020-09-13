@@ -38,6 +38,7 @@ protocol TheGameErrorHandler
 protocol TheGameDelegate
 {
   func handleUpdates(_ theGame:TheGame)
+  func handle(_ theGame:TheGame, notificationsEnabled:Bool)
 }
 
 class TheGame : NSObject
@@ -48,6 +49,8 @@ class TheGame : NSObject
   var errorDelegate  : TheGameErrorHandler?
   var delegate       : TheGameDelegate?
   var viewController : UIViewController?
+  
+  var notificationsEnabled : Bool? = nil
     
   var me : LocalPlayer? = nil
   {
@@ -178,6 +181,11 @@ extension TheGame
       }
     }
   }
+  
+  func updateDeviceToken()
+  {
+    
+  }
 }
 
 // MARK:- Last Loss
@@ -304,6 +312,37 @@ extension TheGame : UITableViewDelegate, UITableViewDataSource
 
 extension TheGame
 {
+  func updateNotificationState()
+  {
+    UNUserNotificationCenter.current()
+      .requestAuthorization(options: [.alert, .sound, .badge]) {
+        granted, error in
+        
+        // only send status to delegate if the value of notificationEnabled is changing
+        // (this does not include the initial setting of the value)
+        if let notificationsEnabled = self.notificationsEnabled,
+          notificationsEnabled == granted
+        { return }
+        
+        self.notificationsEnabled = granted
+        
+        if let me = self.me
+        {
+          if granted {
+            debug("set device token")
+            TheGame.server.setDeviceToken(userkey: me.userkey, deviceToken: "123456cat") { _ in }
+          }
+          else
+          {
+            debug("clear device token")
+            TheGame.server.clearDeviceToken(userkey: me.userkey) { _ in }
+          }
+        }
+        
+        self.delegate?.handle(self, notificationsEnabled: granted)
+    }
+  }
+  
   func pokeOpponent(opponent:Opponent)
   {
     guard let me = me else { return }

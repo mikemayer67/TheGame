@@ -11,6 +11,7 @@ try
   elseif ( $action == 'epw' ) { require(__DIR__.'/pri/email_pwreset.php');   } 
   elseif ( $action == 'err' ) { require(__DIR__.'/pri/email_error.php');     } 
   elseif ( $action == 'eun' ) { require(__DIR__.'/pri/email_username.php');  } 
+  elseif ( $action == 'gdt' ) { require(__DIR__.'/pri/game_dev_token.php');  }
   elseif ( $action == 'gem' ) { require(__DIR__.'/pri/game_end_match.php');  }
   elseif ( $action == 'ilg' ) { require(__DIR__.'/pri/user_lost.php');       } 
   elseif ( $action == 'mat' ) { require(__DIR__.'/pri/user_matches.php');    } 

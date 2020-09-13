@@ -8,7 +8,7 @@
 
 import UIKit
 import GoogleMobileAds
-import GameKit
+import UserNotifications
 
 import FacebookCore
 
