@@ -31,7 +31,6 @@ class GameViewController: ChildViewController
   private(set) var appBecameActiveOberver : NSObjectProtocol? = nil
   
   override func viewDidLoad() {
-    debug("GVC: viewDidLoad()")
     super.viewDidLoad()
     
     oppenentTable.delegate   = theGame

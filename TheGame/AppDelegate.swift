@@ -12,6 +12,11 @@ import UserNotifications
 
 import FacebookCore
 
+extension Notification.Name
+{
+  static let newDeviceToken = Notification.Name("newDeviceToken")
+}
+
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate
 {
@@ -43,6 +48,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate
     
     track("NSHomeDirectory:",NSHomeDirectory())
     
+    UNUserNotificationCenter.current()
+      .requestAuthorization(options: [.alert, .sound, .badge]) { (_,_) in }
+    
     return true
   }
         
@@ -57,6 +65,19 @@ class AppDelegate: UIResponder, UIApplicationDelegate
       sourceApplication: options[UIApplication.OpenURLOptionsKey.sourceApplication] as? String,
       annotation: options[UIApplication.OpenURLOptionsKey.annotation]
     )
+  }
+  
+  func application(_ application: UIApplication,
+                   didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data)
+  {
+    let tokenParts = deviceToken.map { data in String(format: "%02.2hhx", data) }
+    let token = tokenParts.joined()
+    NotificationCenter.default.post(name: .newDeviceToken, object: nil, userInfo: ["token":token] )
+  }
+  
+  func application(_ application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: Error)
+  {
+    NotificationCenter.default.post(name: .newDeviceToken, object: nil)
   }
   
   static var shared : AppDelegate

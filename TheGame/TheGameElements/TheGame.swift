@@ -66,6 +66,27 @@ class TheGame : NSObject
   private(set) var opponents = [Opponent]()
   
   private(set) var nextLossTimer : Timer?
+
+  override init()
+  {
+    super.init()
+    
+    NotificationCenter.default.addObserver(
+      forName: .newDeviceToken,
+      object: nil,
+      queue: .main) {
+        (notification) in
+        guard let me = self.me else { return }
+        
+        if let userInfo = notification.userInfo,
+          let token = userInfo["token"] as? String
+        {
+          TheGame.server.setDeviceToken(userkey: me.userkey, deviceToken: token) {_ in }
+        } else {
+          TheGame.server.clearDeviceToken(userkey: me.userkey) { _ in }
+        }
+    }
+  }
 }
 
 // MARK:- Opponents
@@ -180,11 +201,6 @@ extension TheGame
         self.delegate?.handleUpdates(self)
       }
     }
-  }
-  
-  func updateDeviceToken()
-  {
-    
   }
 }
 
@@ -314,32 +330,34 @@ extension TheGame
 {
   func updateNotificationState()
   {
-    UNUserNotificationCenter.current()
-      .requestAuthorization(options: [.alert, .sound, .badge]) {
-        granted, error in
-        
-        // only send status to delegate if the value of notificationEnabled is changing
-        // (this does not include the initial setting of the value)
-        if let notificationsEnabled = self.notificationsEnabled,
-          notificationsEnabled == granted
-        { return }
-        
-        self.notificationsEnabled = granted
-        
-        if let me = self.me
-        {
-          if granted {
-            debug("set device token")
-            TheGame.server.setDeviceToken(userkey: me.userkey, deviceToken: "123456cat") { _ in }
-          }
-          else
-          {
-            debug("clear device token")
-            TheGame.server.clearDeviceToken(userkey: me.userkey) { _ in }
+    UNUserNotificationCenter.current().getNotificationSettings() {
+      settings in
+      
+      let granted = settings.authorizationStatus == UNAuthorizationStatus.authorized
+      
+      // only send status to delegate if the value of notificationEnabled is changing
+      // (this does not include the initial setting of the value)
+      
+      if let notificationsEnabled = self.notificationsEnabled,
+        notificationsEnabled == granted
+      { return }
+
+      self.notificationsEnabled = granted
+
+      if let me = self.me
+      {
+        if granted {
+          DispatchQueue.main.async {
+            UIApplication.shared.registerForRemoteNotifications()
           }
         }
-        
-        self.delegate?.handle(self, notificationsEnabled: granted)
+        else
+        {
+          TheGame.server.clearDeviceToken(userkey: me.userkey) { _ in }
+        }
+      }
+
+      self.delegate?.handle(self, notificationsEnabled: granted)
     }
   }
   
