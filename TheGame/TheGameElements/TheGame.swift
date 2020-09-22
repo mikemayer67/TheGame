@@ -471,11 +471,7 @@ extension TheGame
         
       case .QueryFailure(GameQuery.Status.InvalidOpponent, _):
         break
-      case .QueryFailure(GameQuery.Status.Failed, _):
-        self.viewController?.infoPopup(
-          title: "🤔 Interesting",
-          message: "For some reason, could not drop \(opponent.name)"
-        )
+        
       default:
         self.errorDelegate?.internalError( self,
                                            error: query.internalError ?? "Unknown Error",

@@ -23,6 +23,7 @@ const USERNAME    = 'username';
 const VALIDATED   = 'validated';
 
 // Return Codes
+const SUCCESS                  =  0;
 const FAILED                   =  1;
 const USER_EXISTS              =  2;
 const INVALID_USERKEY          =  3;
@@ -38,6 +39,8 @@ const INVALID_EMAIL            = 12;
 const EMAIL_FAILURE            = 13;
 const INVALID_OPPONENT         = 14;
 const NOTIFICATION_FAILURE     = 15;
+const CURL_FAILURE             = 16;
+const APNS_FAILURE             = 17;
 
 const NOT_YET_IMPLEMENTED      = 99;
 

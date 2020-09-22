@@ -1,6 +1,0 @@
-   1  Username already set
-   2  Unknown failure to create new login user
-   3  Unrecognized user key
-   4  Unrecognized facebook id
-   5  Failed to update user info
-   6  Failed to delete user info

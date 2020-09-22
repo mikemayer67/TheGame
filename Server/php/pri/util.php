@@ -95,6 +95,12 @@ function api_error($msg)
   exit(1);
 }
 
+function send_result($code)
+{
+  if( $code == SUCCESS ) { send_success();      }
+  else                   { send_failure($code); }
+}
+
 function send_success($result = null)
 {
   if( is_null($result) ) { $result = array(); }

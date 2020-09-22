@@ -28,7 +28,7 @@ $opponent_id = $opponent[0];
 $sql = 'delete from tg_matches where id=?';
 $result = $db->get($sql,'i', $match_id);
 
-if( ! $result ) { send_failure(FAILED); }
+if( ! $result ) { send_failure(INVALID_OPPONENT); }
 if( ! $notify ) { send_success();       }
 
 if( isset($user[FBID]) && isset($user[FBNAME]) ) { $user_name = $user[FBNAME]; }
@@ -40,10 +40,16 @@ if( ! isset($user_name) )
   api_error("Cannot resolve userkey $userkey to a user name or alias");
 }
 
-$result = send_apn_message( $opponent_id, 
+$rc = send_apn_message( $opponent_id, 
   "$user_name has withdrawn from their competition with you."
 );
 
-send_success( array( NOTIFY => ($result ? 1 : 0) ) );
-
+if( $rc == SUCCESS || $rc == NOTIFICATION_FAILURE )
+{
+  send_success( array(NOTIFY => ($rc == SUCCESS ? 1 : 0 ) ) );
+}
+else
+{
+  send_failure($rc);
+}
 ?>

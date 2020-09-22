@@ -27,6 +27,10 @@
 	</array>
 	<key>CFBundleVersion</key>
 	<string>1</string>
+	<key>DevTiming</key>
+	<true/>
+	<key>DevUser</key>
+	<true/>
 	<key>FacebookAppID</key>
 	<string>551988922072926</string>
 	<key>FacebookDisplayName</key>
@@ -63,6 +67,8 @@
 		<key>NSAllowsArbitraryLoadsInWebContent</key>
 		<true/>
 	</dict>
+	<key>ServerHost</key>
+	<string>https://eaglenest.local/thegame</string>
 	<key>UILaunchStoryboardName</key>
 	<string>LaunchScreen</string>
 	<key>UIMainStoryboardFile</key>
@@ -82,11 +88,5 @@
 		<string>UIInterfaceOrientationLandscapeLeft</string>
 		<string>UIInterfaceOrientationLandscapeRight</string>
 	</array>
-	<key>ServerHost</key>
-	<string>https://eaglenest.local/thegame</string>
-	<key>DevUser</key>
-	<true/>
-	<key>DevTiming</key>
-	<true/>
 </dict>
 </plist>

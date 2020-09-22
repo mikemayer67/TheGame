@@ -82,25 +82,30 @@ extension GameQuery.Status
   static let EmailFailure          = 13
   static let InvalidOpponent       = 14
   static let NotificationFailure   = 15
+  static let CurlFailure           = 16
+  static let ApnsFailure           = 17
   
   static let strings : [Int:String] =
   [
-    MissingData        : "Missing Data",
-    MissingCode        : "No Return Code",
-    InvalidCode        : "Invalid Code",
-    Success            : "Success",
-    UserExists         : "User Exists",
-    InvalidUserkey     : "Invalid Userkey",
-    InvalidUsername    : "Invalid Username",
-    InvalidFBID        : "Invalid Facebook ID",
-    IncorrectUsername  : "Incorrect Username",
-    IncorrectPassword  : "Incorrect Password",
-    FailedToCreateFBID : "Failed To Create FBID",
-    FailedToCreateUser : "Failed To Create User",
-    FailedToUpdateUser : "Failed To Update User",
-    NoValidatedEmail   : "NoValidated Email",
-    InvalidEmail       : "Invalid Email",
-    EmailFailure       : "Game server failed to send email",
+    MissingData         : "Missing Data",
+    MissingCode         : "No Return Code",
+    InvalidCode         : "Invalid Code",
+    Success             : "Success",
+    UserExists          : "User Exists",
+    InvalidUserkey      : "Invalid Userkey",
+    InvalidUsername     : "Invalid Username",
+    InvalidFBID         : "Invalid Facebook ID",
+    IncorrectUsername   : "Incorrect Username",
+    IncorrectPassword   : "Incorrect Password",
+    FailedToCreateFBID  : "Failed To Create FBID",
+    FailedToCreateUser  : "Failed To Create User",
+    FailedToUpdateUser  : "Failed To Update User",
+    NoValidatedEmail    : "NoValidated Email",
+    InvalidEmail        : "Invalid Email",
+    EmailFailure        : "Game server failed to send email",
+    NotificationFailure : "Notification Failure",
+    CurlFailure         : "Invalid curl Command",
+    ApnsFailure         : "Failed To Complete APNS Transaction",
   ]
   
   var failure : String
@@ -528,7 +533,9 @@ extension GameServer
       recognizedReturnCodes: [
         GameQuery.Status.InvalidUserkey,
         GameQuery.Status.InvalidOpponent,
-        GameQuery.Status.NotificationFailure
+        GameQuery.Status.NotificationFailure,
+        GameQuery.Status.CurlFailure,
+        GameQuery.Status.ApnsFailure,
         ],
       completion: completion
     )
@@ -546,7 +553,8 @@ extension GameServer
       recognizedReturnCodes: [
         GameQuery.Status.InvalidUserkey,
         GameQuery.Status.InvalidOpponent,
-        GameQuery.Status.Failed
+        GameQuery.Status.CurlFailure,
+        GameQuery.Status.ApnsFailure,
         ],
       completion: completion
     )

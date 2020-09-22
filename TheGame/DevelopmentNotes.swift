@@ -12,6 +12,10 @@
 
  Facebook account
     https://www.youtube.com/watch?v=tSIYcQmUav4
+ 
+ APN php module:
+ https://github.com/edamov/pushok
+ on bluehost, see public_html/test
 */
 
 

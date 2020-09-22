@@ -1,5 +1,7 @@
 DerivedData
 Pods
+Certs
 Server/php/old
 *.xcbkptlist
+*.p8
 reset.php
