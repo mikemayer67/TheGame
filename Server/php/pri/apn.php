@@ -3,10 +3,10 @@
 require_once(__DIR__.'/util.php');
 require_once(__DIR__.'/db.php');
 require_once(__DIR__.'/db_find_user.php');
-
-require_once(__DIR__.'/email.php');  # @@@ REMOVE THIS
+require_once(__DIR__.'/db_user_badge.php');
 
 require_once __DIR__ . '/vendor/autoload.php';  // for JWT
+
 use \Firebase\JWT\JWT;
 
 
@@ -15,7 +15,7 @@ const APN_TEAM_ID  = '642SNV9NK2';
 
 const APNS_ADDRESS = 'https://api.sandbox.push.apple.com:443';
 
-function send_apn_message($target_id, $message)
+function send_apn_message($target_id, $title, $subtitle=null, $body=null)
 {
   $db = new TGDB;
   $sql = 'select * from tg_users where userid=?';
@@ -32,16 +32,16 @@ function send_apn_message($target_id, $message)
 
   $now = time();
 
-  $badge = $now % 20;
+  $badge = db_user_badge($target_id);
+
+  $alert = array('title'=>$title);
+  if( isset($subtitle) ) { $alert['subtitle'] = $subtitle; }
+  if( isset($body) ) { $alert['body'] = $body; }
 
   $notification = json_encode(
     array(
       'aps' => array (
-        'alert' => array(
-          'title' => $message,
-          'subtitle' => 'subtitle',
-          'body' => 'body'
-        ),
+        'alert' => $alert,
         'badge' => $badge
       )
     )
