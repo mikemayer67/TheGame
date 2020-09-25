@@ -266,7 +266,7 @@ class ResetPasswordViewController: ModalViewController
           self.infoPopup(title: "Failed to Reset Password",
                          message: "There is no account with username \(username)")
           
-        case .QueryFailure(GameQuery.Status.FailedToUpdateUser, _):
+        case .QueryFailure(GameQuery.Status.FailedToUpdatePlayer, _):
           self.infoPopup(title: "Failed to Reset Password",
                          message: ["Invalid password reset code.",
                                    "Verify that you are using the most recently emailed value and that this is the same device from which you requested the password reset code"])

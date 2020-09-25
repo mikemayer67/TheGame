@@ -19,6 +19,9 @@
  JWT
     http://jwt.io
     compose require firebase/php-jwt
+ 
+ Web fonts
+    https://fonts.google.com
 */
 
 
