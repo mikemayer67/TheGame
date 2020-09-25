@@ -17,7 +17,7 @@ try
   elseif ( $action == 'pok' ) { require(__DIR__.'/pri/game_poke.php');           }
   elseif ( $action == 'ucr' ) { require(__DIR__.'/pri/user_create.php');         }
   elseif ( $action == 'udr' ) { require(__DIR__.'/pri/user_drop.php');           } 
-  elseif ( $action == 'ufb' ) { require(__DIR__.'/pri/user_fb_connect.php');     } 
+  elseif ( $action == 'ufb' ) { require(__DIR__.'/pri/user_fb_create.php');      } 
   elseif ( $action == 'ufd' ) { require(__DIR__.'/pri/user_fb_drop.php');        } 
   elseif ( $action == 'uin' ) { require(__DIR__.'/pri/user_lookup.php');         } 
   elseif ( $action == 'uup' ) { require(__DIR__.'/pri/user_update.php');         } 

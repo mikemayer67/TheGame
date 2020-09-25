@@ -31,7 +31,7 @@ else
 
   $userid = $db->last_insert_id();
 
-  $sql = 'insert into tg_facebook (userid,fbid) values (?,?)';
+  $sql = 'insert into tg_facebook_ids (userid,fbid) values (?,?)';
   $result = $db->get($sql,'is',$userid,$fbid);
 
   if( $result )
