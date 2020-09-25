@@ -2,15 +2,14 @@
 
 require_once(__DIR__.'/db.php');
 
-function db_find_user_by_username($username)
+function db_find_user_by_userid($userid)
 {
   $db = new TGDB;
 
-  $sql = 'select * from tg_user_info where username=?';
-  $result = $db->get($sql,'s',$username);
+  $sql = 'select * from tg_user_info where userid=?';
+  $result = $db->get($sql,'i',$userid);
   $n = $result->num_rows;
-
-  if($n>1) { throw new Exception('Multiple players with username $username',500); }
+  if($n>1) { throw new Exception("Multiple players with userid $userid",500); }
 
   $data = $result->fetch_assoc();
   return $data;
@@ -38,19 +37,6 @@ function db_find_user_by_facebook_id($fbid)
   $result = $db->get($sql,'s',$fbid);
   $n = $result->num_rows;
   if($n>1) { throw new Exception("Multiple players with facebookd ID $fbid",500); }
-
-  $data = $result->fetch_assoc();
-  return $data;
-}
-
-function db_find_user_by_userid($userid)
-{
-  $db = new TGDB;
-
-  $sql = 'select * from tg_user_info where userid=?';
-  $result = $db->get($sql,'i',$userid);
-  $n = $result->num_rows;
-  if($n>1) { throw new Exception("Multiple players with userid $userid",500); }
 
   $data = $result->fetch_assoc();
   return $data;

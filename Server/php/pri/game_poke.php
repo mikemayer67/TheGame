@@ -12,16 +12,8 @@ $match_id = get_required_arg(MATCHID);
 $sender = db_find_user_by_userkey($userkey);
 if( ! isset($sender) ) { send_failure(INVALID_USERKEY); }
 
-$sender_id = $sender[USERID];
-
-if( isset($sender[FBID]) && isset($sender[FBNAME]) ) { $sender_name = $sender[FBNAME]; }
-elseif( isset($sender[ALIAS]) )                      { $sender_name = $sender[ALIAS]; }
-elseif( isset($sender[USERNAME]) )                   { $sender_name = $sender[USERNAME]; }
-
-if( ! isset($sender_name) )
-{
-  api_error("Cannot resolve userkey $userkey to a user name or alias");
-}
+$sender_id   = $sender[USERID];
+$sender_name = $sender[NAME];
 
 $db = new TGDB;
 $sql = 'select opponent from tg_user_opponents where match_id=? and userid=?';

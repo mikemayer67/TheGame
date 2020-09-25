@@ -24,15 +24,15 @@ else
 
   $userkey   = db_gen_userkey();
 
-  $sql = 'insert into tg_users (userkey) values (?)';
-  $result = $db->get($sql,'s',$userkey);
+  $sql = 'insert into tg_users (userkey,name,last_loss) values (?,?,0)';
+  $result = $db->get($sql,'ss',$userkey,$name);
 
   if( ! $result ) send_failure(FAILED_TO_CREATE_USER);
 
   $userid = $db->last_insert_id();
 
-  $sql = 'insert into tg_facebook (userid,fbid,name) values (?,?,?)';
-  $result = $db->get($sql,'iss',$userid,$fbid,$name);
+  $sql = 'insert into tg_facebook (userid,fbid) values (?,?)';
+  $result = $db->get($sql,'is',$userid,$fbid);
 
   if( $result )
   {

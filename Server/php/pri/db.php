@@ -30,28 +30,8 @@ class TGDB {
     }
   }
 
-//  public function query($sql)
-//  {
-//    $result = TGDB::$db->query($sql);
-//    if( ! $result ) 
-//    { 
-//      $sql = preg_replace('/\s+/',' ',$sql);
-//      $sql = preg_replace('/^\s/','',$sql);
-//      $sql = preg_replace('/\s$/','',$sql);
-//
-//      $trace = debug_backtrace();
-//      $file = $trace[0]["file"];
-//      $line = $trace[0]["line"];
-//
-//      throw new Exception("Invalid SQL: $sql  [invoked at: $file:$line]",500); 
-//    }
-//    return $result;
-//  }
-
   public function get($sql, $fmt=null, ...$args)
   {
-//    error_log('TGDB::get');
-//    error_log("  SQL: $sql\n  FMT: $fmt\n ARGS: ".implode(',',$args));
     $stmt = TGDB::$db->stmt_init();
     if( ! $stmt->prepare($sql) )
     {

@@ -1,5 +1,5 @@
 //
-//  ForgotLoginViewController.swift
+//  GetConnectKeyViewController.swift
 //  TheGame
 //
 //  Created by Mike Mayer on 5/12/20.
@@ -14,7 +14,7 @@ import UIKit
  The game server will ONLY send the email if there is an account (or
  accounts) associated with that address.
 */
-class ForgotLoginViewController: ModalViewController
+class GetConnectKeyViewController: ModalViewController
 {
   var loginVC : LoginViewController
   
@@ -78,7 +78,7 @@ class ForgotLoginViewController: ModalViewController
   /// Switches to modal view for creating a new account
   @objc func createNewAccount(_ sender:UIButton)
   {
-    mmvc?.present(.CreateAccount)
+    mmvc?.present(.CreatePlayer)
   }
   
   /**
@@ -259,7 +259,7 @@ class ForgotLoginViewController: ModalViewController
   }
 }
 
-extension ForgotLoginViewController
+extension GetConnectKeyViewController
 {
   /**
    Implements a UITextFieldDelegate for the purpose of validating the

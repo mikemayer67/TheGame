@@ -1,7 +1,6 @@
 <?php
 
 require_once(__DIR__.'/util.php');
-require_once(__DIR__.'/db.php');
 require_once(__DIR__.'/db_find_user.php');
 require_once(__DIR__.'/db_user_badge.php');
 
@@ -17,16 +16,10 @@ const APNS_ADDRESS = 'https://api.sandbox.push.apple.com:443';
 
 function send_apn_message($target_id, $title, $subtitle=null, $body=null)
 {
-  $db = new TGDB;
-  $sql = 'select * from tg_users where userid=?';
-  $result = $db->get($sql,'i',$target_id);
+  $info = db_find_user_by_userid($target_id);
+  if( empty($info) ) { return INVALID_USERID; }
 
-  $n = $result->num_rows;
-  if( $n < 1 ) { api_error("Invalid target ID ($target_id) sent to send_apn_message"); }
-  if( $n > 1 ) { api_error("Multiple entries for userid ($target_id) in tg_users"); }
-
-  $target   = $result->fetch_assoc();
-  $devtoken = $target[DEVTOKEN];
+  $devtoken = $info[DEVTOKEN];
 
   if( empty($devtoken) ) { return NOTIFICATION_FAILURE; }
 
@@ -100,6 +93,7 @@ function send_apn_message($target_id, $title, $subtitle=null, $body=null)
 
   return $return_code;
 }
+
 
 function get_apn_token()
 {

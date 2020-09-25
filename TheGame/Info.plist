@@ -31,6 +31,8 @@
 	<true/>
 	<key>DevUser</key>
 	<true/>
+	<key>DevFreshStart</key>
+	<true/>
 	<key>FacebookAppID</key>
 	<string>551988922072926</string>
 	<key>FacebookDisplayName</key>

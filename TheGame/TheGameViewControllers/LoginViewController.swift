@@ -13,17 +13,17 @@ import FBSDKLoginKit
 /**
  The enum contains the list of IDs for the modal view contollers used in TheGame
  ## Values
- - CreateAccount
- - AccountLogin
+ - CreatePlayer
+ - PlayerReconnect
  - RetreiveLogin
  - ResetPassword
  */
 enum ModalControllerID : String
 {
-  case CreateAccount  = "createAccountVC"
-  case AccountLogin   = "accountLoginVC"
-  case RetrieveLogin  = "retrieveLoginVC"
-  case ResetPassword  = "resetPasswordVC"
+  case CreatePlayer     = "createPlayerVC"
+  case PlayerReconnect  = "playerReconnectVC"
+  case GetConnectKey    = "getConnectKeyVC"
+  case ResetPassword    = "resetPasswordVC"
 }
 
 
@@ -42,15 +42,15 @@ extension MultiModalViewController
  the local user has not yet been identified.
  
  The view provides options (buttons) for:
- - loging in with a username/password
- - connecting using Facebook,
- - creating a new username/password account
+ - reconnecting as an existing player
+ - connecting using Facebook
+ - creating a player
 */
 class LoginViewController: ChildViewController
 {
   @IBOutlet weak var facebookButton : UIButton!
-  @IBOutlet weak var newAccountButton : UIButton!
-  @IBOutlet weak var loginButton : UIButton!
+  @IBOutlet weak var newPlayerButton : UIButton!
+  @IBOutlet weak var playerReconnectButton : UIButton!
   @IBOutlet weak var whyConnect : UIButton!
   
   /// Raises popup explaining the benefits of connecting with Facebook
@@ -63,16 +63,16 @@ class LoginViewController: ChildViewController
     )
   }
   
-  ///Raises the modal dialog for creaing a username/password account
-  @IBAction func showCreateAccount(_ sender: UIButton)
+  ///Raises the modal dialog for creaing a new player
+  @IBAction func showCreatePlayer(_ sender: UIButton)
   {
-    showConnectionPopup(.CreateAccount)
+    showConnectionPopup(.CreatePlayer)
   }
   
-  ///Raises the modal dialog for logging in with a username/password
-  @IBAction func showAccountLogin(_ sender: UIButton)
+  ///Raises the modal dialog for reconnecting to an existing
+  @IBAction func showPlayerReconnect(_ sender: UIButton)
   {
-    showConnectionPopup(.AccountLogin)
+    showConnectionPopup(.PlayerReconnect)
   }
   
   /**
@@ -146,20 +146,20 @@ extension LoginViewController : MultiModalDelegate
     guard let identifier = ModalControllerID(rawValue: identifier) else { return nil }
     switch identifier
     {
-    case .AccountLogin:  return AccountLoginViewController(loginVC:self)
-    case .CreateAccount: return CreateAccountViewController(loginVC:self)
-    case .RetrieveLogin: return ForgotLoginViewController(loginVC: self)
-    case .ResetPassword: return ResetPasswordViewController(loginVC: self)
+    case .PlayerReconnect: return PlayerReconnectViewController(loginVC:self)
+    case .CreatePlayer:    return CreatePlayerViewController(loginVC:self)
+    case .GetConnectKey:   return GetConnectKeyViewController(loginVC: self)
+    case .ResetPassword:   return ResetPasswordViewController(loginVC: self)
     }
   }
   
   func configure(_ vc: ManagedViewController, for mmvc: MultiModalViewController)
   {
-    if let vc = vc as? CreateAccountViewController
+    if let vc = vc as? PlayerReconnectViewController
     {
       vc.loginVC = self
     }
-    else if let vc = vc as? AccountLoginViewController
+    else if let vc = vc as? CreatePlayerViewController
     {
       vc.loginVC = self
     }

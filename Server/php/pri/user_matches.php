@@ -23,32 +23,16 @@ if( $result )
 {
   while( $row = $result->fetch_assoc() )
   {
-    $last_loss   = $row[LASTLOSS];
-    $match_id    = $row[MATCHID];
-    $match_start = $row[MATCHSTART];
-    $username    = $row[USERNAME];
-    $alias       = $row[ALIAS];
-    $fbid        = $row[FBID];
-    $fbname      = $row[FBNAME];
-    if( isset($last_loss) && isset($match_start) && isset($match_id) )
-    {
-      $match = array(
-        MATCHID    => $match_id, 
-        LASTLOSS   => $last_loss, 
-        MATCHSTART => $match_start 
-      );
+    $match = array(
+      MATCHID    => $row[MATCHID],
+      NAME       => $row[NAME],
+      LASTLOSS   => $row[LASTLOSS],
+      MATCHSTART => $row[MATCHSTART],
+    );
 
-      if( isset($fbid) ) { $match[FBID] = $fbid; }
+    if( isset($fbid) ) { $match[FBID] = $fbid; }
 
-      if( isset($fbid) && isset($fbname) ) { $match[NAME] = $fbname; }
-      elseif( isset($alias)    )           { $match[NAME] = $alias;    }
-      elseif( isset($username) )           { $match[NAME] = $username; }
-
-      if( isset($match[FBID]) || isset($match[NAME]) )
-      {
-        $matches[] = $match;
-      }
-    }
+    $matches[] = $match;
   }
 }
 

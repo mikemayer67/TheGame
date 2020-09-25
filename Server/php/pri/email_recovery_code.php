@@ -18,18 +18,18 @@ if( $n == 0 ) { send_failure(INVALID_EMAIL); }
 $s = ( $n > 1 ? 's' : '' );
 
 $message = "
-      <div><b>We found the following username$s and password reset code$s associated with $email:</b></div>
+      <div><b>We found the following display name$s associated with $email:</b></div>
       <div><br></div>
       <table style='margin-left:1em;'>";
 
 foreach ( $result as $row )
 {
-  $username = $row[USERNAME];
-  $userid   = $row[USERID];
+  $name   = $row[NAME];
+  $userid = $row[USERID];
 
-  $code = db_gen_password_reset_code($userid,$salt);
+  $code = db_gen_recovery_code($userid,$salt);
 
-  $message .= "<tr><td>$username</td>";
+  $message .= "<tr><td>$name</td>";
   $message .= "<td>&nbsp;-&nbsp;</td>";
   $message .= "<td>$code</td>";
 }
@@ -37,12 +37,13 @@ $message .= "
       </table>
       <br>
       <div>
-      The password reset code will only work on the device from which you requested the
-      username reminder.  The next time you bring up the user login, you will be given
-      the option to reset your password.
+      The recovery code will only work on the device from which you requested it.
+      </div><div>
+      The next time you start TheGame, select the option to enter a recovery code
+      on the startup screen and enter the code listed above.
       </div";
 
-if( send_email($email, "Username Reminder - TheGame", $message) )
+if( send_email($email, "Recovery Code - TheGame", $message) )
 {
   send_success();
 }

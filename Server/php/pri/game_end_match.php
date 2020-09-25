@@ -31,17 +31,10 @@ $result = $db->get($sql,'i', $match_id);
 if( ! $result ) { send_failure(INVALID_OPPONENT); }
 if( ! $notify ) { send_success();       }
 
-if( isset($user[FBID]) && isset($user[FBNAME]) ) { $user_name = $user[FBNAME]; }
-elseif( isset($user[ALIAS]) )                    { $user_name = $user[ALIAS]; }
-elseif( isset($user[USERNAME]) )                 { $user_name = $user[USERNAME]; }
-
-if( ! isset($user_name) )
-{
-  api_error("Cannot resolve userkey $userkey to a user name or alias");
-}
+$name = $user[NAME];
 
 $rc = send_apn_message( $opponent_id, 
-  "$user_name has withdrawn from their competition with you."
+  "$name has given up."
 );
 
 if( $rc == SUCCESS || $rc == NOTIFICATION_FAILURE )

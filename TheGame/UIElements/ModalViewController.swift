@@ -242,11 +242,12 @@ extension ModalViewController
    */
   func addTextEntry(below refVeiw:UIView,
                      placeholder:String? = nil,
+                     required:Bool = false,
                      email:Bool = false) -> UITextField
   {
     let entry = UITextField()
     configure(entry:entry, refView: refVeiw)
-    entry.placeholder = placeholder ?? "optional"
+    entry.placeholder = placeholder ?? (required ? "required" : "optional")
     entry.textContentType = (email ? .emailAddress : .none)
     entry.keyboardType = (email ? .emailAddress : .asciiCapable )
     entry.autocorrectionType = .no

@@ -26,7 +26,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate
                    didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]? ) -> Bool
   {
     // @@@ REMOVE AFTER TESTING
-    if Bundle.main.object(forInfoDictionaryKey: "DevUser") as? Bool ?? false
+    if Bundle.main.object(forInfoDictionaryKey: "DevFreshStart") as? Bool ?? false
+    {
+      Defaults.clear()
+    }
+    else if Bundle.main.object(forInfoDictionaryKey: "DevUser") as? Bool ?? false
     {
       Defaults.username = "mikemayer67"
       Defaults.alias   = "Mikey M"

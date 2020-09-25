@@ -12,10 +12,8 @@ fail_on_extra_args();
 $info = db_find_user_by_userkey($userkey);
 if( empty($info) ) { send_failure(INVALID_USERKEY); }
 
-$reply = array();
-if( isset($info[USERNAME]) ) { $reply[USERNAME] = $info[USERNAME]; }
-if( isset($info[ALIAS])    ) { $reply[ALIAS]    = $info[ALIAS]; }
-if( isset($info[FBID])     ) { $reply[FBID]     = $info[FBID]; }
+$reply = array( NAME => $info[NAME] );
+if( isset($info[FBID]) ) { $reply[FBID] = $info[FBID]; }
 
 if( isset($info[EMAIL]) ) 
 { 

@@ -10,7 +10,6 @@ import Foundation
 
 enum QueryKey
 {
-  static let Alias      = "alias"
   static let DevToken   = "dev_token"
   static let Dropped    = "dropped"
   static let Email      = "email"
@@ -22,7 +21,6 @@ enum QueryKey
   static let Matches    = "matches"
   static let Name       = "name"
   static let Notify     = "notify"
-  static let Password   = "password"
   static let ResetCode  = "reset"
   static let Salt       = "salt"
   static let Scope      = "scope"
@@ -30,7 +28,6 @@ enum QueryKey
   static let Updated    = "updated"
   static let Userid     = "userid"
   static let Userkey    = "userkey"
-  static let Username   = "username"
   static let Validated  = "validated"
 }
 
@@ -55,7 +52,7 @@ extension HashData
 {
   var time        : Int?    { getInt(QueryKey.Time) }
   var userkey     : String? { getString(QueryKey.Userkey) }
-  var alias       : String? { getString(QueryKey.Alias) }
+  var name        : String? { getString(QueryKey.Name) }
   var email       : String? { getString(QueryKey.Email) }
   var lastLoss    : Int?    { getInt(QueryKey.LastLoss) }
   
@@ -70,42 +67,36 @@ extension GameQuery.Status
   static let Failed                =  1
   static let UserExists            =  2
   static let InvalidUserkey        =  3
-  static let InvalidUsername       =  4
-  static let InvalidFBID           =  5
-  static let IncorrectUsername     =  6
-  static let IncorrectPassword     =  7
-  static let FailedToCreateFBID    =  8
-  static let FailedToCreateUser    =  9
-  static let FailedToUpdateUser    = 10
-  static let NoValidatedEmail      = 11
-  static let InvalidEmail          = 12
-  static let EmailFailure          = 13
-  static let InvalidOpponent       = 14
-  static let NotificationFailure   = 15
-  static let CurlFailure           = 16
-  static let ApnsFailure           = 17
+  static let InvalidFBID           =  4
+  static let FailedToCreateFBID    =  5
+  static let FailedToCreatePlayer  =  6
+  static let FailedToUpdatePlayer  =  7
+  static let NoValidatedEmail      =  8
+  static let InvalidEmail          =  9
+  static let EmailFailure          = 10
+  static let InvalidOpponent       = 11
+  static let NotificationFailure   = 12
+  static let CurlFailure           = 13
+  static let ApnsFailure           = 14
   
   static let strings : [Int:String] =
   [
-    MissingData         : "Missing Data",
-    MissingCode         : "No Return Code",
-    InvalidCode         : "Invalid Code",
-    Success             : "Success",
-    UserExists          : "User Exists",
-    InvalidUserkey      : "Invalid Userkey",
-    InvalidUsername     : "Invalid Username",
-    InvalidFBID         : "Invalid Facebook ID",
-    IncorrectUsername   : "Incorrect Username",
-    IncorrectPassword   : "Incorrect Password",
-    FailedToCreateFBID  : "Failed To Create FBID",
-    FailedToCreateUser  : "Failed To Create User",
-    FailedToUpdateUser  : "Failed To Update User",
-    NoValidatedEmail    : "NoValidated Email",
-    InvalidEmail        : "Invalid Email",
-    EmailFailure        : "Game server failed to send email",
-    NotificationFailure : "Notification Failure",
-    CurlFailure         : "Invalid curl Command",
-    ApnsFailure         : "Failed To Complete APNS Transaction",
+    MissingData          : "Missing Data",
+    MissingCode          : "No Return Code",
+    InvalidCode          : "Invalid Code",
+    Success              : "Success",
+    UserExists           : "User Exists",
+    InvalidUserkey       : "Invalid Userkey",
+    InvalidFBID          : "Invalid Facebook ID",
+    FailedToCreateFBID   : "Failed To Create FBID",
+    FailedToCreatePlayer : "Failed To Create New Player",
+    FailedToUpdatePlayer : "Failed To Update Player Info",
+    NoValidatedEmail     : "NoValidated Email",
+    InvalidEmail         : "Invalid Email",
+    EmailFailure         : "Game server failed to send email",
+    NotificationFailure  : "Notification Failure",
+    CurlFailure          : "Invalid curl Command",
+    ApnsFailure          : "Failed To Complete APNS Transaction",
   ]
   
   var failure : String
@@ -234,27 +225,6 @@ extension GameServer
     }
   }
   
-  func login( username:String,
-              password:String,
-              completion:@escaping (GameQuery)->())
-  {
-    execute(
-      .UserValidate,
-      args : [
-        QueryKey.Username: username,
-        QueryKey.Password: password
-      ],
-      requiredResponses: [
-        QueryKey.Userkey
-      ],
-      recognizedReturnCodes: [
-        GameQuery.Status.InvalidUsername,
-        GameQuery.Status.IncorrectPassword
-      ],
-      completion: completion
-    )
-  }
-  
   func login( userkey:String,
               completion:@escaping (GameQuery)->())
   {
@@ -301,18 +271,14 @@ extension GameServer
     )
   }
   
-  func requestNewAccount( username:String,
-                          password:String,
-                          alias:String? = nil,
-                          email:String? = nil,
-                          completion:@escaping (GameQuery)->() )
+  func requestNewPlayer( name:String,
+                         email:String? = nil,
+                         completion:@escaping (GameQuery)->() )
   {
     var args : GameQuery.Args = [
-      QueryKey.Username: username,
-      QueryKey.Password: password
+      QueryKey.Name: name,
     ]
     
-    if let alias = alias, alias.count > 0 { args[QueryKey.Alias] = alias }
     if let email = email, email.count > 0 { args[QueryKey.Email] = email }
     
     execute(
@@ -320,9 +286,6 @@ extension GameServer
       args : args,
       requiredResponses: [
         QueryKey.Userkey
-      ],
-      recognizedReturnCodes: [
-        GameQuery.Status.UserExists
       ],
       completion: completion
     )
@@ -341,7 +304,7 @@ extension GameServer
         QueryKey.Userkey
       ],
       recognizedReturnCodes: [
-        GameQuery.Status.FailedToCreateUser,
+        GameQuery.Status.FailedToCreatePlayer,
         GameQuery.Status.FailedToCreateFBID
       ],
       completion: completion
@@ -388,17 +351,15 @@ extension GameServer
     )
   }
   
-  func updateAccountInfo( userkey:String,
-                          password:String? = nil,
-                          alias:String? = nil,
-                          email:String? = nil,
-                          completion:@escaping (GameQuery)->() )
+  func updatePlayerInfo( userkey:String,
+                         name:String? = nil,
+                         email:String? = nil,
+                         completion:@escaping (GameQuery)->() )
   {
     var args : GameQuery.Args = [ QueryKey.Userkey: userkey ]
     
-    if let password = password, !password.isEmpty { args[QueryKey.Password] = password }
-    if let alias    = alias,    !alias.isEmpty    { args[QueryKey.Alias]    = alias    }
-    if let email    = email,    !email.isEmpty    { args[QueryKey.Email]    = email    }
+    if let name  = name,  !name.isEmpty  { args[QueryKey.Alias] = name  }
+    if let email = email, !email.isEmpty { args[QueryKey.Email] = email }
     
     execute(
       .UpdateUser,

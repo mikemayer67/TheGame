@@ -3,7 +3,6 @@
 require_once(__DIR__.'/const.php');
 require_once(__DIR__.'/util.php');
 
-require_once(__DIR__.'/db.php');
 require_once(__DIR__.'/db_find_user.php');
 
 $userkey = get_required_arg(USERKEY);
@@ -15,19 +14,9 @@ if( empty($info) ) { send_failure(INVALID_USERKEY); }
 $userid = $info[USERID];
 
 $db = new TGDB;
-$now = time();
 
-$sql = 'update tg_users set last_loss=? where userid=?';
-$result = $db->get($sql,'ii',$now,$userid);
+$db->get('delete from tg_facebook_ids where userid=?','i',$userid);
 
-if( $result )
-{
-  error_log('@@@ Need to add loss notification logic');
-  send_success();
-}
-else
-{
-  send_failure(FAILED_TO_UPDATE_USER);
-}
+send_success();
 
 ?>

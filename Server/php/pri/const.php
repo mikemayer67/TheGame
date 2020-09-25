@@ -1,7 +1,6 @@
 <?php
 
 // Query Keys
-const ALIAS       = 'alias';
 const DEVTOKEN    = 'dev_token';
 const EMAIL       = 'email';
 const FBID        = 'fbid';
@@ -12,14 +11,12 @@ const MATCHID     = 'match_id';
 const MATCHSTART  = 'match_start';
 const NOTIFY      = 'notify';
 const OPPONENT    = 'opponent';
-const PASSWORD    = 'password';
 const RESET_KEY   = 'reset';
 const SALT        = 'salt';
 const SCOPE       = 'scope';
 const UPDATED     = 'updated';
 const USERID      = 'userid';
 const USERKEY     = 'userkey';
-const USERNAME    = 'username';
 const VALIDATED   = 'validated';
 
 // Return Codes
@@ -27,20 +24,17 @@ const SUCCESS                  =  0;
 const FAILED                   =  1;
 const USER_EXISTS              =  2;
 const INVALID_USERKEY          =  3;
-const INVALID_USERNAME         =  4;
-const INVALID_FBID             =  5;  
-const INCORRECT_USERNAME       =  6;
-const INCORRECT_PASSWORD       =  7;
-const FAILED_TO_CREATE_FBID    =  8;
-const FAILED_TO_CREATE_USER    =  9;
-const FAILED_TO_UPDATE_USER    = 10;
-const NO_EMAIL                 = 11; 
-const INVALID_EMAIL            = 12;
-const EMAIL_FAILURE            = 13;
-const INVALID_OPPONENT         = 14;
-const NOTIFICATION_FAILURE     = 15;
-const CURL_FAILURE             = 16;
-const APNS_FAILURE             = 17;
+const INVALID_FBID             =  4;  
+const FAILED_TO_CREATE_FBID    =  5;
+const FAILED_TO_CREATE_USER    =  6;
+const FAILED_TO_UPDATE_USER    =  7;
+const NO_EMAIL                 =  8; 
+const INVALID_EMAIL            =  9;
+const EMAIL_FAILURE            = 10;
+const INVALID_OPPONENT         = 11;
+const NOTIFICATION_FAILURE     = 12;
+const CURL_FAILURE             = 13;
+const APNS_FAILURE             = 14;
 
 const NOT_YET_IMPLEMENTED      = 99;
 

@@ -1,0 +1,15 @@
+#!/usr/local/bin/perl
+use strict;
+
+my $query = shift @ARGV;
+my $url = "https://localhost/thegame/q?q=$query";
+while(@ARGV)
+{
+  my $key = shift @ARGV;
+  my $value = shift @ARGV;
+  die "Missing value for $key\n" unless defined $value;
+  $url .= "&$key=$value";
+}
+
+system("curl '$url'");
+print "\n";

@@ -37,7 +37,7 @@ function db_gen_key($length,$table,$column)
   throw new Exception("Failed to generate a unique key in $max_attempts attempts", 500);
 }
 
-function db_gen_password_reset_code($userid,$salt)
+function db_gen_recovery_code($userid,$salt)
 {
   $user_code = rand(1,999999);
   $reset_key = $user_code ^ $salt; 
@@ -49,7 +49,7 @@ function db_gen_password_reset_code($userid,$salt)
   $code = implode(' ',$code);
 
   $db = new TGDB;
-  $sql = 'replace into tg_password_reset values (?,?)';
+  $sql = 'replace into tg_userkey_recovery values (?,?)';
   $result = $db->get($sql,'ii',$userid,$reset_key);
 
   return $code;

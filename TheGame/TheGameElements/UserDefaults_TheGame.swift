@@ -17,6 +17,14 @@ private let APNRequested   = "pushNotificationRequested"
 
 extension UserDefaults
 {
+  func clear()
+  {
+    for key in [Username, Userkey, Alias, LastErrorEmail, ResetSalt, APNRequested]
+    {
+      removeObject(forKey: key)
+    }
+  }
+  
   var username : String?
   {
     get { self.string(forKey: Username) }

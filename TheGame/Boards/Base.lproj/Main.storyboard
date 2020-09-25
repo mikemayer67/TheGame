@@ -65,11 +65,11 @@
                                                 </constraints>
                                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
                                                 <color key="tintColor" name="dieRed"/>
-                                                <state key="normal" title="Create Account">
+                                                <state key="normal" title="Create new Player">
                                                     <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 </state>
                                                 <connections>
-                                                    <action selector="showCreateAccount:" destination="ISV-GM-3yy" eventType="touchUpInside" id="dVY-AM-swY"/>
+                                                    <action selector="showCreatePlayer:" destination="ISV-GM-3yy" eventType="touchUpInside" id="kG5-p0-R2a"/>
                                                 </connections>
                                             </button>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="AW9-Zk-Ubh">
@@ -77,10 +77,10 @@
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="30" id="1bX-lK-9My"/>
                                                 </constraints>
-                                                <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="15"/>
-                                                <state key="normal" title="Login to Existing Account"/>
+                                                <fontDescription key="fontDescription" type="italicSystem" pointSize="15"/>
+                                                <state key="normal" title="reconnect as existing player"/>
                                                 <connections>
-                                                    <action selector="showAccountLogin:" destination="ISV-GM-3yy" eventType="touchUpInside" id="lmd-H9-VS5"/>
+                                                    <action selector="showPlayerReconnect:" destination="ISV-GM-3yy" eventType="touchUpInside" id="T8Y-le-snr"/>
                                                 </connections>
                                             </button>
                                         </subviews>
@@ -127,8 +127,8 @@
                     </navigationItem>
                     <connections>
                         <outlet property="facebookButton" destination="k3d-EU-BBF" id="Wnr-82-XcY"/>
-                        <outlet property="loginButton" destination="AW9-Zk-Ubh" id="U8X-Bs-RFU"/>
-                        <outlet property="newAccountButton" destination="U5C-D9-8sk" id="Su1-Th-H6Z"/>
+                        <outlet property="newPlayerButton" destination="U5C-D9-8sk" id="r3Q-Ci-5ve"/>
+                        <outlet property="playerReconnectButton" destination="AW9-Zk-Ubh" id="nui-vU-IN5"/>
                         <outlet property="whyConnect" destination="EBw-V2-00a" id="3Oq-qf-fPu"/>
                     </connections>
                 </viewController>

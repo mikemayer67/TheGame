@@ -19,7 +19,7 @@
 		2737963F24786BA000BD3786 /* UIViewController_internalError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2737963E24786BA000BD3786 /* UIViewController_internalError.swift */; };
 		273F5C33246F9DBF000BE662 /* TheGameQueries.swift in Sources */ = {isa = PBXBuildFile; fileRef = 273F5C32246F9DBF000BE662 /* TheGameQueries.swift */; };
 		27421337247B178E00A71D96 /* GameQuery.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27421336247B178E00A71D96 /* GameQuery.swift */; };
-		275711B0246B99680034DB61 /* ForgotLoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 275711AF246B99680034DB61 /* ForgotLoginViewController.swift */; };
+		275711B0246B99680034DB61 /* GetConnectKeyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 275711AF246B99680034DB61 /* GetConnectKeyViewController.swift */; };
 		275711B2246B9C4F0034DB61 /* ModalViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 275711B1246B9C4F0034DB61 /* ModalViewController.swift */; };
 		275711B4246C68170034DB61 /* UIViewConstraints.swift in Sources */ = {isa = PBXBuildFile; fileRef = 275711B3246C68170034DB61 /* UIViewConstraints.swift */; };
 		2769DD63247EDCBA00DB8D42 /* ResetPasswordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2769DD62247EDCBA00DB8D42 /* ResetPasswordViewController.swift */; };
@@ -39,8 +39,8 @@
 		27E82FB0240BF4FD004DEC8C /* LoginButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27E82FAF240BF4FD004DEC8C /* LoginButton.swift */; };
 		27E82FB3240C6631004DEC8C /* FacebookLogin in Frameworks */ = {isa = PBXBuildFile; productRef = 27E82FB2240C6631004DEC8C /* FacebookLogin */; };
 		27E82FB5240C6631004DEC8C /* FacebookCore in Frameworks */ = {isa = PBXBuildFile; productRef = 27E82FB4240C6631004DEC8C /* FacebookCore */; };
-		27E82FB7240D38B2004DEC8C /* CreateAccountViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27E82FB6240D38B1004DEC8C /* CreateAccountViewController.swift */; };
-		27E82FBE240D3C63004DEC8C /* AccountLoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27E82FBD240D3C63004DEC8C /* AccountLoginViewController.swift */; };
+		27E82FB7240D38B2004DEC8C /* CreatePlayerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27E82FB6240D38B1004DEC8C /* CreatePlayerViewController.swift */; };
+		27E82FBE240D3C63004DEC8C /* PlayerReconnectViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27E82FBD240D3C63004DEC8C /* PlayerReconnectViewController.swift */; };
 		27E8D240245869610061DEF2 /* UserDefaults_TheGame.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27E8D23F245869610061DEF2 /* UserDefaults_TheGame.swift */; };
 		27F3EDE323E7E4800057248B /* GameClock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27F3EDE223E7E4800057248B /* GameClock.swift */; };
 		41F696B1DAD12E4164E4A83D /* Pods_TheGame.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 04608212D72D75D8391E90C8 /* Pods_TheGame.framework */; };
@@ -60,7 +60,7 @@
 		2737963E24786BA000BD3786 /* UIViewController_internalError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIViewController_internalError.swift; sourceTree = "<group>"; };
 		273F5C32246F9DBF000BE662 /* TheGameQueries.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TheGameQueries.swift; sourceTree = "<group>"; };
 		27421336247B178E00A71D96 /* GameQuery.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameQuery.swift; sourceTree = "<group>"; };
-		275711AF246B99680034DB61 /* ForgotLoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForgotLoginViewController.swift; sourceTree = "<group>"; };
+		275711AF246B99680034DB61 /* GetConnectKeyViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetConnectKeyViewController.swift; sourceTree = "<group>"; };
 		275711B1246B9C4F0034DB61 /* ModalViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModalViewController.swift; sourceTree = "<group>"; };
 		275711B3246C68170034DB61 /* UIViewConstraints.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIViewConstraints.swift; sourceTree = "<group>"; };
 		2769DD62247EDCBA00DB8D42 /* ResetPasswordViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResetPasswordViewController.swift; sourceTree = "<group>"; };
@@ -80,8 +80,8 @@
 		27D5413C23E5E46B00CB5065 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		27D5413E23E5E46B00CB5065 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		27E82FAF240BF4FD004DEC8C /* LoginButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginButton.swift; sourceTree = "<group>"; };
-		27E82FB6240D38B1004DEC8C /* CreateAccountViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateAccountViewController.swift; sourceTree = "<group>"; };
-		27E82FBD240D3C63004DEC8C /* AccountLoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountLoginViewController.swift; sourceTree = "<group>"; };
+		27E82FB6240D38B1004DEC8C /* CreatePlayerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreatePlayerViewController.swift; sourceTree = "<group>"; };
+		27E82FBD240D3C63004DEC8C /* PlayerReconnectViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerReconnectViewController.swift; sourceTree = "<group>"; };
 		27E8D23F245869610061DEF2 /* UserDefaults_TheGame.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaults_TheGame.swift; sourceTree = "<group>"; };
 		27EA805423ECF3D100C937EE /* TheGame.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = TheGame.entitlements; sourceTree = "<group>"; };
 		27EA805923EE43C000C937EE /* CommonUtil.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommonUtil.swift; sourceTree = "<group>"; };
@@ -181,9 +181,9 @@
 			children = (
 				272445D1242E576400700677 /* SplashViewController.swift */,
 				2727416E23E6144A00B2100B /* LoginViewController.swift */,
-				27E82FB6240D38B1004DEC8C /* CreateAccountViewController.swift */,
-				27E82FBD240D3C63004DEC8C /* AccountLoginViewController.swift */,
-				275711AF246B99680034DB61 /* ForgotLoginViewController.swift */,
+				27E82FB6240D38B1004DEC8C /* CreatePlayerViewController.swift */,
+				27E82FBD240D3C63004DEC8C /* PlayerReconnectViewController.swift */,
+				275711AF246B99680034DB61 /* GetConnectKeyViewController.swift */,
 				2769DD62247EDCBA00DB8D42 /* ResetPasswordViewController.swift */,
 				27D5413423E5E46800CB5065 /* GameViewController.swift */,
 				2728DBE52489F6B3006D8685 /* SettingsViewController.swift */,
@@ -355,17 +355,17 @@
 				27F3EDE323E7E4800057248B /* GameClock.swift in Sources */,
 				2769DD63247EDCBA00DB8D42 /* ResetPasswordViewController.swift in Sources */,
 				271D007D24147048003B15A1 /* LoginTextField.swift in Sources */,
-				27E82FBE240D3C63004DEC8C /* AccountLoginViewController.swift in Sources */,
+				27E82FBE240D3C63004DEC8C /* PlayerReconnectViewController.swift in Sources */,
 				272FB2B22455BFFA00F70E1A /* GameServer.swift in Sources */,
 				2723A2A124507F5900CDDEE1 /* StoryboardIDs.swift in Sources */,
 				27E8D240245869610061DEF2 /* UserDefaults_TheGame.swift in Sources */,
 				275711B2246B9C4F0034DB61 /* ModalViewController.swift in Sources */,
 				27300C3F2444027500E8310C /* RootViewController.swift in Sources */,
 				27E82FB0240BF4FD004DEC8C /* LoginButton.swift in Sources */,
-				275711B0246B99680034DB61 /* ForgotLoginViewController.swift in Sources */,
+				275711B0246B99680034DB61 /* GetConnectKeyViewController.swift in Sources */,
 				276FE7F5247868DF00F851D3 /* UIviewController_Popup.swift in Sources */,
 				27996EE9248A7D0F008F14E5 /* SettingsTableCells.swift in Sources */,
-				27E82FB7240D38B2004DEC8C /* CreateAccountViewController.swift in Sources */,
+				27E82FB7240D38B2004DEC8C /* CreatePlayerViewController.swift in Sources */,
 				272445D2242E576400700677 /* SplashViewController.swift in Sources */,
 				2737963F24786BA000BD3786 /* UIViewController_internalError.swift in Sources */,
 				2727416F23E6144A00B2100B /* LoginViewController.swift in Sources */,

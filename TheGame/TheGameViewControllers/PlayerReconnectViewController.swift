@@ -1,5 +1,5 @@
 //
-//  AccountLoginViewController.swift
+//  PlayerReconnectViewController.swift
 //  TheGame
 //
 //  Created by Mike Mayer on 3/2/20.
@@ -13,7 +13,7 @@ fileprivate var cachedUsername : String?
 /**
 Subclass of *ModalViewController* which displays the modal view for logging into an existing username/password account
 */
-class AccountLoginViewController: ModalViewController
+class PlayerReconnectViewController: ModalViewController
 {
   var loginVC : LoginViewController
   
@@ -189,7 +189,8 @@ class AccountLoginViewController: ModalViewController
    */
   @objc func sendLoginInfo(_ sender:UIButton)
   {
-    mmvc?.present(.RetrieveLogin)
+    // @@@ MAM NEED TO FIX THE LOGIC SURROUNDING THIS METHOD
+    // mmvc?.present(.RetrieveLogin)
   }
   
   /**
@@ -209,7 +210,7 @@ class AccountLoginViewController: ModalViewController
 
 // MARK:- Info Button Delegate
 
-extension AccountLoginViewController : InfoButtonDelegate
+extension PlayerReconnectViewController : InfoButtonDelegate
 {
   /**
    Displays an information popup based on which field's info button was pressed.
