@@ -16,17 +16,11 @@ function db_gen_key($length,$table,$column)
 {
   $db = new TGDB;
 
-  $pool = '123456789123456789ABCDEFGHIJKLMNPQRSTUVWXYZ';
-  $npool = strlen($pool);
-
   $max_attempts = 256;
-  for( $attempt=0; $attempt<$max_attempts; $j++)
+  foreach( range(1,$max_attempts) as $attempt )
   {
-    $key = '';
-    for( $i=0; $i<$length; $i++)
-    {
-      $key .= substr($pool,rand(0,$npool-1),1);
-    }
+    $key = _db_gen_key($length);
+
     $sql = "select $column from $table where $column=?";
     $result = $db->get($sql,'s',$key);
     $n = $result->num_rows;
@@ -37,22 +31,41 @@ function db_gen_key($length,$table,$column)
   throw new Exception("Failed to generate a unique key in $max_attempts attempts", 500);
 }
 
-function db_gen_recovery_code($userid,$salt)
+function db_gen_recovery_code($userid,$q_code,$days=1)
 {
-  $user_code = rand(1,999999);
-  $reset_key = $user_code ^ $salt; 
-
-  $code = str_split($user_code);
-
-  while( count($code) < 6 ) { array_unshift($code,0); }
-
-  $code = implode(' ',$code);
-
   $db = new TGDB;
-  $sql = 'replace into tg_userkey_recovery values (?,?)';
-  $result = $db->get($sql,'ii',$userid,$reset_key);
+  $now = time();
+  $expires = $now + 86400*$days;
 
-  return $code;
+  $max_attempts = 256;
+  foreach( range(1,$max_attempts) as $attempt )
+  {
+    $s_code = _db_gen_key(8);
+
+    $sql = 'select userid from tg_recovery where q_code=? and s_code=?';
+    $result = $db->get($sql,'ss',$q_code,$s_code);
+    $n = $result->num_rows;
+
+    if( $n == 0 ) {
+      $sql = 'replace into tg_recovery values (?,?,?,?)';
+      $result = $db->get($sql,'issi',$userid,$q_code,$s_code,$expires);
+      return $s_code;
+    }
+  }
+  throw new Exception("Failed to generate an s_code in $max_attempts attempts", 500);
+}
+
+function _db_gen_key($length)
+{
+  $pool = '2345678923456789ABCDEFGHJKLMNPQRSTUVWXYZ';
+  $npool = strlen($pool);
+
+  $s_code = '';
+  foreach( range(1,$length) as $i )
+  {
+    $s_code .= $pool[ rand(0,$npool-1) ];
+  }
+  return $s_code;
 }
 
 

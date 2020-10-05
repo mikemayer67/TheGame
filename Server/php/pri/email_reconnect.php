@@ -3,17 +3,22 @@
 require_once(__DIR__.'/const.php');
 require_once(__DIR__.'/email.php');
 require_once(__DIR__.'/util.php');
+require_once(__DIR__.'/apn.php');
 
 require_once(__DIR__.'/db_find_user.php');
 require_once(__DIR__.'/db_keys.php');
 
-$email = get_required_arg(EMAIL);
-$salt  = get_required_arg(SALT);
+$email  = get_required_arg(EMAIL);
+$q_code = get_required_arg(QCODE);
+fail_on_extra_args();
+
+if( ! preg_match('/^\w{8}$/', $q_code) ) { send_failure(INVALID_QS_CODE); }
 
 $result = db_find_user_by_email($email);
 $n = count($result);
 
 if( $n == 0 ) { send_failure(INVALID_EMAIL); }
+
 
 $s = ( $n > 1 ? 's' : '' );
 
@@ -27,17 +32,28 @@ foreach ( $result as $row )
   $name   = $row[NAME];
   $userid = $row[USERID];
 
-  $code = db_gen_recovery_code($userid,$salt);
+  $s_code = db_gen_recovery_code($userid,$q_code);
+  $s_code = chunk_split($s_code,2,' ');
 
   $message .= "<tr><td>$name</td>";
   $message .= "<td>&nbsp;-&nbsp;</td>";
-  $message .= "<td>$code</td>";
+  $message .= "<td>$s_code</td>";
+
+  if( isset($row[DEVTOKEN]) )
+  {
+    send_apn_message($userid, 'Alert', '',
+      "A reconnect code request was made for accounts associated with your email address."
+    );
+  }
 }
+
 $message .= "
       </table>
       <br>
       <div>
-      The recovery code will only work on the device from which you requested it.
+      The recovery code$s will only work on the device from which you requested it.
+      </div><div>
+      The recovery code$s will only be good for the next 24 hours.
       </div><div>
       The next time you start TheGame, select the option to enter a recovery code
       on the startup screen and enter the code listed above.

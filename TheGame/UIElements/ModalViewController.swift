@@ -70,7 +70,7 @@ class ModalViewController: UIViewController, ManagedViewController
     static let entryFont        = UIFont.systemFont(ofSize: 14)
     static let cancelFont       = UIFont.systemFont(ofSize: 15)
     static let okFont           = UIFont.systemFont(ofSize: 15, weight: .bold)
-    static let actionFont       = UIFont.systemFont(ofSize: 16, weight: .semibold)
+    static let actionFont       = UIFont.systemFont(ofSize: 14, weight: .semibold)
     static let errorFont        = UIFont.systemFont(ofSize: 11)
     
     static let errorColor       = UIColor(named: "dieRed") ?? UIColor.systemRed

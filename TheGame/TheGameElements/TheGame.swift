@@ -14,9 +14,7 @@ let devTiming = Bundle.main.object(forInfoDictionaryKey: "DevTiming") as? Bool ?
 
 enum K
 {
-  static let MinUsernameLength = 6
-  static let MinAliasLength    = 6
-  static let MinPasswordLength = 8
+  static let MinNameLength    = 6
   static let ResetCodeLength   = 6
   
   static let unchallangedLossInterval = (devTiming ? 15.0 : 3600.0) // may lose every hour
@@ -57,7 +55,7 @@ class TheGame : NSObject
     didSet {
       opponents.removeAll()
       if me != nil {
-        Defaults.hasResetSalt = false
+        Defaults.hasReconnectCode = false
         loadOpponents()
       }
     }

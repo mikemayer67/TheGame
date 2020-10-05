@@ -128,7 +128,7 @@
                     <connections>
                         <outlet property="facebookButton" destination="k3d-EU-BBF" id="Wnr-82-XcY"/>
                         <outlet property="newPlayerButton" destination="U5C-D9-8sk" id="r3Q-Ci-5ve"/>
-                        <outlet property="playerReconnectButton" destination="AW9-Zk-Ubh" id="nui-vU-IN5"/>
+                        <outlet property="reconnectButton" destination="AW9-Zk-Ubh" id="CQU-8Y-K0h"/>
                         <outlet property="whyConnect" destination="EBw-V2-00a" id="3Oq-qf-fPu"/>
                     </connections>
                 </viewController>

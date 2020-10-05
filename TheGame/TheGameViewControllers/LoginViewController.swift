@@ -22,8 +22,7 @@ enum ModalControllerID : String
 {
   case CreatePlayer     = "createPlayerVC"
   case PlayerReconnect  = "playerReconnectVC"
-  case GetConnectKey    = "getConnectKeyVC"
-  case ResetPassword    = "resetPasswordVC"
+  case ReconnectKey     = "reconnectKeyVC"
 }
 
 
@@ -146,22 +145,14 @@ extension LoginViewController : MultiModalDelegate
     guard let identifier = ModalControllerID(rawValue: identifier) else { return nil }
     switch identifier
     {
-    case .PlayerReconnect: return PlayerReconnectViewController(loginVC:self)
     case .CreatePlayer:    return CreatePlayerViewController(loginVC:self)
-    case .GetConnectKey:   return GetConnectKeyViewController(loginVC: self)
-    case .ResetPassword:   return ResetPasswordViewController(loginVC: self)
+    case .PlayerReconnect: return ReconnectViewController(loginVC:self)
+    case .ReconnectKey:    return ReconnectKeyViewController(loginVC: self)
     }
   }
   
   func configure(_ vc: ManagedViewController, for mmvc: MultiModalViewController)
   {
-    if let vc = vc as? PlayerReconnectViewController
-    {
-      vc.loginVC = self
-    }
-    else if let vc = vc as? CreatePlayerViewController
-    {
-      vc.loginVC = self
-    }
+    debug("LoginViewController.configure(vc:\(vc)")
   }
 }

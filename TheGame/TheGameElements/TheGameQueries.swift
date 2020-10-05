@@ -21,9 +21,9 @@ enum QueryKey
   static let Matches    = "matches"
   static let Name       = "name"
   static let Notify     = "notify"
+  static let QCode      = "qcode"
   static let ResetCode  = "reset"
-  static let Salt       = "salt"
-  static let Scope      = "scope"
+  static let SCode      = "scode"
   static let Time       = "time"
   static let Updated    = "updated"
   static let Userid     = "userid"
@@ -75,9 +75,10 @@ extension GameQuery.Status
   static let InvalidEmail          =  9
   static let EmailFailure          = 10
   static let InvalidOpponent       = 11
-  static let NotificationFailure   = 12
-  static let CurlFailure           = 13
-  static let ApnsFailure           = 14
+  static let InvalidQSCode         = 12
+  static let NotificationFailure   = 13
+  static let CurlFailure           = 14
+  static let ApnsFailure           = 15
   
   static let strings : [Int:String] =
   [
@@ -94,6 +95,8 @@ extension GameQuery.Status
     NoValidatedEmail     : "NoValidated Email",
     InvalidEmail         : "Invalid Email",
     EmailFailure         : "Game server failed to send email",
+    InvalidOpponent      : "Invalid Opponent",
+    InvalidQSCode        : "Invalid Reconnect Code",
     NotificationFailure  : "Notification Failure",
     CurlFailure          : "Invalid curl Command",
     ApnsFailure          : "Failed To Complete APNS Transaction",
@@ -156,21 +159,21 @@ extension GameServer
 {
   enum Query : String
   {
-    case CheckForEmail    = "eex"
-    case SendRecoveryCode = "erc"
-    case ReportError      = "err"
-    case SetDevToken      = "gdt"
-    case DropOpponent     = "gem"
-    case ILostTheGame     = "ilg"
-    case GetMatches       = "mat"
-    case PokeOpponent     = "pok"
-    case UserCreate       = "ucr"
-    case DropUser         = "udr"
-    case UserFBCreate     = "ufb"
-    case UserFBDrop       = "ufd"
-    case UserInfo         = "uin"
-    case UpdateUser       = "uup"
-    case UserValidate     = "uvl"
+    case CheckForEmail     = "eex"
+    case SendReconnectCode = "erc"
+    case ReportError       = "err"
+    case SetDevToken       = "gdt"
+    case DropOpponent      = "gem"
+    case ILostTheGame      = "ilg"
+    case GetMatches        = "mat"
+    case PokeOpponent      = "pok"
+    case UserCreate        = "ucr"
+    case DropUser          = "udr"
+    case UserFBCreate      = "ufb"
+    case UserFBDrop        = "ufd"
+    case UserInfo          = "uin"
+    case UpdateUser        = "uup"
+    case UserValidate      = "uvl"
     
     var qArg : GameQuery.Args { return ["q" : self.rawValue] }
   }
@@ -311,20 +314,11 @@ extension GameServer
   }
   
   func dropUser( userkey:String,
-                 username: Bool = false,
-                 facebook: Bool = false,
                  notify: Bool = true,
                  completion: @escaping (GameQuery)->() )
   {
-    guard username || facebook else { return }
-    
-    let scope = ( facebook ? ( username ? "FU" : "F" ) : "U" )
-    
-    var args: GameQuery.Args = [
-      QueryKey.Userkey : userkey,
-      QueryKey.Scope : scope
-      ]
-    
+    var args: GameQuery.Args = [ QueryKey.Userkey : userkey ]
+  
     if notify { args[QueryKey.Notify] = "1" }
     
     execute(
@@ -505,19 +499,36 @@ extension GameServer
     )
   }
   
-  func sendRecoveryCode(email:String, salt:String? = nil, completion:@escaping (GameQuery)->())
+  func sendReconnectCode(email:String, qcode:String? = nil, completion:@escaping (GameQuery)->())
   {
-    let salt = salt ?? String(Defaults.resetSalt)
+    let qcode = qcode ?? String(Defaults.reconnectQCode)
     
     execute(
-      .SendRecoveryCode,
+      .SendReconnectCode,
       args: [
         QueryKey.Email : email,
-        QueryKey.Salt : salt,
+        QueryKey.QCode : qcode,
       ],
       recognizedReturnCodes: [
         GameQuery.Status.InvalidEmail,
         GameQuery.Status.EmailFailure,
+      ],
+      completion: completion)
+  }
+  
+  func login(qcode:String, scode:String, completion:@escaping (GameQuery)->())
+  {
+    execute(
+      .UserValidate,
+      args: [
+        QueryKey.QCode : qcode,
+        QueryKey.SCode : scode,
+      ],
+      requiredResponses: [
+        QueryKey.Userkey
+      ],
+      recognizedReturnCodes: [
+        GameQuery.Status.InvalidQSCode
       ],
       completion: completion)
   }

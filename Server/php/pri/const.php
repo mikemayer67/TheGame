@@ -12,12 +12,13 @@ const MATCHSTART  = 'match_start';
 const NOTIFY      = 'notify';
 const OPPONENT    = 'opponent';
 const RESET_KEY   = 'reset';
-const SALT        = 'salt';
-const SCOPE       = 'scope';
+const QCODE       = 'qcode';
+const SCODE       = 'scode';
 const UPDATED     = 'updated';
 const USERID      = 'userid';
 const USERKEY     = 'userkey';
 const VALIDATED   = 'validated';
+const VALID       = 'valid';
 
 // Return Codes
 const SUCCESS                  =  0;
@@ -32,10 +33,10 @@ const NO_EMAIL                 =  8;
 const INVALID_EMAIL            =  9;
 const EMAIL_FAILURE            = 10;
 const INVALID_OPPONENT         = 11;
-const NOTIFICATION_FAILURE     = 12;
-const CURL_FAILURE             = 13;
-const APNS_FAILURE             = 14;
+const INVALID_QS_CODE          = 12;
+const NOTIFICATION_FAILURE     = 13;
+const CURL_FAILURE             = 14;
+const APNS_FAILURE             = 15;
 
 const NOT_YET_IMPLEMENTED      = 99;
-
 ?>

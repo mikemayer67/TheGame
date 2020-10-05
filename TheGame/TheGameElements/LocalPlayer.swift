@@ -81,6 +81,26 @@ class LocalPlayer : Participant
     }
   }
   
+  static func connect(qcode:String, scode:String, completion: @escaping (GameQuery,LocalPlayer?)->())
+  {
+    TheGame.server.login(qcode: qcode, scode: scode) {
+      (query) in
+      
+      var me : LocalPlayer? = nil
+      switch query.status
+      {
+      case .Success(let data):
+        if let userkey = data?[QueryKey.Userkey] as? String {
+          me = LocalPlayer(userkey, data: data)
+        }
+      default:
+        Defaults.userkey = nil
+      }
+      
+      completion(query,me)
+    }
+  }
+  
   static func connectFacebook(completion: @escaping ConnectCallback)
   {
     let request = GraphRequest(graphPath: "me", parameters: ["fields":"id,name"])
@@ -106,23 +126,6 @@ class LocalPlayer : Participant
         
         completion(me)
       }
-    }
-  }
-  
-  static func connect(username:String, password:String, completion: @escaping (GameQuery,LocalPlayer?)->())
-  {
-    TheGame.server.login(username: username, password: password) {
-      (query) in
-      
-      var me : LocalPlayer? = nil
-      
-      if case .Success(let data) = query.status,
-        let userkey = data?.userkey // should never fail (login query checks this)
-      {
-        me = LocalPlayer(userkey, data: data)
-      }
-      
-      completion(query,me)
     }
   }
   

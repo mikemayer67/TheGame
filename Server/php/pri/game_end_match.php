@@ -9,6 +9,7 @@ require_once(__DIR__.'/db_find_user.php');
 $userkey  = get_required_arg(USERKEY);
 $match_id = get_required_arg(MATCHID);
 $notify   = get_optional_arg(NOTIFY);
+fail_on_extra_args();
 
 $user = db_find_user_by_userkey($userkey);
 if( ! isset($user) ) { send_failure(INVALID_USERKEY); }

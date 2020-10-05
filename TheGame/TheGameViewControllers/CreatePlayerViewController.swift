@@ -24,12 +24,11 @@ class CreatePlayerViewController : ModalViewController
   //MARK:- Subviews
   
   var nameTextField   : UITextField!
-  var emailTextField  : UITextField!
-  
   var nameInfo        : UIButton!
-  var emailInfo       : UIButton!
-  
   var nameError       : UILabel!
+  
+  var emailTextField  : UITextField!
+  var emailInfo       : UIButton!
   var emailError      : UILabel!
   
   var createButton    : UIButton!
@@ -44,7 +43,7 @@ class CreatePlayerViewController : ModalViewController
   }
   
   required init?(coder: NSCoder) {
-    fatalError("init(coder:) has not been implemented")
+    fatalError("init(coder:) not supported")
   }
   
   override func viewDidLoad()
@@ -122,8 +121,8 @@ class CreatePlayerViewController : ModalViewController
     
     var err : String?
     
-    if      t.isEmpty                     { err = "(required)" }
-    else if t.count < K.MinUsernameLength { err = "too short"  }
+    if      t.isEmpty                 { err = "(required)" }
+    else if t.count < K.MinNameLength { err = "too short"  }
     
     let ok = ( err == nil )
     nameError.text = err
@@ -235,8 +234,8 @@ class CreatePlayerViewController : ModalViewController
   private func confirmNoEmail()
   {
     let message = [
-      "Creating a new player without an email address is acceptable.",
-      "If you choose to proceed without one, it might not be possible to recover game information if lost."
+      "We respect your right to not provide an email address. It will not impact your ability to play TheGame.",
+      "But you need to know that if you choose to proceed without one, you will not be able to recover your game history."
     ]
     
     confirmationPopup( title:"Proceed without Email", message:message, ok:"Proceed")
@@ -262,16 +261,13 @@ class CreatePlayerViewController : ModalViewController
       message: "The email address \(email) is associated with an existing player",
       preferredStyle: .alert)
     
-    alert.addAction(UIAlertAction(title: "reconnect (with key)", style: .default, handler: { _ in
-      self.mmvc?.present(.PlayerReconnect)
-    }))
     alert.addAction(UIAlertAction(title: "request reconnect key", style: .default, handler: { _ in
-      self.mmvc?.present(.GetConnectKey)
+      self.mmvc?.present(.ReconnectKey)
     }))
     alert.addAction(UIAlertAction(title: "create new player anyway", style: .default, handler: { _ in
       self.createPlayer()
     }))
-    alert.addAction(UIAlertAction(title: "use a different email", style: .cancel))
+    alert.addAction(UIAlertAction(title: "try a different email", style: .cancel))
     
     self.present(alert,animated: true)
   }
@@ -298,7 +294,7 @@ class CreatePlayerViewController : ModalViewController
       case .FailedToConnect:
         failedToConnectToServer()
       case .Success(let data):
-        self.playerCreated(name:name,email:email,data:data!)
+        self.playerCreated(name:name, email:email, data:data!)
       default: // includes nil status
         let err =  query.internalError ?? "Unknown Error"
         self.internalError(err , file:#file, function:#function)
@@ -321,7 +317,7 @@ class CreatePlayerViewController : ModalViewController
     var message = ["Dispaly name: \(name)"]
 
     if let email = email, email.count > 0 {
-      message.append("Check your email for instructions on validating your email address")
+      message.append("Check your email for instructions on validating your email address.")
     }
     
     TheGame.shared.me =
@@ -374,7 +370,7 @@ extension CreatePlayerViewController : InfoButtonDelegate
     case nameInfo:
       infoPopup(title: "Display Name", message: [
         "This is the name that will be displayed to other players in the game.",
-        "It must contain at least \(K.MinAliasLength) characters not counting whitespace."
+        "It must contain at least \(K.MinNameLength) characters not counting whitespace."
       ])
       
     case emailInfo:

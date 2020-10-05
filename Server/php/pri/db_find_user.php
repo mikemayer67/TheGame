@@ -23,7 +23,7 @@ function db_find_user_by_userkey($userkey)
   $result = $db->get($sql,'s',$userkey);
   $n = $result->num_rows;
 
-  if($n>1) { throw new Exception('Multiple players with userkey $userkey',500); }
+  if($n>1) { throw new Exception("Multiple players with userkey $userkey",500); }
 
   $data = $result->fetch_assoc();
   return $data;
@@ -58,6 +58,29 @@ function db_find_user_by_email($email)
   }
 
   return $data;
+}
+
+function db_find_user_by_qcode($qcode,$scode)
+{
+  $db = new TGDB;
+
+  $sql = 'delete from tg_recovery where expires<?';
+  $db->get($sql,'i',time());
+
+  $sql = 'select userid from tg_recovery where q_code=? and s_code=?';
+  $result = $db->get($sql,'ss',$qcode,$scode);
+  $n = $result->num_rows;
+
+  if($n>1) { throw new Exception("Multiple players with q_code=$qcode and s_code=$scode",500); }
+  if($n<1) { return null; }
+
+  $data = $result->fetch_assoc();
+  $userid = $data[USERID];
+
+  $sql = 'delete from tg_recovery where userid=?';
+  $db->get($sql,'i',$userid);
+
+  return db_find_user_by_userid($userid);
 }
 
 ?>

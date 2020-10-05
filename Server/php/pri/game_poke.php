@@ -8,6 +8,7 @@ require_once(__DIR__.'/db_find_user.php');
 
 $userkey  = get_required_arg(USERKEY);
 $match_id = get_required_arg(MATCHID);
+fail_on_extra_args();
 
 $sender = db_find_user_by_userkey($userkey);
 if( ! isset($sender) ) { send_failure(INVALID_USERKEY); }

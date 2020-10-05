@@ -95,13 +95,18 @@ import UIKit
     }
     else if let value = textField.text
     {
-      let fullString = (value as NSString).replacingCharacters(in: range, with: string)
+      var fullString = (value as NSString).replacingCharacters(in: range, with: string)
+      
+      if case .ResetCode = self.type { fullString = fullString.uppercased() }
+      
       let strippedString = fullString.replacingOccurrences(of: " ", with: "")
       
       if validate(string:fullString)
       {
         changed = true
         rval    = true
+        
+        if case .ResetCode = self.type { text = fullString }
       }
       else if validate(string:strippedString)
       {
