@@ -10,7 +10,7 @@ try
 
 //  elseif ( $action == 'user_add'       ) { require(__DIR__.'/pri/user_add.php');       }
   if     ( $action == 'eex' ) { require($pri.'email_exists.php');    } 
-  elseif ( $action == 'erc' ) { require($pri.'email_reconnect.php'); } 
+  elseif ( $action == 'erc' ) { require($pri.'email_recovery.php');  } 
   elseif ( $action == 'err' ) { require($pri.'email_error.php');     } 
   elseif ( $action == 'gdt' ) { require($pri.'game_dev_token.php');  }
   elseif ( $action == 'gem' ) { require($pri.'game_end_match.php');  }

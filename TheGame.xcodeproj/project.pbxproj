@@ -18,7 +18,7 @@
 		2737963F24786BA000BD3786 /* UIViewController_internalError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2737963E24786BA000BD3786 /* UIViewController_internalError.swift */; };
 		273F5C33246F9DBF000BE662 /* TheGameQueries.swift in Sources */ = {isa = PBXBuildFile; fileRef = 273F5C32246F9DBF000BE662 /* TheGameQueries.swift */; };
 		27421337247B178E00A71D96 /* GameQuery.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27421336247B178E00A71D96 /* GameQuery.swift */; };
-		275711B0246B99680034DB61 /* ReconnectKeyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 275711AF246B99680034DB61 /* ReconnectKeyViewController.swift */; };
+		275711B0246B99680034DB61 /* RecoveryKeyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 275711AF246B99680034DB61 /* RecoveryKeyViewController.swift */; };
 		275711B2246B9C4F0034DB61 /* ModalViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 275711B1246B9C4F0034DB61 /* ModalViewController.swift */; };
 		275711B4246C68170034DB61 /* UIViewConstraints.swift in Sources */ = {isa = PBXBuildFile; fileRef = 275711B3246C68170034DB61 /* UIViewConstraints.swift */; };
 		2769DD6724868DDB00DB8D42 /* Opponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2769DD6624868DDB00DB8D42 /* Opponent.swift */; };
@@ -28,6 +28,8 @@
 		27996EE9248A7D0F008F14E5 /* SettingsTableCells.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27996EE8248A7D0F008F14E5 /* SettingsTableCells.swift */; };
 		27A827E424BBBF330087B408 /* Participants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27A827E324BBBF330087B408 /* Participants.swift */; };
 		27A827E624BC0B0F0087B408 /* LocalPlayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27A827E524BC0B0F0087B408 /* LocalPlayer.swift */; };
+		27A98C2F252B4E8A006F55AD /* RecoveryOptionsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27A98C2E252B4E8A006F55AD /* RecoveryOptionsViewController.swift */; };
+		27A98C33252B5007006F55AD /* LoginModalViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27A98C32252B5007006F55AD /* LoginModalViewController.swift */; };
 		27CA19BD243A941B005C53FC /* TheGame.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27CA19BC243A941B005C53FC /* TheGame.swift */; };
 		27D204D025202507007FBC02 /* LoginTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27D204CF25202507007FBC02 /* LoginTextField.swift */; };
 		27D5413123E5E46800CB5065 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27D5413023E5E46800CB5065 /* AppDelegate.swift */; };
@@ -38,8 +40,8 @@
 		27E82FB0240BF4FD004DEC8C /* LoginButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27E82FAF240BF4FD004DEC8C /* LoginButton.swift */; };
 		27E82FB3240C6631004DEC8C /* FacebookLogin in Frameworks */ = {isa = PBXBuildFile; productRef = 27E82FB2240C6631004DEC8C /* FacebookLogin */; };
 		27E82FB5240C6631004DEC8C /* FacebookCore in Frameworks */ = {isa = PBXBuildFile; productRef = 27E82FB4240C6631004DEC8C /* FacebookCore */; };
-		27E82FB7240D38B2004DEC8C /* CreatePlayerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27E82FB6240D38B1004DEC8C /* CreatePlayerViewController.swift */; };
-		27E82FBE240D3C63004DEC8C /* ReconnectViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27E82FBD240D3C63004DEC8C /* ReconnectViewController.swift */; };
+		27E82FB7240D38B2004DEC8C /* CreateAccountViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27E82FB6240D38B1004DEC8C /* CreateAccountViewController.swift */; };
+		27E82FBE240D3C63004DEC8C /* RecoverAccountViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27E82FBD240D3C63004DEC8C /* RecoverAccountViewController.swift */; };
 		27E8D240245869610061DEF2 /* UserDefaults_TheGame.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27E8D23F245869610061DEF2 /* UserDefaults_TheGame.swift */; };
 		27F3EDE323E7E4800057248B /* GameClock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27F3EDE223E7E4800057248B /* GameClock.swift */; };
 		41F696B1DAD12E4164E4A83D /* Pods_TheGame.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 04608212D72D75D8391E90C8 /* Pods_TheGame.framework */; };
@@ -58,7 +60,7 @@
 		2737963E24786BA000BD3786 /* UIViewController_internalError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIViewController_internalError.swift; sourceTree = "<group>"; };
 		273F5C32246F9DBF000BE662 /* TheGameQueries.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TheGameQueries.swift; sourceTree = "<group>"; };
 		27421336247B178E00A71D96 /* GameQuery.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameQuery.swift; sourceTree = "<group>"; };
-		275711AF246B99680034DB61 /* ReconnectKeyViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReconnectKeyViewController.swift; sourceTree = "<group>"; };
+		275711AF246B99680034DB61 /* RecoveryKeyViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecoveryKeyViewController.swift; sourceTree = "<group>"; };
 		275711B1246B9C4F0034DB61 /* ModalViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModalViewController.swift; sourceTree = "<group>"; };
 		275711B3246C68170034DB61 /* UIViewConstraints.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIViewConstraints.swift; sourceTree = "<group>"; };
 		2769DD6624868DDB00DB8D42 /* Opponent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Opponent.swift; sourceTree = "<group>"; };
@@ -68,6 +70,8 @@
 		27996EE8248A7D0F008F14E5 /* SettingsTableCells.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsTableCells.swift; sourceTree = "<group>"; };
 		27A827E324BBBF330087B408 /* Participants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Participants.swift; sourceTree = "<group>"; };
 		27A827E524BC0B0F0087B408 /* LocalPlayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalPlayer.swift; sourceTree = "<group>"; };
+		27A98C2E252B4E8A006F55AD /* RecoveryOptionsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecoveryOptionsViewController.swift; sourceTree = "<group>"; };
+		27A98C32252B5007006F55AD /* LoginModalViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginModalViewController.swift; sourceTree = "<group>"; };
 		27CA19BC243A941B005C53FC /* TheGame.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TheGame.swift; sourceTree = "<group>"; };
 		27D204CF25202507007FBC02 /* LoginTextField.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginTextField.swift; sourceTree = "<group>"; };
 		27D5412D23E5E46800CB5065 /* TheGame.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TheGame.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -78,8 +82,8 @@
 		27D5413C23E5E46B00CB5065 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		27D5413E23E5E46B00CB5065 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		27E82FAF240BF4FD004DEC8C /* LoginButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginButton.swift; sourceTree = "<group>"; };
-		27E82FB6240D38B1004DEC8C /* CreatePlayerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreatePlayerViewController.swift; sourceTree = "<group>"; };
-		27E82FBD240D3C63004DEC8C /* ReconnectViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReconnectViewController.swift; sourceTree = "<group>"; };
+		27E82FB6240D38B1004DEC8C /* CreateAccountViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateAccountViewController.swift; sourceTree = "<group>"; };
+		27E82FBD240D3C63004DEC8C /* RecoverAccountViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecoverAccountViewController.swift; sourceTree = "<group>"; };
 		27E8D23F245869610061DEF2 /* UserDefaults_TheGame.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaults_TheGame.swift; sourceTree = "<group>"; };
 		27EA805423ECF3D100C937EE /* TheGame.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = TheGame.entitlements; sourceTree = "<group>"; };
 		27EA805923EE43C000C937EE /* CommonUtil.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommonUtil.swift; sourceTree = "<group>"; };
@@ -179,9 +183,11 @@
 			children = (
 				272445D1242E576400700677 /* SplashViewController.swift */,
 				2727416E23E6144A00B2100B /* LoginViewController.swift */,
-				27E82FB6240D38B1004DEC8C /* CreatePlayerViewController.swift */,
-				27E82FBD240D3C63004DEC8C /* ReconnectViewController.swift */,
-				275711AF246B99680034DB61 /* ReconnectKeyViewController.swift */,
+				27A98C32252B5007006F55AD /* LoginModalViewController.swift */,
+				27E82FB6240D38B1004DEC8C /* CreateAccountViewController.swift */,
+				27A98C2E252B4E8A006F55AD /* RecoveryOptionsViewController.swift */,
+				27E82FBD240D3C63004DEC8C /* RecoverAccountViewController.swift */,
+				275711AF246B99680034DB61 /* RecoveryKeyViewController.swift */,
 				27D5413423E5E46800CB5065 /* GameViewController.swift */,
 				2728DBE52489F6B3006D8685 /* SettingsViewController.swift */,
 			);
@@ -254,7 +260,7 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 1130;
-				LastUpgradeCheck = 1130;
+				LastUpgradeCheck = 1200;
 				ORGANIZATIONNAME = VMWishes;
 				TargetAttributes = {
 					27D5412C23E5E46800CB5065 = {
@@ -344,13 +350,14 @@
 			buildActionMask = 2147483647;
 			files = (
 				27300C4024448A3300E8310C /* CommonUtil.swift in Sources */,
+				27A98C33252B5007006F55AD /* LoginModalViewController.swift in Sources */,
 				275711B4246C68170034DB61 /* UIViewConstraints.swift in Sources */,
 				2728DBE62489F6B3006D8685 /* SettingsViewController.swift in Sources */,
 				277CC4BA246726AD001C5404 /* GradientView.swift in Sources */,
 				27A827E624BC0B0F0087B408 /* LocalPlayer.swift in Sources */,
 				277CC4B62466DDC7001C5404 /* MultiModalViewController.swift in Sources */,
 				27F3EDE323E7E4800057248B /* GameClock.swift in Sources */,
-				27E82FBE240D3C63004DEC8C /* ReconnectViewController.swift in Sources */,
+				27E82FBE240D3C63004DEC8C /* RecoverAccountViewController.swift in Sources */,
 				27D204D025202507007FBC02 /* LoginTextField.swift in Sources */,
 				272FB2B22455BFFA00F70E1A /* GameServer.swift in Sources */,
 				2723A2A124507F5900CDDEE1 /* StoryboardIDs.swift in Sources */,
@@ -358,12 +365,13 @@
 				275711B2246B9C4F0034DB61 /* ModalViewController.swift in Sources */,
 				27300C3F2444027500E8310C /* RootViewController.swift in Sources */,
 				27E82FB0240BF4FD004DEC8C /* LoginButton.swift in Sources */,
-				275711B0246B99680034DB61 /* ReconnectKeyViewController.swift in Sources */,
+				275711B0246B99680034DB61 /* RecoveryKeyViewController.swift in Sources */,
 				276FE7F5247868DF00F851D3 /* UIviewController_Popup.swift in Sources */,
 				27996EE9248A7D0F008F14E5 /* SettingsTableCells.swift in Sources */,
-				27E82FB7240D38B2004DEC8C /* CreatePlayerViewController.swift in Sources */,
+				27E82FB7240D38B2004DEC8C /* CreateAccountViewController.swift in Sources */,
 				272445D2242E576400700677 /* SplashViewController.swift in Sources */,
 				2737963F24786BA000BD3786 /* UIViewController_internalError.swift in Sources */,
+				27A98C2F252B4E8A006F55AD /* RecoveryOptionsViewController.swift in Sources */,
 				2727416F23E6144A00B2100B /* LoginViewController.swift in Sources */,
 				27A827E424BBBF330087B408 /* Participants.swift in Sources */,
 				27D5413523E5E46800CB5065 /* GameViewController.swift in Sources */,
@@ -423,6 +431,7 @@
 				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
 				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
@@ -483,6 +492,7 @@
 				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
 				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;

@@ -1,5 +1,5 @@
 //
-//  CreatePlayerViewController.swift
+//  CreateAccountViewController.swift
 //  TheGame
 //
 //  Created by Mike Mayer on 3/2/20.
@@ -15,12 +15,8 @@ fileprivate var cachedEmail : String?
  Subclass of *ModalViewController* which displays the modal view for creating
  a new player
  */
-class CreatePlayerViewController : ModalViewController
+class CreateAccountViewController : LoginModalViewController
 {
-  var loginVC : LoginViewController
-  
-  private var updateTimer : Timer?
-  
   //MARK:- Subviews
   
   var nameTextField   : UITextField!
@@ -38,8 +34,7 @@ class CreatePlayerViewController : ModalViewController
     
   init(loginVC:LoginViewController)
   {
-    self.loginVC = loginVC
-    super.init(title: "Player Info")
+    super.init(title: "Player Info", loginVC:loginVC)
   }
   
   required init?(coder: NSCoder) {
@@ -97,7 +92,7 @@ class CreatePlayerViewController : ModalViewController
    If all checks pass, the create button is enabled.
    */
   @discardableResult
-  func checkAllAndUpdateState() -> Bool
+  override func checkAllAndUpdateState() -> Bool
   {
     var allOK = true
     if !checkName()  { allOK = false }
@@ -206,7 +201,7 @@ class CreatePlayerViewController : ModalViewController
       if let exists = exists
       {
         if exists { self.confirmDuplicateEmail(email) }
-        else      { self.createPlayer() }
+        else      { self.createAccount() }
       }
       else
       {
@@ -240,7 +235,7 @@ class CreatePlayerViewController : ModalViewController
     
     confirmationPopup( title:"Proceed without Email", message:message, ok:"Proceed")
     { (proceed) in
-      if proceed { self.createPlayer() }
+      if proceed { self.createAccount() }
     }
   }
   
@@ -250,7 +245,7 @@ class CreatePlayerViewController : ModalViewController
    
    The possible actions are:
    - Attempt to connect as player associated with that email address
-   - Request an email be sent with a reconnection key
+   - Request an email be sent with a recovery key
    - Proceed to create a new player that will have the same associated email address
    - Go back to the create player modal popup to allow a different email address to be entered.
    */
@@ -258,14 +253,14 @@ class CreatePlayerViewController : ModalViewController
   {
     let alert = UIAlertController(
       title: "What do you want to do?",
-      message: "The email address \(email) is associated with an existing player",
+      message: "The email address \(email) is associated with an existing player account",
       preferredStyle: .alert)
     
-    alert.addAction(UIAlertAction(title: "request reconnect key", style: .default, handler: { _ in
-      self.mmvc?.present(.ReconnectKey)
+    alert.addAction(UIAlertAction(title: "request recovery key", style: .default, handler: { _ in
+      self.mmvc?.present(.RecoveryKey)
     }))
     alert.addAction(UIAlertAction(title: "create new player anyway", style: .default, handler: { _ in
-      self.createPlayer()
+      self.createAccount()
     }))
     alert.addAction(UIAlertAction(title: "try a different email", style: .cancel))
     
@@ -273,7 +268,7 @@ class CreatePlayerViewController : ModalViewController
   }
   
   /**
-   Requests the game server to create a new player based on the input.
+   Requests the game server to create a new player account based on the input.
    
    The only expected response from the game server is:
    - Success:  In this case, the *playerCreated* method is invoked to complete game setup and transition to the game view
@@ -282,7 +277,7 @@ class CreatePlayerViewController : ModalViewController
    - If there is no response at all, a *failedToConnect* notification is sent to the *NotificationCenter*
    - If an invalid response was received, internalError() is invoked to ask user if they wish to report the issue
    */
-  private func createPlayer()
+  private func createAccount()
   {
     guard checkAllAndUpdateState(), let name = nameTextField.text else { return }
     
@@ -331,32 +326,25 @@ class CreatePlayerViewController : ModalViewController
 
 // MARK:- Text Field Delegate
 
-extension CreatePlayerViewController : UITextFieldDelegate
+extension CreateAccountViewController : UITextFieldDelegate
 {
   func textFieldDidEndEditing(_ textField: UITextField, reason: UITextField.DidEndEditingReason)
   {
-    startUpdateTimer()
+    startUpdateTimer(){ _ in self.checkAllAndUpdateState() }
   }
   
   func textField(_ textField: UITextField,
                  shouldChangeCharactersIn range: NSRange,
                  replacementString string: String) -> Bool
   {
-    startUpdateTimer()
+    startUpdateTimer(){ _ in self.checkAllAndUpdateState() }
     return true
-  }
-  
-  func startUpdateTimer()
-  {
-    updateTimer?.invalidate()
-    updateTimer = Timer.scheduledTimer(withTimeInterval: 0.3, repeats: false)
-    { _ in self.checkAllAndUpdateState() }
   }
 }
 
 // MARK:- Info Button Delegate
 
-extension CreatePlayerViewController : InfoButtonDelegate
+extension CreateAccountViewController : InfoButtonDelegate
 {
   /**
    Displays an information popup based on which field's info button was pressed.
@@ -376,7 +364,7 @@ extension CreatePlayerViewController : InfoButtonDelegate
     case emailInfo:
       infoPopup(title:"Email", message: [
         "Specifying your email is optional.",
-        "If provided, your email will only ever be used to reconnect you with your game history. Moreover, it will only be used at your request."
+        "If provided, your email will only ever be used to recover your game history. Moreover, it will only be used at your request."
       ])
     default: break
     }

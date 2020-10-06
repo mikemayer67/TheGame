@@ -49,6 +49,7 @@ class ModalViewController: UIViewController, ManagedViewController
     static let topMargin        = CGFloat(10.0)
     static let bottomMargin     = CGFloat(10.0)
     
+    static let headerGap        = CGFloat(15.0) // vertical gap below a header field
     static let hruleGap         = CGFloat(5.0)  // vertical gap below a horizontal seperator line
     static let contentGap       = CGFloat(10.0)
     static let fieldGap         = CGFloat(10.0) // vertical gap between entry fields and next header label
@@ -66,6 +67,7 @@ class ModalViewController: UIViewController, ManagedViewController
     
     static let titleFont        = UIFont.systemFont(ofSize: 19, weight: .heavy)
     static let headerFont       = UIFont.systemFont(ofSize: 14, weight: .semibold)
+    static let textFont         = UIFont.systemFont(ofSize: 12)
     static let infoFont         = UIFont.italicSystemFont(ofSize: 12)
     static let entryFont        = UIFont.systemFont(ofSize: 14)
     static let cancelFont       = UIFont.systemFont(ofSize: 15)
@@ -77,9 +79,7 @@ class ModalViewController: UIViewController, ManagedViewController
   }
   
   var mmvc: MultiModalViewController?
-  
-  private var updateTimer : Timer?
-  
+    
   init(title:String)
   {
     super.init(nibName: nil, bundle: nil)
@@ -184,13 +184,14 @@ extension ModalViewController
   func addInfoText(_ text:String,
                    below refView:UIView,
                    gap:CGFloat = Style.textGap,
+                   font:UIFont = Style.infoFont,
                    indent:CGFloat = 0.0) -> UILabel
   {
     let label = UILabel()
     managedView.addSubview(label)
     label.translatesAutoresizingMaskIntoConstraints = false
     label.text = text
-    label.font = Style.infoFont
+    label.font = font
     label.numberOfLines = 0
     label.lineBreakMode = .byWordWrapping
     label.packLeft(Style.edgeMargin + indent)

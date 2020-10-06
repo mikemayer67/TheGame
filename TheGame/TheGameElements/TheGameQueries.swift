@@ -10,6 +10,7 @@ import Foundation
 
 enum QueryKey
 {
+  static let CodeCount  = "count"
   static let DevToken   = "dev_token"
   static let Dropped    = "dropped"
   static let Email      = "email"
@@ -22,7 +23,6 @@ enum QueryKey
   static let Name       = "name"
   static let Notify     = "notify"
   static let QCode      = "qcode"
-  static let ResetCode  = "reset"
   static let SCode      = "scode"
   static let Time       = "time"
   static let Updated    = "updated"
@@ -96,7 +96,7 @@ extension GameQuery.Status
     InvalidEmail         : "Invalid Email",
     EmailFailure         : "Game server failed to send email",
     InvalidOpponent      : "Invalid Opponent",
-    InvalidQSCode        : "Invalid Reconnect Code",
+    InvalidQSCode        : "Invalid Recovery Code",
     NotificationFailure  : "Notification Failure",
     CurlFailure          : "Invalid curl Command",
     ApnsFailure          : "Failed To Complete APNS Transaction",
@@ -160,7 +160,7 @@ extension GameServer
   enum Query : String
   {
     case CheckForEmail     = "eex"
-    case SendReconnectCode = "erc"
+    case SendRecoveryCode  = "erc"
     case ReportError       = "err"
     case SetDevToken       = "gdt"
     case DropOpponent      = "gem"
@@ -499,15 +499,18 @@ extension GameServer
     )
   }
   
-  func sendReconnectCode(email:String, qcode:String? = nil, completion:@escaping (GameQuery)->())
+  func sendRecoveryCode(email:String, qcode:String? = nil, completion:@escaping (GameQuery)->())
   {
-    let qcode = qcode ?? String(Defaults.reconnectQCode)
+    let qcode = qcode ?? String(Defaults.recoveryQCode)
     
     execute(
-      .SendReconnectCode,
+      .SendRecoveryCode,
       args: [
         QueryKey.Email : email,
         QueryKey.QCode : qcode,
+      ],
+      requiredResponses: [
+        QueryKey.CodeCount,
       ],
       recognizedReturnCodes: [
         GameQuery.Status.InvalidEmail,

@@ -1,24 +1,25 @@
 <?php
 
 // Query Keys
+const CODECOUNT   = 'count';
 const DEVTOKEN    = 'dev_token';
 const EMAIL       = 'email';
 const FBID        = 'fbid';
 const FBNAME      = 'fb_name';
 const LASTLOSS    = 'last_loss';
-const NAME        = 'name';
 const MATCHID     = 'match_id';
 const MATCHSTART  = 'match_start';
+const NAME        = 'name';
 const NOTIFY      = 'notify';
 const OPPONENT    = 'opponent';
-const RESET_KEY   = 'reset';
 const QCODE       = 'qcode';
+const RESET_KEY   = 'reset';
 const SCODE       = 'scode';
 const UPDATED     = 'updated';
 const USERID      = 'userid';
 const USERKEY     = 'userkey';
-const VALIDATED   = 'validated';
 const VALID       = 'valid';
+const VALIDATED   = 'validated';
 
 // Return Codes
 const SUCCESS                  =  0;

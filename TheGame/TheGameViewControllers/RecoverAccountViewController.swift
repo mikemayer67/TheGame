@@ -1,5 +1,5 @@
 //
-//  ReconnectViewController.swift
+//  RecoverAccountViewController.swift
 //  TheGame
 //
 //  Created by Mike Mayer on 3/2/20.
@@ -10,33 +10,28 @@ import UIKit
 
 /**
 Subclass of *ModalViewController* which displays the modal view for logging into an existing account
- using a reconnect code that was requested from THIS device.
+ using a recovery code that was requested from THIS device.
  
  This view controller should NOT be displayed if a request was not made from this device, i.e.
    there is no reset QCode (salt) value currently stored in the user defaults.  The app won't "break,"
-   but there will be no way to successefully reconnect to the server
+   but there will be no way to successefully recover the player account
 */
-class ReconnectViewController: ModalViewController
+class RecoverAccountViewController: LoginModalViewController
 {
-  var loginVC : LoginViewController
-  
-  private var updateTimer : Timer?
-
   // MARK:- Subviews
   
-  var reconnectCode  : LoginTextField!
-  var reconnectInfo  : UIButton!
-  var reconnectError : UILabel!
+  var recoveryCode  : LoginTextField!
+  var recoveryInfo  : UIButton!
+  var recoveryError : UILabel!
   
-  var okButton       : UIButton!
-  var cancelButton   : UIButton!
+  var okButton      : UIButton!
+  var cancelButton  : UIButton!
   
   // MARK:- View State
   
   init(loginVC:LoginViewController)
   {
-    self.loginVC = loginVC
-    super.init(title: "Reconnect")
+    super.init(title: "Player Recovery", loginVC: loginVC)
   }
   
   required init?(coder: NSCoder)
@@ -48,15 +43,17 @@ class ReconnectViewController: ModalViewController
   {
     super.viewDidLoad()
     
-    let reconnectLabel = addHeader("Reset Code", below:titleRule)
-    reconnectCode = addLoginEntry(below: reconnectLabel, type:.ResetCode)
-    reconnectCode.changeCallback = { self.startUpdateTimer() }
-    reconnectInfo = addInfoButton(to:reconnectCode, target:self)
-    reconnectError = addErrorLabel(to: reconnectInfo)
+    let recoveryLabel = addHeader("Recovery Code", below:titleRule)
+    recoveryCode = addLoginEntry(below: recoveryLabel, type:.ResetCode)
+    recoveryCode.changeCallback = {
+      self.startUpdateTimer() { _ in self.checkAllAndUpdateState() }
+    }
+    recoveryInfo = addInfoButton(to:recoveryCode, target:self)
+    recoveryError = addErrorLabel(to: recoveryInfo)
     
     let resend = addActionButton(
       title: "Oops, I need a new code...",
-      below: reconnectCode,
+      below: recoveryCode,
       gap: Style.fieldGap)
     
     cancelButton = addCancelButton()
@@ -64,22 +61,16 @@ class ReconnectViewController: ModalViewController
     
     cancelButton.attachTop(to:resend, offset:Style.contentGap)
     
-    resend.addTarget(self, action: #selector(resendConnectCode(_:)), for: .touchUpInside)
-    okButton.addTarget(self, action: #selector(reconnect(_:)), for: .touchUpInside)
+    resend.addTarget(self, action: #selector(resendRecoveryCode(_:)), for: .touchUpInside)
+    okButton.addTarget(self, action: #selector(recover(_:)), for: .touchUpInside)
     cancelButton.addTarget(self, action: #selector(cancel(_:)), for: .touchUpInside)
   }
   
   override func viewWillAppear(_ animated: Bool)
   {
     super.viewWillAppear(animated)
-    reconnectCode.text = ""
+    recoveryCode.text = ""
     checkAllAndUpdateState()
-  }
-  
-  override func viewWillDisappear(_ animated: Bool)
-  {
-    // ok, not needed, but provided for consistency
-    super.viewWillDisappear(animated)
   }
   
   // MARK:- Input State
@@ -92,36 +83,29 @@ class ReconnectViewController: ModalViewController
    If all checks pass, the login button is enabled.
    */
   @discardableResult
-  func checkAllAndUpdateState() -> Bool
+  override func checkAllAndUpdateState() -> Bool
   {
     var ok = true
-    if !checkReconnectCode() { ok = false }
+    if !checkRecoveryCode() { ok = false }
     okButton.isEnabled = ok
     return ok
   }
   
-  private func checkReconnectCode() -> Bool
+  private func checkRecoveryCode() -> Bool
   {
-    var code = reconnectCode.text ?? ""
+    var code = recoveryCode.text ?? ""
     code.removeAll(where: { $0.isWhitespace })
     
     var err : String?
     
     if code.isEmpty { err = "(required)" }
-    else if code.count < K.ResetCodeLength { err = "too short" }
-    else if code.count > K.ResetCodeLength { err = "too long" }
+    else if code.count < K.RecoveryCodeLength { err = "too short" }
+    else if code.count > K.RecoveryCodeLength { err = "too long" }
     
     let ok = ( err == nil )
-    reconnectError.text = err
-    reconnectError.isHidden = ok
+    recoveryError.text = err
+    recoveryError.isHidden = ok
     return ok
-  }
-  
-  func startUpdateTimer()
-  {
-    updateTimer?.invalidate()
-    updateTimer = Timer.scheduledTimer(withTimeInterval: 0.3, repeats: false)
-    { _ in self.checkAllAndUpdateState() }
   }
   
   // MARK:- Button Actions
@@ -133,7 +117,7 @@ class ReconnectViewController: ModalViewController
   }
   
   /**
-   Proceeds to attempt to work with the game server to reconnect to the user account.
+   Proceeds to attempt to work with the game server to recover the user account.
    
    The actual attempt to log in is made through *LocalPlayer*'s connect() method which will return the *GameQuery* transaction with the game server and a *LocalPlayer* reference.
    
@@ -145,11 +129,11 @@ class ReconnectViewController: ModalViewController
    - If there is no response at all, a *failedToConnect* notification is sent to the *NotificationCenter*
    - If an invalid response was received, internalError() is invoked to ask user if they wish to report the issue
    */
-  @objc func reconnect(_ sender:UIButton)
+  @objc func recover(_ sender:UIButton)
   {
-    if let scode = self.reconnectCode.text
+    if let scode = self.recoveryCode.text
     {
-      let qcode = Defaults.reconnectQCode
+      let qcode = Defaults.recoveryQCode
 
       LocalPlayer.connect(qcode: qcode, scode: scode) {
         (query, me) in
@@ -164,9 +148,10 @@ class ReconnectViewController: ModalViewController
         {
 
         case .QueryFailure:
-          self.infoPopup(title: "Failed to Connect", message: "Unrecognized Reconnect Code")
-          self.reconnectCode.text = ""
+          self.infoPopup(title: "Failed to Connect", message: "Unrecognized Recovery Code")
+          self.recoveryCode.text = ""
         case .FailedToConnect:
+          self.loginVC.cancel()
           failedToConnectToServer()
         default:
           let err =  query.internalError ?? "Unknown Error"
@@ -185,15 +170,15 @@ class ReconnectViewController: ModalViewController
    
    - Property sender: *UIButton* which triggered this action. [Ignored]
    */
-  @objc func resendConnectCode(_ sender:UIButton)
+  @objc func resendRecoveryCode(_ sender:UIButton)
   {
-    mmvc?.present(.ReconnectKey)
+    mmvc?.present(.RecoveryKey)
   }
 }
 
 // MARK:- Info Button Delegate
 
-extension ReconnectViewController : InfoButtonDelegate
+extension RecoverAccountViewController : InfoButtonDelegate
 {
   /**
    Displays an information popup based on which field's info button was pressed.
@@ -204,10 +189,11 @@ extension ReconnectViewController : InfoButtonDelegate
   {
     switch sender
     {
-    case reconnectInfo:
-      infoPopup(title: "Reconnect Code", message: [
-        "Enter the reconnect code that was emailed to you.",
-        "If you have not yet requested a code, if you've lost the email, or the code has expired, you can request a reconnect code now using the link below."
+    case recoveryInfo:
+      let device = UIDevice.current.model
+      infoPopup(title: "Recovery Code", message: [
+        "Enter the recovery code that was emailed to you for this \(device).",
+        "If you have lost the email or the code has expired, you can request a new one be sent."
       ])
       
     default: break

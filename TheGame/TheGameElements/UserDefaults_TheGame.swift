@@ -12,14 +12,14 @@ private let Username       = "username"
 private let Userkey        = "userkey"
 private let Alias          = "alias"
 private let LastErrorEmail = "lastErrorEmail"
-private let ReconnectQCode = "reconnectQcode"
+private let RecoveryQCode  = "recoveryQcode"
 private let APNRequested   = "pushNotificationRequested"
 
 extension UserDefaults
 {
   func clear()
   {
-    for key in [Username, Userkey, Alias, LastErrorEmail, ReconnectQCode, APNRequested]
+    for key in [Username, Userkey, Alias, LastErrorEmail, RecoveryQCode, APNRequested]
     {
       removeObject(forKey: key)
     }
@@ -62,21 +62,21 @@ extension UserDefaults
     set { self.set(newValue, forKey: LastErrorEmail) }
   }
   
-  var reconnectQCode : String
+  var recoveryQCode : String
   {
-    var code = self.object(forKey: ReconnectQCode) as? String
+    var code = self.object(forKey: RecoveryQCode) as? String
     if code == nil {
       let pool = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123455678901234556789"
       code = String( (0..<8).map{ _ in pool.randomElement()!} )
-      self.set(code, forKey: ReconnectQCode)
+      self.set(code, forKey: RecoveryQCode)
     }
     return code!
   }
  
-  var hasReconnectCode : Bool
+  var hasRecoveryCode : Bool
   {
-    get { object(forKey: ReconnectQCode) != nil }
-    set { if !newValue { self.removeObject(forKey: ReconnectQCode) } }
+    get { object(forKey: RecoveryQCode) != nil }
+    set { if !newValue { self.removeObject(forKey: RecoveryQCode) } }
   }
   
   var pushNotificationRequested : Bool

@@ -42,7 +42,7 @@ foreach ( $result as $row )
   if( isset($row[DEVTOKEN]) )
   {
     send_apn_message($userid, 'Alert', '',
-      "A reconnect code request was made for accounts associated with your email address."
+      "A recovery code request was made for accounts associated with your email address."
     );
   }
 }
@@ -61,7 +61,7 @@ $message .= "
 
 if( send_email($email, "Recovery Code - TheGame", $message) )
 {
-  send_success();
+  send_success(array(CODECOUNT=>$n));
 }
 else
 {
