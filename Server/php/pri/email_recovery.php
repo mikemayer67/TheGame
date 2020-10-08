@@ -23,7 +23,7 @@ if( $n == 0 ) { send_failure(INVALID_EMAIL); }
 $s = ( $n > 1 ? 's' : '' );
 
 $message = "
-      <div><b>We found the following display name$s associated with $email:</b></div>
+      <div><b>We found the following display name$s associated with your email address:</b></div>
       <div><br></div>
       <table style='margin-left:1em;'>";
 
@@ -47,19 +47,20 @@ foreach ( $result as $row )
   }
 }
 
+$appropriate = ( $n > 1 ? ' appropriate' : '');
+
 $message .= "
       </table>
       <br>
       <div>
-      The recovery code$s will only work on the device from which you requested it.
-      </div><div>
-      The recovery code$s will only be good for the next 24 hours.
-      </div><div>
-      The next time you start TheGame, select the option to enter a recovery code
-      on the startup screen and enter the code listed above.
+      The code$s will only work on the device from which you made the recovery request
+      and will only be good for the next 24 hours.</div><br>
+      <div>
+      The next time you start TheGame, select <i>recover existing account</i>
+      on the startup screen and enter the$appropriate recovery code using the <i>Enter Recovery Code</i> option.
       </div";
 
-if( send_email($email, "Recovery Code - TheGame", $message) )
+if( send_email($email, "Recovery Code$s - TheGame", $message) )
 {
   send_success(array(CODECOUNT=>$n));
 }

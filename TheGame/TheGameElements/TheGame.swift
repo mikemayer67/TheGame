@@ -16,6 +16,7 @@ enum K
 {
   static let MinNameLength        = 6
   static let RecoveryCodeLength   = 8
+  static let TransferCodeLength   = 8
   
   static let unchallangedLossInterval = (devTiming ? 15.0 : 3600.0) // may lose every hour
   static let challengedLossInterval   = (devTiming ?  5.0 :   60.0) // may lose one minute after opponent loses

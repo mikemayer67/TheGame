@@ -1,5 +1,5 @@
 //
-//  RecoverAccountViewController.swift
+//  TransferAccountLVC.swift
 //  TheGame
 //
 //  Created by Mike Mayer on 3/2/20.
@@ -10,28 +10,34 @@ import UIKit
 
 /**
 Subclass of *ModalViewController* which displays the modal view for logging into an existing account
- using a recovery code that was requested from THIS device.
+ using a transfer code that was requested from THIS device.
  
  This view controller should NOT be displayed if a request was not made from this device, i.e.
    there is no reset QCode (salt) value currently stored in the user defaults.  The app won't "break,"
    but there will be no way to successefully recover the player account
 */
-class RecoverAccountViewController: LoginModalViewController
+class TransferAccountLVC: LoginModalViewController
 {
   // MARK:- Subviews
   
-  var recoveryCode  : LoginTextField!
-  var recoveryInfo  : UIButton!
-  var recoveryError : UILabel!
+  var transferCode  : UITextField!
+  var transferInfo  : UIButton!
+  var transferError : UILabel!
+  
+  var userCode  : UITextField!
+  var userInfo  : UIButton!
+  var userError : UILabel!
   
   var okButton      : UIButton!
   var cancelButton  : UIButton!
+  
+  var codeEntryDelegate : CodeEntryDelgate?
   
   // MARK:- View State
   
   init(loginVC:LoginViewController)
   {
-    super.init(title: "Player Recovery", loginVC: loginVC)
+    super.init(title: "Player Transfer", loginVC: loginVC)
   }
   
   required init?(coder: NSCoder)
@@ -43,33 +49,37 @@ class RecoverAccountViewController: LoginModalViewController
   {
     super.viewDidLoad()
     
-    let recoveryLabel = addHeader("Recovery Code", below:titleRule)
-    recoveryCode = addLoginEntry(below: recoveryLabel, type:.ResetCode)
-    recoveryCode.changeCallback = {
-      self.startUpdateTimer() { _ in self.checkAllAndUpdateState() }
-    }
-    recoveryInfo = addInfoButton(to:recoveryCode, target:self)
-    recoveryError = addErrorLabel(to: recoveryInfo)
+    codeEntryDelegate = CodeEntryDelgate(
+      onChange: { self.startUpdateTimer(){ _ in self.checkAllAndUpdateState() } }
+    )
     
-    let resend = addActionButton(
-      title: "Oops, I need a new code...",
-      below: recoveryCode,
-      gap: Style.fieldGap)
+    let transferLabel = addHeader("Transfer Code", below:titleRule)
+    transferCode = addTextEntry(below: transferLabel, placeholder: "(received from game server)")
+    transferInfo = addInfoButton(to:transferCode, target:self)
+    transferError = addErrorLabel(to: transferInfo)
+    
+    let userLabel = addHeader("User Code", below:transferCode)
+    userCode = addTextEntry(below: userLabel, placeholder: "(provided to game server)")
+    userInfo = addInfoButton(to:userCode, target:self)
+    userError = addErrorLabel(to: userInfo)
     
     cancelButton = addCancelButton()
-    okButton  = addOkButton(title: "Reonnect")
+    okButton  = addOkButton(title: "Transfer")
     
-    cancelButton.attachTop(to:resend, offset:Style.contentGap)
+    cancelButton.attachTop(to:userCode, offset:Style.contentGap)
     
-    resend.addTarget(self, action: #selector(resendRecoveryCode(_:)), for: .touchUpInside)
-    okButton.addTarget(self, action: #selector(recover(_:)), for: .touchUpInside)
+    transferCode.delegate = codeEntryDelegate
+    userCode.delegate = codeEntryDelegate
+    
+    okButton.addTarget(self, action: #selector(transfer(_:)), for: .touchUpInside)
     cancelButton.addTarget(self, action: #selector(cancel(_:)), for: .touchUpInside)
   }
   
   override func viewWillAppear(_ animated: Bool)
   {
     super.viewWillAppear(animated)
-    recoveryCode.text = ""
+    transferCode.text = ""
+    userCode.text = ""
     checkAllAndUpdateState()
   }
   
@@ -86,26 +96,30 @@ class RecoverAccountViewController: LoginModalViewController
   override func checkAllAndUpdateState() -> Bool
   {
     var ok = true
-    if !checkRecoveryCode() { ok = false }
+    if !checkCode(transferCode,transferError) { ok = false }
+    if !checkCode(userCode,userError) { ok = false }
     okButton.isEnabled = ok
     return ok
   }
   
-  private func checkRecoveryCode() -> Bool
+  private func checkCode(_ codeField:UITextField, _ errorLabel:UILabel) -> Bool
   {
-    var code = recoveryCode.text ?? ""
+    var code = codeField.text ?? ""
     code.removeAll(where: { $0.isWhitespace })
-    
-    var err : String?
-    
-    if code.isEmpty { err = "(required)" }
-    else if code.count < K.RecoveryCodeLength { err = "too short" }
-    else if code.count > K.RecoveryCodeLength { err = "too long" }
-    
-    let ok = ( err == nil )
-    recoveryError.text = err
-    recoveryError.isHidden = ok
-    return ok
+        
+    let delta = K.TransferCodeLength - code.count
+    if delta > 0
+    {
+      errorLabel.text = "(\(delta))"
+      errorLabel.isHidden = false
+      return false
+    }
+    else
+    {
+      errorLabel.text = nil
+      errorLabel.isHidden = true
+      return true
+    }
   }
   
   // MARK:- Button Actions
@@ -129,18 +143,22 @@ class RecoverAccountViewController: LoginModalViewController
    - If there is no response at all, a *failedToConnect* notification is sent to the *NotificationCenter*
    - If an invalid response was received, internalError() is invoked to ask user if they wish to report the issue
    */
-  @objc func recover(_ sender:UIButton)
+  @objc func transfer(_ sender:UIButton)
   {
-    if let scode = self.recoveryCode.text
+    if var scode = self.transferCode.text,
+       var qcode = self.userCode.text
     {
-      let qcode = Defaults.recoveryQCode
+      scode.removeAll( where: { $0.isWhitespace } )
+      qcode.removeAll( where: { $0.isWhitespace } )
 
       LocalPlayer.connect(qcode: qcode, scode: scode) {
         (query, me) in
         if me != nil
         {
           TheGame.shared.me  = me
-          self.loginVC.completed()
+          self.infoPopup(title: "Welcome Back", message: "Your transfer was succesful. 👍", ok:"Excellent") {
+            self.loginVC.completed()
+          }
           return
         }
         // else... me is nil
@@ -148,10 +166,9 @@ class RecoverAccountViewController: LoginModalViewController
         {
 
         case .QueryFailure:
-          self.infoPopup(title: "Failed to Connect", message: "Unrecognized Recovery Code")
-          self.recoveryCode.text = ""
+          self.infoPopup(title: "Sorry...", message: "Unrecognized Transfer/User Code Pairing")
+          self.transferCode.text = ""
         case .FailedToConnect:
-          self.loginVC.cancel()
           failedToConnectToServer()
         default:
           let err =  query.internalError ?? "Unknown Error"
@@ -160,25 +177,15 @@ class RecoverAccountViewController: LoginModalViewController
       }
     }
   }
-  
-  /**
-   Raises the modal popup for requesting the game server to send an email
-   to a given address with instructions for resetting a forgottern password.
-   
-   The game server will ONLY send the email if there is an account (or
-   accounts) associated with that address.
-   
-   - Property sender: *UIButton* which triggered this action. [Ignored]
-   */
-  @objc func resendRecoveryCode(_ sender:UIButton)
-  {
-    mmvc?.present(.RecoveryKey)
-  }
 }
+
+
+
+
 
 // MARK:- Info Button Delegate
 
-extension RecoverAccountViewController : InfoButtonDelegate
+extension TransferAccountLVC : InfoButtonDelegate
 {
   /**
    Displays an information popup based on which field's info button was pressed.
@@ -189,11 +196,13 @@ extension RecoverAccountViewController : InfoButtonDelegate
   {
     switch sender
     {
-    case recoveryInfo:
-      let device = UIDevice.current.model
-      infoPopup(title: "Recovery Code", message: [
-        "Enter the recovery code that was emailed to you for this \(device).",
-        "If you have lost the email or the code has expired, you can request a new one be sent."
+    case transferInfo:
+      infoPopup(title: "Transfer Code", message: [
+        "The code that was provided to you by the game server when you requested a transfer code."
+      ])
+    case userInfo:
+      infoPopup(title: "User Code", message: [
+        "The code that you provided to the game server when you requested a transfer code."
       ])
       
     default: break

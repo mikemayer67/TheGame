@@ -1,5 +1,5 @@
 //
-//  CreateAccountViewController.swift
+//  CreateAccountLVC.swift
 //  TheGame
 //
 //  Created by Mike Mayer on 3/2/20.
@@ -15,7 +15,7 @@ fileprivate var cachedEmail : String?
  Subclass of *ModalViewController* which displays the modal view for creating
  a new player
  */
-class CreateAccountViewController : LoginModalViewController
+class CreateAccountLVC : LoginModalViewController
 {
   //MARK:- Subviews
   
@@ -326,7 +326,7 @@ class CreateAccountViewController : LoginModalViewController
 
 // MARK:- Text Field Delegate
 
-extension CreateAccountViewController : UITextFieldDelegate
+extension CreateAccountLVC : UITextFieldDelegate
 {
   func textFieldDidEndEditing(_ textField: UITextField, reason: UITextField.DidEndEditingReason)
   {
@@ -344,7 +344,7 @@ extension CreateAccountViewController : UITextFieldDelegate
 
 // MARK:- Info Button Delegate
 
-extension CreateAccountViewController : InfoButtonDelegate
+extension CreateAccountLVC : InfoButtonDelegate
 {
   /**
    Displays an information popup based on which field's info button was pressed.

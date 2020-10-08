@@ -1,5 +1,5 @@
 //
-//  RecoveryKeyViewController.swift
+//  RecoveryKeyLVC.swift
 //  TheGame
 //
 //  Created by Mike Mayer on 5/12/20.
@@ -17,7 +17,7 @@ fileprivate var cachedEmail : String?
  The game server will ONLY send the email if there is an account (or
  accounts) associated with that address.
 */
-class RecoveryKeyViewController: LoginModalViewController
+class RecoveryKeyLVC: LoginModalViewController
 {
   var emailText   : UITextField!
   var emailInfo   : UIButton!
@@ -145,7 +145,6 @@ class RecoveryKeyViewController: LoginModalViewController
         
       case .FailedToConnect:
         Defaults.hasRecoveryCode = false
-        self.loginVC.cancel()
         failedToConnectToServer()
         
       case .QueryFailure(GameQuery.Status.InvalidEmail, _):
@@ -165,7 +164,7 @@ class RecoveryKeyViewController: LoginModalViewController
   }
 }
 
-extension RecoveryKeyViewController : UITextFieldDelegate
+extension RecoveryKeyLVC : UITextFieldDelegate
 {
   func textFieldDidEndEditing(_ textField: UITextField, reason: UITextField.DidEndEditingReason)
   {
@@ -183,7 +182,7 @@ extension RecoveryKeyViewController : UITextFieldDelegate
 
 // MARK:- Info Button Delegate
 
-extension RecoveryKeyViewController : InfoButtonDelegate
+extension RecoveryKeyLVC : InfoButtonDelegate
 {
   /**
    Displays an information popup based on which field's info button was pressed.

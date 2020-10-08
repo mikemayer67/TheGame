@@ -124,7 +124,7 @@ class RootViewController: UIViewController
       object: nil,
       queue: OperationQueue.main
     ) { (notification) in
-      debug("Connection failure notification: \(notification)")
+      if let loginVC = self.currentVC as? LoginViewController { loginVC.cancel() }
       self.update()
     }
   }

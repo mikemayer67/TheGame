@@ -17,7 +17,6 @@ $message = $data->{'details'};
 
 if( mail($email,$subject,$message,$headers) )
 {
-  error_log("$subject email sent to $email");
   send_success();
 }
 else

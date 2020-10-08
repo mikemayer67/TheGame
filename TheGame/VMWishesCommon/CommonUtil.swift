@@ -46,6 +46,16 @@ extension HashData
   }
 }
 
+extension String
+{
+  var numWhite : Int
+  {
+    var stripped = String(self)
+    stripped.removeAll(where: {$0.isWhitespace})
+    return self.count - stripped.count
+  }
+}
+
 func debug(_ args:Any...)
 {
   print("DEBUG::",args)

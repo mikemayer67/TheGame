@@ -1,5 +1,5 @@
 //
-//  RecoveryOptionsViewController.swift
+//  RecoveryOptionsLVC.swift
 //  TheGame
 //
 //  Created by Mike Mayer on 10/5/20.
@@ -13,7 +13,7 @@ import UIKit
  existing account when no recovery code has been requested from the current device.
  */
 
-class RecoveryOptionsViewController: LoginModalViewController
+class RecoveryOptionsLVC: LoginModalViewController
 {
   init(loginVC:LoginViewController)
   {
@@ -100,6 +100,6 @@ class RecoveryOptionsViewController: LoginModalViewController
   
   @objc func transfer(_ sender:UIButton)
   {
-    debug("transfer")
+    self.mmvc?.present(.TransferAccount)
   }
 }

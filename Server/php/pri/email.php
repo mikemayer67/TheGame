@@ -35,7 +35,7 @@ function send_email($email, $subject, $message)
 
   $br = '%0d%0a%0d%0a';
 
-  $mailto = "mailto:$admin_email?subject=TheGame - Email Removal Request&body=Please remove all references to the email address %27$email%27 from TheGame databasees.${br}I understand that this means I will no longer be able to request username reminders or password resets.";
+  $mailto = "mailto:$admin_email?subject=TheGame - Email Removal Request&body=Please remove all references to the email address %27$email%27 from TheGame databasees.${br}I understand that this means I will no longer be able to request a recovery code.";
 
   $message = "
     <html>
@@ -52,7 +52,6 @@ function send_email($email, $subject, $message)
 
   if( mail($email,$subject,$message,$headers) )
   {
-    error_log("$subject email sent to $email");
     return true;
   }
   else

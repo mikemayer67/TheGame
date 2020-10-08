@@ -22,6 +22,7 @@ enum ModalControllerID : String
 {
   case CreateAccount    = "createAccountVC"
   case RecoverAccount   = "recoverAccountVC"
+  case TransferAccount  = "transferAccountVC"
   case RecoveryKey      = "recoveryKeyVC"
   case RecoveryOptions  = "recoveryOptionsVC"
 }
@@ -146,10 +147,11 @@ extension LoginViewController : MultiModalDelegate
     guard let identifier = ModalControllerID(rawValue: identifier) else { return nil }
     switch identifier
     {
-    case .CreateAccount:    return CreateAccountViewController(loginVC:self)
-    case .RecoverAccount:   return RecoverAccountViewController(loginVC:self)
-    case .RecoveryKey:      return RecoveryKeyViewController(loginVC: self)
-    case .RecoveryOptions:  return RecoveryOptionsViewController(loginVC: self)
+    case .CreateAccount:    return CreateAccountLVC(loginVC:self)
+    case .RecoverAccount:   return RecoverAccountLVC(loginVC:self)
+    case .TransferAccount:  return TransferAccountLVC(loginVC:self)
+    case .RecoveryKey:      return RecoveryKeyLVC(loginVC: self)
+    case .RecoveryOptions:  return RecoveryOptionsLVC(loginVC: self)
     }
   }
   

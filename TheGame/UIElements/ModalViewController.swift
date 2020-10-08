@@ -201,38 +201,6 @@ extension ModalViewController
   }
   
   /**
-   Creates a *LoginTextField*
-   - Parameter refView: *UIView* that the header should be displayed below
-   - Parameter placeholder: Text that should appear in the box when it is "empty"
-   - Parameter type: LogintTextField.LoginType (Username, Password, etc.)
-   */
-  func addLoginEntry(below refVeiw:UIView,
-                     placeholder:String? = nil,
-                     type:LoginTextField.LoginType = .Username) -> LoginTextField
-  {
-    let entry = LoginTextField()
-    configure(entry:entry, refView: refVeiw)
-    entry.placeholder = placeholder ?? "required"
-    entry.type = type
-    switch type
-    {
-    case .Username:
-      entry.textContentType   = .username
-      entry.keyboardType      = .asciiCapable
-    case .Password:
-      entry.textContentType   = .password
-      entry.keyboardType      = .asciiCapable
-      entry.isSecureTextEntry = true
-    case .ResetCode:
-      entry.textContentType   = .username
-      entry.keyboardType      = .numberPad
-    }
-    entry.autocorrectionType = .no
-
-    return entry
-  }
-  
-  /**
    Creates a *UITextField*.
    
    The *configure* method will be invoked on the returned text field to
@@ -242,9 +210,9 @@ extension ModalViewController
    - Parameter email: Used to determine type of keyboard to display
    */
   func addTextEntry(below refVeiw:UIView,
-                     placeholder:String? = nil,
-                     required:Bool = false,
-                     email:Bool = false) -> UITextField
+                    placeholder:String? = nil,
+                    required:Bool = false,
+                    email:Bool = false) -> UITextField
   {
     let entry = UITextField()
     configure(entry:entry, refView: refVeiw)
