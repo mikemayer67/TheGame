@@ -310,7 +310,7 @@
                         <outlet property="buttonView" destination="9Rz-bg-2yg" id="qAO-te-oZ0"/>
                         <outlet property="lastLossLabel" destination="7OE-cD-3ew" id="Xop-EI-TMq"/>
                         <outlet property="lostButton" destination="FDz-gI-m8F" id="RUg-pD-7YC"/>
-                        <outlet property="oppenentTable" destination="tLU-FE-EwV" id="9JS-bY-fEy"/>
+                        <outlet property="opponentTable" destination="tLU-FE-EwV" id="6Ng-Pg-sSE"/>
                         <segue destination="4XT-IK-WMO" kind="presentation" identifier="showSettings" modalPresentationStyle="fullScreen" modalTransitionStyle="flipHorizontal" id="MrP-Ha-MsU"/>
                     </connections>
                 </viewController>

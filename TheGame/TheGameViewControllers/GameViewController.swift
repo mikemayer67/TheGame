@@ -16,7 +16,7 @@ import GoogleMobileAds
  */
 class GameViewController: ChildViewController
 {  
-  @IBOutlet weak var oppenentTable: UITableView!
+  @IBOutlet weak var opponentTable: UITableView!
   @IBOutlet weak var buttonView: UIImageView!
   @IBOutlet weak var lostButton: UIButton!
   @IBOutlet weak var bannerView: GADBannerView!
@@ -33,11 +33,9 @@ class GameViewController: ChildViewController
   override func viewDidLoad() {
     super.viewDidLoad()
     
-    oppenentTable.delegate   = theGame
-    oppenentTable.dataSource = theGame
-    theGame.errorDelegate    = self
-    theGame.delegate         = self
-    theGame.viewController   = self
+    opponentTable.delegate   = theGame
+    opponentTable.dataSource = theGame
+    theGame.vc               = self
     
     initilizeBannerAd()
     
@@ -88,8 +86,6 @@ class GameViewController: ChildViewController
         return "Go ahead, push the button..." }
       return t
     } ()
-      
-    oppenentTable.reloadData()
     
     if theGame.allowedToLose { showLostButton(animated:animated) }
     else                     { hideLostButton(animated:animated) }
@@ -177,23 +173,11 @@ private extension GameViewController
   }
 }
 
-extension GameViewController : TheGameErrorHandler, TheGameDelegate
+// Methods invoked by the game model
+
+extension GameViewController
 {
-  func failedConnection(_ theGame: TheGame)
-  {
-    rootViewController.update()
-  }
-  
-  func internalError(_ theGame: TheGame, error: String, file: String, function: String)
-  {
-    internalError(error, file:file, function:function)
-  }
-  
-  func handleUpdates(_ theGame: TheGame) {
-    self.update(animated: true)
-  }
-  
-  func handle(_ theGame: TheGame, notificationsEnabled: Bool)
+  func handle(notificationsEnabled: Bool)
   {
     // Notifications are a key element of TheGame.  It can be played without them,
     // but it degrades the experience.  If the user disables notifications, we want

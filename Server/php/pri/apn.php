@@ -14,7 +14,7 @@ const APN_TEAM_ID  = '642SNV9NK2';
 
 const APNS_ADDRESS = 'https://api.sandbox.push.apple.com:443';
 
-function send_apn_message($target_id, $title, $subtitle=null, $body=null)
+function send_apn_message($flavor, $target_id, $title, $subtitle=null, $body=null)
 {
   $info = db_find_user_by_userid($target_id);
   if( empty($info) ) { return INVALID_USERID; }
@@ -35,8 +35,10 @@ function send_apn_message($target_id, $title, $subtitle=null, $body=null)
     array(
       'aps' => array (
         'alert' => $alert,
-        'badge' => $badge
-      )
+        'badge' => $badge,
+        'sound' => 'poked.aiff'
+      ),
+      'flavor' => $flavor,
     )
   );
 

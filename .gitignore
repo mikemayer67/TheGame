@@ -5,3 +5,4 @@ Server/php/old
 *.xcbkptlist
 *.p8
 reset.php
+*.zip

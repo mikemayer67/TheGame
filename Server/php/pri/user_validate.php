@@ -3,6 +3,7 @@
 require_once(__DIR__.'/const.php');
 require_once(__DIR__.'/util.php');
 require_once(__DIR__.'/db_find_user.php');
+require_once(__DIR__.'/db_update_user.php');
 
 $id = get_exclusive_arg(USERKEY,FBID,QCODE);
 

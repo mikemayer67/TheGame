@@ -30,7 +30,7 @@ if( $result )
       MATCHSTART => $row[MATCHSTART],
     );
 
-    if( isset($fbid) ) { $match[FBID] = $fbid; }
+    if( isset($row[FBID]) ) { $match[FBID] = $row[FBID]; }
 
     $matches[] = $match;
   }

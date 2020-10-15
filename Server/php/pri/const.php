@@ -40,4 +40,8 @@ const CURL_FAILURE             = 14;
 const APNS_FAILURE             = 15;
 
 const NOT_YET_IMPLEMENTED      = 99;
+
+// APN Flavors
+const APN_POKE = "poke";
+const APN_LOSS = "loss";
 ?>

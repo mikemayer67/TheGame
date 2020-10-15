@@ -10,6 +10,8 @@ import UIKit
 import FBSDKCoreKit
 import FBSDKLoginKit
 
+import AVFoundation
+
 /**
  The enum contains the list of IDs for the modal view contollers used in TheGame
  ## Values

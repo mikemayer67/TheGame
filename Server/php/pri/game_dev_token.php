@@ -17,6 +17,8 @@ $userid = $user[USERID];
 $db = new TGDB;
 if( isset($token) )
 {
+  $sql = 'delete from tg_dev_tokens where dev_token=?';
+  $db->get($sql,'s',$token);
   $sql = 'replace into tg_dev_tokens values (?,?)';
   $result = $db->get($sql, 'is', $userid, $token);
 }

@@ -2,6 +2,7 @@
 
 require_once(__DIR__.'/const.php');
 require_once(__DIR__.'/util.php');
+require_once(__DIR__.'/apn.php');
 
 require_once(__DIR__.'/db.php');
 require_once(__DIR__.'/db_find_user.php');
@@ -22,7 +23,18 @@ $result = $db->get($sql,'ii',$now,$userid);
 
 if( $result )
 {
-  error_log('@@@ Need to add loss notification logic');
+  $sql = 'select * from tg_user_opponents where userid=?';
+  $result = $db->get($sql,'i',$userid);
+  if( $result )
+  {
+    $name = $info[NAME];
+    while( $row = $result->fetch_assoc() )
+    {
+      $opponent_id = $row[OPPONENT];
+      $rc = send_apn_message(APN_LOSS, $opponent_id, "$name just lost TheGame");
+    }
+  }
+
   send_success();
 }
 else

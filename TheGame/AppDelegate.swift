@@ -15,10 +15,11 @@ import FacebookCore
 extension Notification.Name
 {
   static let newDeviceToken = Notification.Name("newDeviceToken")
+  static let remoteNotification = Notification.Name("remoteNotification")
 }
 
 @UIApplicationMain
-class AppDelegate: UIResponder, UIApplicationDelegate
+class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterDelegate
 {
   var window: UIWindow?
 
@@ -55,6 +56,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate
     UNUserNotificationCenter.current()
       .requestAuthorization(options: [.alert, .sound, .badge]) { (_,_) in }
     
+    UNUserNotificationCenter.current().delegate = self
+    
     return true
   }
         
@@ -84,9 +87,18 @@ class AppDelegate: UIResponder, UIApplicationDelegate
     NotificationCenter.default.post(name: .newDeviceToken, object: nil)
   }
   
+  func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void)
+  {
+    NotificationCenter.default.post(
+      name:.remoteNotification,
+      object:nil,
+      userInfo: ["content":notification.request.content] )
+    
+    completionHandler([.badge,.sound])
+  }
+  
   static var shared : AppDelegate
   {
     UIApplication.shared.delegate as! AppDelegate
   }
 }
-

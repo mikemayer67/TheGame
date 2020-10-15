@@ -12,50 +12,38 @@ import FacebookLogin
 fileprivate let iconSize     : CGFloat = 32.0
 fileprivate let iconFontSize : CGFloat = 18.0
 
-struct FacebookInfo
-{
-  let fbid           : String
-  let name           : String
-  let picture        : String? // URL of FB picture
-  let friendsGranted : Bool
-  
-  init(fbid:String, name:String, picture:String?, friendsGranted:Bool = false)
-  {
-    self.fbid = fbid
-    self.name = name
-    self.picture = picture
-    self.friendsGranted = friendsGranted
-  }
-}
-
 class Opponent : Participant, Comparable
 {
-  let name : String
-  let fb   : FacebookInfo?
-  let icon : UIImage?
-  let matchID : Int
-  var matchStart : GameTime
-  var lastPoke : GameTime?
+  let matchID         : Int
+  var name            : String
+  var icon            : UIImage?
+  var matchStart      : GameTime
   
-  init(name:String, matchID:Int, matchStart:GameTime, lastLoss:GameTime? = nil)
+  var facebookID      : String?
+  var facebookPicture : String? // URL
+  
+  var lastPoke        : GameTime?
+  
+  init(_ match : MatchData)
   {
-    self.name       = name
-    self.fb         = nil
-    self.icon       = createIcon(for:name)
-    self.matchID    = matchID
-    self.matchStart = matchStart
+    self.matchID    = match.id
+    self.name       = match.name
+    self.icon       = createIcon(for:self.name)
+    self.matchStart = match.start
+    
+    self.facebookID      = nil
+    self.facebookPicture = nil
+    
     self.lastPoke   = nil
-    super.init(lastLoss:lastLoss)
+    
+    super.init(lastLoss:match.lastLoss)
   }
   
-  init(facebook:FacebookInfo, matchID:Int, matchStart:GameTime, lastLoss:GameTime? = nil)
+  func addFacebookInfo(fbid:String, name:String, picture:String?)
   {
-    self.name       = facebook.name
-    self.fb         = facebook
-    self.icon       = createIcon(for:name, with:facebook.picture)
-    self.matchID    = matchID
-    self.matchStart = matchStart
-    super.init(lastLoss:lastLoss)
+    self.facebookID = fbid
+    self.name       = name
+    self.icon       = createIcon(for:name, with:picture)
   }
     
   static func < (lhs: Opponent, rhs: Opponent) -> Bool

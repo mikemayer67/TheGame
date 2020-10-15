@@ -26,7 +26,7 @@ if( $n < 1 ) { send_failure(INVALID_OPPONENT); }
 $target = $result->fetch_assoc();
 $target_id = $target[OPPONENT];
 
-$rc = send_apn_message($target_id, "You have been poked by $sender_name");
+$rc = send_apn_message(APN_POKE, $target_id, "You have been poked by $sender_name");
 send_result($rc);
 
 ?>

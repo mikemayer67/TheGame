@@ -28,52 +28,41 @@ enum K
     """#
 }
 
-protocol TheGameErrorHandler
+enum RemoteNotificationFlavor : String
 {
-  func failedConnection(_ theGame:TheGame)
-  func internalError(_ theGame:TheGame, error:String, file:String, function:String)
-}
-
-protocol TheGameDelegate
-{
-  func handleUpdates(_ theGame:TheGame)
-  func handle(_ theGame:TheGame, notificationsEnabled:Bool)
+  case poke = "poke"
+  case loss = "loss"
 }
 
 class TheGame : NSObject
 {
-  static let shared   = TheGame()
-  static let server   = GameServer()
+  static let shared = TheGame()
+  static let server = GameServer()
   
-  var errorDelegate  : TheGameErrorHandler?
-  var delegate       : TheGameDelegate?
-  var viewController : UIViewController?
+  weak var vc : GameViewController?
   
-  var notificationsEnabled : Bool? = nil
+  private(set) var notificationsEnabled : Bool? = nil
+  
+  private(set) var opponents = Opponents()
+  
+  private(set) var nextLossTimer : Timer?
     
   var me : LocalPlayer? = nil
   {
     didSet {
-      opponents.removeAll()
+      opponents.dropAll()
       if me != nil {
         Defaults.hasRecoveryCode = false
-        loadOpponents()
+        updateOpponents()
       }
     }
   }
-  
-  private(set) var opponents = [Opponent]()
-  
-  private(set) var nextLossTimer : Timer?
 
   override init()
   {
     super.init()
     
-    NotificationCenter.default.addObserver(
-      forName: .newDeviceToken,
-      object: nil,
-      queue: .main) {
+    NotificationCenter.default.addObserver(forName:.newDeviceToken, object:nil, queue:.main) {
         (notification) in
         guard let me = self.me else { return }
         
@@ -85,6 +74,15 @@ class TheGame : NSObject
           TheGame.server.clearDeviceToken(userkey: me.userkey) { _ in }
         }
     }
+    
+    NotificationCenter.default.addObserver(forName:.remoteNotification, object:nil, queue:.main) {
+      (notification) in
+      if let userInfo = notification.userInfo,
+         let content = userInfo["content"] as? UNNotificationContent
+      {
+        self.handleNotification(content)
+      }
+    }
   }
 }
 
@@ -92,9 +90,8 @@ class TheGame : NSObject
 
 extension TheGame
 {
-  private func loadOpponents()
+  private func updateOpponents()
   {
-    opponents.removeAll()
     guard let me = me else { return }
         
     TheGame.server.lookupOpponents(userkey: me.userkey) { (query) in
@@ -104,71 +101,48 @@ extension TheGame
       case .FailedToConnect:
         failedToConnectToServer()
       case .Success(let data):
-        if let matchData = data?[QueryKey.Matches] as? [NSDictionary] {
-          self.loadOpponents(matchData)
+        if let matchData = MatchSet(data) {
+          self.updateOpponents(matchData)
         } else {
-          self.errorDelegate?.internalError(self, error: "Missing match data", file: #file, function: #function)
+          self.vc?.internalError("Missing match data", file: #file, function: #function)
         }
       default:
-        self.errorDelegate?.internalError( self,
-          error: query.internalError ?? "Unknown Error",
-          file: #file, function: #function
-        )
+        self.vc?.internalError( query.internalError ?? "Unknown Error", file: #file, function: #function )
       }
     }
   }
   
-  func loadOpponents(_ matchData:[NSDictionary])
+  private func updateOpponents(_ matches:MatchSet)
   {
-    for match in matchData
+    let oldOrder = opponents.order
+    var newMatchIDs = Set<Int>()
+          
+    for match in matches
     {
-      guard let t = match[QueryKey.MatchStart] as? Double,
-        let matchID = match[QueryKey.MatchID] as? Int
-      else {
-        errorDelegate?.internalError(
-          self,
-          error: "Missing match_data (\(match))",
-          file: #file, function: #function)
-        continue
-      }
-      let matchStart = GameTime(networktime: t)
-      
-      var lastLoss : GameTime?
-      if let t = match[QueryKey.LastLoss] as? Double,
-        t > 0.0
-      {
-        lastLoss = GameTime(networktime: t)
-      }
-      
-      let name = match[QueryKey.Name] as? String
-      if let fbid = match[QueryKey.FBID] as? String
-      {
-        loadOpponent(fbid, matchID: matchID, matchStart:matchStart, lastLoss:lastLoss, name:name)
-      }
-      else if let name = name
-      {
-        self.opponents.append(
-          Opponent(name: name, matchID: matchID, matchStart: matchStart, lastLoss: lastLoss)
-        )
-      }
-      else
-      {
-        errorDelegate?.internalError(
-          self,
-          error: "Missing name or fbid {\(match)}",
-          file: #file, function: #function)
-      }
+      newMatchIDs.insert(match.id)
+      if let opponent = opponents.find(matchID: match.id) { opponent.lastLoss = match.lastLoss }
+      else                                                { opponents.add( Opponent(match) ) }
     }
+    
+    for id in Set(oldOrder.keys).subtracting(newMatchIDs) { opponents.drop(matchID: id) }
     
     opponents.sort()
-    delegate?.handleUpdates(self)
+    updateOpponentTable(from: oldOrder, to: opponents.order)
+    vc?.update()
+    
+    for match in matches where match.fbid != nil
+    {
+      updateFBInfo(matchID: match.id, fbid: match.fbid!)
+    }
   }
   
-  func loadOpponent(_ fbid:String, matchID:Int, matchStart:GameTime, lastLoss:GameTime?, name:String?)
+  func updateFBInfo(matchID:Int, fbid:String)
   {
-    let request = GraphRequest(graphPath: fbid, parameters: ["fields":"name,picture"])
+    guard let opponent = opponents.find(matchID: matchID) else { return }
     
-    var opponent : Opponent? = nil
+    debug("Lookup \(fbid) on FB Graph")
+    
+    let request = GraphRequest(graphPath: fbid, parameters: ["fields":"name,picture"])
     
     request.start { (_, result, error) in
       if error == nil,
@@ -182,22 +156,10 @@ extension TheGame
         {
           pictureURL = url
         }
-                
-        opponent = Opponent(facebook: FacebookInfo(fbid:fbid, name:name, picture: pictureURL),
-                            matchID: matchID,
-                            matchStart: matchStart,
-                            lastLoss: lastLoss)
-      }
-      else if let name = name
-      {
-        opponent = Opponent(name: name, matchID: matchID, matchStart: matchStart, lastLoss: lastLoss)
-      }
-           
-      if let opponent = opponent
-      {
-        self.opponents.append( opponent )
-        self.opponents.sort()
-        self.delegate?.handleUpdates(self)
+        
+        opponent.addFacebookInfo(fbid: fbid, name: name, picture: pictureURL)
+        
+        debug("@@@ DO TABLE FB UPDATE HERE")
       }
     }
   }
@@ -215,21 +177,23 @@ extension TheGame
     let now = GameTime()
     me?.lastLoss = now   // me updates the game server
     
+    updateOpponents()
+    
     if let t = nextLossTimer {
       t.invalidate()
       nextLossTimer = nil
     }
       
-    if let delegate = delegate
+    if let vc = vc
     {
       let nextLoss = nextAllowableLoss
       if nextAllowableLoss > now {
         nextLossTimer = Timer.scheduledTimer(withTimeInterval: nextLoss - now, repeats: false) { _ in
-          delegate.handleUpdates(self)
+          vc.update()
           self.nextLossTimer = nil
         }
       }
-      delegate.handleUpdates(self)
+      vc.update()
     }
   }
   
@@ -237,11 +201,9 @@ extension TheGame
   {
     if let localPlayer = me, let lastLoss = localPlayer.lastLoss
     {
-      for opponent in opponents
+      if opponents.hasLoss(after:lastLoss)
       {
-        if opponent.lost(after:lastLoss) {
-          return lastLoss.offset(by: K.challengedLossInterval)
-        }
+        return lastLoss.offset(by: K.challengedLossInterval)
       }
       return lastLoss.offset(by: K.unchallangedLossInterval)
     }
@@ -249,10 +211,63 @@ extension TheGame
   }
 }
 
-// MARK:- TableView Delegates
+// MARK:- TableView Support (includeing delegates)
 
 extension TheGame : UITableViewDelegate, UITableViewDataSource
 {
+  func updateOpponentTable(from old:Dictionary<Int,Int>, to new:Dictionary<Int,Int>)
+  {
+    guard let vc = vc, let ot = vc.opponentTable else { return }
+    
+    let oldIDs = Set( old.keys )
+    let newIDs = Set( new.keys )
+    
+    let remove = Array( oldIDs.subtracting(newIDs).map( {IndexPath(row: old[$0]!, section: 0)} ) )
+    let insert = Array( newIDs.subtracting(oldIDs).map( {IndexPath(row: new[$0]!, section: 0)} ) )
+    
+    ot.beginUpdates()
+    
+    ot.deleteRows(at: remove, with: .fade)
+    ot.insertRows(at: insert, with: .fade)
+    
+    for matchID in oldIDs.intersection(newIDs) {
+      ot.moveRow(
+        at: IndexPath(row: old[matchID]!, section: 0),
+        to: IndexPath(row: new[matchID]!, section: 0))
+    }
+    
+    ot.endUpdates()
+    
+    updateOpponentTable()
+  }
+  
+  func updateOpponentTable()
+  {
+    guard let vc = vc, let ot = vc.opponentTable else { return }
+    for (row,opponent) in opponents.opponents.enumerated()
+    {
+      if let cell = ot.cellForRow(at:  IndexPath(row: row, section: 0))
+      {
+        updateOpponentTable(cell:cell, opponent: opponent)
+      }
+    }
+  }
+  
+  func updateOpponentTable(cell : UITableViewCell, opponent: Opponent)
+  {
+    cell.textLabel?.text       = opponent.name
+    cell.detailTextLabel?.text = opponent.lastLossString
+    cell.imageView?.image      = opponent.icon
+    
+    if opponent.lost(after: me?.lastLoss) {
+      cell.contentView.backgroundColor = UIColor(named: "losingColor")
+    }
+    else {
+      cell.contentView.backgroundColor = UIColor(named: "winningColor")
+    }
+  }
+  
+  
   func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int
   {
     return opponents.count
@@ -261,18 +276,13 @@ extension TheGame : UITableViewDelegate, UITableViewDataSource
   func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell
   {
     let cell = tableView.dequeueReusableCell(withIdentifier: "opponentCell", for: indexPath)
-    
-    let lastLoss = me?.lastLoss
-    
+        
     cell.backgroundColor=UIColor.systemBackground
         
-    if let opponent = opponents[safe:indexPath.row]
+    if let opponent = opponents[indexPath.row]
     {
-      cell.textLabel?.text = opponent.name
-      cell.detailTextLabel?.text = opponent.lastLossString
       if let iv = cell.imageView
       {
-        iv.image = opponent.icon
         iv.layer.cornerRadius = 8.0
         iv.layer.borderColor = UIColor.black.cgColor
         iv.layer.borderWidth = 1.0
@@ -284,8 +294,7 @@ extension TheGame : UITableViewDelegate, UITableViewDataSource
       layer.borderColor = UIColor.black.cgColor
       layer.borderWidth = 1.0
       
-      cell.contentView.backgroundColor =
-        ( opponent.lost(after: lastLoss) ? UIColor(named: "losingColor") : UIColor(named:"winningColor") )
+      updateOpponentTable(cell: cell, opponent: opponent)
     }
     else
     {
@@ -299,9 +308,11 @@ extension TheGame : UITableViewDelegate, UITableViewDataSource
   func tableView(_ tableView: UITableView,
                  trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration?
   {
+    guard let opponent = opponents[indexPath.row] else { return nil }
+    
     let drop = UIContextualAction(style: .normal, title: "Drop") {
       (action, view, completion) in
-      self.dropOpponent(opponent: self.opponents[indexPath.row])
+      self.dropOpponent(opponent: opponent)
       completion(true)
     }
     drop.image = #imageLiteral(resourceName: "icons8-unfriend")
@@ -312,15 +323,66 @@ extension TheGame : UITableViewDelegate, UITableViewDataSource
   func tableView(_ tableView: UITableView,
                  leadingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration?
   {
+    guard let opponent = opponents[indexPath.row] else { return nil }
+    
     let poke = UIContextualAction(style: .normal, title: "Poke") {
       (action, view, completion) in
-      self.pokeOpponent(opponent: self.opponents[indexPath.row])
+      self.pokeOpponent(opponent: opponent)
       completion(true)
     }
     poke.image = #imageLiteral(resourceName: "icons8-poke_friend")
     poke.backgroundColor = UIColor.systemBackground
     return UISwipeActionsConfiguration(actions: [poke])
   }
+}
+
+// MARK:- Opponents
+
+extension TheGame
+{
+  func dropOpponent(opponent:Opponent)
+  {
+    guard let me = me, let vc = vc else { return }
+    
+    vc.confirmationPopup(
+      title: "⚠️ Are you sure?",
+      message: "This will end your competition with \(opponent.name)",
+      ok: "Yes", cancel: "No", animated: true)
+    {
+      (response) in
+      guard response else { return }
+      
+      vc.confirmationPopup(
+        title: "💬 Let them know?",
+        message: "This will send a a notification to \(opponent.name) to let them know you have dropped them",
+        ok: "Yes", cancel: "No", animated: true)
+      {
+        (notify) in
+        TheGame.server.dropOpponent(userkey:me.userkey, matchID:opponent.matchID, notify:notify)
+        {
+          (query) in
+          switch query.status
+          {
+          case .Success(let data):
+            if notify {
+              let notified = ( data?[QueryKey.Notify] as? Int == 1 )
+              let title = ( notified ? "👍 Done" : "🙉 Oh Well..." )
+              let message = ( notified
+                                ? "has been notified that the competition is over."
+                                : "has disabled notification and was therefore not notified you dropped them." )
+              vc.infoPopup(title: title, message: "\(opponent.name) \(message)")
+            }
+            self.updateOpponents()
+            
+          case .FailedToConnect: failedToConnectToServer()
+          case .QueryFailure(GameQuery.Status.InvalidOpponent, _): break
+          default: self.vc?.internalError( query.internalError ?? "Unknown Error", file: #file, function: #function )
+          }
+        }
+      }
+    }
+  }
+  
 }
 
 // MARK:- Notifications
@@ -337,39 +399,33 @@ extension TheGame
       // only send status to delegate if the value of notificationEnabled is changing
       // (this does not include the initial setting of the value)
       
-      if let notificationsEnabled = self.notificationsEnabled,
-        notificationsEnabled == granted
-      { return }
+      if self.notificationsEnabled != nil, self.notificationsEnabled == granted { return }
 
       self.notificationsEnabled = granted
 
-      if let me = self.me
-      {
+      if let me = self.me {
         if granted {
-          DispatchQueue.main.async {
-            UIApplication.shared.registerForRemoteNotifications()
-          }
+          DispatchQueue.main.async { UIApplication.shared.registerForRemoteNotifications() }
         }
-        else
-        {
+        else {
           TheGame.server.clearDeviceToken(userkey: me.userkey) { _ in }
         }
       }
 
-      self.delegate?.handle(self, notificationsEnabled: granted)
+      self.vc?.handle(notificationsEnabled: granted)
     }
   }
   
   func pokeOpponent(opponent:Opponent)
   {
-    guard let me = me else { return }
+    guard let me = me, let vc = vc else { return }
     
     let now = GameTime()
     if let lastPoke = opponent.lastPoke
     {
       if now < lastPoke.offset(by: K.pokeInterval)
       {
-        viewController?.infoPopup(
+        vc.infoPopup(
           title:"🛑 Woah There!",
           message:"Too soon to try to poke \(opponent.name) again"
         )
@@ -386,98 +442,59 @@ extension TheGame
       case .FailedToConnect:
         failedToConnectToServer()
       case .Success:
-        self.viewController?.infoPopup(
+        vc.infoPopup(
           title:"👍 Nice",
           message:"You have poked \(opponent.name)"
         )
       case .QueryFailure(GameQuery.Status.InvalidOpponent, _):
-        self.viewController?.infoPopup(
+        vc.infoPopup(
           title: "😢 Too Late",
           message: "\(opponent.name) is no longer an opponent"
         )
       case .QueryFailure(GameQuery.Status.NotificationFailure, _):
-        self.viewController?.infoPopup(
+        vc.infoPopup(
           title: "🙉 Nope",
           message: "\(opponent.name) has disabled notification"
         )
       default:
-        self.errorDelegate?.internalError( self,
-          error: query.internalError ?? "Unknown Error",
-          file: #file, function: #function
-        )
+        self.vc?.internalError( query.internalError ?? "Unknown Error", file: #file, function: #function )
       }
     }
   }
   
-  func dropOpponent(opponent:Opponent)
+  private func handleNotification( _ content : UNNotificationContent )
   {
-    guard let me = me             else { return }
-    guard let vc = viewController else { return }
+    guard let f = content.userInfo["flavor"] as? String,
+          let flavor = RemoteNotificationFlavor(rawValue:f)
+          else { return }
     
-    vc.confirmationPopup(
-      title: "⚠️ Are you sure?",
-      message: "This will end your competition with \(opponent.name)",
-      ok: "Yes",
-      cancel: "No",
-      animated: true) {
-        (response) in
-        if response
-        {
-          vc.confirmationPopup(
-            title: "💬 Let them know?",
-            message: "This will send a a notification to \(opponent.name) to let them know you have dropped them",
-            ok: "Yes",
-            cancel: "No",
-            animated: true) {
-              (notify) in
-              self.dropOpponent(userkey:me.userkey, opponent:opponent, notify:notify)
-          }
-        }
-    }
-  }
-  
-  private func dropOpponent(userkey:String, opponent:Opponent, notify:Bool)
-  {
-    TheGame.server.dropOpponent(userkey:userkey, matchID:opponent.matchID, notify:notify)
+    if let vc = self.vc
     {
-      (query) in
-      switch query.status
+      switch flavor
       {
-      case .FailedToConnect:
-        failedToConnectToServer()
-      case .Success(let data):
-        if notify
-        {
-          let notified = data?[QueryKey.Notify] as? Int ?? 0
-          if notified == 1
-          {
-            self.viewController?.infoPopup(
-              title: "👍 Done",
-              message: "\(opponent.name) has been notified that the competition is over."
-            )
+      case .poke:
+        let title = "👉 You've been Poked 👈"
+        let message : String = {
+          if let range = content.title.range(of: "^.*poked by", options: .regularExpression) {
+            return content.title.replacingCharacters(in: range, with: "You can thank")
           }
-          else
-          {
-            self.viewController?.infoPopup(
-              title: "🙉 Oh Well...",
-              message: "\(opponent.name) has disabled notification and was therefore not notified you dropped them."
-            )
+          return title
+        }()
+        vc.infoPopup( title: title, message: message )
+        
+      case .loss:
+        let title = "😖 Oh man..."
+        let message : String = {
+          if let range = title.range(of: "TheGame") {
+            return content.title.replacingCharacters(in: range, with: "the game")
           }
-        }
-        
-        self.opponents = self.opponents.filter { $0.matchID != opponent.matchID }
-        self.delegate?.handleUpdates(self)
-        
-      case .QueryFailure(GameQuery.Status.InvalidOpponent, _):
-        break
-        
-      default:
-        self.errorDelegate?.internalError( self,
-                                           error: query.internalError ?? "Unknown Error",
-                                           file: #file, function: #function
-        )
+          return content.title
+        }()
+        vc.infoPopup( title:title , message: message )
       }
     }
+    
+    updateOpponents()
   }
       
 }
