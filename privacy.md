@@ -10,8 +10,10 @@ To this end, the only information collected is that which enhances the experienc
 ## What Information is Collected/Stored by *TheGame* ?
 
 In order to active the game to play with others, the user must create a connection account.
-There are two options provided: userid/password or Facebook login.  
-The selected option plays a factor in what information is collected.
+There are three options provided:
+- Facebook login
+- Email address
+- Anonymous
 
 The user may opt to receive push notifications when other players have lost or quit the game. 
 In this case, a device location ID will be collected.
