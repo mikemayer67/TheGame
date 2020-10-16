@@ -6,3 +6,5 @@ Server/php/old
 *.p8
 reset.php
 *.zip
+decrypt.php
+encrypt.php

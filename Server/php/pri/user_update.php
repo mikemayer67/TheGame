@@ -39,7 +39,7 @@ if( isset($email) )
     $cur_email = $info[EMAIL];
     $action = ( empty($cur_email) ? "added to" : "updated for" );
     $intro = "This email address was $action the account for $name.";
-    email_validation_request($intro,$userid);
+    email_validation_request($email,$userid,$intro);
   }
 }
 

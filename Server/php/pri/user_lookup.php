@@ -4,7 +4,7 @@ require_once(__DIR__.'/const.php');
 require_once(__DIR__.'/util.php');
 
 require_once(__DIR__.'/db_find_user.php');
-require_once(__DIR__.'/db_email_validation.php');
+require_once(__DIR__.'/db_email.php');
 
 $userkey = get_required_arg(USERKEY);
 fail_on_extra_args();
@@ -17,17 +17,8 @@ if( isset($info[FBID]) ) { $reply[FBID] = $info[FBID]; }
 
 if( isset($info[EMAIL]) ) 
 { 
-  $reply[EMAIL]     = $info[EMAIL]; 
-  $reply[VALIDATED] = 1;
-}
-else
-{
-  $email = db_unvalidated_email($info[USERID]);
-  if( isset($email) )
-  {
-    $reply[EMAIL] = $email;
-    $reply[VALIDATED] = 0;
-  }
+  $reply[VALIDATED] = ( $info[EMAIL] == 'V' ? 1 : 0 );
+  $reply[EMAIL]     = db_lookup_email($info[USERID]);
 }
 
 send_success( $reply );

@@ -17,7 +17,7 @@ const APNS_ADDRESS = 'https://api.sandbox.push.apple.com:443';
 function send_apn_message($flavor, $target_id, $title, $subtitle=null, $body=null)
 {
   $info = db_find_user_by_userid($target_id);
-  if( empty($info) ) { return INVALID_USERID; }
+  if( empty($info) ) { return INVALID_OPPONENT; }
 
   $devtoken = $info[DEVTOKEN];
 

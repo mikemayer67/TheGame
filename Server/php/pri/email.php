@@ -1,11 +1,11 @@
 <?php
 
 require_once(__DIR__.'/util.php');
-require_once(__DIR__.'/db_email_validation.php');
+require_once(__DIR__.'/db_email.php');
 
-function email_validation_request($intro,$userid)
+function email_validation_request($email,$userid,$intro)
 {
-  list ($email,$key) = db_email_validation_key($userid);
+  $key = db_email_validation_key($userid);
 
   if( empty($email) || empty($key) ) return;
   

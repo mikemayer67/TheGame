@@ -1,6 +1,7 @@
 <?php
 
 require_once(__DIR__.'/db.php');
+require_once(__DIR__.'/db_email.php');
 
 function db_find_user_by_userid($userid)
 {
@@ -45,15 +46,16 @@ function db_find_user_by_facebook_id($fbid)
 function db_find_user_by_email($email)
 {
   $db = new TGDB;
- 
-  $sql = 'select * from tg_user_info where email=?';
-  $result = $db->get($sql,'s',$email);
+
+  $userids = db_find_userids_from_email($email);
+
   $data = array();
-  if( $result )
+  foreach ($userids as $userid)
   {
-    while( $row = $result->fetch_assoc() )
+    $info = db_find_user_by_userid($userid);
+    if( $info )
     {
-      $data[] = $row;
+      $data[] = $info;
     }
   }
 

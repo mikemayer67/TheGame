@@ -1,6 +1,7 @@
 <?php
 
 require_once(__DIR__.'/db.php');
+require_once(__DIR__.'/db_email.php');
 require_once(__DIR__.'/const.php');
 require_once(__DIR__.'/db_keys.php');
 
@@ -25,8 +26,10 @@ function db_update_user_email($userid,$email)
   else 
   { 
     $key = db_gen_email_validation_key();
-    $sql = 'replace into tg_email (userid,email,validation) values (?,?,?)';
-    $result = $db->get($sql,'iss',$userid,$email,$key);
+    list ($email,$iv,$crc) = db_email_encrypt($email);
+
+    $sql = 'replace into tg_email (userid,crc,iv,email,validation) values (?,?,?,?,?)';
+    $result = $db->get($sql,'iisss',$userid,$crc,$iv,$email,$key);
   }
   return $result;
 }
