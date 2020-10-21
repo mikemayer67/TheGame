@@ -42,7 +42,8 @@ class GameViewController: ChildViewController
     NotificationCenter.default.addObserver(
       forName: UIApplication.didBecomeActiveNotification,
       object: nil,
-      queue: .main, using: { (notification) in self.theGame.updateNotificationState() }
+      queue: .main, using: { (notification) in
+        self.theGame.updateNotificationState() }
     )
     
     update(animated:false)

@@ -49,7 +49,7 @@ class LocalPlayer : Participant
     let userkey  = Defaults.userkey
     
     if AccessToken.current != nil {
-      connectFacebook() { (localPlayer) in
+      connectWithFacebook() { (localPlayer) in
         if let me = localPlayer { completion(me) }
         else if userkey == nil  { completion(nil) }
         else                    { connect(userkey: userkey!, completion: completion) }
@@ -101,7 +101,7 @@ class LocalPlayer : Participant
     }
   }
   
-  static func connectFacebook(completion: @escaping ConnectCallback)
+  static func connectWithFacebook(completion: @escaping ConnectCallback)
   {
     let request = GraphRequest(graphPath: "me", parameters: ["fields":"id,name"])
     

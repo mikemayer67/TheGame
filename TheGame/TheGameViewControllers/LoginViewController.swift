@@ -95,7 +95,7 @@ class LoginViewController: ChildViewController
         let response = response,
         response.isCancelled == false
       {
-        LocalPlayer.connectFacebook() { (localPlayer) in
+        LocalPlayer.connectWithFacebook() { (localPlayer) in
           TheGame.shared.me = localPlayer
           self.rootViewController.update()
         }
@@ -159,6 +159,5 @@ extension LoginViewController : MultiModalDelegate
   
   func configure(_ vc: ManagedViewController, for mmvc: MultiModalViewController)
   {
-    debug("LoginViewController.configure(vc:\(vc)")
   }
 }

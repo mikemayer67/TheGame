@@ -19,9 +19,6 @@ class Opponent : Participant, Comparable
   var icon            : UIImage?
   var matchStart      : GameTime
   
-  var facebookID      : String?
-  var facebookPicture : String? // URL
-  
   var lastPoke        : GameTime?
   
   init(_ match : MatchData)
@@ -30,20 +27,16 @@ class Opponent : Participant, Comparable
     self.name       = match.name
     self.icon       = createIcon(for:self.name)
     self.matchStart = match.start
-    
-    self.facebookID      = nil
-    self.facebookPicture = nil
-    
+        
     self.lastPoke   = nil
     
     super.init(lastLoss:match.lastLoss)
   }
   
-  func addFacebookInfo(fbid:String, name:String, picture:String?)
+  func update(name:String, pictureUrl:String?)
   {
-    self.facebookID = fbid
-    self.name       = name
-    self.icon       = createIcon(for:name, with:picture)
+    self.name    = name
+    self.icon    = createIcon(for:name, with:pictureUrl)
   }
     
   static func < (lhs: Opponent, rhs: Opponent) -> Bool

@@ -30,6 +30,16 @@ class Opponents : Sequence
   
   func find(matchID:Int) -> Opponent? { return xref[matchID] }
   
+  func row(opponent:Opponent) -> Int?
+  {
+    return opponents.firstIndex(of: opponent)
+  }
+  
+  func row(matchID:Int) -> Int?
+  {
+    return opponents.firstIndex { $0.matchID == matchID }
+  }
+  
   func add(_ opponent:Opponent)
   {
     guard xref[opponent.matchID] == nil else { return }

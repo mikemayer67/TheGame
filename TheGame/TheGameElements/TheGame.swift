@@ -18,6 +18,7 @@ enum K
   static let RecoveryCodeLength   = 8
   static let TransferCodeLength   = 8
   
+  static let reloadOpponentsInterval  = (devTiming ? 15.0 :  120.0) // check for updates every 2 minutes
   static let unchallangedLossInterval = (devTiming ? 15.0 : 3600.0) // may lose every hour
   static let challengedLossInterval   = (devTiming ?  5.0 :   60.0) // may lose one minute after opponent loses
   static let pokeInterval             = (devTiming ?  5.0 :   60.0) // may poke once per minute
@@ -41,12 +42,18 @@ class TheGame : NSObject
   
   weak var vc : GameViewController?
   
-  private(set) var notificationsEnabled : Bool? = nil
-  
   private(set) var opponents = Opponents()
   
   private(set) var nextLossTimer : Timer?
-    
+  private(set) var reloadOpponentsTimer : Timer?
+  
+  private(set) var notificationsEnabled : Bool? = nil
+  {
+    didSet { if notificationsEnabled != oldValue { updateReloadOpponentsTimer() } }
+  }
+  
+  private(set) var 
+      
   var me : LocalPlayer? = nil
   {
     didSet {
@@ -63,25 +70,23 @@ class TheGame : NSObject
     super.init()
     
     NotificationCenter.default.addObserver(forName:.newDeviceToken, object:nil, queue:.main) {
-        (notification) in
-        guard let me = self.me else { return }
-        
-        if let userInfo = notification.userInfo,
-          let token = userInfo["token"] as? String
-        {
-          TheGame.server.setDeviceToken(userkey: me.userkey, deviceToken: token) {_ in }
-        } else {
-          TheGame.server.clearDeviceToken(userkey: me.userkey) { _ in }
-        }
+      (notification) in
+      
+      guard let me = self.me else { return }
+      
+      if let userInfo = notification.userInfo, let token = userInfo["token"] as? String {
+        debug("newDeviceToken: \(token)")
+        TheGame.server.setDeviceToken(userkey: me.userkey, deviceToken: token) {_ in }
+      } else {
+        debug("clear device token")
+        TheGame.server.clearDeviceToken(userkey: me.userkey) { _ in }
+      }
     }
     
     NotificationCenter.default.addObserver(forName:.remoteNotification, object:nil, queue:.main) {
       (notification) in
-      if let userInfo = notification.userInfo,
-         let content = userInfo["content"] as? UNNotificationContent
-      {
-        self.handleNotification(content)
-      }
+      if let userInfo = notification.userInfo,  let content = userInfo["content"] as? UNNotificationContent
+      {  self.handleNotification(content) }
     }
   }
 }
@@ -90,8 +95,33 @@ class TheGame : NSObject
 
 extension TheGame
 {
+  func updateReloadOpponentsTimer()
+  {
+    let notificationsEnabled = self.notificationsEnabled ?? false
+    
+    if notificationsEnabled, reloadOpponentsTimer != nil
+    {
+      DispatchQueue.main.async {
+        self.reloadOpponentsTimer!.invalidate()
+        self.reloadOpponentsTimer = nil
+      }
+    }
+    else if notificationsEnabled == false, reloadOpponentsTimer == nil
+    {
+      DispatchQueue.main.async {
+        self.reloadOpponentsTimer =
+          Timer.scheduledTimer( withTimeInterval: K.reloadOpponentsInterval, repeats: true)
+          { _ in
+            self.updateOpponents()
+          }
+      }
+    }
+  }
+  
+  
   private func updateOpponents()
   {
+    debug("upateOpponents()")
     guard let me = me else { return }
         
     TheGame.server.lookupOpponents(userkey: me.userkey) { (query) in
@@ -116,12 +146,20 @@ extension TheGame
   {
     let oldOrder = opponents.order
     var newMatchIDs = Set<Int>()
+    var newFBIDs = Dictionary<Int,String>()   // matchID, FBID
           
     for match in matches
     {
       newMatchIDs.insert(match.id)
-      if let opponent = opponents.find(matchID: match.id) { opponent.lastLoss = match.lastLoss }
-      else                                                { opponents.add( Opponent(match) ) }
+      if let opponent = opponents.find(matchID: match.id)
+      {
+        opponent.lastLoss = match.lastLoss
+      }
+      else
+      {
+        opponents.add( Opponent(match) )
+        if let fbid = match.fbid { newFBIDs[match.id] = fbid }
+      }
     }
     
     for id in Set(oldOrder.keys).subtracting(newMatchIDs) { opponents.drop(matchID: id) }
@@ -130,36 +168,32 @@ extension TheGame
     updateOpponentTable(from: oldOrder, to: opponents.order)
     vc?.update()
     
-    for match in matches where match.fbid != nil
-    {
-      updateFBInfo(matchID: match.id, fbid: match.fbid!)
-    }
+    for (matchID,fbid) in newFBIDs { updateFBInfo(matchID: matchID, fbid: fbid) }
   }
   
   func updateFBInfo(matchID:Int, fbid:String)
   {
-    guard let opponent = opponents.find(matchID: matchID) else { return }
-    
-    debug("Lookup \(fbid) on FB Graph")
-    
+    guard
+      AccessToken.current != nil,
+      let opponent = opponents.find(matchID: matchID)
+    else { return }
+          
     let request = GraphRequest(graphPath: fbid, parameters: ["fields":"name,picture"])
-    
+      
     request.start { (_, result, error) in
       if error == nil,
-        let fbResult = result as? NSDictionary,
-        let name     = fbResult["name"] as? String
+         let fbResult = result as? NSDictionary,
+         let name     = fbResult["name"] as? String
       {
         var pictureURL : String?
+        
         if let picture = fbResult["picture"] as? NSDictionary,
-          let data = picture["data"] as? NSDictionary,
-          let url = data["url"] as? String
-        {
-          pictureURL = url
-        }
+           let data    = picture["data"] as? NSDictionary,
+           let url     = data["url"] as? String
+        { pictureURL = url }
         
-        opponent.addFacebookInfo(fbid: fbid, name: name, picture: pictureURL)
-        
-        debug("@@@ DO TABLE FB UPDATE HERE")
+        opponent.update(name: name, pictureUrl: pictureURL)
+        self.updateOpponentTable(for: opponent)
       }
     }
   }
@@ -253,7 +287,18 @@ extension TheGame : UITableViewDelegate, UITableViewDataSource
     }
   }
   
-  func updateOpponentTable(cell : UITableViewCell, opponent: Opponent)
+  func updateOpponentTable(for opponent:Opponent)
+  {
+    guard let vc = vc, let ot = vc.opponentTable else { return }
+    
+   if let row = opponents.row(opponent: opponent),
+      let cell = ot.cellForRow(at:  IndexPath(row: row, section: 0))
+    {
+      updateOpponentTable(cell: cell, opponent: opponent)
+    }
+  }
+  
+  func updateOpponentTable(cell:UITableViewCell, opponent:Opponent)
   {
     cell.textLabel?.text       = opponent.name
     cell.detailTextLabel?.text = opponent.lastLossString
@@ -400,14 +445,13 @@ extension TheGame
       // (this does not include the initial setting of the value)
       
       if self.notificationsEnabled != nil, self.notificationsEnabled == granted { return }
-
+      
       self.notificationsEnabled = granted
 
       if let me = self.me {
         if granted {
           DispatchQueue.main.async { UIApplication.shared.registerForRemoteNotifications() }
-        }
-        else {
+        }  else {
           TheGame.server.clearDeviceToken(userkey: me.userkey) { _ in }
         }
       }

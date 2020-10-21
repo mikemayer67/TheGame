@@ -30,9 +30,9 @@
 	<key>DevTiming</key>
 	<true/>
 	<key>DevUser</key>
-	<false/>
+	<true/>
 	<key>DevFreshStart</key>
-	<false/>
+	<true/>
 	<key>FacebookAppID</key>
 	<string>551988922072926</string>
 	<key>FacebookDisplayName</key>

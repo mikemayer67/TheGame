@@ -128,7 +128,6 @@ class RecoveryKeyLVC: LoginModalViewController
   @objc func sendCode(_ sender:UIButton)
   {
     guard let email = emailText.text, !email.isEmpty else { return }
-    debug("do it")
     
     TheGame.server.sendRecoveryCode(email: email) { (query) in
       switch query.status {
