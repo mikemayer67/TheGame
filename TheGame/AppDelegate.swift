@@ -12,16 +12,15 @@ import UserNotifications
 
 import FacebookCore
 
-extension Notification.Name
-{
-  static let newDeviceToken = Notification.Name("newDeviceToken")
-  static let remoteNotification = Notification.Name("remoteNotification")
-}
-
 @UIApplicationMain
-class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterDelegate
+class AppDelegate: UIResponder, UIApplicationDelegate
 {
   var window: UIWindow?
+  
+  static var shared : AppDelegate
+  {
+    UIApplication.shared.delegate as! AppDelegate
+  }
 
   func application(_ application: UIApplication,
                    didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]? ) -> Bool
@@ -46,26 +45,19 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
     GADMobileAds.sharedInstance().start(completionHandler: nil)
     GADMobileAds.sharedInstance().requestConfiguration.testDeviceIdentifiers = [(kGADSimulatorID as! String)];
     
-    if let rvc = window?.rootViewController as? RootViewController
-    {
-      rvc.setupFailureNotification()
-    }
-    
-    track("NSHomeDirectory:",NSHomeDirectory())
-    
-    UNUserNotificationCenter.current()
-      .requestAuthorization(options: [.alert, .sound, .badge]) { (_,_) in }
-    
-    UNUserNotificationCenter.current().delegate = self
+    // Remote Notifications
+    UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .sound, .badge]) { (_,_) in }
     
     return true
   }
-        
+}
+
+extension AppDelegate // Facebook
+{
   func application(_ app: UIApplication,
                    open url: URL,
                    options: [UIApplication.OpenURLOptionsKey : Any] = [:] ) -> Bool
   {
-    // Facebook
     return ApplicationDelegate.shared.application(
       app,
       open: url,
@@ -73,32 +65,23 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
       annotation: options[UIApplication.OpenURLOptionsKey.annotation]
     )
   }
-  
+}
+
+extension AppDelegate // Register with APN server
+{
   func application(_ application: UIApplication,
                    didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data)
   {
-    let tokenParts = deviceToken.map { data in String(format: "%02.2hhx", data) }
-    let token = tokenParts.joined()
-    NotificationCenter.default.post(name: .newDeviceToken, object: nil, userInfo: ["token":token] )
+    let thread = Thread.current.isMainThread ? "main" : "other"
+    debug("AppDelegate device token received thread=\(thread)")
+    RemoteNotificationManager.shared.device =
+      deviceToken.map( {data in String(format: "%02.2hhx", data) } ).joined()
   }
   
   func application(_ application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: Error)
   {
-    NotificationCenter.default.post(name: .newDeviceToken, object: nil)
-  }
-  
-  func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void)
-  {
-    NotificationCenter.default.post(
-      name:.remoteNotification,
-      object:nil,
-      userInfo: ["content":notification.request.content] )
-    
-    completionHandler([.badge,.sound])
-  }
-  
-  static var shared : AppDelegate
-  {
-    UIApplication.shared.delegate as! AppDelegate
+    let thread = Thread.current.isMainThread ? "main" : "other"
+    debug("AppDelegate device token failed thread=\(thread)")
+    RemoteNotificationManager.shared.device = nil
   }
 }

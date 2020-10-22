@@ -29,10 +29,10 @@ enum K
     """#
 }
 
-enum RemoteNotificationFlavor : String
+enum RemoteNotificationFlavor
 {
-  case poke = "poke"
-  case loss = "loss"
+  static let poke = "poke"
+  static let loss = "loss"
 }
 
 class TheGame : NSObject
@@ -46,13 +46,6 @@ class TheGame : NSObject
   
   private(set) var nextLossTimer : Timer?
   private(set) var reloadOpponentsTimer : Timer?
-  
-  private(set) var notificationsEnabled : Bool? = nil
-  {
-    didSet { if notificationsEnabled != oldValue { updateReloadOpponentsTimer() } }
-  }
-  
-  private(set) var 
       
   var me : LocalPlayer? = nil
   {
@@ -68,26 +61,8 @@ class TheGame : NSObject
   override init()
   {
     super.init()
-    
-    NotificationCenter.default.addObserver(forName:.newDeviceToken, object:nil, queue:.main) {
-      (notification) in
-      
-      guard let me = self.me else { return }
-      
-      if let userInfo = notification.userInfo, let token = userInfo["token"] as? String {
-        debug("newDeviceToken: \(token)")
-        TheGame.server.setDeviceToken(userkey: me.userkey, deviceToken: token) {_ in }
-      } else {
-        debug("clear device token")
-        TheGame.server.clearDeviceToken(userkey: me.userkey) { _ in }
-      }
-    }
-    
-    NotificationCenter.default.addObserver(forName:.remoteNotification, object:nil, queue:.main) {
-      (notification) in
-      if let userInfo = notification.userInfo,  let content = userInfo["content"] as? UNNotificationContent
-      {  self.handleNotification(content) }
-    }
+    RemoteNotificationManager.shared.delegate = self
+    updateReloadOpponentTimer()
   }
 }
 
@@ -95,30 +70,6 @@ class TheGame : NSObject
 
 extension TheGame
 {
-  func updateReloadOpponentsTimer()
-  {
-    let notificationsEnabled = self.notificationsEnabled ?? false
-    
-    if notificationsEnabled, reloadOpponentsTimer != nil
-    {
-      DispatchQueue.main.async {
-        self.reloadOpponentsTimer!.invalidate()
-        self.reloadOpponentsTimer = nil
-      }
-    }
-    else if notificationsEnabled == false, reloadOpponentsTimer == nil
-    {
-      DispatchQueue.main.async {
-        self.reloadOpponentsTimer =
-          Timer.scheduledTimer( withTimeInterval: K.reloadOpponentsInterval, repeats: true)
-          { _ in
-            self.updateOpponents()
-          }
-      }
-    }
-  }
-  
-  
   private func updateOpponents()
   {
     debug("upateOpponents()")
@@ -432,32 +383,92 @@ extension TheGame
 
 // MARK:- Notifications
 
-extension TheGame
+extension TheGame : RemoteNotificationDelegate
 {
-  func updateNotificationState()
+  func handleDeviceChange(_ manager:RemoteNotificationManager, device: String?)
   {
-    UNUserNotificationCenter.current().getNotificationSettings() {
-      settings in
-      
-      let granted = settings.authorizationStatus == UNAuthorizationStatus.authorized
-      
-      // only send status to delegate if the value of notificationEnabled is changing
-      // (this does not include the initial setting of the value)
-      
-      if self.notificationsEnabled != nil, self.notificationsEnabled == granted { return }
-      
-      self.notificationsEnabled = granted
-
-      if let me = self.me {
-        if granted {
-          DispatchQueue.main.async { UIApplication.shared.registerForRemoteNotifications() }
-        }  else {
-          TheGame.server.clearDeviceToken(userkey: me.userkey) { _ in }
-        }
-      }
-
-      self.vc?.handle(notificationsEnabled: granted)
+    let thread = Thread.current.isMainThread ? "main" : "other"
+    debug("TG: handleDeviceChange \(device ?? "nil") thread=\(thread)")
+    guard let me = self.me else { return }
+    
+    if let device = device {
+      debug("newDeviceToken: \(device)")
+      TheGame.server.setDeviceToken(userkey: me.userkey, deviceToken: device) {_ in }
+    } else {
+      debug("clear device token")
+      TheGame.server.clearDeviceToken(userkey: me.userkey) { _ in }
     }
+  }
+  
+  func handleStateChange(_ manager:RemoteNotificationManager, active: Bool)
+  {
+    debug("TG: remote notiication manager state changed: \(active) thread=\(Thread.current.isMainThread ? "main" : "other")")
+    updateReloadOpponentTimer()
+    vc?.checkRemoteNotificationState()
+  }
+  
+  func updateReloadOpponentTimer()
+  {
+    debug("TG:updateReloadOpponentTimer(): thread=\(Thread.current.isMainThread ? "main" : "other")")
+
+    if RemoteNotificationManager.shared.active
+    {
+      if let timer = reloadOpponentsTimer {
+        debug("  deactivate reload timer")
+        timer.invalidate()
+        reloadOpponentsTimer = nil
+      }
+    }
+    else
+    {
+      if reloadOpponentsTimer == nil {
+        debug("  activate reload timer")
+        reloadOpponentsTimer =
+          Timer.scheduledTimer( withTimeInterval: K.reloadOpponentsInterval, repeats: true )
+            { _ in self.updateOpponents() }
+      }
+      if let me = self.me {
+        TheGame.server.clearDeviceToken(userkey: me.userkey) { _ in }
+      }
+    }
+  }
+  
+  func handleRemoteNotification(_ manager:RemoteNotificationManager, content: UNNotificationContent)
+  {
+    let thread = Thread.current.isMainThread ? "main" : "other"
+    debug("TG: remote notiication received thread=\(thread)")
+    
+    guard let vc = self.vc,
+          let flavor = content.userInfo["flavor"] as? String
+    else { return }
+    
+    switch flavor
+    {
+    case RemoteNotificationFlavor.poke:
+      let title = "👉 You've been Poked 👈"
+      let message : String = {
+        if let range = content.title.range(of: "^.*poked by", options: .regularExpression) {
+          return content.title.replacingCharacters(in: range, with: "You can thank")
+        }
+        return title
+      }()
+      vc.infoPopup( title: title, message: message )
+      
+    case RemoteNotificationFlavor.loss:
+      let title = "😖 Oh man..."
+      let message : String = {
+        if let range = title.range(of: "TheGame") {
+          return content.title.replacingCharacters(in: range, with: "the game")
+        }
+        return content.title
+      }()
+      vc.infoPopup( title:title , message: message )
+      
+    default:
+      break
+    }
+    
+    updateOpponents()
   }
   
   func pokeOpponent(opponent:Opponent)
@@ -504,41 +515,6 @@ extension TheGame
         self.vc?.internalError( query.internalError ?? "Unknown Error", file: #file, function: #function )
       }
     }
-  }
-  
-  private func handleNotification( _ content : UNNotificationContent )
-  {
-    guard let f = content.userInfo["flavor"] as? String,
-          let flavor = RemoteNotificationFlavor(rawValue:f)
-          else { return }
-    
-    if let vc = self.vc
-    {
-      switch flavor
-      {
-      case .poke:
-        let title = "👉 You've been Poked 👈"
-        let message : String = {
-          if let range = content.title.range(of: "^.*poked by", options: .regularExpression) {
-            return content.title.replacingCharacters(in: range, with: "You can thank")
-          }
-          return title
-        }()
-        vc.infoPopup( title: title, message: message )
-        
-      case .loss:
-        let title = "😖 Oh man..."
-        let message : String = {
-          if let range = title.range(of: "TheGame") {
-            return content.title.replacingCharacters(in: range, with: "the game")
-          }
-          return content.title
-        }()
-        vc.infoPopup( title:title , message: message )
-      }
-    }
-    
-    updateOpponents()
   }
       
 }

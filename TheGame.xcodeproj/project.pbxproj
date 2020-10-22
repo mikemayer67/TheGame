@@ -17,6 +17,7 @@
 		27300C3F2444027500E8310C /* RootViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27300C3E2444027500E8310C /* RootViewController.swift */; };
 		27300C4024448A3300E8310C /* CommonUtil.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27EA805923EE43C000C937EE /* CommonUtil.swift */; };
 		2737963F24786BA000BD3786 /* UIViewController_internalError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2737963E24786BA000BD3786 /* UIViewController_internalError.swift */; };
+		2738592F25411C3F000ADC9D /* RemoteNotificationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2738592E25411C3F000ADC9D /* RemoteNotificationManager.swift */; };
 		273F5C33246F9DBF000BE662 /* TheGameQueries.swift in Sources */ = {isa = PBXBuildFile; fileRef = 273F5C32246F9DBF000BE662 /* TheGameQueries.swift */; };
 		27421337247B178E00A71D96 /* GameQuery.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27421336247B178E00A71D96 /* GameQuery.swift */; };
 		275711B0246B99680034DB61 /* RecoveryKeyLVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 275711AF246B99680034DB61 /* RecoveryKeyLVC.swift */; };
@@ -63,6 +64,7 @@
 		272FB2B32455FC6E00F70E1A /* DevelopmentNotes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DevelopmentNotes.swift; sourceTree = "<group>"; };
 		27300C3E2444027500E8310C /* RootViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootViewController.swift; sourceTree = "<group>"; };
 		2737963E24786BA000BD3786 /* UIViewController_internalError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIViewController_internalError.swift; sourceTree = "<group>"; };
+		2738592E25411C3F000ADC9D /* RemoteNotificationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoteNotificationManager.swift; sourceTree = "<group>"; };
 		273F5C32246F9DBF000BE662 /* TheGameQueries.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TheGameQueries.swift; sourceTree = "<group>"; };
 		27421336247B178E00A71D96 /* GameQuery.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameQuery.swift; sourceTree = "<group>"; };
 		275711AF246B99680034DB61 /* RecoveryKeyLVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecoveryKeyLVC.swift; sourceTree = "<group>"; };
@@ -148,6 +150,7 @@
 				277CC4B52466DDC6001C5404 /* MultiModalViewController.swift */,
 				27421336247B178E00A71D96 /* GameQuery.swift */,
 				272FB2B12455BFFA00F70E1A /* GameServer.swift */,
+				2738592E25411C3F000ADC9D /* RemoteNotificationManager.swift */,
 			);
 			path = VMWishesCommon;
 			sourceTree = "<group>";
@@ -379,6 +382,7 @@
 				27EEBF6C252F3BAC007158EB /* TransferAccountLVC.swift in Sources */,
 				27A827E624BC0B0F0087B408 /* LocalPlayer.swift in Sources */,
 				277CC4B62466DDC7001C5404 /* MultiModalViewController.swift in Sources */,
+				2738592F25411C3F000ADC9D /* RemoteNotificationManager.swift in Sources */,
 				27F3EDE323E7E4800057248B /* GameClock.swift in Sources */,
 				27E82FBE240D3C63004DEC8C /* RecoverAccountLVC.swift in Sources */,
 				272FB2B22455BFFA00F70E1A /* GameServer.swift in Sources */,

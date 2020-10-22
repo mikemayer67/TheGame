@@ -58,6 +58,20 @@ class RootViewController: UIViewController
     vc.view.frame = view.bounds
     view.addSubview(vc.view)
     vc.didMove(toParent: self)
+    
+    /**
+     Configures *RootViewController* instance to observe FailedToConnectToServer
+     notifcations.  In response to this notification, it invokes the update method,
+     which must be defined in an extesion to this class.
+     */
+    NotificationCenter.default.addObserver(
+      forName: .failedToConnectToServer,
+      object: nil,
+      queue: OperationQueue.main
+    ) { (notification) in
+      if let loginVC = self.currentVC as? LoginViewController { loginVC.cancel() }
+      self.update()
+    }
   }
   
   /**
@@ -112,20 +126,4 @@ class RootViewController: UIViewController
     }
   }
   
-  /**
-   Configures *RootViewController* instance to observe FailedToConnectToServer
-   notifcations.  In response to this notification, it invokes the update method,
-   which must be defined in an extesion to this class.
-   */
-  func setupFailureNotification()
-  {
-    NotificationCenter.default.addObserver(
-      forName: .failedToConnectToServer,
-      object: nil,
-      queue: OperationQueue.main
-    ) { (notification) in
-      if let loginVC = self.currentVC as? LoginViewController { loginVC.cancel() }
-      self.update()
-    }
-  }
 }

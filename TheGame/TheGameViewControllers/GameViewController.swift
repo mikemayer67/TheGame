@@ -39,22 +39,19 @@ class GameViewController: ChildViewController
     
     initilizeBannerAd()
     
-    NotificationCenter.default.addObserver(
-      forName: UIApplication.didBecomeActiveNotification,
-      object: nil,
-      queue: .main, using: { (notification) in
-        self.theGame.updateNotificationState() }
-    )
-    
     update(animated:false)
+    
+    checkRemoteNotificationState()
   }
   
   override func viewDidAppear(_ animated: Bool)
   {
-    theGame.updateNotificationState()
+    debug("GVC:viewDidLoad")
+    RemoteNotificationManager.shared.updateState()
   }
   
-  override func viewWillDisappear(_ animated: Bool) {
+  override func viewWillDisappear(_ animated: Bool)
+  {
     if appBecameActiveOberver != nil
     {
       NotificationCenter.default.removeObserver(appBecameActiveOberver!)
@@ -178,8 +175,10 @@ private extension GameViewController
 
 extension GameViewController
 {
-  func handle(notificationsEnabled: Bool)
+  func checkRemoteNotificationState()
   {
+    let thread = Thread.current.isMainThread ? "main" : "other"
+    debug("GVC: check notifications  thread=\(thread)")
     // Notifications are a key element of TheGame.  It can be played without them,
     // but it degrades the experience.  If the user disables notifications, we want
     // to pop up an alert to explain why they should consider enabling them.  But,
@@ -187,30 +186,32 @@ extension GameViewController
     // at initial startup if the user declined notfications  OR  the first time
     // the app is started after notificaitons have been disabled in Settings.
     
-    if notificationsEnabled {
-      Defaults.pushNotificationRequested = false  // re-enable the info popup (see below)
-      return
-    }
-   
-    if Defaults.pushNotificationRequested { return }
-    
-    Defaults.pushNotificationRequested = true  // disable future info popups
+    guard let enabled = RemoteNotificationManager.shared.enabled else { return }
         
-    DispatchQueue.main.async {
-      self.confirmationPopup(
-        title: "Reconsider Notifications",
-        message: [
-          "Receiving notifications from those you are playing with is a key element of TheGame.",
-          "While you can play without them, it diminshes the experience."],
-        ok: "Enable",
-        cancel: "Nope",
-        animated: true) { (enable) in
-          guard enable,
-            let appSettings = URL(string: UIApplication.openSettingsURLString)
-            else { return }
-          
-          let options = [UIApplication.OpenExternalURLOptionsKey : Any]()
-          UIApplication.shared.open(appSettings, options: options)
+    if enabled
+    {
+      Defaults.pushNotificationRequested = false  // re-enable the info popup (see below)
+    }
+    else if Defaults.pushNotificationRequested == false
+    {
+      Defaults.pushNotificationRequested = true  // disable future info popups
+      
+      DispatchQueue.main.async
+      {
+        self.confirmationPopup(
+          title: "Reconsider Notifications",
+          message: [
+            "Receiving notifications from those you are playing with is a key element of TheGame.",
+            "While you can play without them, it diminshes the experience."],
+          ok: "Enable", cancel: "Nope", animated: true)
+        {
+          (enable) in
+          if enable, let appSettings = URL(string: UIApplication.openSettingsURLString)
+          {
+            let options = [UIApplication.OpenExternalURLOptionsKey : Any]()
+            UIApplication.shared.open(appSettings, options: options)
+          }
+        }
       }
     }
   }
