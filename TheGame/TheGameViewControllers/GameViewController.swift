@@ -46,7 +46,6 @@ class GameViewController: ChildViewController
   
   override func viewDidAppear(_ animated: Bool)
   {
-    debug("GVC:viewDidLoad")
     RemoteNotificationManager.shared.updateState()
   }
   

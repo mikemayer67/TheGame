@@ -24,7 +24,6 @@ class RemoteNotificationManager : NSObject, UNUserNotificationCenterDelegate
   private(set) var enabled : Bool? = nil
   {
     didSet {
-      debug("RNM: enabled now=\(enabled ?? false) was=\(oldValue ?? false)")
       if enabled != oldValue { delegate?.handleStateChange(self, active:active) }
     }
   }
@@ -32,7 +31,6 @@ class RemoteNotificationManager : NSObject, UNUserNotificationCenterDelegate
   var device : String? = nil
   {
     didSet {
-      debug("RNM: device now=\(device ?? "nil") was=\(oldValue ?? "nil")")
       if device != oldValue { delegate?.handleDeviceChange(self, device:device) }
     }
   }
@@ -41,7 +39,6 @@ class RemoteNotificationManager : NSObject, UNUserNotificationCenterDelegate
   
   override init()
   {
-    debug("RNM: init")
     super.init()
     
     NotificationCenter.default.addObserver(
@@ -55,7 +52,6 @@ class RemoteNotificationManager : NSObject, UNUserNotificationCenterDelegate
   
   func updateState()
   {
-    debug("RNM:updateState()")
     UNUserNotificationCenter.current().getNotificationSettings()
     {
       settings in

@@ -72,7 +72,6 @@ extension TheGame
 {
   private func updateOpponents()
   {
-    debug("upateOpponents()")
     guard let me = me else { return }
         
     TheGame.server.lookupOpponents(userkey: me.userkey) { (query) in
@@ -392,12 +391,12 @@ extension TheGame : RemoteNotificationDelegate
     guard let me = self.me else { return }
     
     if let device = device {
-      debug("newDeviceToken: \(device)")
       TheGame.server.setDeviceToken(userkey: me.userkey, deviceToken: device) {_ in }
     } else {
-      debug("clear device token")
       TheGame.server.clearDeviceToken(userkey: me.userkey) { _ in }
     }
+    
+    updateReloadOpponentTimer()
   }
   
   func handleStateChange(_ manager:RemoteNotificationManager, active: Bool)
@@ -414,7 +413,6 @@ extension TheGame : RemoteNotificationDelegate
     if RemoteNotificationManager.shared.active
     {
       if let timer = reloadOpponentsTimer {
-        debug("  deactivate reload timer")
         timer.invalidate()
         reloadOpponentsTimer = nil
       }
@@ -422,7 +420,6 @@ extension TheGame : RemoteNotificationDelegate
     else
     {
       if reloadOpponentsTimer == nil {
-        debug("  activate reload timer")
         reloadOpponentsTimer =
           Timer.scheduledTimer( withTimeInterval: K.reloadOpponentsInterval, repeats: true )
             { _ in self.updateOpponents() }
@@ -436,7 +433,6 @@ extension TheGame : RemoteNotificationDelegate
   func handleRemoteNotification(_ manager:RemoteNotificationManager, content: UNNotificationContent)
   {
     let thread = Thread.current.isMainThread ? "main" : "other"
-    debug("TG: remote notiication received thread=\(thread)")
     
     guard let vc = self.vc,
           let flavor = content.userInfo["flavor"] as? String
