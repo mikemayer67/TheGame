@@ -178,15 +178,6 @@ extension GameServer
     var qArg : GameQuery.Args { return ["q" : self.rawValue] }
   }
   
-  var time : Int?
-  {
-    var rval : Int?
-    if case .Success(let data) = query(QueryKey.Time).execute().status {
-      rval = data?.time
-    }
-    return rval
-  }
-  
   func query(_ q:Query, args:GameQuery.Args? = nil) -> GameQuery
   {
     var gameArgs : GameQuery.Args = [ "q" : q.rawValue ]

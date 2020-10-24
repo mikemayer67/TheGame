@@ -105,23 +105,6 @@ class GameQuery
       DispatchQueue.main.async { completion(self) }
     }
   }
-    
-  func execute(server:GameServer? = nil) -> GameQuery
-  {
-    guard let server = server ?? self.server else { fatalError("no server set") }
-
-    url = url(server:server, args:args)
-    
-    if let data = try? Data(contentsOf: url) {
-      self.status = Status(data)
-      server.connected = true
-    } else {
-      self.status = .FailedToConnect
-      server.connected = false
-    }
-    
-    return self
-  }
   
   func post(server:GameServer? = nil, completion:@escaping Completion)
   {
@@ -153,7 +136,7 @@ class GameQuery
   
   private func url(server:GameServer, args:Args? = nil) -> URL
   {
-    guard var uc = URLComponents(string:"\(server.host)/\(page)")
+    guard var uc = URLComponents(string:"\(server.host)/\(self.page)")
       else { fatalError("Failed to create URL components") }
     
     if let args = args, args.count > 0 {

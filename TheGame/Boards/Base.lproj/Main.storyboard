@@ -451,6 +451,10 @@
                                                 <nil key="textColor"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
+                                            <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" animating="YES" style="large" translatesAutoresizingMaskIntoConstraints="NO" id="9mI-Do-oFM">
+                                                <rect key="frame" x="131.5" y="69" width="37" height="37"/>
+                                                <color key="color" systemColor="systemIndigoColor"/>
+                                            </activityIndicatorView>
                                         </subviews>
                                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                         <constraints>
@@ -459,7 +463,9 @@
                                             <constraint firstItem="EXP-vz-tdP" firstAttribute="centerX" secondItem="Kfk-pp-llu" secondAttribute="centerX" id="9ta-d5-Fgi"/>
                                             <constraint firstItem="kOV-nS-jnw" firstAttribute="top" secondItem="k59-ok-qeF" secondAttribute="bottom" constant="5" id="AQt-TG-sWf"/>
                                             <constraint firstItem="EXP-vz-tdP" firstAttribute="centerY" secondItem="Kfk-pp-llu" secondAttribute="centerY" multiplier="0.5" id="MK5-TE-qkf"/>
+                                            <constraint firstItem="9mI-Do-oFM" firstAttribute="centerY" secondItem="k59-ok-qeF" secondAttribute="centerY" id="c7G-H2-X0N"/>
                                             <constraint firstItem="kOV-nS-jnw" firstAttribute="centerX" secondItem="Kfk-pp-llu" secondAttribute="centerX" id="lhU-NT-H7d"/>
+                                            <constraint firstItem="9mI-Do-oFM" firstAttribute="centerX" secondItem="Kfk-pp-llu" secondAttribute="centerX" id="uN1-Ra-k6l"/>
                                             <constraint firstAttribute="height" constant="175" id="xyS-Zj-twB"/>
                                         </constraints>
                                     </view>
@@ -489,6 +495,7 @@
                     <connections>
                         <outlet property="failedLabel" destination="k59-ok-qeF" id="tQB-qS-ApH"/>
                         <outlet property="reconnectLabel" destination="kOV-nS-jnw" id="xbv-al-yFx"/>
+                        <outlet property="spinner" destination="9mI-Do-oFM" id="MYA-bX-Lan"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Xvo-DS-YiU" userLabel="First Responder" sceneMemberID="firstResponder"/>

@@ -16,7 +16,7 @@ import FacebookCore
 class AppDelegate: UIResponder, UIApplicationDelegate
 {
   var window: UIWindow?
-  
+    
   static var shared : AppDelegate
   {
     UIApplication.shared.delegate as! AppDelegate
@@ -40,14 +40,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate
         
     // Facebook
     ApplicationDelegate.shared.application(application, didFinishLaunchingWithOptions: launchOptions)
-        
+    
     // AdMobi
     GADMobileAds.sharedInstance().start(completionHandler: nil)
     GADMobileAds.sharedInstance().requestConfiguration.testDeviceIdentifiers = [(kGADSimulatorID as! String)];
     
     // Remote Notifications
     UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .sound, .badge]) { (_,_) in }
-    
+        
     return true
   }
 }

@@ -15,6 +15,9 @@ class GameServer
   
   var connected = false
   
+  private var _clockOffset : TimeInterval? = nil
+  var clockOffset : TimeInterval { _clockOffset ?? 0.0 }
+  
   init()
   {
     guard let host = Bundle.main.object(forInfoDictionaryKey: "ServerHost") as? String
@@ -24,9 +27,10 @@ class GameServer
     
     let config = URLSessionConfiguration.default
     config.requestCachePolicy = .reloadIgnoringLocalAndRemoteCacheData
+    config.timeoutIntervalForRequest = 5
     session = URLSession(configuration: config)
-    
-    connected = testConnection()
+        
+//    connected = testConnection()
   }
 
   func query(_ page:String, args:GameQuery.Args? = nil) -> GameQuery
@@ -61,17 +65,22 @@ class GameServer
     task.resume()
   }
   
-  func testConnection() -> Bool
-  {
-    self.connected = query(QueryKey.Time).execute().status?.success ?? false
-    return self.connected
-  }
-  
   func testConnection( completion: @escaping (Bool)->())
   {
     query(QueryKey.Time).execute() {
       (query) in
-      self.connected = query.status?.success ?? false
+      switch query.status
+      {
+      case .Success(let data):
+        self.connected = true
+        if self._clockOffset == nil, let serverTime = data?.time
+        {
+          let now = Date().timeIntervalSince1970 as TimeInterval
+          self._clockOffset = TimeInterval(serverTime) - now
+        }
+      default:
+        self.connected = false
+      }
       completion( self.connected )
     }
   }

@@ -43,6 +43,15 @@ else // QCODE
   $reply[USERKEY] = $info[USERKEY];
 }
 
+$reply[NAME] = $info[NAME];
+if( isset($info[FBID]) ) { $reply[FBID] = $info[FBID]; }
+
+if( isset($info[EMAIL]) ) 
+{ 
+  $reply[VALIDATED] = ( $info[EMAIL] == 'V' ? 1 : 0 );
+  $reply[EMAIL]     = db_lookup_email($info[USERID]);
+}
+
 if( isset($info[LASTLOSS]) ) { $reply[LASTLOSS] = (int)$info[LASTLOSS]; }
 
 send_success($reply);

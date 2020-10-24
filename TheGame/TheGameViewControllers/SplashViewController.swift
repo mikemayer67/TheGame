@@ -18,15 +18,19 @@ import UIKit
  message to the *RootViewController* to swap out the splash view controller for the
  appropriate game or connection view.
  */
+
 class SplashViewController: ChildViewController
 {
   @IBOutlet weak var failedLabel    : UILabel!
   @IBOutlet weak var reconnectLabel : UILabel!
-    
+  @IBOutlet weak var spinner        : UIActivityIndicatorView!
+      
   var connectionAttempt = 0
   
   override func viewDidAppear(_ animated: Bool)
   {
+    super.viewDidAppear(animated)
+    
     connectionAttempt = 0
     attemptToConnect()
   }
@@ -35,6 +39,7 @@ class SplashViewController: ChildViewController
   {
     failedLabel.isHidden    = true
     reconnectLabel.isHidden = true
+    spinner.startAnimating()
 
     connectionAttempt = connectionAttempt + 1
     
@@ -66,6 +71,7 @@ class SplashViewController: ChildViewController
 
     self.failedLabel.isHidden = false
     self.reconnectLabel.isHidden = false
+    self.spinner.stopAnimating()
     
     retryConnection(in: wait)
   }
@@ -75,7 +81,7 @@ class SplashViewController: ChildViewController
     if wait == 0  {  self.attemptToConnect()  }
     else
     {
-      self.reconnectLabel.text = "Trying again in \(wait) second\(wait > 1 ? "s" : "")"
+      self.reconnectLabel.text = "Trying again in \(wait)"
       Timer.scheduledTimer(withTimeInterval: 1.0, repeats: false) { _ in
         self.retryConnection(in:wait - 1)
       }

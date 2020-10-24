@@ -49,7 +49,6 @@ class RootViewController: UIViewController
   override func viewDidLoad()
   {
     super.viewDidLoad()
-    
     let vc = childView(withName: initialVC)
     
     currentVC = vc
@@ -107,7 +106,7 @@ class RootViewController: UIViewController
   func present(viewControllerID:String)
   {
     guard currentVC != nil    else { return }
-    
+        
     let vc = childView(withName: viewControllerID)
     
     guard vc != currentVC else { return }
