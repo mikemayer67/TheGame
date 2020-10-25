@@ -387,7 +387,6 @@ extension TheGame : RemoteNotificationDelegate
   func handleDeviceChange(_ manager:RemoteNotificationManager, device: String?)
   {
     let thread = Thread.current.isMainThread ? "main" : "other"
-    debug("TG: handleDeviceChange \(device ?? "nil") thread=\(thread)")
     guard let me = self.me else { return }
     
     if let device = device {
@@ -401,15 +400,12 @@ extension TheGame : RemoteNotificationDelegate
   
   func handleStateChange(_ manager:RemoteNotificationManager, active: Bool)
   {
-    debug("TG: remote notiication manager state changed: \(active) thread=\(Thread.current.isMainThread ? "main" : "other")")
     updateReloadOpponentTimer()
     vc?.checkRemoteNotificationState()
   }
   
   func updateReloadOpponentTimer()
   {
-    debug("TG:updateReloadOpponentTimer(): thread=\(Thread.current.isMainThread ? "main" : "other")")
-
     if RemoteNotificationManager.shared.active
     {
       if let timer = reloadOpponentsTimer {

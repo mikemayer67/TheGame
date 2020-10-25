@@ -65,7 +65,7 @@ class GameViewController: ChildViewController
   
   @IBAction func handleSettings(_ sender: UIButton)
   {
-    track("@@@ handle settings")
+    guard TheGame.shared.me != nil else { return }
     performSegue(withIdentifier: SegueID.Settings.rawValue, sender: self)
   }
   
@@ -176,8 +176,6 @@ extension GameViewController
 {
   func checkRemoteNotificationState()
   {
-    let thread = Thread.current.isMainThread ? "main" : "other"
-    debug("GVC: check notifications  thread=\(thread)")
     // Notifications are a key element of TheGame.  It can be played without them,
     // but it degrades the experience.  If the user disables notifications, we want
     // to pop up an alert to explain why they should consider enabling them.  But,

@@ -58,6 +58,7 @@ extension AppDelegate // Facebook
                    open url: URL,
                    options: [UIApplication.OpenURLOptionsKey : Any] = [:] ) -> Bool
   {
+    debug("AppDelegate:: application(app, open:\(url) options:\(options)")
     return ApplicationDelegate.shared.application(
       app,
       open: url,
@@ -72,16 +73,12 @@ extension AppDelegate // Register with APN server
   func application(_ application: UIApplication,
                    didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data)
   {
-    let thread = Thread.current.isMainThread ? "main" : "other"
-    debug("AppDelegate device token received thread=\(thread)")
     RemoteNotificationManager.shared.device =
       deviceToken.map( {data in String(format: "%02.2hhx", data) } ).joined()
   }
   
   func application(_ application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: Error)
   {
-    let thread = Thread.current.isMainThread ? "main" : "other"
-    debug("AppDelegate device token failed thread=\(thread)")
     RemoteNotificationManager.shared.device = nil
   }
 }

@@ -58,7 +58,6 @@ class RemoteNotificationManager : NSObject, UNUserNotificationCenterDelegate
       let granted = ( settings.authorizationStatus == UNAuthorizationStatus.authorized )
       
       let thread = Thread.current.isMainThread ? "main" : "other"
-      debug("RNM:updateState granted=\(granted) thread=\(thread)")
       
       DispatchQueue.main.async {
         if granted { UIApplication.shared.registerForRemoteNotifications() }
@@ -72,7 +71,6 @@ class RemoteNotificationManager : NSObject, UNUserNotificationCenterDelegate
                                withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void )
   {
     let thread = Thread.current.isMainThread ? "main" : "other"
-    debug("RNM:notification received  thread=\(thread)")
     delegate?.handleRemoteNotification(self, content: notification.request.content)
     completionHandler([.badge,.sound])
   }

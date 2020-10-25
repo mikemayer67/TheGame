@@ -14,10 +14,17 @@ class LocalPlayer : Participant
 {
   let userkey     : String
   
+  private(set) var name       : String? = nil
+  private(set) var email      : Email? = nil
+  private(set) var fbid       : String? = nil
+    
   init(_ key:String, data:HashData? = nil)
   {
     self.userkey   = key
-    
+    self.name      = data?.name
+    self.email     = data?.email
+    self.fbid      = data?.fbid
+        
     Defaults.userkey  = key
     
     var lastLoss : GameTime?
@@ -25,6 +32,8 @@ class LocalPlayer : Participant
     {
       lastLoss = GameTime(networktime: TimeInterval(t))
     }
+    
+    email = data?.email
     
     super.init(lastLoss: lastLoss)
   }

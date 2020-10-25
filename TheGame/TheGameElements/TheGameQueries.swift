@@ -31,21 +31,10 @@ enum QueryKey
   static let Validated  = "validated"
 }
 
-enum EmailStatus
+struct Email
 {
-  case Unknown
-  case NoEmail
-  case HasValidatedEmail
-  case HasUnvalidatedEmail
-  
-  init(_ validatedEmail : Bool?)
-  {
-    if let v = validatedEmail {
-      self = ( v ? .HasValidatedEmail : .HasUnvalidatedEmail )
-    } else {
-      self = .NoEmail
-    }
-  }
+  let address : String
+  let validated : Bool
 }
 
 extension HashData
@@ -53,13 +42,19 @@ extension HashData
   var time        : Int?    { getInt(QueryKey.Time) }
   var userkey     : String? { getString(QueryKey.Userkey) }
   var name        : String? { getString(QueryKey.Name) }
-  var email       : String? { getString(QueryKey.Email) }
+  var fbid        : String? { getString(QueryKey.FBID) }
   var lastLoss    : Int?    { getInt(QueryKey.LastLoss) }
-  
-  var emailStatus : EmailStatus
+
+  var email : Email?
   {
-    return EmailStatus( getBool(QueryKey.Email) )
+    guard let address = getString(QueryKey.Email) else { return nil }
+    let validated = getBool(QueryKey.Validated) ?? false
+    
+    return Email(address: address, validated: validated)
   }
+  
+  var matchID    : Int?    { getInt(QueryKey.MatchID) }
+  var matchStart : Double? { getDouble(QueryKey.MatchStart) }
 }
 
 extension GameQuery.Status

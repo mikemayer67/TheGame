@@ -16,24 +16,24 @@ struct MatchData
   let start : GameTime
   let lastLoss : GameTime?
   
-  init?(_ data:NSDictionary)
+  init?(_ data:HashData)
   {
     guard
-      let matchID = data[QueryKey.MatchID] as? Int,
-      let name    = data[QueryKey.Name] as? String,
-      let start   = data[QueryKey.MatchStart] as? Double
+      let matchID = data.matchID,
+      let name    = data.name,
+      let start   = data.matchStart
     else { return nil }
     
     self.id    = matchID
     self.name  = name
     self.start = GameTime(networktime: start)
     
-    self.fbid = data[QueryKey.FBID] as? String
+    self.fbid = data.fbid
     
     self.lastLoss = {
-      guard let t = data[QueryKey.LastLoss] as? Double else { return nil }
-      guard t > 0.0 else { return nil }
-      return GameTime(networktime: t)
+      guard let t = data.lastLoss else { return nil }
+      guard t > 0 else { return nil }
+      return GameTime(networktime: Double(t))
     }()
   }
 }
@@ -51,7 +51,8 @@ class MatchSet : Sequence
     
     for matchData in matches
     {
-      guard let match = MatchData(matchData) else { return nil }
+      guard let hd = matchData as? HashData else { return nil }
+      guard let match = MatchData(hd) else { return nil }
       _matches.append( match )
     }
   }

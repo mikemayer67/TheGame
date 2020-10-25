@@ -19,6 +19,22 @@ class SettingsViewController: UIViewController
       track("Settings dimsissed")
     }
   }
+  
+  override func viewDidLoad()
+  {
+    guard let me = TheGame.shared.me else {
+      fatalError("SettingsViewController should only be shown if TheGame.LocalPlayer is set")
+    }
+    
+    debug("Showing settings for \(me)")
+    debug("  name = \(me.name ?? "???")")
+    debug("  fbid = \(me.fbid ?? "nil")")
+    if let email = me.email { debug(" email = \(email.address)  \(email.validated ? "validated" : "unvalidated")")
+    }  else { debug(" email = nil") }
+    
+    super.viewDidLoad()
+  }
+  
 }
 
 extension SettingsViewController : UITableViewDelegate, UITableViewDataSource
