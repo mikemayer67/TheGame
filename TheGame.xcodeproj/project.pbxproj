@@ -24,7 +24,6 @@
 		275711B2246B9C4F0034DB61 /* ModalViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 275711B1246B9C4F0034DB61 /* ModalViewController.swift */; };
 		275711B4246C68170034DB61 /* UIViewConstraints.swift in Sources */ = {isa = PBXBuildFile; fileRef = 275711B3246C68170034DB61 /* UIViewConstraints.swift */; };
 		275C02C1253568020013D512 /* Opponents.swift in Sources */ = {isa = PBXBuildFile; fileRef = 275C02C0253568020013D512 /* Opponents.swift */; };
-		275F3A0E25312707003F8780 /* FacebookLogin in Frameworks */ = {isa = PBXBuildFile; productRef = 275F3A0D25312707003F8780 /* FacebookLogin */; };
 		2769DD6724868DDB00DB8D42 /* Opponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2769DD6624868DDB00DB8D42 /* Opponent.swift */; };
 		276FE7F5247868DF00F851D3 /* UIviewController_Popup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 276FE7F4247868DF00F851D3 /* UIviewController_Popup.swift */; };
 		27763F4C2531115900620F71 /* poked.aiff in Resources */ = {isa = PBXBuildFile; fileRef = 27763F4B2531115900620F71 /* poked.aiff */; };
@@ -47,13 +46,13 @@
 		27E82FB7240D38B2004DEC8C /* CreateAccountLVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27E82FB6240D38B1004DEC8C /* CreateAccountLVC.swift */; };
 		27E82FBE240D3C63004DEC8C /* RecoverAccountLVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27E82FBD240D3C63004DEC8C /* RecoverAccountLVC.swift */; };
 		27E8D240245869610061DEF2 /* UserDefaults_TheGame.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27E8D23F245869610061DEF2 /* UserDefaults_TheGame.swift */; };
+		27E9F32D254BCC8A00C824CB /* FacebookCore in Frameworks */ = {isa = PBXBuildFile; productRef = 27E9F32C254BCC8A00C824CB /* FacebookCore */; };
+		27E9F32F254BCC8A00C824CB /* FacebookLogin in Frameworks */ = {isa = PBXBuildFile; productRef = 27E9F32E254BCC8A00C824CB /* FacebookLogin */; };
 		27EEBF6C252F3BAC007158EB /* TransferAccountLVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27EEBF6B252F3BAC007158EB /* TransferAccountLVC.swift */; };
 		27F3EDE323E7E4800057248B /* GameClock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27F3EDE223E7E4800057248B /* GameClock.swift */; };
-		41F696B1DAD12E4164E4A83D /* Pods_TheGame.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 04608212D72D75D8391E90C8 /* Pods_TheGame.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		04608212D72D75D8391E90C8 /* Pods_TheGame.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_TheGame.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		271BCC962531433F008393F6 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
 		271E5629240E914800F9AC97 /* AuthenticationServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AuthenticationServices.framework; path = System/Library/Frameworks/AuthenticationServices.framework; sourceTree = SDKROOT; };
 		2723A2A024507F5900CDDEE1 /* StoryboardIDs.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoryboardIDs.swift; sourceTree = "<group>"; };
@@ -108,10 +107,10 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				27E9F32F254BCC8A00C824CB /* FacebookLogin in Frameworks */,
 				271BCC972531433F008393F6 /* AVFoundation.framework in Frameworks */,
 				271E562A240E914900F9AC97 /* AuthenticationServices.framework in Frameworks */,
-				41F696B1DAD12E4164E4A83D /* Pods_TheGame.framework in Frameworks */,
-				275F3A0E25312707003F8780 /* FacebookLogin in Frameworks */,
+				27E9F32D254BCC8A00C824CB /* FacebookCore in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -123,7 +122,6 @@
 			children = (
 				271BCC962531433F008393F6 /* AVFoundation.framework */,
 				271E5629240E914800F9AC97 /* AuthenticationServices.framework */,
-				04608212D72D75D8391E90C8 /* Pods_TheGame.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -271,7 +269,8 @@
 			);
 			name = TheGame;
 			packageProductDependencies = (
-				275F3A0D25312707003F8780 /* FacebookLogin */,
+				27E9F32C254BCC8A00C824CB /* FacebookCore */,
+				27E9F32E254BCC8A00C824CB /* FacebookLogin */,
 			);
 			productName = TheGame;
 			productReference = 27D5412D23E5E46800CB5065 /* TheGame.app */;
@@ -302,7 +301,7 @@
 			);
 			mainGroup = 27D5412423E5E46800CB5065;
 			packageReferences = (
-				27E82FB1240C6631004DEC8C /* XCRemoteSwiftPackageReference "facebook-ios-sdk" */,
+				27E9F32B254BCC8A00C824CB /* XCRemoteSwiftPackageReference "facebook-ios-sdk" */,
 			);
 			productRefGroup = 27D5412E23E5E46800CB5065 /* Products */;
 			projectDirPath = "";
@@ -616,20 +615,25 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
-		27E82FB1240C6631004DEC8C /* XCRemoteSwiftPackageReference "facebook-ios-sdk" */ = {
+		27E9F32B254BCC8A00C824CB /* XCRemoteSwiftPackageReference "facebook-ios-sdk" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/facebook/facebook-ios-sdk";
 			requirement = {
 				kind = upToNextMajorVersion;
-				minimumVersion = 6.0.0;
+				minimumVersion = 8.1.0;
 			};
 		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		275F3A0D25312707003F8780 /* FacebookLogin */ = {
+		27E9F32C254BCC8A00C824CB /* FacebookCore */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 27E82FB1240C6631004DEC8C /* XCRemoteSwiftPackageReference "facebook-ios-sdk" */;
+			package = 27E9F32B254BCC8A00C824CB /* XCRemoteSwiftPackageReference "facebook-ios-sdk" */;
+			productName = FacebookCore;
+		};
+		27E9F32E254BCC8A00C824CB /* FacebookLogin */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 27E9F32B254BCC8A00C824CB /* XCRemoteSwiftPackageReference "facebook-ios-sdk" */;
 			productName = FacebookLogin;
 		};
 /* End XCSwiftPackageProductDependency section */

@@ -2,6 +2,7 @@
 
 require_once(__DIR__.'/util.php');
 require_once(__DIR__.'/db_email.php');
+require_once(__DIR__.'/secret.php');
 
 function email_validation_request($email,$userid,$intro)
 {
@@ -28,8 +29,8 @@ function send_email($email, $subject, $message)
   $headers .= "Content-type:text/html;charset=UTF-8\r\n";
 
   // More headers
-  $admin_email = \Admin::email;
-  $admin_name  = \Admin::name;
+  $admin_email = ADMIN_EMAIL;
+  $admin_name  = ADMIN_NAME;
 
   $headers .= "From: <$admin_email>\r\n";
 
@@ -46,7 +47,7 @@ function send_email($email, $subject, $message)
     <div><br></div>
     <div><i>If you did not make this request, please feel free to ignore this email.</i></div>
     <div><i>If you wish this email address be removed from TheGame database, send your request to 
-    <a href='$mailto'>".\Admin::name."</a>.</i></div>
+    <a href='$mailto'>".ADMIN_NAME."</a>.</i></div>
     </body>
     </html>";
 

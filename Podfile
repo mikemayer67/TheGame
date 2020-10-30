@@ -10,5 +10,5 @@ target 'TheGame' do
   platform :ios, '13.0'
 
   pod 'Google-Mobile-Ads-SDK'
-
+  
 end

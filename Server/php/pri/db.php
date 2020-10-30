@@ -1,18 +1,15 @@
 <?php
 
+require_once(__DIR__.'/secret.php');
+
 class TGDB {
   public static $db = null;
-
-  const DB_USER = 'vmwishes_thegame';
-  const DB_PASS = 'Dj4UFGJISrdG';
-  const DB_NAME = 'vmwishes_thegame';
-  const DB_HOST = 'localhost';
 
   function __construct()
   {
     if(is_null(TGDB::$db))
     {
-      $mysqli = new mysqli(self::DB_HOST, self::DB_USER, self::DB_PASS, self::DB_NAME);
+      $mysqli = new mysqli(DB_HOST, DB_USER, DB_PASS, DB_NAME);
 
       $err = $mysqli->connect_error;
       if( $err )

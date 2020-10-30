@@ -2,7 +2,9 @@
 
 require_once(__DIR__.'/db.php');
 require_once(__DIR__.'/db_keys.php');
-require_once(__DIR__.'/ssl.php');
+require_once(__DIR__.'/secret.php');
+
+const SSL_CIPHER = 'aes-128-cbc';
 
 function db_email_decrypt($email,$iv)
 {

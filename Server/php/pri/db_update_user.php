@@ -34,7 +34,6 @@ function db_update_user_email($userid,$email)
   return $result;
 }
 
-
 function db_add_facebook($userid,$fbid,$name)
 {
   $db = new TGDB;

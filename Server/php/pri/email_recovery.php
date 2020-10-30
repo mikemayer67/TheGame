@@ -4,6 +4,7 @@ require_once(__DIR__.'/const.php');
 require_once(__DIR__.'/email.php');
 require_once(__DIR__.'/util.php');
 require_once(__DIR__.'/apn.php');
+require_once(__DIR__.'/fb_confirm.php');
 
 require_once(__DIR__.'/db_find_user.php');
 require_once(__DIR__.'/db_keys.php');
@@ -35,7 +36,7 @@ foreach ( $result as $row )
   $message .= "<tr><td>$name</td>";
   $message .= "<td>&nbsp;-&nbsp;</td>";
 
-  if(isset($row[FBID]))
+  if( isset($row[FBID]) && fb_confirm($row[FBID]) )
   {
     $message .= "<td>Connect with Facebook</td>";
   }

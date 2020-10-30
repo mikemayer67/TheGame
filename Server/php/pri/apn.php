@@ -3,14 +3,12 @@
 require_once(__DIR__.'/util.php');
 require_once(__DIR__.'/db_find_user.php');
 require_once(__DIR__.'/db_user_badge.php');
+require_once(__DIR__.'/secret.php');
 
 require_once __DIR__ . '/vendor/autoload.php';  // for JWT
 
 use \Firebase\JWT\JWT;
 
-
-const APN_TOKEN_ID = 'DYZK645FC9';
-const APN_TEAM_ID  = '642SNV9NK2';
 
 const APNS_ADDRESS = 'https://api.sandbox.push.apple.com:443';
 

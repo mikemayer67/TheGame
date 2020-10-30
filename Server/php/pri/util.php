@@ -4,12 +4,6 @@ $tg_delog       = 1;
 
 define('TG_ROOT',realpath(__DIR__.'/..'));
 
-class Admin
-{
-  const name  = 'VMWishes Games';
-  const email = 'gamemaster@vmwishes.com'; 
-}
-
 if( $tg_delog > 0 )
 {
   error_log('----------THE GAME-------------');
