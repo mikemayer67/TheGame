@@ -32,12 +32,19 @@ foreach ( $result as $row )
   $name   = $row[NAME];
   $userid = $row[USERID];
 
-  $s_code = db_gen_recovery_code($userid,$q_code);
-  $s_code = chunk_split($s_code,2,' ');
-
   $message .= "<tr><td>$name</td>";
   $message .= "<td>&nbsp;-&nbsp;</td>";
-  $message .= "<td>$s_code</td>";
+
+  if(isset($row[FBID]))
+  {
+    $message .= "<td>Connect with Facebook</td>";
+  }
+  else
+  {
+    $s_code = db_gen_recovery_code($userid,$q_code);
+    $s_code = chunk_split($s_code,2,' ');
+    $message .= "<td>$s_code</td>";
+  }
 
   if( isset($row[DEVTOKEN]) )
   {

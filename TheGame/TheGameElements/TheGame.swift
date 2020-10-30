@@ -386,7 +386,6 @@ extension TheGame : RemoteNotificationDelegate
 {
   func handleDeviceChange(_ manager:RemoteNotificationManager, device: String?)
   {
-    let thread = Thread.current.isMainThread ? "main" : "other"
     guard let me = self.me else { return }
     
     if let device = device {
@@ -427,9 +426,7 @@ extension TheGame : RemoteNotificationDelegate
   }
   
   func handleRemoteNotification(_ manager:RemoteNotificationManager, content: UNNotificationContent)
-  {
-    let thread = Thread.current.isMainThread ? "main" : "other"
-    
+  {    
     guard let vc = self.vc,
           let flavor = content.userInfo["flavor"] as? String
     else { return }
