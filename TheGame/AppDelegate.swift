@@ -66,6 +66,18 @@ extension AppDelegate // Facebook
       annotation: options[UIApplication.OpenURLOptionsKey.annotation]
     )
   }
+  
+  func application(application: UIApplication,
+                   openURL url: URL, sourceApplication: String?, annotation: AnyObject) -> Bool
+  {
+    debug("AppDelegate:: application(app, open:\(url) soure:\(sourceApplication) annotation:\(annotation)")
+
+    return ApplicationDelegate.shared.application(
+      application,
+      open: url,
+      sourceApplication: sourceApplication,
+      annotation: annotation)
+  }
 }
 
 extension AppDelegate // Register with APN server

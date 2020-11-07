@@ -2,7 +2,6 @@
 
 require_once(__DIR__.'/const.php');
 require_once(__DIR__.'/util.php');
-
 require_once(__DIR__.'/db_find_user.php');
 
 $userkey = get_required_arg(USERKEY);
@@ -30,7 +29,16 @@ if( $result )
       MATCHSTART => $row[MATCHSTART],
     );
 
-    if( isset($row[FBID]) ) { $match[FBID] = $row[FBID]; }
+    if( isset($row[FBID]) ) 
+    { 
+      require_once(__DIR__.'/fb_info.php');
+      $fbinfo = fb_info($row[FBID]);
+      if( $fbinfo )
+      {
+        $match[NAME] = $fbinfo[NAME];
+        $match[PICTURE] = $fbinfo[PICTURE];
+      }
+    }
 
     $matches[] = $match;
   }

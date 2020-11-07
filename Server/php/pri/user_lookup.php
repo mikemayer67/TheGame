@@ -2,7 +2,6 @@
 
 require_once(__DIR__.'/const.php');
 require_once(__DIR__.'/util.php');
-
 require_once(__DIR__.'/db_find_user.php');
 require_once(__DIR__.'/db_email.php');
 
@@ -13,7 +12,17 @@ $info = db_find_user_by_userkey($userkey);
 if( empty($info) ) { send_failure(INVALID_USERKEY); }
 
 $reply = array( NAME => $info[NAME] );
-if( isset($info[FBID]) ) { $reply[FBID] = $info[FBID]; }
+
+if( isset($info[FBID]) ) 
+{ 
+  require_once(__DIR__.'/fb_info.php');
+  $fbinfo = fb_info($info[FBID]);
+  if($fbinfo)
+  {
+    $reply[NAME] = $fbinfo[NAME];
+    $reply[PICTURE] = $fbinfo[PICTURE];
+  }
+}
 
 if( isset($info[EMAIL]) ) 
 { 

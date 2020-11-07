@@ -7,40 +7,40 @@
 //
 
 import UIKit
-import FBSDKCoreKit
-import FBSDKLoginKit
+import FacebookCore
+import FacebookLogin
 
 class LocalPlayer : Participant
 {
   let userkey     : String
   
-  private(set) var name       : String? = nil
+  private(set) var name       : String
+  private(set) var icon       : UIImage? = nil
   private(set) var email      : Email? = nil
-  private(set) var fbid       : String? = nil
     
-  init(_ key:String, data:HashData? = nil)
+  init?(_ key:String, data:HashData?)
   {
-    self.userkey   = key
-    self.name      = data?.name
-    self.email     = data?.email
-    self.fbid      = data?.fbid
+    guard let data=data, let name=data.name else { return nil }
+    
+    self.userkey = key
+    self.name    = name
+    self.email   = data.email
+    self.icon    = createIcon(for: name, with: data.picture)
         
     Defaults.userkey  = key
     
-    var lastLoss : GameTime?
-    if let t = data?.lastLoss, t > 0
+    if let t = data.lastLoss, t > 0
     {
+      debug("LocalPlayer::init lastLoss=\(t)")
       lastLoss = GameTime(networktime: TimeInterval(t))
     }
-    
-    email = data?.email
-    
-    super.init(lastLoss: lastLoss)
   }
   
-  override var lastLoss : GameTime?
-    {
+  var lastLoss : GameTime? = nil
+  {
     didSet {
+      debug("LocalPlayer::lastLoss set to \(self.lastLossString)")
+
       TheGame.server.updateLastLoss(userkey: userkey) { (query) in
         switch query.status
         {
@@ -57,7 +57,10 @@ class LocalPlayer : Participant
   {
     let userkey  = Defaults.userkey
     
-    if AccessToken.current != nil {
+    if AccessToken.current?.appID != Settings.appID { LoginManager().logOut() }
+    
+    if AccessToken.current != nil
+    {
       connectWithFacebook() { (localPlayer) in
         if let me = localPlayer { completion(me) }
         else if userkey == nil  { completion(nil) }
@@ -113,6 +116,8 @@ class LocalPlayer : Participant
   static func connectWithFacebook(completion: @escaping ConnectCallback)
   {
     let request = GraphRequest(graphPath: "me", parameters: ["fields":"id,name"])
+    
+    request.setGraphErrorRecovery(disabled: true)
     
     request.start { (_, result, error) in
       

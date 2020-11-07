@@ -24,17 +24,20 @@
 		275711B2246B9C4F0034DB61 /* ModalViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 275711B1246B9C4F0034DB61 /* ModalViewController.swift */; };
 		275711B4246C68170034DB61 /* UIViewConstraints.swift in Sources */ = {isa = PBXBuildFile; fileRef = 275711B3246C68170034DB61 /* UIViewConstraints.swift */; };
 		275C02C1253568020013D512 /* Opponents.swift in Sources */ = {isa = PBXBuildFile; fileRef = 275C02C0253568020013D512 /* Opponents.swift */; };
+		2763CF2A25519C2300CDBCC1 /* UserMessagingPlatform.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2763CF2925519C2300CDBCC1 /* UserMessagingPlatform.xcframework */; };
 		2769DD6724868DDB00DB8D42 /* Opponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2769DD6624868DDB00DB8D42 /* Opponent.swift */; };
 		276FE7F5247868DF00F851D3 /* UIviewController_Popup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 276FE7F4247868DF00F851D3 /* UIviewController_Popup.swift */; };
+		2773B20F2551912B002F4DC5 /* FacebookGamingServices in Frameworks */ = {isa = PBXBuildFile; productRef = 2773B20E2551912B002F4DC5 /* FacebookGamingServices */; };
 		27763F4C2531115900620F71 /* poked.aiff in Resources */ = {isa = PBXBuildFile; fileRef = 27763F4B2531115900620F71 /* poked.aiff */; };
 		277CC4B62466DDC7001C5404 /* MultiModalViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 277CC4B52466DDC6001C5404 /* MultiModalViewController.swift */; };
 		277CC4BA246726AD001C5404 /* GradientView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 277CC4B9246726AC001C5404 /* GradientView.swift */; };
 		27996EE9248A7D0F008F14E5 /* SettingsTableCells.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27996EE8248A7D0F008F14E5 /* SettingsTableCells.swift */; };
-		27A827E424BBBF330087B408 /* Participants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27A827E324BBBF330087B408 /* Participants.swift */; };
+		27A827E424BBBF330087B408 /* Participant.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27A827E324BBBF330087B408 /* Participant.swift */; };
 		27A827E624BC0B0F0087B408 /* LocalPlayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27A827E524BC0B0F0087B408 /* LocalPlayer.swift */; };
 		27A98C2F252B4E8A006F55AD /* RecoveryOptionsLVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27A98C2E252B4E8A006F55AD /* RecoveryOptionsLVC.swift */; };
 		27A98C33252B5007006F55AD /* LoginModalViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27A98C32252B5007006F55AD /* LoginModalViewController.swift */; };
 		27C1544C25380714006EC22A /* Match.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27C1544B25380714006EC22A /* Match.swift */; };
+		27C5A51B2557046F007AC9ED /* PlayerIcons.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27C5A51A2557046F007AC9ED /* PlayerIcons.swift */; };
 		27CA19BD243A941B005C53FC /* TheGame.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27CA19BC243A941B005C53FC /* TheGame.swift */; };
 		27CB3732252F46A90078E355 /* CodeEntryDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27CB3731252F46A90078E355 /* CodeEntryDelegate.swift */; };
 		27D5413123E5E46800CB5065 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27D5413023E5E46800CB5065 /* AppDelegate.swift */; };
@@ -70,17 +73,19 @@
 		275711B1246B9C4F0034DB61 /* ModalViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModalViewController.swift; sourceTree = "<group>"; };
 		275711B3246C68170034DB61 /* UIViewConstraints.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIViewConstraints.swift; sourceTree = "<group>"; };
 		275C02C0253568020013D512 /* Opponents.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Opponents.swift; sourceTree = "<group>"; };
+		2763CF2925519C2300CDBCC1 /* UserMessagingPlatform.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = UserMessagingPlatform.xcframework; path = Pods/GoogleUserMessagingPlatform/Frameworks/Release/UserMessagingPlatform.xcframework; sourceTree = "<group>"; };
 		2769DD6624868DDB00DB8D42 /* Opponent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Opponent.swift; sourceTree = "<group>"; };
 		276FE7F4247868DF00F851D3 /* UIviewController_Popup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIviewController_Popup.swift; sourceTree = "<group>"; };
 		27763F4B2531115900620F71 /* poked.aiff */ = {isa = PBXFileReference; lastKnownFileType = audio.aiff; path = poked.aiff; sourceTree = "<group>"; };
 		277CC4B52466DDC6001C5404 /* MultiModalViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MultiModalViewController.swift; sourceTree = "<group>"; };
 		277CC4B9246726AC001C5404 /* GradientView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GradientView.swift; sourceTree = "<group>"; };
 		27996EE8248A7D0F008F14E5 /* SettingsTableCells.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsTableCells.swift; sourceTree = "<group>"; };
-		27A827E324BBBF330087B408 /* Participants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Participants.swift; sourceTree = "<group>"; };
+		27A827E324BBBF330087B408 /* Participant.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Participant.swift; sourceTree = "<group>"; };
 		27A827E524BC0B0F0087B408 /* LocalPlayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalPlayer.swift; sourceTree = "<group>"; };
 		27A98C2E252B4E8A006F55AD /* RecoveryOptionsLVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecoveryOptionsLVC.swift; sourceTree = "<group>"; };
 		27A98C32252B5007006F55AD /* LoginModalViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginModalViewController.swift; sourceTree = "<group>"; };
 		27C1544B25380714006EC22A /* Match.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Match.swift; sourceTree = "<group>"; };
+		27C5A51A2557046F007AC9ED /* PlayerIcons.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerIcons.swift; sourceTree = "<group>"; };
 		27CA19BC243A941B005C53FC /* TheGame.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TheGame.swift; sourceTree = "<group>"; };
 		27CB3731252F46A90078E355 /* CodeEntryDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodeEntryDelegate.swift; sourceTree = "<group>"; };
 		27D5412D23E5E46800CB5065 /* TheGame.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TheGame.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -107,9 +112,11 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2763CF2A25519C2300CDBCC1 /* UserMessagingPlatform.xcframework in Frameworks */,
 				27E9F32F254BCC8A00C824CB /* FacebookLogin in Frameworks */,
 				271BCC972531433F008393F6 /* AVFoundation.framework in Frameworks */,
 				271E562A240E914900F9AC97 /* AuthenticationServices.framework in Frameworks */,
+				2773B20F2551912B002F4DC5 /* FacebookGamingServices in Frameworks */,
 				27E9F32D254BCC8A00C824CB /* FacebookCore in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -120,6 +127,7 @@
 		0EE2BAC009085B025D30398C /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				2763CF2925519C2300CDBCC1 /* UserMessagingPlatform.xcframework */,
 				271BCC962531433F008393F6 /* AVFoundation.framework */,
 				271E5629240E914800F9AC97 /* AuthenticationServices.framework */,
 			);
@@ -218,11 +226,12 @@
 				27E8D23F245869610061DEF2 /* UserDefaults_TheGame.swift */,
 				27F3EDE223E7E4800057248B /* GameClock.swift */,
 				273F5C32246F9DBF000BE662 /* TheGameQueries.swift */,
-				27A827E324BBBF330087B408 /* Participants.swift */,
+				27A827E324BBBF330087B408 /* Participant.swift */,
 				27A827E524BC0B0F0087B408 /* LocalPlayer.swift */,
 				2769DD6624868DDB00DB8D42 /* Opponent.swift */,
 				275C02C0253568020013D512 /* Opponents.swift */,
 				27C1544B25380714006EC22A /* Match.swift */,
+				27C5A51A2557046F007AC9ED /* PlayerIcons.swift */,
 			);
 			path = TheGameElements;
 			sourceTree = "<group>";
@@ -271,6 +280,7 @@
 			packageProductDependencies = (
 				27E9F32C254BCC8A00C824CB /* FacebookCore */,
 				27E9F32E254BCC8A00C824CB /* FacebookLogin */,
+				2773B20E2551912B002F4DC5 /* FacebookGamingServices */,
 			);
 			productName = TheGame;
 			productReference = 27D5412D23E5E46800CB5065 /* TheGame.app */;
@@ -390,6 +400,7 @@
 				275711B2246B9C4F0034DB61 /* ModalViewController.swift in Sources */,
 				27300C3F2444027500E8310C /* RootViewController.swift in Sources */,
 				27E82FB0240BF4FD004DEC8C /* LoginButton.swift in Sources */,
+				27C5A51B2557046F007AC9ED /* PlayerIcons.swift in Sources */,
 				275711B0246B99680034DB61 /* RecoveryKeyLVC.swift in Sources */,
 				276FE7F5247868DF00F851D3 /* UIviewController_Popup.swift in Sources */,
 				27996EE9248A7D0F008F14E5 /* SettingsTableCells.swift in Sources */,
@@ -400,7 +411,7 @@
 				2727416F23E6144A00B2100B /* LoginViewController.swift in Sources */,
 				275C02C1253568020013D512 /* Opponents.swift in Sources */,
 				27C1544C25380714006EC22A /* Match.swift in Sources */,
-				27A827E424BBBF330087B408 /* Participants.swift in Sources */,
+				27A827E424BBBF330087B408 /* Participant.swift in Sources */,
 				27D5413523E5E46800CB5065 /* GameViewController.swift in Sources */,
 				27CB3732252F46A90078E355 /* CodeEntryDelegate.swift in Sources */,
 				27421337247B178E00A71D96 /* GameQuery.swift in Sources */,
@@ -626,6 +637,11 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		2773B20E2551912B002F4DC5 /* FacebookGamingServices */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 27E9F32B254BCC8A00C824CB /* XCRemoteSwiftPackageReference "facebook-ios-sdk" */;
+			productName = FacebookGamingServices;
+		};
 		27E9F32C254BCC8A00C824CB /* FacebookCore */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 27E9F32B254BCC8A00C824CB /* XCRemoteSwiftPackageReference "facebook-ios-sdk" */;

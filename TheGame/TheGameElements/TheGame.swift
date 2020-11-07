@@ -96,7 +96,6 @@ extension TheGame
   {
     let oldOrder = opponents.order
     var newMatchIDs = Set<Int>()
-    var newFBIDs = Dictionary<Int,String>()   // matchID, FBID
           
     for match in matches
     {
@@ -108,7 +107,6 @@ extension TheGame
       else
       {
         opponents.add( Opponent(match) )
-        if let fbid = match.fbid { newFBIDs[match.id] = fbid }
       }
     }
     
@@ -117,35 +115,6 @@ extension TheGame
     opponents.sort()
     updateOpponentTable(from: oldOrder, to: opponents.order)
     vc?.update()
-    
-    for (matchID,fbid) in newFBIDs { updateFBInfo(matchID: matchID, fbid: fbid) }
-  }
-  
-  func updateFBInfo(matchID:Int, fbid:String)
-  {
-    guard
-      AccessToken.current != nil,
-      let opponent = opponents.find(matchID: matchID)
-    else { return }
-          
-    let request = GraphRequest(graphPath: fbid, parameters: ["fields":"name,picture"])
-      
-    request.start { (_, result, error) in
-      if error == nil,
-         let fbResult = result as? NSDictionary,
-         let name     = fbResult["name"] as? String
-      {
-        var pictureURL : String?
-        
-        if let picture = fbResult["picture"] as? NSDictionary,
-           let data    = picture["data"] as? NSDictionary,
-           let url     = data["url"] as? String
-        { pictureURL = url }
-        
-        opponent.update(name: name, pictureUrl: pictureURL)
-        self.updateOpponentTable(for: opponent)
-      }
-    }
   }
 }
 

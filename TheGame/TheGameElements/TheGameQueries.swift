@@ -22,6 +22,7 @@ enum QueryKey
   static let Matches    = "matches"
   static let Name       = "name"
   static let Notify     = "notify"
+  static let Picture    = "picture"
   static let QCode      = "qcode"
   static let SCode      = "scode"
   static let Time       = "time"
@@ -42,6 +43,7 @@ extension HashData
   var time        : Int?    { getInt(QueryKey.Time) }
   var userkey     : String? { getString(QueryKey.Userkey) }
   var name        : String? { getString(QueryKey.Name) }
+  var picture     : String? { getString(QueryKey.Picture) }
   var fbid        : String? { getString(QueryKey.FBID) }
   var lastLoss    : Int?    { getInt(QueryKey.LastLoss) }
 
@@ -247,7 +249,7 @@ extension GameServer
       .UserValidate,
       args : [
         QueryKey.FBID : fbid,
-        QueryKey.Name : name
+        QueryKey.Name : name,
       ],
       requiredResponses: [
         QueryKey.Userkey

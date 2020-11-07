@@ -4,7 +4,6 @@ require_once(__DIR__.'/const.php');
 require_once(__DIR__.'/email.php');
 require_once(__DIR__.'/util.php');
 require_once(__DIR__.'/apn.php');
-require_once(__DIR__.'/fb_confirm.php');
 
 require_once(__DIR__.'/db_find_user.php');
 require_once(__DIR__.'/db_keys.php');
@@ -30,22 +29,30 @@ $message = "
 
 foreach ( $result as $row )
 {
-  $name   = $row[NAME];
   $userid = $row[USERID];
+
+  $name   = '';
+  $method = '';
+  if( isset($row[FBID]) )
+  {
+    require_once(__DIR__.'/fb_info.php');
+    $fbinfo = fb_info($row[FBID]);
+    if($fbinfo)
+    {
+      $name   = $fbinfo[NAME];
+      $method = "Connect with Facebook";
+    }
+  }
+  if( empty($method) )
+  {
+    $s_code = db_gen_recovery_code($userid,$q_code);
+    $name   = $row[NAME];
+    $method = chunk_split($s_code,2,' ');
+  }
 
   $message .= "<tr><td>$name</td>";
   $message .= "<td>&nbsp;-&nbsp;</td>";
-
-  if( isset($row[FBID]) && fb_confirm($row[FBID]) )
-  {
-    $message .= "<td>Connect with Facebook</td>";
-  }
-  else
-  {
-    $s_code = db_gen_recovery_code($userid,$q_code);
-    $s_code = chunk_split($s_code,2,' ');
-    $message .= "<td>$s_code</td>";
-  }
+  $message .= "<td>$method</td>";
 
   if( isset($row[DEVTOKEN]) )
   {

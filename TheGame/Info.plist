@@ -21,7 +21,7 @@
 		<dict>
 			<key>CFBundleURLSchemes</key>
 			<array>
-				<string>fb551988922072926</string>
+				<string>fb681438939425724</string>
 			</array>
 		</dict>
 	</array>
@@ -34,7 +34,7 @@
 	<key>DevFreshStart</key>
 	<true/>
 	<key>FacebookAppID</key>
-	<string>551988922072926</string>
+	<string>681438939425724</string>
 	<key>FacebookDisplayName</key>
 	<string>TheGame</string>
 	<key>GADApplicationIdentifier</key>
@@ -55,6 +55,7 @@
 		<string>fbapi20150629</string>
 		<string>fbapi20160328</string>
 		<string>fbauth</string>
+		<string>fb-messenger-share-api</string>
 		<string>fbauth2</string>
 		<string>fbshareextension</string>
 	</array>
@@ -90,5 +91,9 @@
 		<string>UIInterfaceOrientationLandscapeLeft</string>
 		<string>UIInterfaceOrientationLandscapeRight</string>
 	</array>
+	<key>FacebookAutoLogAppEventsEnabled</key>
+	<false/>
+	<key>FacebookAdvertiserIDCollectionEnabled</key>
+	<false/>
 </dict>
 </plist>

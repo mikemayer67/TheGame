@@ -12,7 +12,7 @@ struct MatchData
 {
   let id : Int
   let name : String
-  let fbid : String?
+  let picture : String? // URL
   let start : GameTime
   let lastLoss : GameTime?
   
@@ -26,9 +26,8 @@ struct MatchData
     
     self.id    = matchID
     self.name  = name
-    self.start = GameTime(networktime: start)
-    
-    self.fbid = data.fbid
+    self.start = GameTime(networktime: start)    
+    self.picture = data.picture
     
     self.lastLoss = {
       guard let t = data.lastLoss else { return nil }

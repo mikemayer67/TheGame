@@ -9,6 +9,10 @@
 import UIKit
 import GoogleMobileAds
 
+import FacebookCore
+import FacebookLogin
+import FacebookGamingServices
+
 /**
  The view controller responsible for playing the game.
  
@@ -61,6 +65,15 @@ class GameViewController: ChildViewController
   @IBAction func addOpponent(_ sender: UIButton)
   {
     track("@@@ add opponent")
+    if AccessToken.current != nil
+    {
+      track("@@@ add FB popup")
+      FriendFinderDialog.launch()
+      {
+        (success,error) in
+        debug("FriedFinderDialog completion(\(success),\(error))")
+      }
+    }
   }
   
   @IBAction func handleSettings(_ sender: UIButton)

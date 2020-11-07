@@ -88,7 +88,9 @@ class LoginViewController: ChildViewController
   {
     let login = LoginManager()
     
-    login.logIn(permissions: ["public_profile","user_friends"], from: self) {
+    if AccessToken.current?.appID != Settings.appID { login.logOut() }
+
+    login.logIn(permissions: ["public_profile","gaming_profile"], from: self) {
       (response, err) in
             
       if err == nil,

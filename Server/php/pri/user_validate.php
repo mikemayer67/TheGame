@@ -44,7 +44,17 @@ else // QCODE
 }
 
 $reply[NAME] = $info[NAME];
-if( isset($info[FBID]) ) { $reply[FBID] = $info[FBID]; }
+
+if( isset($info[FBID]) ) 
+{ 
+  require_once(__DIR__.'/fb_info.php');
+  $fbinfo = fb_info($info[FBID]);
+  if($fbinfo)
+  {
+    $reply[NAME] = $fbinfo[NAME];
+    $reply[PICTURE] = $fbinfo[PICTURE];
+  }
+}
 
 if( isset($info[EMAIL]) ) 
 { 

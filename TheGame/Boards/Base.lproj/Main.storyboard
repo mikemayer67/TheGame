@@ -149,7 +149,6 @@
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                     </view>
                     <userDefinedRuntimeAttributes>
-                        <userDefinedRuntimeAttribute type="string" keyPath="initialViewController" value="splashVC"/>
                         <userDefinedRuntimeAttribute type="string" keyPath="initialVC" value="splashVC"/>
                     </userDefinedRuntimeAttributes>
                 </viewController>

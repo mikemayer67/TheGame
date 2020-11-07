@@ -51,8 +51,8 @@ class SettingsViewController: UIViewController
     settingsTable.register(SectionHeadingView.self, forHeaderFooterViewReuseIdentifier: SectionHeadingView.reuseIdentifier)
   }
   
-  override func viewWillAppear(_ animated: Bool) {
-    debug("SVC::viewWillAppear(\(animated))")
+  override func viewWillAppear(_ animated: Bool)
+  {
     super.viewWillAppear(animated)
     
     if self.foregroundObserver == nil

@@ -96,7 +96,7 @@ class GameQuery
     guard let server = server ?? self.server else { fatalError("no server set") }
     
     url = url(server:server, args:args)
-    
+        
     let request = NSMutableURLRequest(url:url)
     request.httpMethod = "GET"
     

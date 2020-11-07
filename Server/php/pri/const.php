@@ -5,13 +5,13 @@ const CODECOUNT   = 'count';
 const DEVTOKEN    = 'dev_token';
 const EMAIL       = 'email';
 const FBID        = 'fbid';
-const FBNAME      = 'fb_name';
 const LASTLOSS    = 'last_loss';
 const MATCHID     = 'match_id';
 const MATCHSTART  = 'match_start';
 const NAME        = 'name';
 const NOTIFY      = 'notify';
 const OPPONENT    = 'opponent';
+const PICTURE     = 'picture';
 const QCODE       = 'qcode';
 const RESET_KEY   = 'reset';
 const SCODE       = 'scode';
@@ -44,4 +44,7 @@ const NOT_YET_IMPLEMENTED      = 99;
 // APN Flavors
 const APN_POKE = "poke";
 const APN_LOSS = "loss";
+
+// Facebook
+const FB_GRAPH_API = 'https://graph.fb.gg';
 ?>

@@ -1,5 +1,5 @@
 //
-//  Participants.swift
+//  Participant.swift
 //  TheGame
 //
 //  Created by Mike Mayer on 7/12/20.
@@ -8,15 +8,19 @@
 
 import UIKit
 
-class Participant
+protocol Participant
 {
-  var lastLoss : GameTime?
+  var name           : String    { get }
+  var icon           : UIImage?  { get }
+  var lastLoss       : GameTime? { get set }
+  var lastLossString : String    { get }
   
-  init(lastLoss : GameTime? = nil)
-  {
-    self.lastLoss = lastLoss
-  }
-  
+  func lost(after time:GameTime?) -> Bool
+  func lost(after other:Participant) -> Bool
+}
+
+extension Participant
+{
   var lastLossString : String
   {
     if let t = lastLoss?.string { return t }
