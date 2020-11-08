@@ -33,9 +33,9 @@ class GameServer
 //    connected = testConnection()
   }
 
-  func query(_ page:String, args:GameQuery.Args? = nil) -> GameQuery
+  func query(_ page:String, args:GameQuery.Args? = nil, post:GameQuery.Args? = nil) -> GameQuery
   {
-    return GameQuery(self, page, args: args)
+    return GameQuery(self, page, args: args, post:post)
   }
   
   func start(_ request:URLRequest,

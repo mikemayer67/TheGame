@@ -17,31 +17,28 @@ $db = new TGDB;
 $sql = 'select * from tg_user_opponents where userid=?';
 $result = $db->get($sql,'i',$userid);
 
-$mtches = array();
-if( $result )
+$matches = array();
+while( $row = $result->fetch_assoc() )
 {
-  while( $row = $result->fetch_assoc() )
-  {
-    $match = array(
-      MATCHID    => $row[MATCHID],
-      NAME       => $row[NAME],
-      LASTLOSS   => $row[LASTLOSS],
-      MATCHSTART => $row[MATCHSTART],
-    );
+  $match = array(
+    MATCHID    => $row[MATCHID],
+    NAME       => $row[NAME],
+    LASTLOSS   => $row[LASTLOSS],
+    MATCHSTART => $row[MATCHSTART],
+  );
 
-    if( isset($row[FBID]) ) 
-    { 
-      require_once(__DIR__.'/fb_info.php');
-      $fbinfo = fb_info($row[FBID]);
-      if( $fbinfo )
-      {
-        $match[NAME] = $fbinfo[NAME];
-        $match[PICTURE] = $fbinfo[PICTURE];
-      }
+  if( isset($row[FBID]) ) 
+  { 
+    require_once(__DIR__.'/fb_info.php');
+    $fbinfo = fb_info($row[FBID]);
+    if( $fbinfo )
+    {
+      $match[NAME] = $fbinfo[NAME];
+      $match[PICTURE] = $fbinfo[PICTURE];
     }
-
-    $matches[] = $match;
   }
+
+  $matches[] = $match;
 }
 
 send_success( array( 'matches' => $matches ) );

@@ -33,6 +33,7 @@ enum RemoteNotificationFlavor
 {
   static let poke = "poke"
   static let loss = "loss"
+  static let update = "update"
 }
 
 class TheGame : NSObject
@@ -46,11 +47,12 @@ class TheGame : NSObject
   
   private(set) var nextLossTimer : Timer?
   private(set) var reloadOpponentsTimer : Timer?
-      
+        
   var me : LocalPlayer? = nil
   {
     didSet {
       opponents.dropAll()
+      updateDeviceInfo()
       if me != nil {
         Defaults.hasRecoveryCode = false
         updateOpponents()
@@ -103,6 +105,12 @@ extension TheGame
       if let opponent = opponents.find(matchID: match.id)
       {
         opponent.lastLoss = match.lastLoss
+        opponent.name = match.name
+        if opponent.pictureURL != match.picture || match.picture == nil
+        {
+          opponent.pictureURL = match.picture
+          opponent.icon = createIcon(for: match.name, with: match.picture)
+        }
       }
       else
       {
@@ -353,10 +361,25 @@ extension TheGame
 
 extension TheGame : RemoteNotificationDelegate
 {
+  func updateDeviceInfo()
+  {
+    if let me = self.me {
+      if RemoteNotificationManager.shared.active,
+         let device = RemoteNotificationManager.shared.device {
+        TheGame.server.setDeviceToken(userkey: me.userkey, deviceToken: device) { _ in }
+      }
+      else {
+        TheGame.server.clearDeviceToken(userkey: me.userkey) { _ in }
+      }
+    } else if let device = RemoteNotificationManager.shared.device {
+      TheGame.server.clearDeviceToken(deviceToken: device) { _ in }
+    }
+  }
+  
   func handleDeviceChange(_ manager:RemoteNotificationManager, device: String?)
   {
     guard let me = self.me else { return }
-    
+        
     if let device = device {
       TheGame.server.setDeviceToken(userkey: me.userkey, deviceToken: device) {_ in }
     } else {
@@ -404,22 +427,26 @@ extension TheGame : RemoteNotificationDelegate
     {
     case RemoteNotificationFlavor.poke:
       let title = "👉 You've been Poked 👈"
-      let message : String = {
-        if let range = content.title.range(of: "^.*poked by", options: .regularExpression) {
-          return content.title.replacingCharacters(in: range, with: "You can thank")
-        }
-        return title
-      }()
+      var message = content.title
+      if let range = message.range(of: "^.*poked by", options: .regularExpression) {
+          message = message.replacingCharacters(in: range, with: "You can thank")
+      }
       vc.infoPopup( title: title, message: message )
       
     case RemoteNotificationFlavor.loss:
       let title = "😖 Oh man..."
-      let message : String = {
-        if let range = title.range(of: "TheGame") {
-          return content.title.replacingCharacters(in: range, with: "the game")
-        }
-        return content.title
-      }()
+      var message = content.title
+      if let range = message.range(of: "TheGame") {
+        message = message.replacingCharacters(in: range, with: "the game")
+      }
+      vc.infoPopup( title:title , message: message )
+      
+    case RemoteNotificationFlavor.update:
+      let title = "⚠️ You should know..."
+      var message = content.title
+      if let range = message.range(of: "TheGame ") {
+        message = message.replacingCharacters(in: range, with: "")
+      }
       vc.infoPopup( title:title , message: message )
       
     default:

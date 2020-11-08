@@ -23,18 +23,8 @@ $result = $db->get($sql,'ii',$now,$userid);
 
 if( $result )
 {
-  $sql = 'select * from tg_user_opponents where userid=?';
-  $result = $db->get($sql,'i',$userid);
-  if( $result )
-  {
-    $name = $info[NAME];
-    while( $row = $result->fetch_assoc() )
-    {
-      $opponent_id = $row[OPPONENT];
-      $rc = send_apn_message(APN_LOSS, $opponent_id, "$name just lost TheGame");
-    }
-  }
-
+  $name = $info[NAME];
+  send_apn_message_to_opponents(APN_LOSS, $userid, "$name just lost TheGame");
   send_success();
 }
 else

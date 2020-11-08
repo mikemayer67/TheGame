@@ -3,6 +3,7 @@
 require_once(__DIR__.'/util.php');
 require_once(__DIR__.'/db_find_user.php');
 require_once(__DIR__.'/db_user_badge.php');
+require_once(__DIR__.'/db_user_opponents.php');
 require_once(__DIR__.'/secret.php');
 
 require_once __DIR__ . '/vendor/autoload.php';  // for JWT
@@ -11,6 +12,16 @@ use \Firebase\JWT\JWT;
 
 
 const APNS_ADDRESS = 'https://api.sandbox.push.apple.com:443';
+
+function send_apn_message_to_opponents($flavor, $userid, $title, $subtitle=null, $body=null)
+{
+  $opponents = db_user_opponents($userid);
+
+  foreach( $opponents as $opponent )
+  {
+    send_apn_message($flavor,$opponent,$title,$subtitle,$body);
+  }
+}
 
 function send_apn_message($flavor, $target_id, $title, $subtitle=null, $body=null)
 {

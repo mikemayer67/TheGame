@@ -13,6 +13,7 @@ class Opponent : Participant, Comparable
 {
   let matchID         : Int
   var name            : String
+  var pictureURL      : String?
   var icon            : UIImage?
   var matchStart      : GameTime
   var lastLoss        : GameTime?
@@ -22,6 +23,7 @@ class Opponent : Participant, Comparable
   {
     self.matchID    = match.id
     self.name       = match.name
+    self.pictureURL = match.picture
     self.icon       = createIcon(for: match.name, with: match.picture)
     self.matchStart = match.start
     self.lastPoke   = nil

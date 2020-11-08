@@ -66,15 +66,17 @@ class GameQuery
   let server : GameServer?
   let page : String
   let args : Args?
+  let post : Args?
   
   private(set) var url    : URL!
   private(set) var status : Status?
   
-  init(_ server:GameServer? = nil, _ page:String, args:Args? = nil)
+  init(_ server:GameServer? = nil, _ page:String, args:Args? = nil, post:Args? = nil)
   {
     self.server = server
     self.page   = page
     self.args   = args
+    self.post   = post
   }
   
   func setQueryError(_ error:String)
@@ -95,6 +97,12 @@ class GameQuery
   {
     guard let server = server ?? self.server else { fatalError("no server set") }
     
+    guard self.post == nil else
+    {
+      post(server: server, completion: completion)
+      return
+    }
+    
     url = url(server:server, args:args)
         
     let request = NSMutableURLRequest(url:url)
@@ -109,26 +117,30 @@ class GameQuery
   func post(server:GameServer? = nil, completion:@escaping Completion)
   {
     guard let server = server ?? self.server else { fatalError("no server set") }
-
-    guard let args = args else {
+    
+    guard let post = self.post else
+    {
       execute(server: server, completion: completion)
       return
     }
     
-    url = url(server:server)
+    url = url(server: server, args: self.args)
     
     let request = NSMutableURLRequest(url:url)
     request.httpMethod = "POST"
     
     guard let data =
-      try? JSONSerialization.data(withJSONObject: args, options: .prettyPrinted)
+      try? JSONSerialization.data(withJSONObject: post, options: .prettyPrinted)
       else { fatalError("Args cannot be converted to JSON") }
     
     request.setValue("application/json; charset=utf-8", forHTTPHeaderField: "Content-Type")
     request.setValue("\(data.count)", forHTTPHeaderField: "Content-Length")
     request.httpBody = data
     
+    debug("server.start:: url=\(url)")
+    
     server.start(request as URLRequest) { (status) in
+      debug("server.start completion")
       self.status = status
       DispatchQueue.main.async { completion(self) }
     }

@@ -52,10 +52,8 @@ function get_required_arg($key)
 
 function get_exclusive_arg(...$keys)
 {
-  $index = 0;
   foreach ( $keys as $key )
   {
-    $index = $index + 1;
     $value = array_extract($_REQUEST,$key);
     if(isset($value))
     {
@@ -63,7 +61,7 @@ function get_exclusive_arg(...$keys)
       { 
         api_error('Cannot specify more than one of: ' . implode(', ', $keys));
       }
-      $rval = array($index,$value);
+      $rval = array($key,$value);
     }
   }
   if( empty($rval) )

@@ -45,11 +45,13 @@ extension UIViewController
     {
       self.confirmationPopup(title: "Internal Error",
                              message: [ "Something went wrong.", "Report the issue to VMWishes.com?" ],
-                             ok: "Submit", cancel: "Not Now") { (submit) in
-                              if submit {
-                                TheGame.server.sendErrorReport(details)
-                                Defaults.lastErrorEmail = now.localtime
-                              } }
+                             ok: "Submit", cancel: "Not Now") {
+        (submit) in
+        if submit {
+          TheGame.server.sendErrorReport(details)
+          Defaults.lastErrorEmail = now.localtime
+        }
+      }
     }
   }
 }

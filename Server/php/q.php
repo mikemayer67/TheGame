@@ -19,7 +19,7 @@ try
   elseif ( $action == 'pok' ) { require($pri.'game_poke.php');       }
   elseif ( $action == 'ucr' ) { require($pri.'user_create.php');     }
   elseif ( $action == 'udr' ) { require($pri.'user_drop.php');       } 
-  elseif ( $action == 'ufb' ) { require($pri.'user_fb_create.php');  } 
+  elseif ( $action == 'ufb' ) { require($pri.'user_fb_login.php');  } 
   elseif ( $action == 'ufd' ) { require($pri.'user_fb_drop.php');    } 
   elseif ( $action == 'uin' ) { require($pri.'user_lookup.php');     } 
   elseif ( $action == 'uup' ) { require($pri.'user_update.php');     } 

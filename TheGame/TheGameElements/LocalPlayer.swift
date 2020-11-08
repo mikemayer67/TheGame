@@ -31,7 +31,6 @@ class LocalPlayer : Participant
     
     if let t = data.lastLoss, t > 0
     {
-      debug("LocalPlayer::init lastLoss=\(t)")
       lastLoss = GameTime(networktime: TimeInterval(t))
     }
   }
@@ -39,8 +38,6 @@ class LocalPlayer : Participant
   var lastLoss : GameTime? = nil
   {
     didSet {
-      debug("LocalPlayer::lastLoss set to \(self.lastLossString)")
-
       TheGame.server.updateLastLoss(userkey: userkey) { (query) in
         switch query.status
         {
@@ -123,11 +120,10 @@ class LocalPlayer : Participant
       
       guard error == nil,
         let fbResult = result as? NSDictionary,
-        let fbid     = fbResult["id"]   as? String,
-        let name     = fbResult["name"] as? String
+        let fbid     = fbResult["id"]   as? String
         else { completion(nil); return }
       
-      TheGame.server.login(fbid: fbid, name:name) {
+      TheGame.server.login(fbid: fbid) {
         (query) in
         
         var me : LocalPlayer? = nil

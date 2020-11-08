@@ -5,35 +5,20 @@ require_once(__DIR__.'/util.php');
 require_once(__DIR__.'/db_find_user.php');
 require_once(__DIR__.'/db_update_user.php');
 
-$id = get_exclusive_arg(USERKEY,FBID,QCODE);
+list($key,$value) = get_exclusive_arg(USERKEY,QCODE);
 
 $reply = array();
-if( $id[0] == 1 ) // USERKEY
+if( $key == USERKEY )
 {
-  $userkey = $id[1];
+  $userkey = $value;
   fail_on_extra_args();
 
   $info = db_find_user_by_userkey($userkey);
   if( empty($info) ) { send_failure(INVALID_USERKEY); }
 }
-elseif( $id[0] == 2 ) // FBID
+elseif( $key == QCODE )
 {
-  $fbid = $id[1];
-  $name = get_optional_arg(NAME);
-  fail_on_extra_args();
-
-  $info = db_find_user_by_facebook_id($fbid);
-  if( empty($info) ) { send_failure(INVALID_FBID); }
-
-  $userid = $info[USERID];
-
-  if( isset($name) ) { db_update_user_name($userid,$name); }
-
-  $reply[USERKEY] = $info[USERKEY];
-}
-else // QCODE
-{
-  $qcode = $id[1];
+  $qcode = $value;
   $scode = get_required_arg(SCODE);
   fail_on_extra_args();
 
@@ -41,6 +26,10 @@ else // QCODE
   if( empty($info) ) { send_failure(INVALID_QS_CODE); }
 
   $reply[USERKEY] = $info[USERKEY];
+}
+else
+{
+  api_error("Should not be able to get here...");
 }
 
 $reply[NAME] = $info[NAME];

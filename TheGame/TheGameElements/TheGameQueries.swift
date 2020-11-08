@@ -166,7 +166,7 @@ extension GameServer
     case PokeOpponent      = "pok"
     case UserCreate        = "ucr"
     case DropUser          = "udr"
-    case UserFBCreate      = "ufb"
+    case UserFBLogin       = "ufb"
     case UserFBDrop        = "ufd"
     case UserInfo          = "uin"
     case UpdateUser        = "uup"
@@ -175,13 +175,13 @@ extension GameServer
     var qArg : GameQuery.Args { return ["q" : self.rawValue] }
   }
   
-  func query(_ q:Query, args:GameQuery.Args? = nil) -> GameQuery
+  func query(_ q:Query, args:GameQuery.Args? = nil, post:GameQuery.Args? = nil) -> GameQuery
   {
     var gameArgs : GameQuery.Args = [ "q" : q.rawValue ]
     if let args = args {
       for (key,value) in args { gameArgs[key] = value }
     }
-    return query("q", args:gameArgs)
+    return query("q", args:gameArgs, post:post)
   }
   
   func execute( _ q : Query,
@@ -231,28 +231,31 @@ extension GameServer
   }
    
   /**
+   Requests the userkey for the specified Facebook ID.
+   
+   The game server will verify with Facebook GraphAPI that the FBID has given
+   permission to TheGame app.  If not verified, InvalidFBID will be returned.
+   
+   If this is a new FBID to the game server, a new player will be created (using
+   the name returned by the call to the GraphAPI).  The new userkey will be
+   returned.
+   
+   If this is an existing FBID, the existing userkey will be returned.
    Validates that a user with the specified Facebook ID exists on the game server.
    
-   Note that unlike the otehr login methods, this one has the side effect of updating
-   the database.  Specifically, it updates the Facebook username if it has changed
-   since the last time the id was used.
-   
    - Parameer fbid: Facebook ID
-   - Parameter name: The name associated with fbid (*based on Facebook Graph API*)
    - Parameter completion: completion handler invoked after query has completed
    */
-  func login( fbid:String,
-              name:String,
-              completion:@escaping (GameQuery)->())
+  func login( fbid:String, completion:@escaping (GameQuery)->())
   {
     execute(
-      .UserValidate,
+      .UserFBLogin,
       args : [
-        QueryKey.FBID : fbid,
-        QueryKey.Name : name,
+        QueryKey.FBID : fbid
       ],
       requiredResponses: [
-        QueryKey.Userkey
+        QueryKey.Userkey,
+        QueryKey.Name
       ],
       recognizedReturnCodes: [
         GameQuery.Status.InvalidFBID
@@ -276,26 +279,6 @@ extension GameServer
       args : args,
       requiredResponses: [
         QueryKey.Userkey
-      ],
-      completion: completion
-    )
-  }
-  
-  func createFacebookUser( fbid: String, name: String,
-                           completion:@escaping (GameQuery)->() )
-  {
-    execute(
-      .UserFBCreate,
-      args: [
-        QueryKey.FBID : fbid,
-        QueryKey.Name : name
-      ],
-      requiredResponses: [
-        QueryKey.Userkey
-      ],
-      recognizedReturnCodes: [
-        GameQuery.Status.FailedToCreatePlayer,
-        GameQuery.Status.FailedToCreateFBID
       ],
       completion: completion
     )
@@ -471,11 +454,17 @@ extension GameServer
     setDeviceToken(userkey:userkey, deviceToken:nil, completion:completion)
   }
   
-  func setDeviceToken(userkey:String, deviceToken:String?, completion:@escaping (GameQuery)->())
+  func clearDeviceToken(deviceToken:String, completion:@escaping (GameQuery)->())
   {
-    var args : GameQuery.Args = [ QueryKey.Userkey : userkey ]
+    setDeviceToken(userkey:nil, deviceToken:deviceToken, completion:completion)
+  }
+  
+  func setDeviceToken(userkey:String?, deviceToken:String?, completion:@escaping (GameQuery)->())
+  {
+    var args = GameQuery.Args()
+    if userkey != nil     { args[QueryKey.Userkey] = userkey }
     if deviceToken != nil { args[QueryKey.DevToken] = deviceToken }
-    
+        
     execute(
       .SetDevToken,
       args: args,
@@ -531,6 +520,6 @@ extension GameServer
   
   func sendErrorReport(_ message:String)
   {
-    query(Query.ReportError.rawValue, args:["details":message]).post { _ in }
+    query(Query.ReportError, post:["details":message]).post { x in debug("error report sent: \(x)")}
   }
 }
